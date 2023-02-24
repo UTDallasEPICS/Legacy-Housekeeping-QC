@@ -44,7 +44,7 @@ app.get("/member/:id", async (req, res) => {
 // Update a Team Member
 app.put("/updateMember", (req, res) => {
   const { id, first_name, last_name, email, points } = req.body;
-  const updatedUser = prisma.team_Members.update({
+  const updatedMember = prisma.team_Members.update({
     where: {
       member_id: id,
     },
@@ -56,8 +56,8 @@ app.put("/updateMember", (req, res) => {
     },
   });
   // Testing purposes
-  res.json(updatedUser);
-  console.log(updatedUser);
+  res.json(updatedMember);
+  console.log(updatedMember);
 });
 
 // Delete a Team Member
