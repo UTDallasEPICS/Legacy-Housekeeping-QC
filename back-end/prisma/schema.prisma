@@ -36,7 +36,7 @@ model Team_Members {
   first_name String
   last_name  String
   email      String
-  points     Float
+  points     Float @default(0.0)
 }
 
 // Room table
