@@ -9,3 +9,73 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+// User table
+model User {
+  user_id      String @id @default(uuid())
+  first_name   String
+  last_name    String
+  email        String
+  phone_number String
+  address      String
+}
+
+// Admin table
+model Admin {
+  admin_id String @id @default(uuid())
+}
+
+// Leader table
+model Leader {
+  leader_id String @id @default(uuid())
+}
+
+// Team Members table
+model Team_Members {
+  member_id  String @id @default(uuid())
+  first_name String
+  last_name  String
+  email      String
+  points     Float
+}
+
+// Room table
+model Room {
+  room_id         String   @id @default(uuid())
+  time_stamp      DateTime @default(now())
+  room_number     String
+  building_number Int
+  is_clean        Boolean
+  is_active       Boolean
+  type_of_room    String
+}
+
+// Restrooms table
+model Restrooms {
+  restroom_id String @id @default(uuid())
+}
+
+// Ancillary table
+model Ancillary_Areas {
+  ancillary_id String @id @default(uuid())
+}
+
+// Independent Living table
+model Independent_Living {
+  independent_id String @id @default(uuid())
+}
+
+// Assisted Living table
+model Assisted_Living {
+  assisted_id String @id @default(uuid())
+}
+
+// Skilled table
+model Skilled {
+  skilled_id String @id @default(uuid())
+}
+
+// Memory table
+model Memory {
+  memory_id String @id @default(uuid())
+}
