@@ -11,32 +11,48 @@ datasource db {
 }
 
 // User table
+// One to many relation with Admin and Leader
 model User {
-  user_id      String @id @default(uuid())
+  user_id      String   @id @default(uuid())
   first_name   String
   last_name    String
   email        String
   phone_number String
   address      String
+  admin        Admin[]
+  leader       Leader[]
 }
 
 // Admin table
 model Admin {
   admin_id String @id @default(uuid())
+  user     User   @relation(fields: [userId], references: [user_id])
+  userId   String
 }
 
 // Leader table
 model Leader {
   leader_id String @id @default(uuid())
+  user      User   @relation(fields: [userId], references: [user_id])
+  userId    String
 }
 
 // Team Members table
+// One to one relation with Points
 model Team_Members {
-  member_id  String @id @default(uuid())
+  member_id  String   @id @default(uuid())
   first_name String
   last_name  String
   email      String
-  points     Float @default(0.0)
+  points     Points[]
+}
+
+model Points {
+  points_id      String       @id @default(uuid())
+  points         Int
+  time_stamp     DateTime     @default(now())
+  team_member    Team_Members @relation(fields: [team_member_id], references: [member_id])
+  team_member_id String
 }
 
 // Room table
