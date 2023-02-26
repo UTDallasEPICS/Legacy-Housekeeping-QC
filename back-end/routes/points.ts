@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
 router.post("/addPoints", async (req: Request, res: Response) => {
   const { points, team_member_id } = req.body;
 
-  const userExists = await prisma.team_Members.findUnique({
+  const userExists = await prisma.teamMembers.findUnique({
     where: {
       member_id: team_member_id,
     },

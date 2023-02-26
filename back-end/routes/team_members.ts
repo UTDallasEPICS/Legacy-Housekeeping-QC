@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 // Add a Team Member, points is optional default 0
 router.post("/addMember", async (req: Request, res: Response) => {
   const { first_name, last_name, email } = req.body;
-  const member = await prisma.team_Members.create({
+  const member = await prisma.teamMembers.create({
     data: {
       first_name: first_name,
       last_name: last_name,
@@ -21,7 +21,7 @@ router.post("/addMember", async (req: Request, res: Response) => {
 
 // Get all the Team Members with points and time stamp
 router.get("/members", async (req: Request, res: Response) => {
-  const members = await prisma.team_Members.findMany({
+  const members = await prisma.teamMembers.findMany({
     include: {
       points: {
         select: {
@@ -38,7 +38,7 @@ router.get("/members", async (req: Request, res: Response) => {
 // Get a Team Member by id
 router.get("/member/:id", async (req: Request, res: Response) => {
   const id = req.params.id;
-  const member = await prisma.team_Members.findUnique({
+  const member = await prisma.teamMembers.findUnique({
     where: {
       member_id: id,
     },
@@ -58,7 +58,7 @@ router.get("/member/:id", async (req: Request, res: Response) => {
 // Update a Team Member
 router.put("/updateMember", async (req: Request, res: Response) => {
   const { id, first_name, last_name, email } = req.body;
-  const updatedMember = await prisma.team_Members.update({
+  const updatedMember = await prisma.teamMembers.update({
     where: {
       member_id: id,
     },
@@ -76,7 +76,7 @@ router.put("/updateMember", async (req: Request, res: Response) => {
 // Delete a Team Member
 router.delete("/deleteMember/:id", (req: Request, res: Response) => {
   const id = req.params.id;
-  const deletedMember = prisma.team_Members.delete({
+  const deletedMember = prisma.teamMembers.delete({
     where: {
       member_id: id,
     },

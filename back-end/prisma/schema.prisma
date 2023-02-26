@@ -1,4 +1,3 @@
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -37,59 +36,100 @@ model Leader {
 
 // Team Members table
 // One to one relation with Points
-model Team_Members {
-  member_id  String   @id @default(uuid())
-  first_name String
-  last_name  String
-  email      String
-  points     Points[]
+model TeamMembers {
+  member_id             String               @id @default(uuid())
+  first_name            String
+  last_name             String
+  email                 String
+  points                Points[]
+  rooms_on_team_members RoomsOnTeamMembers[]
 }
 
 model Points {
-  points_id      String       @id @default(uuid())
+  points_id      String      @id @default(uuid())
   points         Int
-  time_stamp     DateTime     @default(now())
-  team_member    Team_Members @relation(fields: [team_member_id], references: [member_id])
+  time_stamp     DateTime    @default(now())
+  team_member    TeamMembers @relation(fields: [team_member_id], references: [member_id])
   team_member_id String
 }
 
 // Room table
 model Room {
-  room_id         String   @id @default(uuid())
-  time_stamp      DateTime @default(now())
-  room_number     String
-  building_number Int
-  is_clean        Boolean
-  is_active       Boolean
-  type_of_room    String
+  room_id               String               @id @default(uuid())
+  time_stamp            DateTime
+  room_number           String
+  building_number       Int
+  is_clean              Boolean
+  is_active             Boolean
+  type_of_room          String
+  rooms_on_team_members RoomsOnTeamMembers[]
+  restroom              Restrooms[]
 }
 
-// Restrooms table
+// Links Team Members and Room in a many to many relationship
+model RoomsOnTeamMembers {
+  team_member    TeamMembers @relation(fields: [team_member_id], references: [member_id])
+  team_member_id String
+  room           Room        @relation(fields: [room_id], references: [room_id])
+  room_id        String
+  date           DateTime    @default(now())
+  cleaned        Boolean     @default(false)
+
+  @@id([team_member_id, room_id])
+}
+
+// Items table to relate to the type of rooms
+model Items {
+  item_id        String             @id @default(uuid())
+  item           String
+  restroom       Restrooms          @relation(fields: [restroom_id], references: [restroom_id])
+  restroom_id    String
+  ancillary      Ancillary_Areas    @relation(fields: [ancillary_id], references: [ancillary_id])
+  ancillary_id   String
+  independent    Independent_Living @relation(fields: [independent_id], references: [independent_id])
+  independent_id String
+  assisted       Assisted_Living    @relation(fields: [assisted_id], references: [assisted_id])
+  assisted_id    String
+  skilled        Skilled            @relation(fields: [skilled_id], references: [skilled_id])
+  skilled_id     String
+  memory         Memory             @relation(fields: [memory_id], references: [memory_id])
+  memory_id      String
+}
+
+// Restrooms table one to many relation with Items
 model Restrooms {
-  restroom_id String @id @default(uuid())
+  restroom_id String  @id @default(uuid())
+  room        Room    @relation(fields: [room_id], references: [room_id])
+  room_id     String
+  items       Items[]
 }
 
-// Ancillary table
+// Ancillary table one to many relation with Items
 model Ancillary_Areas {
-  ancillary_id String @id @default(uuid())
+  ancillary_id String  @id @default(uuid())
+  items        Items[]
 }
 
-// Independent Living table
+// Independent Living table one to many relation with Items
 model Independent_Living {
-  independent_id String @id @default(uuid())
+  independent_id String  @id @default(uuid())
+  items          Items[]
 }
 
-// Assisted Living table
+// Assisted Living table one to many relation with Items
 model Assisted_Living {
-  assisted_id String @id @default(uuid())
+  assisted_id String  @id @default(uuid())
+  items       Items[]
 }
 
-// Skilled table
+// Skilled table one to many relation with Items
 model Skilled {
-  skilled_id String @id @default(uuid())
+  skilled_id String  @id @default(uuid())
+  items      Items[]
 }
 
-// Memory table
+// Memory table one to many relation with Items
 model Memory {
-  memory_id String @id @default(uuid())
+  memory_id String  @id @default(uuid())
+  items     Items[]
 }
