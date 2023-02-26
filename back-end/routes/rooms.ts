@@ -4,6 +4,7 @@ import { Request, Response } from "express";
 
 const prisma = new PrismaClient();
 
+// Create a Room
 router.post("/addRoom", async (req: Request, res: Response) => {
   const {
     time_stamp,
@@ -28,9 +29,22 @@ router.post("/addRoom", async (req: Request, res: Response) => {
   res.json(room);
 });
 
-router.get("/getRooms", async (req: Request, res: Response) => {
+// Get all rooms
+router.get("/rooms", async (req: Request, res: Response) => {
   const rooms = await prisma.room.findMany({});
   res.json(rooms);
+});
+
+// Get all rooms that are Restrooms
+router.get("/rooms/Restrooms", async (req: Request, res: Response) => {
+  const restrooms = await prisma.room.findMany({
+    where: {
+      type_of_room: {
+        equals: "Restroom",
+      },
+    },
+  });
+  res.json(restrooms);
 });
 
 module.exports = router;
