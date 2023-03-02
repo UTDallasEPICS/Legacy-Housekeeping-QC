@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE `points` MODIFY `time_stamp` DATETIME(3) NULL DEFAULT CURRENT_TIMESTAMP(3);
