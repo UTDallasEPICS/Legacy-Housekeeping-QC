@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,4 +5,130 @@ generator client {
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+// User table
+// One to many relation with Admin and Leader
+model User {
+  user_id      String   @id @default(uuid())
+  first_name   String
+  last_name    String
+  email        String
+  phone_number String
+  address      String
+  admin        Admin[]
+  leader       Leader[]
+}
+
+// Admin table
+model Admin {
+  admin_id String @id @default(uuid())
+  user     User   @relation(fields: [userId], references: [user_id])
+  userId   String
+}
+
+// Leader table
+model Leader {
+  leader_id String @id @default(uuid())
+  user      User   @relation(fields: [userId], references: [user_id])
+  userId    String
+}
+
+// Team Members table
+// One to one relation with Points
+model TeamMembers {
+  member_id             String               @id @default(uuid())
+  first_name            String
+  last_name             String
+  email                 String
+  points                Points[]
+  rooms_on_team_members RoomsOnTeamMembers[]
+}
+
+model Points {
+  points_id      String      @id @default(uuid())
+  points         Int
+  time_stamp     DateTime    @default(now())
+  team_member    TeamMembers @relation(fields: [team_member_id], references: [member_id])
+  team_member_id String
+}
+
+// Room table
+model Room {
+  room_id               String               @id @default(uuid())
+  time_stamp            DateTime
+  room_number           String
+  building_number       Int
+  is_clean              Boolean
+  is_active             Boolean
+  type_of_room          String
+  rooms_on_team_members RoomsOnTeamMembers[]
+  restroom              Restrooms[]
+}
+
+// Links Team Members and Room in a many to many relationship
+model RoomsOnTeamMembers {
+  team_member    TeamMembers @relation(fields: [team_member_id], references: [member_id])
+  team_member_id String
+  room           Room        @relation(fields: [room_id], references: [room_id])
+  room_id        String
+  date           DateTime    @default(now())
+  cleaned        Boolean     @default(false)
+  @@id([team_member_id, room_id])
+}
+
+// Items table to relate to the type of rooms
+model Items {
+  item_id        String             @id @default(uuid())
+  item           String
+  restroom       Restrooms          @relation(fields: [restroom_id], references: [restroom_id])
+  restroom_id    String
+  ancillary      Ancillary_Areas    @relation(fields: [ancillary_id], references: [ancillary_id])
+  ancillary_id   String
+  independent    Independent_Living @relation(fields: [independent_id], references: [independent_id])
+  independent_id String
+  assisted       Assisted_Living    @relation(fields: [assisted_id], references: [assisted_id])
+  assisted_id    String
+  skilled        Skilled            @relation(fields: [skilled_id], references: [skilled_id])
+  skilled_id     String
+  memory         Memory             @relation(fields: [memory_id], references: [memory_id])
+  memory_id      String
+}
+
+// Restrooms table one to many relation with Items
+model Restrooms {
+  restroom_id String  @id @default(uuid())
+  room        Room    @relation(fields: [room_id], references: [room_id])
+  room_id     String
+  items       Items[]
+}
+
+// Ancillary table one to many relation with Items
+model Ancillary_Areas {
+  ancillary_id String  @id @default(uuid())
+  items        Items[]
+}
+
+// Independent Living table one to many relation with Items
+model Independent_Living {
+  independent_id String  @id @default(uuid())
+  items          Items[]
+}
+
+// Assisted Living table one to many relation with Items
+model Assisted_Living {
+  assisted_id String  @id @default(uuid())
+  items       Items[]
+}
+
+// Skilled table one to many relation with Items
+model Skilled {
+  skilled_id String  @id @default(uuid())
+  items      Items[]
+}
+
+// Memory table one to many relation with Items
+model Memory {
+  memory_id String  @id @default(uuid())
+  items     Items[]
 }
