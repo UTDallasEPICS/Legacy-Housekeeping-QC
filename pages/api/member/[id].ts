@@ -12,6 +12,9 @@ export default async function handler(
         where: {
           member_id: id.toString(),
         },
+        include: {
+          points: true,
+        },
       });
       res.status(200).json(member);
     }

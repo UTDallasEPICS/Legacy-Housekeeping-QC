@@ -5,6 +5,10 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const members = await prisma.teamMembers.findMany();
+  const members = await prisma.teamMembers.findMany({
+    include: {
+      points: true,
+    },
+  });
   res.status(200).json(members);
 }
