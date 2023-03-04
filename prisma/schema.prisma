@@ -56,7 +56,6 @@ model Points {
 // Room table
 model Room {
   room_id         String       @id @default(uuid())
-  time_stamp      DateTime
   room_number     String
   building_number Int
   is_clean        Boolean
