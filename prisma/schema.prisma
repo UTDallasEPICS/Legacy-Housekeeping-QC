@@ -37,17 +37,17 @@ model Leader {
 // Team Members table
 // One to one relation with Points
 model TeamMembers {
-  member_id             String               @id @default(uuid())
-  first_name            String
-  last_name             String
-  email                 String
-  points                Points[]
-  rooms_on_team_members RoomsOnTeamMembers[]
+  member_id    String       @id @default(uuid())
+  first_name   String
+  last_name    String
+  email        String
+  points       Points[]
+  rooms_report RoomReport[]
 }
 
 model Points {
   points_id      String      @id @default(uuid())
-  points         Int
+  points         Int         @default(0)
   time_stamp     DateTime    @default(now())
   team_member    TeamMembers @relation(fields: [team_member_id], references: [member_id])
   team_member_id String
@@ -55,25 +55,27 @@ model Points {
 
 // Room table
 model Room {
-  room_id               String               @id @default(uuid())
-  time_stamp            DateTime
-  room_number           String
-  building_number       Int
-  is_clean              Boolean
-  is_active             Boolean
-  type_of_room          String
-  rooms_on_team_members RoomsOnTeamMembers[]
-  restroom              Restrooms[]
+  room_id         String       @id @default(uuid())
+  time_stamp      DateTime
+  room_number     String
+  building_number Int
+  is_clean        Boolean
+  is_active       Boolean
+  type_of_room    String
+  rooms_report    RoomReport[]
+  restroom        Restrooms[]
 }
 
 // Links Team Members and Room in a many to many relationship
-model RoomsOnTeamMembers {
+model RoomReport {
   team_member    TeamMembers @relation(fields: [team_member_id], references: [member_id])
   team_member_id String
   room           Room        @relation(fields: [room_id], references: [room_id])
   room_id        String
   date           DateTime    @default(now())
   cleaned        Boolean     @default(false)
+  comments       String?
+
   @@id([team_member_id, room_id])
 }
 
