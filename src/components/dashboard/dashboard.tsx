@@ -1,12 +1,22 @@
+import Container from "@mui/material/Container";
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import { display, flexbox } from "@mui/system";
+
 const dashboard = () => {
   return (
-    <div>
+    <Box component={"div"} sx={{ display: "flexbox" }}>
       <h1>Hello, User!</h1>
-      <div>
-        <div>performance box</div>
-        <div>Todays inspections box</div>
-      </div>
-    </div>
+      <Container>
+        <Card>
+          <div>performance box</div>
+        </Card>
+
+        <Card>
+          <div>Todays inspections box</div>
+        </Card>
+      </Container>
+    </Box>
   );
 };
 
