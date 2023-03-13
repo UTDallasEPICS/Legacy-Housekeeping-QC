@@ -7,17 +7,53 @@ export default async function handler(
 ) {
   try {
     if (req.method === "POST") {
-      const { first_name, last_name, email } = req.body;
+      const {
+        first_name,
+        last_name,
+        email,
+        country_code,
+        state_code,
+        phone_number,
+        address_line,
+        zipcode,
+        city,
+        state,
+      } = req.body;
+
+      if (
+        !first_name ||
+        !last_name ||
+        !email ||
+        !country_code ||
+        !state_code ||
+        !phone_number ||
+        !address_line ||
+        !zipcode ||
+        !city ||
+        !state
+      ) {
+        res.status(500).send({ error: "Fill out all required fields" });
+        return;
+      }
+
       const addedMember = await prisma.teamMembers.create({
         data: {
           first_name,
           last_name,
           email,
+          country_code,
+          state_code,
+          phone_number,
+          address_line,
+          zipcode,
+          city,
+          state,
         },
       });
+
       res.status(200).json(addedMember);
     }
   } catch (error) {
-    res.status(500).end(error + " :Error craeting new member");
+    res.status(500).send({ error: "Error craeting new member" });
   }
 }
