@@ -8,12 +8,17 @@ export default async function handler(
   try {
     if (req.method === "PUT") {
       const { team_member_id, room_id, cleaned, comments } = req.body;
-      const updatedReport = await prisma.roomReport.create({
+      const updatedReport = await prisma.roomReport.update({
+        where: {
+          team_member_id_room_id: {
+            team_member_id,
+            room_id,
+          },
+        },
         data: {
-          team_member_id,
-          room_id,
           cleaned,
           comments,
+          date: new Date(),
         },
       });
       res.status(200).json(updatedReport);
@@ -22,3 +27,4 @@ export default async function handler(
     res.status(500).json(error + " :Error creating room");
   }
 }
+// began 11:24pm

@@ -51,9 +51,9 @@ export default async function handler(
         },
       });
 
-      res.status(200).json(addedMember);
+      res.status(200).send(addedMember);
     }
   } catch (error) {
-    res.status(500).send({ error: "Error craeting new member" });
+    res.status(500).send({ error: "Error creating new member" });
   }
 }

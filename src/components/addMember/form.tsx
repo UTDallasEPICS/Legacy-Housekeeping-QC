@@ -50,7 +50,7 @@ const form = () => {
       return;
     }
 
-    const response = await fetch("/api/member/add", {
+    const res = await fetch("/api/member/add", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -69,6 +69,12 @@ const form = () => {
       }),
     });
 
+    if (!res.ok) {
+      const r = await res.json();
+      setError(r.error);
+      return;
+    }
+
     setFirstName("");
     setLastName("");
     setEmail("");
@@ -77,13 +83,6 @@ const form = () => {
     setState("");
     setZipcode("");
     setPhoneNumber("");
-
-    const res = await response.json();
-
-    if (!res.ok) {
-      setError(res.error);
-      return;
-    }
   };
 
   return (
