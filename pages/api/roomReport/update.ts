@@ -27,4 +27,3 @@ export default async function handler(
     res.status(500).json(error + " :Error creating room");
   }
 }
-// began 11:24pm
