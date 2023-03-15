@@ -41,6 +41,13 @@ model TeamMembers {
   first_name   String
   last_name    String
   email        String
+  country_code String
+  state_code   String
+  phone_number String
+  address_line String
+  zipcode      String
+  city         String
+  state        String
   points       Points[]
   rooms_report RoomReport[]
 }
