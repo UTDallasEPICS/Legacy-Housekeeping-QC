@@ -13,7 +13,7 @@ function a11yProps(index: number) {
 export default function BasicTabs() {
   return (
     <Box sx={{ width: "100%" }}>
-      <Box sx={{ borderBottom: 3, borderColor: "divider" }}>
+      <Box sx={{ bgcolor: "primary.main", borderBottom: 3, borderColor: "divider" }}>
         <Tabs aria-label="nav bar">
           <Link href={"/performance"}>
             <Tab label="Performance" {...a11yProps(0)} />
