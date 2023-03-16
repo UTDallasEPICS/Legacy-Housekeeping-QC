@@ -3,16 +3,38 @@ import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 
-export const memberInfo = ({ firstName, lastName }) => {
-  const displayInfo = () => {
-    // Pass in component with necessary props
-    console.log("CLICKED");
-  };
-
+export const memberInfo = ({
+  firstName,
+  lastName,
+  handleClick,
+  email,
+  countryCode,
+  stateCode,
+  phoneNumber,
+  addressLine,
+  city,
+  state,
+  zipcode,
+  memberId,
+}) => {
   return (
     <Grid container item spacing={1}>
       <Paper
-        onClick={() => displayInfo()}
+        onClick={() =>
+          handleClick(
+            firstName,
+            lastName,
+            email,
+            countryCode,
+            stateCode,
+            phoneNumber,
+            addressLine,
+            city,
+            state,
+            zipcode,
+            memberId
+          )
+        }
         elevation={5}
         sx={{
           height: "10rem",
