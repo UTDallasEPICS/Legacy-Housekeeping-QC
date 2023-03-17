@@ -14,7 +14,7 @@
     "@emotion/server": "^11.10.0",
     "@emotion/styled": "^11.10.6",
     "@fontsource/montserrat": "^4.5.14",
-    "@mui/material": "^5.11.12",
+    "@mui/material": "^5.11.13",
     "@prisma/client": "^4.11.0",
     "@types/node": "18.14.4",
     "@types/react": "18.0.28",
