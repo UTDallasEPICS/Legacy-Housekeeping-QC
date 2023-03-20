@@ -40,6 +40,9 @@ export const memberInfo = ({
           height: "10rem",
           width: "20rem",
           border: 1,
+          "&:hover": {
+            border: 3,
+          },
         }}
       >
         <Box

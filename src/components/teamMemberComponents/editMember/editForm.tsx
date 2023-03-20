@@ -147,6 +147,7 @@ const editForm = ({ memberId }) => {
           label="ZIP"
           variant="standard"
           placeholder="ZIP"
+          inputProps={{ maxLength: 5 }}
           value={zipcode}
           onChange={(e) => setZipcode(e.target.value)}
         />

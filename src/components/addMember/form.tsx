@@ -162,6 +162,7 @@ const form = () => {
           variant="standard"
           placeholder="ZIP"
           required
+          inputProps={{ maxLength: 5 }}
           value={zipcode}
           onChange={(e) => setZipcode(e.target.value)}
         />

@@ -2,6 +2,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { Scroll, MemberProfile } from "../src/components";
 import { useState } from "react";
+import { getSession } from "next-auth/react";
 
 const teamMembers = ({ members }) => {
   const [firstName, setFirstName] = useState("");
@@ -88,9 +89,21 @@ const teamMembers = ({ members }) => {
 
 export default teamMembers;
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "api/auth/signin",
+        permanent: false,
+      },
+    };
+  }
+
   const res = await fetch("http://localhost:3000/api/member/members");
   const data = await res.json();
+  //console.log(await res.text());
 
   return {
     props: {
