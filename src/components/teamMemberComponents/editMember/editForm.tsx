@@ -4,7 +4,7 @@ import TextField from "@mui/material/TextField";
 import Alert from "@mui/material/Alert";
 import { Button } from "@mui/material";
 import { MuiTelInput } from "mui-tel-input";
-import formValidation from "./formValidation";
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 const useStyles = makeStyles()(() => {
@@ -16,7 +16,7 @@ const useStyles = makeStyles()(() => {
   };
 });
 
-const form = () => {
+const editForm = ({ memberId }) => {
   const emailRegEx = new RegExp(
     "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$"
   );
@@ -30,42 +30,32 @@ const form = () => {
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
   const [zipcode, setZipcode] = useState("");
+  const router = useRouter();
 
   const handleSubmit = async () => {
-    const phoneParts = phoneNumber.split(" ");
-    const resCheck = formValidation(
-      email,
-      emailRegEx,
-      firstName,
-      lastName,
-      addressLine,
-      city,
-      state,
-      zipcode,
-      phoneNumber
-    );
-
-    if (resCheck) {
-      setError(resCheck);
-      return;
+    if (email != "" && !emailRegEx.test(email)) {
+      return setError("Enter valid email");
     }
 
-    const res = await fetch("/api/member/add", {
-      method: "POST",
+    const phoneParts = phoneNumber.split(" ");
+
+    const res = await fetch("/api/member/update", {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        member_id: memberId,
         first_name: firstName,
         last_name: lastName,
-        email,
+        email: email,
         country_code: phoneParts[0],
         state_code: phoneParts[1],
         phone_number: phoneParts[2] + phoneParts[3],
         address_line: addressLine,
-        zipcode,
-        city,
-        state,
+        zipcode: zipcode,
+        city: city,
+        state: state,
       }),
     });
 
@@ -83,6 +73,8 @@ const form = () => {
     setState("");
     setZipcode("");
     setPhoneNumber("");
+
+    router.push("/teamMembers");
   };
 
   return (
@@ -100,7 +92,6 @@ const form = () => {
           id="firstName"
           label="First Name"
           variant="standard"
-          required
           value={firstName}
           onChange={(e) => setFirstName(e.target.value)}
         />
@@ -109,7 +100,6 @@ const form = () => {
           id="lastName"
           label="Last Name"
           variant="standard"
-          required
           value={lastName}
           onChange={(e) => setLastName(e.target.value)}
         />
@@ -118,7 +108,6 @@ const form = () => {
           id="email"
           label="Email"
           variant="standard"
-          required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
@@ -129,7 +118,6 @@ const form = () => {
           label="Address Line"
           variant="standard"
           placeholder="Address"
-          required
           value={addressLine}
           onChange={(e) => setAddressLine(e.target.value)}
         />
@@ -139,7 +127,6 @@ const form = () => {
           label="City"
           variant="standard"
           placeholder="City"
-          required
           value={city}
           onChange={(e) => setCity(e.target.value)}
         />
@@ -150,7 +137,6 @@ const form = () => {
           label="State"
           variant="standard"
           placeholder="State"
-          required
           value={state}
           onChange={(e) => setState(e.target.value)}
         />
@@ -161,7 +147,6 @@ const form = () => {
           label="ZIP"
           variant="standard"
           placeholder="ZIP"
-          required
           inputProps={{ maxLength: 5 }}
           value={zipcode}
           onChange={(e) => setZipcode(e.target.value)}
@@ -202,4 +187,4 @@ const form = () => {
   );
 };
 
-export default form;
+export default editForm;

@@ -1,7 +1,12 @@
 import Head from "next/head";
 import { NavBar, Dashboard } from "../src/components/index";
+import { useSession } from "next-auth/react";
+import { Button } from "@mui/material";
+import Link from "next/link";
 
 export default function Home() {
+  const { data: session, status } = useSession();
+
   return (
     <>
       <Head>
@@ -10,7 +15,13 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <main>
-        <Dashboard />
+        {status === "authenticated" ? (
+          <Dashboard />
+        ) : (
+          <Link href="/api/auth/signin">
+            <Button variant="outlined">Sign In</Button>
+          </Link>
+        )}
       </main>
     </>
   );
