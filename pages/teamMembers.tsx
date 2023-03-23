@@ -1,51 +1,40 @@
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { Scroll, MemberProfile } from "../src/components";
-import { useState } from "react";
 import { getSession } from "next-auth/react";
+import { useSelector } from "react-redux";
+import { selectMemberId } from "../slices/memberProfileSlice";
+import {
+  selectPhoneNumber,
+  selectAddressLine,
+  selectCity,
+  selectState,
+  selectZipcode,
+} from "../slices/memberProfileSlice";
+import {
+  selectFirstName,
+  selectLastName,
+  selectEmail,
+  selectCountryCode,
+  selectStateCode,
+} from "../slices/memberProfileSlice";
 
 const teamMembers = ({ members }) => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [countryCode, setCountryCode] = useState("");
-  const [stateCode, setStateCode] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [addressLine, setAddressLine] = useState("");
-  const [city, setCity] = useState("");
-  const [state, setState] = useState("");
-  const [zipcode, setZipcode] = useState("");
-  const [memberId, setMemberId] = useState("");
-
-  const handleClick = (
-    firstName,
-    lastName,
-    email,
-    countryCode,
-    stateCode,
-    phoneNumber,
-    addressLine,
-    city,
-    state,
-    zipcode,
-    memberId
-  ) => {
-    setFirstName(firstName);
-    setLastName(lastName);
-    setEmail(email);
-    setCountryCode(countryCode);
-    setStateCode(stateCode);
-    setPhoneNumber(phoneNumber);
-    setAddressLine(addressLine);
-    setCity(city);
-    setState(state);
-    setZipcode(zipcode);
-    setMemberId(memberId);
-  };
+  const firstName = useSelector(selectFirstName);
+  const lastName = useSelector(selectLastName);
+  const email = useSelector(selectEmail);
+  const countryCode = useSelector(selectCountryCode);
+  const stateCode = useSelector(selectStateCode);
+  const phoneNumber = useSelector(selectPhoneNumber);
+  const addressLine = useSelector(selectAddressLine);
+  const city = useSelector(selectCity);
+  const state = useSelector(selectState);
+  const zipcode = useSelector(selectZipcode);
+  const memberId = useSelector(selectMemberId);
 
   return (
     <Stack direction="row">
-      <Scroll members={members} handleClick={handleClick} />
+      <Scroll members={members} />
       {firstName.length > 0 ? (
         <MemberProfile
           firstName={firstName}

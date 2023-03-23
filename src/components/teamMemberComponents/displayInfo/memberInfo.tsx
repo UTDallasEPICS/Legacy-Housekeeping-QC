@@ -2,11 +2,12 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
+import { useDispatch } from "react-redux";
+import { setMemberProfile } from "../../../../slices/memberProfileSlice";
 
 export const memberInfo = ({
   firstName,
   lastName,
-  handleClick,
   email,
   countryCode,
   stateCode,
@@ -17,24 +18,30 @@ export const memberInfo = ({
   zipcode,
   memberId,
 }) => {
+  const dispatch = useDispatch();
+
+  const handle = () => {
+    dispatch(
+      setMemberProfile({
+        firstName,
+        lastName,
+        email,
+        countryCode,
+        stateCode,
+        phoneNumber,
+        addressLine,
+        city,
+        state,
+        zipcode,
+        memberId,
+      })
+    );
+  };
+
   return (
     <Grid container item spacing={1}>
       <Paper
-        onClick={() =>
-          handleClick(
-            firstName,
-            lastName,
-            email,
-            countryCode,
-            stateCode,
-            phoneNumber,
-            addressLine,
-            city,
-            state,
-            zipcode,
-            memberId
-          )
-        }
+        onClick={() => handle()}
         elevation={5}
         sx={{
           height: "10rem",

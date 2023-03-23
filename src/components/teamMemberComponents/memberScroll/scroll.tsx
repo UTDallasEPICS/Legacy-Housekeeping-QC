@@ -3,7 +3,7 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import { MemberInfo } from "../..";
 
-const scroll = ({ members, handleClick }) => {
+const scroll = ({ members }) => {
   return (
     <Box
       sx={{
@@ -31,7 +31,6 @@ const scroll = ({ members, handleClick }) => {
               key={member.member_id}
               firstName={member.first_name}
               lastName={member.last_name}
-              handleClick={handleClick}
               email={member.email}
               countryCode={member.country_code}
               stateCode={member.state_code}
