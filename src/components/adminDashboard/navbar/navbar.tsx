@@ -1,7 +1,4 @@
-import Link from "next/link";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Box from "@mui/material/Box";
+import { AppBar, Box, Button, Avatar, Typography } from "@mui/material";
 
 function a11yProps(index: number) {
   return {
@@ -12,29 +9,18 @@ function a11yProps(index: number) {
 
 export default function BasicTabs() {
   return (
-    <Box sx={{ width: "100%" }}>
-      <Box sx={{ bgcolor: "primary.main", borderBottom: 3, borderColor: "divider" }}>
-        <Tabs aria-label="nav bar">
-          <Link href={"/performance"}>
-            <Tab label="Performance" {...a11yProps(0)} />
-          </Link>
-          <Link href={"/inspections"}>
-            <Tab label="Inspections" {...a11yProps(1)} />
-          </Link>
-          <Link href={"/schedules"}>
-            <Tab label="Schedules" {...a11yProps(2)} />
-          </Link>
-          <Link href={"/teamMembers"}>
-            <Tab label="Team Members" {...a11yProps(3)} />
-          </Link>
-          <Link href={"/rooms"}>
-            <Tab label="Rooms" {...a11yProps(4)} />
-          </Link>
-          <Link href={"/userName"}>
-            <Tab label="User Name" {...a11yProps(5)} />
-          </Link>
-        </Tabs>
+    <AppBar aria-label="nav bar" component="nav" position="sticky" color="primary" sx={{ display: "flex", flexDirection: "row", width: 1, p: 2, alignItems: "center" }}>
+      <Typography variant="h6" sx={{ mx: 1 }}>Legacy<b>QC</b></Typography>
+      <Box sx={{ flex: 1 }}>
+        <Button href="/performance" sx={{ color: "primary.contrastText", mx: 1 }} {...a11yProps(0)}>Performance</Button>
+        <Button href="/inspections" sx={{ color: "primary.contrastText", mx: 1 }} {...a11yProps(1)}>Inspections</Button>
+        <Button href="/schedules" sx={{ color: "primary.contrastText", mx: 1 }} {...a11yProps(2)}>Schedules</Button>
+        <Button href="/teammembers" sx={{ color: "primary.contrastText", mx: 1 }} {...a11yProps(3)}>Team Members</Button>
+        <Button href="/rooms" sx={{ color: "primary.contrastText", mx: 1 }} {...a11yProps(4)}>Rooms</Button>
       </Box>
-    </Box>
+      <Box>
+        <Avatar sx={{ bgcolor: "secondary.main" }}>U</Avatar>
+      </Box>
+    </AppBar>
   );
 }
