@@ -49,6 +49,7 @@ model TeamMembers {
   city         String
   state        String
   points       Points[]
+  total_points Int          @default(0)
   rooms_report RoomReport[]
 }
 

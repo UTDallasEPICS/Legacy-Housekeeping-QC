@@ -30,7 +30,6 @@ const teamMembers = ({ members }) => {
   const city = useSelector(selectCity);
   const state = useSelector(selectState);
   const zipcode = useSelector(selectZipcode);
-  const memberId = useSelector(selectMemberId);
 
   return (
     <Stack direction="row">
@@ -47,7 +46,6 @@ const teamMembers = ({ members }) => {
           city={city}
           state={state}
           zipcode={zipcode}
-          memberId={memberId}
         />
       ) : members.length > 0 ? (
         <Typography
@@ -92,7 +90,6 @@ export async function getServerSideProps(context) {
 
   const res = await fetch("http://localhost:3000/api/member/members");
   const data = await res.json();
-  //console.log(await res.text());
 
   return {
     props: {

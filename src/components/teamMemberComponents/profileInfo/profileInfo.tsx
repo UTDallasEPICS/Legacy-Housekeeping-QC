@@ -20,7 +20,6 @@ const profileInfo = ({
   city,
   state,
   zipcode,
-  memberId,
 }) => {
   const fName = useSelector(selectFirstName);
   const lName = useSelector(selectLastName);
@@ -47,7 +46,7 @@ const profileInfo = ({
       </Avatar>
       <Stack direction="column" sx={{ paddingTop: "1rem" }}>
         <Typography variant="subtitle2" fontSize="1rem">
-          {fName} {lName}
+          {fName} {lastName}
         </Typography>
         <Typography variant="subtitle2" fontSize="1rem">
           {email}
