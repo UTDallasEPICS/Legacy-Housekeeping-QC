@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="eb2f4285-15a8-43d5-8afa-cf2247c7a704" name="Changes" comment="Added the temporary navBar back to check if Links work and just did more work on the room section">
+      <change beforePath="$PROJECT_DIR$/pages/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/teamMembers.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/teamMembers.tsx" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="TypeScript JSX File" />
+        <option value="TypeScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="FormatOnSaveOptions">
+    <option name="myRunOnSave" value="false" />
+    <option name="myAllFileTypesSelected" value="true" />
+    <option name="mySelectedFileTypes">
+      <set />
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2MnMmXXZLq5UTFmzVxuU2maHL4H" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Steven/WebstormProjects/untitled1&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\Steven\\Desktop\\EPICS Stuff\\Github\\Legacy-Housekeeping-QC\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Steven\Desktop\EPICS Stuff\Github\Legacy-Housekeeping-QC\pages\roomPages" />
+      <recent name="C:\Users\Steven\Desktop\EPICS Stuff\Github\Legacy-Housekeeping-QC\pages" />
+      <recent name="C:\Users\Steven\Desktop\EPICS Stuff\Github\Legacy-Housekeeping-QC\src\components\roomBuildingComponents\roomScreenDashboard" />
+      <recent name="C:\Users\Steven\Desktop\EPICS Stuff\Github\Legacy-Housekeeping-QC\src\components\roomBuildingComponents\buildingSelectionDashboard" />
+      <recent name="C:\Users\Steven\Desktop\EPICS Stuff\Github\Legacy-Housekeeping-QC\src\components\buildingSelectionDashboard" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="eb2f4285-15a8-43d5-8afa-cf2247c7a704" name="Changes" comment="" />
+      <created>1678399053570</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1678399053570</updated>
+      <workItem from="1678400069827" duration="1017000" />
+      <workItem from="1678568052317" duration="27000" />
+      <workItem from="1678568110652" duration="28000" />
+      <workItem from="1678906283908" duration="24000" />
+      <workItem from="1678906315544" duration="19000" />
+      <workItem from="1679011458831" duration="141000" />
+      <workItem from="1679011613517" duration="170000" />
+      <workItem from="1679030711153" duration="13000" />
+      <workItem from="1679072521840" duration="113000" />
+      <workItem from="1679076739435" duration="258000" />
+      <workItem from="1679079441687" duration="3000" />
+      <workItem from="1679079570758" duration="4335000" />
+      <workItem from="1679085333277" duration="5945000" />
+      <workItem from="1679094334382" duration="2757000" />
+      <workItem from="1679177403604" duration="7000" />
+      <workItem from="1679178251116" duration="3699000" />
+      <workItem from="1679190589473" duration="8000" />
+      <workItem from="1679190626257" duration="5745000" />
+      <workItem from="1679268796823" duration="608000" />
+      <workItem from="1679274275502" duration="2685000" />
+      <workItem from="1679332477838" duration="2483000" />
+      <workItem from="1679336839396" duration="262000" />
+      <workItem from="1679343525477" duration="6000" />
+      <workItem from="1679343717983" duration="148000" />
+      <workItem from="1679343964658" duration="65000" />
+      <workItem from="1679344067592" duration="64000" />
+      <workItem from="1679344159562" duration="5763000" />
+      <workItem from="1679350050894" duration="2000" />
+      <workItem from="1679350374094" duration="3000" />
+      <workItem from="1679436268017" duration="935000" />
+      <workItem from="1679601921461" duration="1656000" />
+      <workItem from="1679603607993" duration="2213000" />
+      <workItem from="1679606002871" duration="514000" />
+      <workItem from="1679607119845" duration="778000" />
+    </task>
+    <task id="LOCAL-00001" summary="Added the temporary navBar back to check if Links work and just did more work on the room section">
+      <created>1679343857612</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1679343857612</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Added the temporary navBar back to check if Links work and just did more work on the room section">
+      <created>1679344123551</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1679344123551</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Added the temporary navBar back to check if Links work and just did more work on the room section" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added the temporary navBar back to check if Links work and just did more work on the room section" />
+  </component>
+</project>

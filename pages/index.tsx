@@ -16,7 +16,10 @@ export default function Home() {
       </Head>
       <main>
         {status === "authenticated" ? (
-          <Dashboard />
+          <>
+            <NavBar />
+            <Dashboard />
+          </>
         ) : (
           <Link href="/api/auth/signin">
             <Button variant="outlined">Sign In</Button>

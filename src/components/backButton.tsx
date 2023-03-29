@@ -1,20 +1,15 @@
-import {Button} from '@mui/material';
+import { Button } from "@mui/material";
 import Link from "next/link";
 
-
-const backButton = () =>{
-
-    const previousPage = () =>{
-        <Link href={"/performance"}></Link>
-        console.log("Went back");
-    }
-
-    return(
-        <Button variant='outlined' onClick={previousPage}>
-            Back
-        </Button>
-    );
-}
-
+//When you call the button, format the call like this: <BackButton pageToGoBack={"Insert what page you want to go to"}/>
+const backButton = ({ pageToGoBack }) => {
+  return (
+    <>
+      {/*When user clicks back button, it brings them to the page its assigned* implement like this <BackButton pageToGoBack={"EnterRoom"}/>/*/}
+      <Link href={pageToGoBack}>
+        <Button variant="outlined">Back</Button>
+      </Link>
+    </>
+  );
+};
 export default backButton;
-
