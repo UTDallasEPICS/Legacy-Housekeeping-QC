@@ -14,6 +14,7 @@
     "@emotion/server": "^11.10.0",
     "@emotion/styled": "^11.10.6",
     "@fontsource/montserrat": "^4.5.14",
+    "@mui/icons-material": "^5.11.11",
     "@mui/material": "^5.11.13",
     "@prisma/client": "^4.11.0",
     "@reduxjs/toolkit": "^1.9.3",

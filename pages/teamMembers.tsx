@@ -3,21 +3,20 @@ import Typography from "@mui/material/Typography";
 import { Scroll, MemberProfile } from "../src/components";
 import { getSession } from "next-auth/react";
 import { useSelector } from "react-redux";
-import { selectMemberId } from "../slices/memberProfileSlice";
-import {
-  selectPhoneNumber,
-  selectAddressLine,
-  selectCity,
-  selectState,
-  selectZipcode,
-} from "../slices/memberProfileSlice";
+import { Button } from "@mui/material";
 import {
   selectFirstName,
   selectLastName,
   selectEmail,
   selectCountryCode,
   selectStateCode,
+  selectPhoneNumber,
+  selectAddressLine,
+  selectCity,
+  selectState,
+  selectZipcode,
 } from "../slices/memberProfileSlice";
+import Link from "next/link";
 
 const teamMembers = ({ members }) => {
   const firstName = useSelector(selectFirstName);
@@ -32,45 +31,58 @@ const teamMembers = ({ members }) => {
   const zipcode = useSelector(selectZipcode);
 
   return (
-    <Stack direction="row">
-      <Scroll members={members} />
-      {firstName.length > 0 ? (
-        <MemberProfile
-          firstName={firstName}
-          lastName={lastName}
-          email={email}
-          countryCode={countryCode}
-          stateCode={stateCode}
-          phoneNumber={phoneNumber}
-          addressLine={addressLine}
-          city={city}
-          state={state}
-          zipcode={zipcode}
-        />
-      ) : members.length > 0 ? (
-        <Typography
-          variant="h6"
-          component="h4"
+    <>
+      <Link href="/addMember">
+        <Button
+          variant="outlined"
           sx={{
-            marginLeft: "20rem",
-            marginTop: "10rem",
+            marginLeft: "7rem",
+            marginTop: "2rem",
           }}
         >
-          Select a team member
-        </Typography>
-      ) : (
-        <Typography
-          variant="h6"
-          component="h4"
-          sx={{
-            marginLeft: "10rem",
-            marginTop: "10rem",
-          }}
-        >
-          Oops! Looks like you need to add Team Members.
-        </Typography>
-      )}
-    </Stack>
+          Add Team Member
+        </Button>
+      </Link>
+      <Stack direction="row">
+        <Scroll members={members} />
+        {firstName.length > 0 ? (
+          <MemberProfile
+            firstName={firstName}
+            lastName={lastName}
+            email={email}
+            countryCode={countryCode}
+            stateCode={stateCode}
+            phoneNumber={phoneNumber}
+            addressLine={addressLine}
+            city={city}
+            state={state}
+            zipcode={zipcode}
+          />
+        ) : members.length > 0 ? (
+          <Typography
+            variant="h6"
+            component="h4"
+            sx={{
+              marginLeft: "20rem",
+              marginTop: "10rem",
+            }}
+          >
+            Select a team member
+          </Typography>
+        ) : (
+          <Typography
+            variant="h6"
+            component="h4"
+            sx={{
+              marginLeft: "10rem",
+              marginTop: "10rem",
+            }}
+          >
+            Oops! Looks like you need to add Team Members.
+          </Typography>
+        )}
+      </Stack>
+    </>
   );
 };
 
