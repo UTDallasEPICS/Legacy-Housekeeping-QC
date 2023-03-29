@@ -16,6 +16,7 @@ export default async function handler(
         state_code,
         phone_number,
         password,
+        role
       } = req.body;
 
       const hash = await bcrypt.hash(password, 12);
@@ -29,6 +30,7 @@ export default async function handler(
           state_code,
           phone_number,
           password: hash,
+          role
         },
       });
       res.status(200).json(addedUser);

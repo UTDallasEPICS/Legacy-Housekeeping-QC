@@ -1,4 +1,5 @@
 import { AppBar, Box, Button, Avatar, Typography } from "@mui/material";
+import { signOut } from "next-auth/react";
 
 function a11yProps(index: number) {
   return {
@@ -27,41 +28,47 @@ export default function BasicTabs() {
       </Typography>
       <Box sx={{ flex: 1 }}>
         <Button
-          href={"/performance"}
+          href={"/admin/performance"}
           sx={{ color: "primary.contrastText", mx: 1 }}
           {...a11yProps(0)}
         >
           Performance
         </Button>
         <Button
-          href={"/inspections"}
+          href={"/admin/inspections"}
           sx={{ color: "primary.contrastText", mx: 1 }}
           {...a11yProps(1)}
         >
           Inspections
         </Button>
         <Button
-          href={"/schedules"}
+          href={"/admin/schedules"}
           sx={{ color: "primary.contrastText", mx: 1 }}
           {...a11yProps(2)}
         >
           Schedules
         </Button>
         <Button
-          href={"/teamMembers"}
+          href={"/admin/teamMembers"}
           sx={{ color: "primary.contrastText", mx: 1 }}
           {...a11yProps(3)}
         >
           Team Members
         </Button>
         <Button
-          href={"/rooms"}
+          href={"/admin/rooms"}
           sx={{ color: "primary.contrastText", mx: 1 }}
           {...a11yProps(4)}
         >
           Rooms
         </Button>
       </Box>
+      <Button
+        sx={{ color: "primary.contrastText", mx: 1 }}
+        onClick={() => signOut()}
+      >
+        SignOut
+      </Button>
       <Box>
         <Avatar sx={{ bgcolor: "secondary.main" }}>U</Avatar>
       </Box>

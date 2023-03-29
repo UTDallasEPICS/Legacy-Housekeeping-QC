@@ -7,3 +7,4 @@ export { default as MemberProfile } from "./teamMemberComponents/memberProfile/m
 export { default as ProfileInfo } from "./teamMemberComponents/profileInfo/profileInfo";
 export { default as EditForm } from "./teamMemberComponents/editMember/editForm";
 export { default as SignIn } from "./homeComponents/signin/signin";
+export { default as SignUp } from "./homeComponents/signup/signup";

@@ -9,7 +9,7 @@ const editMember = () => {
 
   return (
     <>
-      <Link href="/teamMembers">
+      <Link href="/admin/teamMembers">
         <Button
           variant="outlined"
           sx={{

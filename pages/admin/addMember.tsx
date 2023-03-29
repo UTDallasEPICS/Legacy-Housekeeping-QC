@@ -5,7 +5,7 @@ import { FormAddMember } from "../../src/components";
 const addMember = () => {
   return (
     <div>
-      <Link href="/teamMembers">
+      <Link href="/admin/teamMembers">
         <Button
           variant="outlined"
           sx={{

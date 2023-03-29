@@ -32,7 +32,7 @@ const teamMembers = ({ members }) => {
 
   return (
     <>
-      <Link href="/addMember">
+      <Link href="/admin/addMember">
         <Button
           variant="outlined"
           sx={{

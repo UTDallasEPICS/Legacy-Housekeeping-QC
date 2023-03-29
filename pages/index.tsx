@@ -4,10 +4,12 @@ import Link from "next/link";
 const index = () => {
   return (
     <div>
-      <Link href="/admin/dashboard">
+      <Link href="/admin/adminDashboard">
         <Button variant="outlined">Admin Dashboard</Button>
       </Link>
-      <Button variant="outlined">Leader Dashboard</Button>
+      <Link href="/user/userDashboard">
+        <Button variant="outlined">Leader Dashboard</Button>
+      </Link>
     </div>
   );
 };

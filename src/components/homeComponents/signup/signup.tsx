@@ -1,35 +1,46 @@
-import { Box, Stack } from "@mui/system";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
+  Box,
   Button,
   IconButton,
   InputAdornment,
-  InputLabel,
   OutlinedInput,
   Paper,
+  Stack,
   TextField,
 } from "@mui/material";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { MuiTelInput } from "mui-tel-input";
 import { useState } from "react";
-import Link from "next/link";
-import { signIn } from "next-auth/react";
 
-const signin = () => {
+const signup = () => {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleSubmit = async () => {
-    const result = await signIn("credentials", {
-      email,
-      password,
-      redirect: true,
-      callbackUrl: "/",
+    const phoneParts = phoneNumber.split(" ");
+
+    const res = await fetch("/api/user/add", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        first_name: firstName,
+        last_name: lastName,
+        email,
+        country_code: phoneParts[0],
+        state_code: phoneParts[1],
+        phone_number: phoneParts[2] + phoneParts[3],
+        password,
+      }),
     });
   };
-
   return (
     <Box
       component="form"
@@ -37,12 +48,26 @@ const signin = () => {
       display="flex"
       justifyContent="center"
       alignItems="center"
-      marginTop="4rem"
+      marginTop="2.5rem"
     >
       <Paper elevation={3} sx={{ width: "30rem", padding: "2rem" }}>
-        <h2>Sign in</h2>
+        <h2>Sign Up</h2>
 
         <Stack spacing={2}>
+          <TextField
+            variant="outlined"
+            label="First Name"
+            required
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+          />
+          <TextField
+            variant="outlined"
+            label="Last Name"
+            required
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+          />
           <TextField
             variant="outlined"
             label="email"
@@ -68,18 +93,23 @@ const signin = () => {
               </InputAdornment>
             }
           />
-          <Button
+          <MuiTelInput
+            id="phoneNumber"
             variant="outlined"
-            sx={{ marginTop: "2rem", marginBottom: "1rem" }}
-            onClick={() => handleSubmit()}
-          >
-            Sign in
+            label="Phone Number"
+            onlyCountries={["US"]}
+            inputProps={{ maxLength: 15 }}
+            value={phoneNumber}
+            onChange={(e) => setPhoneNumber(e)}
+          />
+
+          <Button variant="outlined" onClick={() => handleSubmit()}>
+            Sign Up
           </Button>
-          <Link href="/auths/signup">Don't have an account? Sign Up</Link>
         </Stack>
       </Paper>
     </Box>
   );
 };
 
-export default signin;
+export default signup;
