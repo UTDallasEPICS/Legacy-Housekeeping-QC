@@ -1,6 +1,6 @@
-import { EditForm } from "../src/components";
+import { EditForm } from "../../src/components";
 import { useSelector } from "react-redux";
-import { selectMemberId } from "../slices/memberProfileSlice";
+import { selectMemberId } from "../../slices/memberProfileSlice";
 import Link from "next/link";
 import Button from "@mui/material/Button";
 

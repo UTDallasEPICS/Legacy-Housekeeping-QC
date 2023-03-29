@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
 import Link from "next/link";
-import { FormAddMember } from "../src/components";
+import { FormAddMember } from "../../src/components";
 
 const addMember = () => {
   return (

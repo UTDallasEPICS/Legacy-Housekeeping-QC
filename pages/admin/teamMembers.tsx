@@ -1,6 +1,6 @@
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import { Scroll, MemberProfile } from "../src/components";
+import { Scroll, MemberProfile } from "../../src/components";
 import { getSession } from "next-auth/react";
 import { useSelector } from "react-redux";
 import { Button } from "@mui/material";
@@ -15,7 +15,7 @@ import {
   selectCity,
   selectState,
   selectZipcode,
-} from "../slices/memberProfileSlice";
+} from "../../slices/memberProfileSlice";
 import Link from "next/link";
 
 const teamMembers = ({ members }) => {
