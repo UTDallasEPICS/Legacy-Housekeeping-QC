@@ -1,5 +1,18 @@
+import { Card } from "@mui/material";
+import { InspectionGrid, NavBar } from "../src/components";
+
+
 const inspections = () => {
-  return <div>inspections</div>;
+  return <>
+        <NavBar></NavBar>
+        <main>
+            <InspectionGrid></InspectionGrid>
+        </main>
+    </>
+  
 };
 
 export default inspections;
+
+
+//7.25 hrs
