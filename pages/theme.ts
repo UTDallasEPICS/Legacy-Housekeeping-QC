@@ -1,6 +1,4 @@
-import { Roboto } from "next/font/google";
-import { Montserrat } from "next/font/google";
-import { Work_Sans } from "next/font/google";
+import { Roboto, Work_Sans, Inter } from "next/font/google";
 import { createTheme } from "@mui/material/styles";
 import { red } from "@mui/material/colors";
 
@@ -12,6 +10,13 @@ export const roboto = Roboto({
 });
 
 export const workSans = Work_Sans({
+  weight: ["300", "400", "500", "700"],
+  subsets: ["latin"],
+  display: "swap",
+  fallback: ["Helvetica", "Arial", "sans-serif"],
+});
+
+export const inter = Inter({
   weight: ["300", "400", "500", "700"],
   subsets: ["latin"],
   display: "swap",
@@ -32,7 +37,7 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: workSans.style.fontFamily,
+    fontFamily: inter.style.fontFamily,
   },
 });
 
