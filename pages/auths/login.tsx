@@ -1,8 +1,12 @@
-import { Button } from "@mui/material";
+import { Alert, Button } from "@mui/material";
 import Link from "next/link";
 import { SignIn } from "../../src/components";
 
-const login = () => {
+interface IProps {
+  searchParams?: { [key: string]: string | string[] | undefined };
+}
+
+const login = ({ searchParams }: IProps) => {
   return (
     <div>
       <Link href="/">
@@ -13,6 +17,9 @@ const login = () => {
           back
         </Button>
       </Link>
+      {searchParams?.message && (
+        <Alert severity="error">{searchParams?.message}</Alert>
+      )}
       <SignIn />
     </div>
   );
