@@ -11,7 +11,7 @@ const DashboardCardProgressListItemButton = ({ teamMemberName, teamMemberId, sco
     }
 
     return (
-        <ListItemButton sx={{ px: 4, py: 0.25 }}>
+        <ListItemButton sx={{ px: 4 }}>
             <ListItemText
                 primary={teamMemberName} secondary={"#" + teamMemberId}
             />
