@@ -14,7 +14,7 @@ const RemainingInspectionListItemCard = ({ buildingId, roomId, teamMemberName, t
                         </CardContent>
                     </CardActionArea>
                     <CardActions sx={{ ml: 1 }}>
-                        <Button> endButton={<ArrowForwardIcon />}Inspect</Button>
+                        <Button endIcon={<ArrowForwardIcon />}>Inspect</Button>
                     </CardActions>
                 </Box>
             </Card>
