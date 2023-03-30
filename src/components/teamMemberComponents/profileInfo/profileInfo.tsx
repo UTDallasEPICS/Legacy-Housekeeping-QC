@@ -3,11 +3,6 @@ import { Button } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { Stack } from "@mui/system";
 import Link from "next/link";
-import { useSelector } from "react-redux";
-import {
-  selectFirstName,
-  selectLastName,
-} from "../../../../slices/memberProfileSlice";
 
 const profileInfo = ({
   firstName,
@@ -20,10 +15,7 @@ const profileInfo = ({
   city,
   state,
   zipcode,
-  memberId,
 }) => {
-  const fName = useSelector(selectFirstName);
-  const lName = useSelector(selectLastName);
   return (
     <Stack
       direction="row"
@@ -47,7 +39,7 @@ const profileInfo = ({
       </Avatar>
       <Stack direction="column" sx={{ paddingTop: "1rem" }}>
         <Typography variant="subtitle2" fontSize="1rem">
-          {fName} {lName}
+          {firstName} {lastName}
         </Typography>
         <Typography variant="subtitle2" fontSize="1rem">
           {email}

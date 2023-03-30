@@ -7,8 +7,15 @@ export default async function handler(
 ) {
   try {
     if (req.method === "PUT") {
-      const { user_id, first_name, last_name, email, phone_number, address } =
-        req.body;
+      const {
+        user_id,
+        first_name,
+        last_name,
+        email,
+        country_code,
+        state_code,
+        phone_number,
+      } = req.body;
       const updatedUser = await prisma.user.update({
         where: {
           user_id,
@@ -17,8 +24,9 @@ export default async function handler(
           first_name: first_name,
           last_name: last_name,
           email: email,
-          phone_number: phone_number,
-          address: address,
+          country_code,
+          state_code,
+          phone_number,
         },
       });
       res.status(200).json(updatedUser);

@@ -11,3 +11,5 @@ export { default as InspectionGrid } from "./inspections/Grid/gridComponent"
 export { default as CompleteGrid } from "./inspections/Grid/completeGrid"
 export { default as RemainingGrid } from "./inspections/Grid/remainingGrid"
 export { default as LockedGrid } from "./inspections/Grid/lockedGrid"
+export { default as SignIn } from "./homeComponents/signin/signin";
+export { default as SignUp } from "./homeComponents/signup/signup";

@@ -94,6 +94,9 @@ const form = () => {
         flexDirection="column"
         alignItems="center"
         justifyContent="center"
+        sx={{
+          marginTop: "-4rem",
+        }}
       >
         <TextField
           className={classes.spaceBtwnCol}

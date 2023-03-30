@@ -11,7 +11,6 @@ const memberProfile = ({
   city,
   state,
   zipcode,
-  memberId,
 }) => {
   return (
     <ProfileInfo
@@ -25,7 +24,6 @@ const memberProfile = ({
       city={city}
       state={state}
       zipcode={zipcode}
-      memberId={memberId}
     />
   );
 };
