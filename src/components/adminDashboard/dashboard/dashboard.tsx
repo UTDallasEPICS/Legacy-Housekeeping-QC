@@ -97,7 +97,7 @@ const dashboard = () => {
 
             <Divider variant="middle" />
 
-            <DashboardCardButton text="More performance data"></DashboardCardButton>
+            <DashboardCardButton href="/performance" text="More performance data"></DashboardCardButton>
           </Card>
 
           <Card sx={{ m: 2, display: "flex", flexDirection: "column", flexBasis: 0, flexGrow: 1 }}>
@@ -168,7 +168,7 @@ const dashboard = () => {
 
             <Divider variant="middle" />
 
-            <DashboardCardButton text="All inspections"></DashboardCardButton>
+            <DashboardCardButton href="/inspections" text="All inspections"></DashboardCardButton>
           </Card>
         </Box>
       </Container>
