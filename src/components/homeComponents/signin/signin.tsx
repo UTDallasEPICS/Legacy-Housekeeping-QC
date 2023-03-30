@@ -27,7 +27,7 @@ const signin = () => {
       email,
       password,
       redirect: true,
-      callbackUrl: "/",
+      callbackUrl: "/admin/adminDashboard",
     });
   };
 

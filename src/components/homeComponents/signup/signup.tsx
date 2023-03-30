@@ -18,6 +18,7 @@ const signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [role, setRole] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -38,6 +39,7 @@ const signup = () => {
         state_code: phoneParts[1],
         phone_number: phoneParts[2] + phoneParts[3],
         password,
+        role,
       }),
     });
   };
@@ -101,6 +103,13 @@ const signup = () => {
             inputProps={{ maxLength: 15 }}
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e)}
+          />
+          <TextField
+            variant="outlined"
+            label="role"
+            required
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
           />
 
           <Button variant="outlined" onClick={() => handleSubmit()}>
