@@ -9,7 +9,7 @@ export default async function handler(
   try {
     if (req.method === "POST") {
       const { email, password } = req.body;
-      // Figure out how to check if password matches or else return error
+
       const userExist = await prisma.user.findUnique({
         where: { email: email },
         select: {

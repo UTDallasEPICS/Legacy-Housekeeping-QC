@@ -7,7 +7,6 @@ import {
   FormGroup,
   IconButton,
   InputAdornment,
-  InputLabel,
   OutlinedInput,
   Paper,
   TextField,

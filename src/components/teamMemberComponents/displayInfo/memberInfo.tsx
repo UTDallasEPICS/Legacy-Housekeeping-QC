@@ -4,6 +4,7 @@ import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import { useDispatch } from "react-redux";
 import { setMemberProfile } from "../../../../slices/memberProfileSlice";
+import { MemberInfoProps } from "../../../../interfaces/memberProps";
 
 export const memberInfo = ({
   firstName,
@@ -17,7 +18,7 @@ export const memberInfo = ({
   state,
   zipcode,
   memberId,
-}) => {
+}: MemberInfoProps) => {
   const dispatch = useDispatch();
 
   const handle = () => {

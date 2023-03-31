@@ -3,6 +3,7 @@ import { Button } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { Stack } from "@mui/system";
 import Link from "next/link";
+import { MemberProfileProps } from "../../../../interfaces/memberProfileProps";
 
 const profileInfo = ({
   firstName,
@@ -15,7 +16,7 @@ const profileInfo = ({
   city,
   state,
   zipcode,
-}) => {
+}: MemberProfileProps) => {
   return (
     <Stack
       direction="row"

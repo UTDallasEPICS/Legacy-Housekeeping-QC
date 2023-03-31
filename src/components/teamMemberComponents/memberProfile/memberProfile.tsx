@@ -1,4 +1,5 @@
 import { ProfileInfo } from "../..";
+import { MemberProfileProps } from "../../../../interfaces/memberProfileProps";
 
 const memberProfile = ({
   firstName,
@@ -11,7 +12,7 @@ const memberProfile = ({
   city,
   state,
   zipcode,
-}) => {
+}: MemberProfileProps) => {
   return (
     <ProfileInfo
       firstName={firstName}

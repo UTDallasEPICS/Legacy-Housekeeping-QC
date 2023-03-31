@@ -7,6 +7,10 @@ import { MuiTelInput } from "mui-tel-input";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
+type MemberId = {
+  memberId: string;
+};
+
 const useStyles = makeStyles()(() => {
   return {
     spaceBtwnCol: {
@@ -16,7 +20,7 @@ const useStyles = makeStyles()(() => {
   };
 });
 
-const editForm = ({ memberId }) => {
+const editForm = ({ memberId }: MemberId) => {
   const emailRegEx = new RegExp(
     "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$"
   );

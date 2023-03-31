@@ -2,8 +2,9 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import { MemberInfo } from "../..";
+import { MembersProperties } from "../../../../interfaces/membersObject";
 
-const scroll = ({ members }) => {
+const scroll = ({ members }: MembersProperties) => {
   return (
     <Box
       sx={{

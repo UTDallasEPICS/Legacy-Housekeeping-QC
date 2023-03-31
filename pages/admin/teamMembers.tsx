@@ -17,8 +17,9 @@ import {
   selectZipcode,
 } from "../../slices/memberProfileSlice";
 import Link from "next/link";
+import { MembersProperties } from "../../interfaces/membersObject";
 
-const teamMembers = ({ members }) => {
+const teamMembers = ({ members }: MembersProperties) => {
   const firstName = useSelector(selectFirstName);
   const lastName = useSelector(selectLastName);
   const email = useSelector(selectEmail);
@@ -102,7 +103,7 @@ export async function getServerSideProps(context) {
 
   const res = await fetch("http://localhost:3000/api/member/members");
   const data = await res.json();
-
+  console.log(data);
   return {
     props: {
       members: data,
