@@ -1,7 +1,11 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
+  Alert,
   Box,
   Button,
+  Checkbox,
+  FormControlLabel,
+  FormGroup,
   IconButton,
   InputAdornment,
   OutlinedInput,
@@ -18,13 +22,22 @@ const signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [role, setRole] = useState("");
+  const [checked, setChecked] = useState(false);
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleSubmit = async () => {
     const phoneParts = phoneNumber.split(" ");
+    let role: string;
+
+    if (checked) {
+      role = "USER";
+    } else {
+      role = "ADMIN";
+    }
 
     const res = await fetch("/api/user/add", {
       method: "POST",
@@ -42,6 +55,17 @@ const signup = () => {
         role,
       }),
     });
+
+    if (res.ok) {
+      setMessage("User Created!");
+      setFirstName("");
+      setLastName("");
+      setEmail("");
+      setPhoneNumber("");
+      setPassword("");
+    } else {
+      setError("Error creating user!");
+    }
   };
   return (
     <Box
@@ -50,7 +74,7 @@ const signup = () => {
       display="flex"
       justifyContent="center"
       alignItems="center"
-      marginTop="2.5rem"
+      marginTop="-0.5rem"
     >
       <Paper elevation={3} sx={{ width: "30rem", padding: "2rem" }}>
         <h2>Sign Up</h2>
@@ -104,17 +128,29 @@ const signup = () => {
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e)}
           />
-          <TextField
-            variant="outlined"
-            label="role"
-            required
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
-          />
+          <FormGroup>
+            <FormControlLabel
+              control={<Checkbox />}
+              label="Admin"
+              checked={!checked}
+              onChange={() => setChecked(false)}
+            />
+            <FormControlLabel
+              control={<Checkbox />}
+              label="Leader"
+              checked={checked}
+              onChange={() => setChecked(true)}
+            />
+          </FormGroup>
 
           <Button variant="outlined" onClick={() => handleSubmit()}>
             Sign Up
           </Button>
+          {message.length > 0 ? (
+            <Alert severity="success">{message}</Alert>
+          ) : error.length > 0 ? (
+            <Alert severity="error">{error}</Alert>
+          ) : null}
         </Stack>
       </Paper>
     </Box>

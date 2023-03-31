@@ -16,7 +16,7 @@ export default async function handler(
         state_code,
         phone_number,
         password,
-        role
+        role,
       } = req.body;
 
       const hash = await bcrypt.hash(password, 12);
@@ -30,12 +30,13 @@ export default async function handler(
           state_code,
           phone_number,
           password: hash,
-          role
+          role,
         },
       });
+      console.log(addedUser);
       res.status(200).json(addedUser);
     }
   } catch (error) {
-    res.status(500).json(error + " :Error creating user");
+    res.status(500).send({ error: error + " :Error creating user" });
   }
 }

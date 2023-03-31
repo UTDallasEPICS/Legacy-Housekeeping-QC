@@ -27,7 +27,8 @@ const signin = () => {
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleSubmit = async () => {
-    let route: String;
+    let route: string;
+
     if (checked) {
       route = "/user/userDashboard";
     } else {
