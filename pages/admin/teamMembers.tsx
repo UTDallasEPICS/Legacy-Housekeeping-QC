@@ -37,8 +37,9 @@ const teamMembers = ({ members }: MembersProperties) => {
         <Button
           variant="outlined"
           sx={{
-            marginLeft: "7rem",
+            marginLeft: { sm: "2rem", lg: "7rem" },
             marginTop: "2rem",
+            fontSize: { sm: "0.9rem", lg: "1.5rem" },
           }}
         >
           Add Team Member
@@ -64,8 +65,8 @@ const teamMembers = ({ members }: MembersProperties) => {
             variant="h6"
             component="h4"
             sx={{
-              marginLeft: "20rem",
-              marginTop: "10rem",
+              marginLeft: { sm: "10rem", lg: "20rem" },
+              marginTop: { sm: "5rem", lg: "10rem" },
             }}
           >
             Select a team member
@@ -75,8 +76,8 @@ const teamMembers = ({ members }: MembersProperties) => {
             variant="h6"
             component="h4"
             sx={{
-              marginLeft: "10rem",
-              marginTop: "10rem",
+              marginLeft: { sm: "5rem", lg: "10rem" },
+              marginTop: { sm: "5rem", lg: "10rem" },
             }}
           >
             Oops! Looks like you need to add Team Members.
