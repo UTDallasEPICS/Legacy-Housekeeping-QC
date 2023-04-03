@@ -18,6 +18,7 @@ import {
 } from "../../slices/memberProfileSlice";
 import Link from "next/link";
 import { MembersProperties } from "../../interfaces/membersObject";
+import BackButton from "../../src/components/backButton";
 
 const teamMembers = ({ members }: MembersProperties) => {
   const firstName = useSelector(selectFirstName);
@@ -33,13 +34,25 @@ const teamMembers = ({ members }: MembersProperties) => {
 
   return (
     <>
+      <Link href="/admin/adminDashboard">
+        <Button
+          variant="outlined"
+          sx={{
+            marginLeft: { sm: "1rem", lg: "2rem", xl: "7rem" },
+            marginTop: "2rem",
+            fontSize: { sm: "0.8rem", lg: "1rem", xl: "1.2rem" },
+          }}
+        >
+          back
+        </Button>
+      </Link>
       <Link href="/admin/addMember">
         <Button
           variant="outlined"
           sx={{
-            marginLeft: { sm: "2rem", lg: "7rem" },
+            marginLeft: { sm: "1.5rem", lg: "1.5rem", xl: "7rem" },
             marginTop: "2rem",
-            fontSize: { sm: "0.9rem", lg: "1.5rem" },
+            fontSize: { sm: "0.9rem", lg: "1.2rem", xl: "1.5rem" },
           }}
         >
           Add Team Member
@@ -104,7 +117,7 @@ export async function getServerSideProps(context) {
 
   const res = await fetch("http://localhost:3000/api/member/members");
   const data = await res.json();
-  console.log(data);
+  //console.log(data);
   return {
     props: {
       members: data,

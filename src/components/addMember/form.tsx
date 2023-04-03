@@ -96,6 +96,7 @@ const form = () => {
         justifyContent="center"
         sx={{
           marginTop: "-4rem",
+          paddingBottom: { lg: "2rem" },
         }}
       >
         <TextField

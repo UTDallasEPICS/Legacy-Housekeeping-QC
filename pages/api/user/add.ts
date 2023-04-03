@@ -33,7 +33,7 @@ export default async function handler(
           role,
         },
       });
-      console.log(addedUser);
+      //console.log(addedUser);
       res.status(200).json(addedUser);
     }
   } catch (error) {

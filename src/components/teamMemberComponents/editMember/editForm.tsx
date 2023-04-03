@@ -78,7 +78,7 @@ const editForm = ({ memberId }: MemberId) => {
     setZipcode("");
     setPhoneNumber("");
 
-    router.push("/teamMembers");
+    router.push("/admin/teamMembers");
   };
 
   return (
@@ -92,6 +92,7 @@ const editForm = ({ memberId }: MemberId) => {
         justifyContent="center"
         sx={{
           marginTop: "-4rem",
+          paddingBottom: { lg: "2rem" },
         }}
       >
         <TextField

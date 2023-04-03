@@ -45,8 +45,8 @@ export const memberInfo = ({
         onClick={() => handle()}
         elevation={5}
         sx={{
-          height: { sm: "5rem", md: "5rem", lg: "10rem" },
-          width: { sm: "10rem", md: "10rem", lg: "20rem" },
+          height: { sm: "5rem", lg: "10rem" },
+          width: { sm: "10rem", lg: "20rem" },
           border: 1,
           "&:hover": {
             border: 3,
