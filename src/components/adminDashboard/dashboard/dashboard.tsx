@@ -11,7 +11,8 @@ import DashboardCardButton from "../../dashboardCardComponents/DashboardCardButt
 import DashboardCardInspectionListItemCard from "../../dashboardCardComponents/DashboardCardInspectionListItemCard";
 import RemainingInspectionListItemCard from "../../dashboardCardComponents/RemainingInspectionListItemCard";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 
 const dashboard = () => {
   const [todaysInspectionsType, setTodaysInspectionsType] = useState("completed");
@@ -25,11 +26,18 @@ const dashboard = () => {
     }
   };
 
+  const { data: session } = useSession();
+  const [loggedInUser, setLoggedInUser] = useState("User");
+  useEffect(() => {
+    setLoggedInUser(session?.user?.first_name);
+    console.log(session?.user?.first_name);
+  }, [session?.user?.first_name]);
+
   return (
     <Box component={"div"} sx={{ height: "100%" }}>
       <Container sx={{ textAlign: "center", height: 1 }}>
         <Box sx={{ p: { sm: 8, md: 12 } }}>
-          <Typography variant="h2">Hello,<b> User</b></Typography>
+          <Typography variant="h2">Hello,<b> {loggedInUser}</b></Typography>
         </Box>
 
         <Box sx={{ justifyContent: "center", display: { md: "flex" } }}>
