@@ -1,5 +1,6 @@
 import { AppBar, Box, Button, Avatar, Typography } from "@mui/material";
 import { signOut } from "next-auth/react";
+import Link from "next/link";
 
 function a11yProps(index: number) {
   return {
@@ -23,9 +24,14 @@ export default function BasicTabs() {
         alignItems: "center",
       }}
     >
-      <Typography variant="h6" sx={{ mx: 1 }}>
-        Legacy<b>QC</b>
-      </Typography>
+      <Link href={"/admin/adminDashboard"} style={{
+        textDecoration: "none",
+        color: "white"
+      }}>
+        <Typography variant="h6" sx={{ mx: 1 }}>
+          Legacy<b>QC</b>
+        </Typography>
+      </Link>
       <Box sx={{ flex: 1 }}>
         <Button
           href={"/admin/performance"}
