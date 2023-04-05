@@ -37,11 +37,57 @@ const dashboard = () => {
   }, [session?.user?.first_name]);
   // ******************************************************
 
+  // GET TEAM MEMBER POINTS DATA TO CALCULATE AND DISPLAY AVERAGE CLEANING SCORE
+  // ***************************************************************************
+  const [averageCleaningScoreString, setAverageCleaningScoreString] = useState("N/A");
+
+  // calculateAverageCleaningScore: Implicitly returns a Promise<number>.
+  const calculateAverageCleaningScore = async () => {
+    // Get team member data for all team members.
+    const res = await fetch("http://localhost:3000/api/member/members", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    // Convert the response to JSON.
+    const resJson = await res.json();
+
+    // Get the number of members in the database.
+    let resLength = Object.keys(resJson).length;
+
+    let totalNumPoints = 0;
+    let totalNumPointsRecords = 0;
+
+    for (let i = 0; i < resLength; i++) {
+      // Add total number of points each member has earned to total points all members have earned.
+      totalNumPoints += resJson[i].total_points;
+
+      // Add total number of times each member has earned points to total times all members have earned points.
+      totalNumPointsRecords += Object.keys(resJson[i].points).length;
+    }
+
+    // Calculate average cleaning score as a percentage.
+    // This is done by taking the ratio of the total number of points all members did earn to the total possible number of points members could have earned.
+    return totalNumPoints / (totalNumPointsRecords * 100.0) * 100;
+  };
+
+  calculateAverageCleaningScore().then(
+    (result) => {
+      setAverageCleaningScoreString(`${result.toFixed(2)}`);
+    },
+    (error) => {
+      setAverageCleaningScoreString("N/A");
+      console.log(error);
+    });
+  // ***************************************************************************
+
   return (
     <Box component={"div"} sx={{ height: "100%" }}>
       <Container sx={{ textAlign: "center", height: 1 }}>
-        <Box sx={{ p: { sm: 8, md: 12 } }}>
-          <Typography variant="h2">Hello,<b> {signedInUser}</b></Typography>
+        <Box sx={{ p: { xs: 4, sm: 8, md: 12 } }}>
+          <Typography variant="h2">Hello,<b> {signedInUser}.</b></Typography>
         </Box>
 
         <Box sx={{ justifyContent: "center", display: { md: "flex" } }}>
@@ -51,7 +97,7 @@ const dashboard = () => {
             <Box sx={{ display: "flex", flexDirection: "column", width: 1, flexGrow: 1 }}>
               <Box sx={{ p: 2 }}>
                 <Typography variant="h5">Average Cleaning Score</Typography>
-                <Typography variant="h2">87.6</Typography>
+                <Typography variant="h2">{averageCleaningScoreString}</Typography>
               </Box>
 
               <Divider variant="middle" />
