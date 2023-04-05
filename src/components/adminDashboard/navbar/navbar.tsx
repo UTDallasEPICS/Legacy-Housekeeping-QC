@@ -13,12 +13,16 @@ function a11yProps(index: number) {
 }
 
 export default function BasicTabs() {
+  // GET INITIAL FOR AVATAR ******************************************
   const { data: session } = useSession();
-  const [loggedInUserInitial, setLoggedInUserInitial] = useState("U");
+  const [signedInUserInitial, setSignedInUserInitial] = useState('U');
   useEffect(() => {
-    setLoggedInUserInitial(session?.user?.first_name?.charAt(0));
-    console.log(session?.user?.first_name);
+    setSignedInUserInitial(session?.user?.first_name?.charAt(0));
+
+    // For debugging only:
+    // console.log(signedInUserInitial);
   }, [session?.user?.first_name]);
+  // *****************************************************************
 
   return (
     <AppBar
@@ -83,10 +87,10 @@ export default function BasicTabs() {
         sx={{ color: "primary.contrastText", mx: 1 }}
         onClick={() => signOut()}
       >
-        SignOut
+        Sign Out
       </Button>
       <Box>
-        <Avatar sx={{ bgcolor: "secondary.main" }}>{loggedInUserInitial}</Avatar>
+        <Avatar sx={{ bgcolor: "secondary.main" }}>{signedInUserInitial}</Avatar>
       </Box>
     </AppBar>
   );
