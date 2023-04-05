@@ -1,4 +1,4 @@
-import { AppBar, Box, Button, Avatar, Typography } from "@mui/material";
+import { AppBar, Box, Button, Avatar, Typography, Container } from "@mui/material";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 
@@ -31,67 +31,66 @@ export default function BasicTabs() {
       position="sticky"
       color="primary"
       sx={{
-        display: "flex",
-        flexDirection: "row",
         width: 1,
         p: 2,
-        alignItems: "center",
       }}
     >
-      <Link href={"/admin/adminDashboard"} style={{
-        textDecoration: "none",
-        color: "white"
-      }}>
-        <Typography variant="h6" sx={{ mx: 1 }}>
-          Legacy<b>QC</b>
-        </Typography>
-      </Link>
-      <Box sx={{ flex: 1 }}>
+      <Container sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+        <Link href={"/admin/adminDashboard"} style={{
+          textDecoration: "none",
+          color: "white"
+        }}>
+          <Typography variant="h6" sx={{ mx: 1 }}>
+            Legacy<b>QC</b>
+          </Typography>
+        </Link>
+        <Box sx={{ flex: 1 }}>
+          <Button
+            href={"/admin/performance"}
+            sx={{ color: "primary.contrastText", mx: 1 }}
+            {...a11yProps(0)}
+          >
+            Performance
+          </Button>
+          <Button
+            href={"/admin/inspections"}
+            sx={{ color: "primary.contrastText", mx: 1 }}
+            {...a11yProps(1)}
+          >
+            Inspections
+          </Button>
+          <Button
+            href={"/admin/schedules"}
+            sx={{ color: "primary.contrastText", mx: 1 }}
+            {...a11yProps(2)}
+          >
+            Schedules
+          </Button>
+          <Button
+            href={"/admin/teamMembers"}
+            sx={{ color: "primary.contrastText", mx: 1 }}
+            {...a11yProps(3)}
+          >
+            Team Members
+          </Button>
+          <Button
+            href={"/admin/rooms"}
+            sx={{ color: "primary.contrastText", mx: 1 }}
+            {...a11yProps(4)}
+          >
+            Rooms
+          </Button>
+        </Box>
         <Button
-          href={"/admin/performance"}
           sx={{ color: "primary.contrastText", mx: 1 }}
-          {...a11yProps(0)}
+          onClick={() => signOut()}
         >
-          Performance
+          Sign Out
         </Button>
-        <Button
-          href={"/admin/inspections"}
-          sx={{ color: "primary.contrastText", mx: 1 }}
-          {...a11yProps(1)}
-        >
-          Inspections
-        </Button>
-        <Button
-          href={"/admin/schedules"}
-          sx={{ color: "primary.contrastText", mx: 1 }}
-          {...a11yProps(2)}
-        >
-          Schedules
-        </Button>
-        <Button
-          href={"/admin/teamMembers"}
-          sx={{ color: "primary.contrastText", mx: 1 }}
-          {...a11yProps(3)}
-        >
-          Team Members
-        </Button>
-        <Button
-          href={"/admin/rooms"}
-          sx={{ color: "primary.contrastText", mx: 1 }}
-          {...a11yProps(4)}
-        >
-          Rooms
-        </Button>
-      </Box>
-      <Button
-        sx={{ color: "primary.contrastText", mx: 1 }}
-        onClick={() => signOut()}
-      >
-        Sign Out
-      </Button>
-      <Box>
-        <Avatar sx={{ bgcolor: "secondary.main" }}>{signedInUserInitial}</Avatar>
-      </Box>
+        <Box>
+          <Avatar sx={{ bgcolor: "secondary.main" }}>{signedInUserInitial}</Avatar>
+        </Box>
+      </Container>
     </AppBar>
   );
 }
