@@ -45,8 +45,8 @@ export const memberInfo = ({
         onClick={() => handle()}
         elevation={5}
         sx={{
-          height: "10rem",
-          width: "20rem",
+          height: { sm: "5rem", lg: "10rem" },
+          width: { sm: "10rem", lg: "20rem" },
           border: 1,
           "&:hover": {
             border: 3,
@@ -56,10 +56,16 @@ export const memberInfo = ({
         <Box
           sx={{
             textAlign: "center",
-            paddingTop: "3.5rem",
+            paddingTop: { sm: "1.5rem", lg: "3.5rem" },
           }}
         >
-          <Typography variant="h6" component="h4">
+          <Typography
+            variant="h6"
+            sx={{
+              fontSize: { sm: "1rem", lg: "1.5rem" },
+            }}
+            component="h4"
+          >
             {firstName} {lastName}
           </Typography>
         </Box>

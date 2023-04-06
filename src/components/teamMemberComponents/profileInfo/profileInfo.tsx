@@ -23,15 +23,15 @@ const profileInfo = ({
       spacing={2}
       sx={{
         marginTop: "6rem",
-        marginLeft: "10rem",
+        marginLeft: { sm: "7rem", lg: "13rem", xl: "25rem" },
       }}
     >
       <Avatar
         sx={{
           bgcolor: "#141c3b",
-          width: 150,
-          height: 150,
-          fontSize: 50,
+          width: { sm: "5rem", lg: "10rem", xl: "15rem" },
+          height: { sm: "5rem", lg: "10rem", xl: "15rem" },
+          fontSize: { sm: "1rem", lg: "2.5rem", xl: "3rem" },
           marginRight: "3rem",
         }}
       >
@@ -39,20 +39,35 @@ const profileInfo = ({
         {lastName[0]}
       </Avatar>
       <Stack direction="column" sx={{ paddingTop: "1rem" }}>
-        <Typography variant="subtitle2" fontSize="1rem">
+        <Typography
+          variant="subtitle2"
+          sx={{ fontSize: { sm: "0.9rem", lg: "1.1rem", xl: "1.5rem" } }}
+        >
           {firstName} {lastName}
         </Typography>
-        <Typography variant="subtitle2" fontSize="1rem">
+        <Typography
+          variant="subtitle2"
+          sx={{ fontSize: { sm: "0.9rem", lg: "1.1rem", xl: "1.5rem" } }}
+        >
           {email}
         </Typography>
-        <Typography variant="subtitle2" fontSize="1rem">
+        <Typography
+          variant="subtitle2"
+          sx={{ fontSize: { sm: "0.9rem", lg: "1.1rem", xl: "1.5rem" } }}
+        >
           {countryCode} ({stateCode}) {phoneNumber.substring(0, 3)}-
           {phoneNumber.substring(3)}
         </Typography>
-        <Typography variant="subtitle2" fontSize="1rem">
+        <Typography
+          variant="subtitle2"
+          sx={{ fontSize: { sm: "0.9rem", lg: "1.1rem", xl: "1.5rem" } }}
+        >
           {addressLine}
         </Typography>
-        <Typography variant="subtitle2" fontSize="1rem">
+        <Typography
+          variant="subtitle2"
+          sx={{ fontSize: { sm: "0.9rem", lg: "1.1rem", xl: "1.5rem" } }}
+        >
           {city}, {state} {zipcode}
         </Typography>
       </Stack>
@@ -60,14 +75,14 @@ const profileInfo = ({
         direction="column"
         sx={{
           position: "fixed",
-          paddingLeft: "35rem",
+          paddingLeft: { sm: "20rem", lg: "30rem", xl: "45rem" },
         }}
       >
-        <Link href={`/editMember`}>
+        <Link href={"/admin/editMember"}>
           <Button
             variant="outlined"
             sx={{
-              height: "3rem",
+              fontSize: { sm: "0.9rem", lg: "1.2rem", xl: "1.5rem" },
             }}
           >
             Edit Team Member
