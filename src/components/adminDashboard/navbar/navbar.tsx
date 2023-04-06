@@ -81,13 +81,13 @@ export default function BasicTabs() {
             Rooms
           </Button>
         </Box>
-        <Button
-          sx={{ color: "primary.contrastText", mx: 1 }}
-          onClick={() => signOut()}
-        >
-          Sign Out
-        </Button>
         <Box>
+          <Button
+            sx={{ color: "primary.contrastText", mx: 1 }}
+            onClick={() => signOut()}
+          >
+            Sign Out
+          </Button>
           <Avatar sx={{ bgcolor: "secondary.main" }}>{signedInUserInitial}</Avatar>
         </Box>
       </Container>

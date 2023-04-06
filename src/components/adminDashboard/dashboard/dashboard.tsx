@@ -15,6 +15,7 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 
 const dashboard = () => {
+  // TODAY'S INSPECTIONS TOGGLE BUTTON GROUP **************
   const [todaysInspectionsType, setTodaysInspectionsType] = useState("completed");
 
   const handleTodaysInspectionsType = (
@@ -25,6 +26,7 @@ const dashboard = () => {
       setTodaysInspectionsType(newTodaysInspectionsType);
     }
   };
+  // ******************************************************
 
   // GET FIRST NAME TO DISPLAY ****************************
   const { data: session } = useSession();
