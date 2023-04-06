@@ -1,19 +1,26 @@
 import { Button, Typography, Container, Box } from "@mui/material";
+import { setBuilding } from "../../../../slices/buildingSelectSlice";
+import { useDispatch } from "react-redux";
+import Link from "next/link";
 
 //This will produce buttons for the user to select
 
-const buildingSelection = () => {
-  /*
-    const nextPage = () =>{
-        <Link>
-            href={"/roomPages/buildingChoice"};
-        </Link>
-    }
-*/
+const buildingCards = () => {
+  const dispatch = useDispatch();
+
+  //When we click a button, we call a reducer to change the state of the building we select
+  const handleClick = (building: string) => {
+    dispatch(setBuilding(building));
+  };
+
   return (
     <>
       <Box>
         <Button
+          onClick={(e) => {
+            e.preventDefault();
+            handleClick("A");
+          }}
           href="/roomPages/roomView"
           variant="outlined"
           color="primary"
@@ -32,6 +39,7 @@ const buildingSelection = () => {
         </Button>
 
         <Button
+          onClick={() => handleClick("B")}
           href="/roomPages/roomView"
           variant="outlined"
           color="primary"
@@ -50,6 +58,7 @@ const buildingSelection = () => {
         </Button>
 
         <Button
+          onClick={() => handleClick("C")}
           href="/roomPages/roomView"
           variant="outlined"
           color="primary"
@@ -68,6 +77,7 @@ const buildingSelection = () => {
         </Button>
 
         <Button
+          onClick={() => handleClick("D")}
           href="/roomPages/roomView"
           variant="outlined"
           color="primary"
@@ -89,4 +99,4 @@ const buildingSelection = () => {
   );
 };
 
-export default buildingSelection;
+export default buildingCards;
