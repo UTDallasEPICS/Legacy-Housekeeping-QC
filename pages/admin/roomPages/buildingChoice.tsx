@@ -7,7 +7,7 @@ const buildingChoice = () => {
     <>
       {/*Heading*/}
       <div>
-        <BackButton pageToGoBack={"/"} />
+        <BackButton pageToGoBack={"/admin/adminDashboard"} />
         <BuildingSelection />
       </div>
 

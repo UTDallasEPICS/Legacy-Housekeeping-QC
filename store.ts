@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import memberFirstNameSlice from "./slices/memberProfileSlice";
+import buildingSelectSlice from "./slices/buildingSelectSlice";
 
 export const store = configureStore({
   reducer: {
     memberProfile: memberFirstNameSlice,
+    buildingSelect: buildingSelectSlice,
   },
 });
 

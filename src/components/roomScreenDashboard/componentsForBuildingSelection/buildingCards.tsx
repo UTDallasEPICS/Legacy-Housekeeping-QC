@@ -16,87 +16,92 @@ const buildingCards = () => {
   return (
     <>
       <Box>
-        <Button
-          onClick={(e) => {
-            e.preventDefault();
-            handleClick("A");
-          }}
-          href="/roomPages/roomView"
-          variant="outlined"
-          color="primary"
-          disableElevation={true}
-          sx={{
-            width: 280,
-            height: 500,
-            fontweight: "bold",
-            fontSize: 40,
-            border: 10,
-            marginRight: 2.5,
-            marginTop: 2,
-          }}
-        >
-          Building A
-        </Button>
+        <Link href="/admin/roomPages/roomView" passHref>
+          <Button
+            onClick={() => handleClick("A")}
+            variant="outlined"
+            color="primary"
+            disableElevation={true}
+            sx={{
+              width: 280,
+              height: 500,
+              fontweight: "bold",
+              fontSize: 40,
+              border: 10,
+              marginRight: 2.5,
+              marginTop: 2,
+            }}
+          >
+            Building A
+          </Button>
 
-        <Button
-          onClick={() => handleClick("B")}
-          href="/roomPages/roomView"
-          variant="outlined"
-          color="primary"
-          disableElevation={true}
-          sx={{
-            width: 280,
-            height: 500,
-            fontweight: "bold",
-            fontSize: 40,
-            border: 10,
-            marginRight: 2.5,
-            marginTop: 2,
-          }}
-        >
-          Building B
-        </Button>
+          <Button
+            onClick={() => handleClick("B")}
+            href="/admin/roomPages/roomView"
+            variant="outlined"
+            color="primary"
+            disableElevation={true}
+            sx={{
+              width: 280,
+              height: 500,
+              fontweight: "bold",
+              fontSize: 40,
+              border: 10,
+              marginRight: 2.5,
+              marginTop: 2,
+            }}
+          >
+            Building B
+          </Button>
 
-        <Button
-          onClick={() => handleClick("C")}
-          href="/roomPages/roomView"
-          variant="outlined"
-          color="primary"
-          disableElevation={true}
-          sx={{
-            width: 280,
-            height: 500,
-            fontweight: "bold",
-            fontSize: 40,
-            border: 10,
-            marginRight: 2.5,
-            marginTop: 2,
-          }}
-        >
-          Building C
-        </Button>
+          <Button
+            onClick={() => handleClick("C")}
+            href="/roomPages/roomView"
+            variant="outlined"
+            color="primary"
+            disableElevation={true}
+            sx={{
+              width: 280,
+              height: 500,
+              fontweight: "bold",
+              fontSize: 40,
+              border: 10,
+              marginRight: 2.5,
+              marginTop: 2,
+            }}
+          >
+            Building C
+          </Button>
 
-        <Button
-          onClick={() => handleClick("D")}
-          href="/roomPages/roomView"
-          variant="outlined"
-          color="primary"
-          disableElevation={true}
-          sx={{
-            width: 280,
-            height: 500,
-            fontweight: "bold",
-            fontSize: 40,
-            border: 10,
-            marginRight: 2.5,
-            marginTop: 2,
-          }}
-        >
-          Building D
-        </Button>
+          <Button
+            onClick={() => handleClick("D")}
+            href="/roomPages/roomView"
+            variant="outlined"
+            color="primary"
+            disableElevation={true}
+            sx={{
+              width: 280,
+              height: 500,
+              fontweight: "bold",
+              fontSize: 40,
+              border: 10,
+              marginRight: 2.5,
+              marginTop: 2,
+            }}
+          >
+            Building D
+          </Button>
+        </Link>
       </Box>
     </>
   );
 };
 
 export default buildingCards;
+
+/*
+            onClick={(e) => {
+              e.preventDefault();
+              handleClick("A");
+            }}
+*/
