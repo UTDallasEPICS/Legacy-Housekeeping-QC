@@ -1,15 +1,9 @@
-import { Button } from "@mui/material";
-import Link from "next/link";
+import { SignIn } from "../src/components";
 
 const index = () => {
   return (
     <div>
-      <Link href="/admin/adminDashboard">
-        <Button variant="outlined">Admin Dashboard</Button>
-      </Link>
-      <Link href="/user/userDashboard">
-        <Button variant="outlined">Leader Dashboard</Button>
-      </Link>
+      <SignIn />
     </div>
   );
 };

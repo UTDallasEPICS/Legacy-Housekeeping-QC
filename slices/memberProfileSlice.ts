@@ -3,17 +3,17 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
 export interface FirstNameState {
-  firstName: String;
-  lastName: String;
-  email: String;
-  countryCode: String;
-  stateCode: String;
-  phoneNumber: String;
-  addressLine: String;
-  city: String;
-  state: String;
-  zipcode: String;
-  memberId: String;
+  firstName: string;
+  lastName: string;
+  email: string;
+  countryCode: string;
+  stateCode: string;
+  phoneNumber: string;
+  addressLine: string;
+  city: string;
+  state: string;
+  zipcode: string;
+  memberId: string;
 }
 
 const initialState: FirstNameState = {

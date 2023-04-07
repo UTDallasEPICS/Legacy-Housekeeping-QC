@@ -2,12 +2,13 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import { MemberInfo } from "../..";
+import { MembersProperties } from "../../../../interfaces/membersObject";
 
-const scroll = ({ members }) => {
+const scroll = ({ members }: MembersProperties) => {
   return (
     <Box
       sx={{
-        width: "25rem",
+        width: { sm: "10rem", lg: "25rem" },
         position: "relative",
         justifyContent: "left",
       }}
@@ -17,7 +18,7 @@ const scroll = ({ members }) => {
         spacing={2}
         sx={{
           height: "43rem",
-          width: "25rem",
+          width: { sm: "10rem", lg: "25rem" },
           overflowY: "auto",
           justifyContent: "left",
           position: "relative",
