@@ -2,6 +2,16 @@ import { Grid, Typography } from "@mui/material";
 import { ReportComponent } from "../..";
 
 const completeGrid = () => {
+  
+  /*const completeReports = [
+    {
+
+    },
+    {
+      
+    }
+  ];*/
+  
   return (
     <>
         <Grid 
@@ -11,7 +21,6 @@ const completeGrid = () => {
         xs={4}
         rowSpacing={2}
         >
-            <Typography>Complete:</Typography>
             <ReportComponent/>  
             <ReportComponent/>
         </Grid>

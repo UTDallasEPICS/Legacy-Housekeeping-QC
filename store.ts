@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import memberFirstNameSlice from "./slices/memberProfileSlice";
+import inspectionSlice from "./slices/inspectionSlice";
 
 export const store = configureStore({
   reducer: {
     memberProfile: memberFirstNameSlice,
+    inspectionData: inspectionSlice,
   },
 });
 

@@ -13,6 +13,3 @@ const inspections = () => {
 };
 
 export default inspections;
-
-
-//7.25 hrs
