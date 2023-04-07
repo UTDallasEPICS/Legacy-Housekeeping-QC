@@ -13,6 +13,7 @@ const buildingCards = () => {
     dispatch(setBuilding(building));
   };
 
+  //Each button represents a certain building
   return (
     <>
       <Box>

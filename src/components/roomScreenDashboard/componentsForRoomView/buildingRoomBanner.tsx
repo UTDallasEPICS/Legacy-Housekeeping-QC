@@ -6,7 +6,7 @@ const buildingRoomBanner = () => {
   return (
     <>
       <CssBaseline />
-      <AppBar>
+      <AppBar position="relative">
         <Typography variant="h3" align="center">
           Welcome to Building ""
         </Typography>

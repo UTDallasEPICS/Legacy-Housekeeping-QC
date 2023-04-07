@@ -17,11 +17,9 @@ const roomView = () => {
   return (
     <>
       <div>
-        <BackButton pageToGoBack={"/roomPages/buildingChoice"} />
+        <BackButton pageToGoBack={"/admin/roomPages/buildingChoice"} />
+        <BuildingRoomBanner />
       </div>
-
-      <BuildingRoomBanner />
-
       <div
         style={{
           display: "flex",
