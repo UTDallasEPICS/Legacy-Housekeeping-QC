@@ -1,38 +1,76 @@
-import { Grid, Card, Paper, CardContent, ButtonBase } from "@mui/material"
+import {
+  Grid,
+  Card,
+  Typography,
+  CardContent,
+  CardActionArea,
+  CardActions,
+  Box,
+  Button,
+  Link,
+} from "@mui/material";
 import { makeStyles } from "tss-react/mui";
-import theme from "../../../../pages/theme";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { useDispatch } from "react-redux";
+import { setInspectionData } from "../../../../slices/inspectionSlice";
 
 const useStyles = makeStyles()(() => {
   return {
     btn: {
       "&:hover": {
-        backgroundColor: "lightgrey"
-      }
+        backgroundColor: "lightgrey",
+      },
     },
   };
 });
 
-const reportComponent = () => {
+const reportComponent = ({
+  buildingId,
+  roomId,
+  teamMemberName,
+  timeCleaned,
+  cleaningType,
+}) => {
   const { classes } = useStyles();
 
-  return (
-    <Grid 
-    item
-    >
-        <Card>
-          <ButtonBase
-          className={classes.btn}
-          sx={{width: 1}}
-          onClick={event => {}}
-          >
-            <CardContent>
-              I am a report
-            </CardContent>
+  const dispatch = useDispatch();
+  const handle = () => {
+    dispatch(
+      setInspectionData({
+        roomId,
+        buildingId,
+        teamMemberName,
+        timeCleaned,
+      })
+    );
+  };
 
-          </ButtonBase>
+  return (
+    <Grid item>
+      <Card variant="outlined" sx={{ width: 1 }}>
+        <Box sx={{ display: "inline-flex", width: 1, alignItems: "center" }}>
+          <CardActionArea>
+            <CardContent sx={{ width: 1, mr: 1 }}>
+              <Typography variant="h6">
+                <b>{roomId} </b>in {buildingId}
+              </Typography>
+              <Typography>{cleaningType} Cleaning</Typography>
+              <Typography>
+                Cleaned by {teamMemberName} at {timeCleaned}
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+          <CardActions sx={{ ml: 1 }}>
+            <Link href="../../report">
+              <Button endIcon={<ArrowForwardIcon />} onClick={handle}>
+                Inspect
+              </Button>
+            </Link>
+          </CardActions>
+        </Box>
       </Card>
     </Grid>
-  )
-}
+  );
+};
 
-export default reportComponent
+export default reportComponent;

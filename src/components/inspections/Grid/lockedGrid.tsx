@@ -11,7 +11,6 @@ const lockedGrid = () => {
         xs={4}
         rowSpacing={2}
         >
-            <Typography>Locked:</Typography>
             <ReportComponent/>
             <ReportComponent/>
             <ReportComponent/>
