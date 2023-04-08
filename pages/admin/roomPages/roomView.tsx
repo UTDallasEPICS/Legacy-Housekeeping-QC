@@ -11,8 +11,6 @@ import { RootState } from "../../../store";
 
 const roomView = () => {
   //Checking if out state is set properly
-  const myString = useSelector((state: RootState) => state.buildingSelect);
-  console.log(myString);
 
   return (
     <>

@@ -3,6 +3,7 @@ import memberFirstNameSlice from "./slices/memberProfileSlice";
 import inspectionSlice from "./slices/inspectionSlice";
 import buildingSelectSlice from "./slices/buildingSelectSlice";
 
+//Importing our reducers
 export const store = configureStore({
   reducer: {
     memberProfile: memberFirstNameSlice,

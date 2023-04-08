@@ -69,7 +69,10 @@ export default function navbar() {
             linkTo="/admin/teamMembers"
             text="Team Members"
           ></NavbarButton>
-          <NavbarButton linkTo="/admin/rooms" text="Rooms"></NavbarButton>
+          <NavbarButton
+            linkTo="/admin/roomPages/buildingChoice"
+            text="Rooms"
+          ></NavbarButton>
         </Box>
 
         <Box sx={{ display: "flex", flexDirection: "row" }}>
