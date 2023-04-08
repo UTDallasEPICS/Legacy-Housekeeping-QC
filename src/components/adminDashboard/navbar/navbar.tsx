@@ -1,25 +1,20 @@
 import {
   AppBar,
+  Avatar,
   Box,
   Button,
-  Avatar,
-  Typography,
   Container,
+  Typography,
 } from "@mui/material";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 
+import { NavbarButton } from "../..";
+
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 
-function a11yProps(index: number) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
-
-export default function BasicTabs() {
+export default function navbar() {
   // GET INITIAL FOR AVATAR ******************************************
   const { data: session } = useSession();
   const [signedInUserInitial, setSignedInUserInitial] = useState("U");
@@ -46,53 +41,37 @@ export default function BasicTabs() {
         sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
       >
         <Link
-          href={"/admin/adminDashboard"}
+          href="/admin/adminDashboard"
           style={{
             textDecoration: "none",
             color: "white",
           }}
         >
           <Typography variant="h6" sx={{ mx: 1 }}>
-            Legacy<b>QC</b>
+            <b>LegacyQC</b>
           </Typography>
         </Link>
+
         <Box sx={{ flex: 1 }}>
-          <Button
-            href={"/admin/performance"}
-            sx={{ color: "primary.contrastText", mx: 1 }}
-            {...a11yProps(0)}
-          >
-            Performance
-          </Button>
-          <Button
-            href={"/admin/inspections"}
-            sx={{ color: "primary.contrastText", mx: 1 }}
-            {...a11yProps(1)}
-          >
-            Inspections
-          </Button>
-          <Button
-            href={"/admin/schedules"}
-            sx={{ color: "primary.contrastText", mx: 1 }}
-            {...a11yProps(2)}
-          >
-            Schedules
-          </Button>
-          <Button
-            href={"/admin/teamMembers"}
-            sx={{ color: "primary.contrastText", mx: 1 }}
-            {...a11yProps(3)}
-          >
-            Team Members
-          </Button>
-          <Button
-            href={"/admin/roomPages/buildingChoice"}
-            sx={{ color: "primary.contrastText", mx: 1 }}
-            {...a11yProps(4)}
-          >
-            Rooms
-          </Button>
+          <NavbarButton
+            linkTo="/admin/performance"
+            text="Performance"
+          ></NavbarButton>
+          <NavbarButton
+            linkTo="/admin/inspections"
+            text="Inspections"
+          ></NavbarButton>
+          <NavbarButton
+            linkTo="/admin/schedules"
+            text="Schedules"
+          ></NavbarButton>
+          <NavbarButton
+            linkTo="/admin/teamMembers"
+            text="Team Members"
+          ></NavbarButton>
+          <NavbarButton linkTo="/admin/rooms" text="Rooms"></NavbarButton>
         </Box>
+
         <Box sx={{ display: "flex", flexDirection: "row" }}>
           <Button
             sx={{ color: "primary.contrastText", mx: 1 }}

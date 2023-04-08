@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { NavBar, Dashboard } from "../../src/components/index";
+import { Navbar, Dashboard } from "../../src/components/index";
 import { useSession } from "next-auth/react";
 import { Box, Button } from "@mui/material";
 import Link from "next/link";
@@ -16,7 +16,7 @@ export default function adminDashboard() {
       </Head>
       <main>
         <Box>
-          <NavBar />
+          <Navbar />
           <Dashboard />
         </Box>
       </main>
