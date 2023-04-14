@@ -1,7 +1,4 @@
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
-import Paper from "@mui/material/Paper";
-import Box from "@mui/material/Box";
+import { Box, Divider, ListItemButton } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { setMemberProfile } from "../../../../slices/memberProfileSlice";
 import { MemberInfoProps } from "../../../../interfaces/memberProps";
@@ -40,37 +37,12 @@ export const memberInfo = ({
   };
 
   return (
-    <Grid container item spacing={1}>
-      <Paper
-        onClick={() => handle()}
-        elevation={5}
-        sx={{
-          height: { sm: "5rem", lg: "10rem" },
-          width: { sm: "10rem", lg: "20rem" },
-          border: 1,
-          "&:hover": {
-            border: 3,
-          },
-        }}
-      >
-        <Box
-          sx={{
-            textAlign: "center",
-            paddingTop: { sm: "1.5rem", lg: "3.5rem" },
-          }}
-        >
-          <Typography
-            variant="h6"
-            sx={{
-              fontSize: { sm: "1rem", lg: "1.5rem" },
-            }}
-            component="h4"
-          >
-            {firstName} {lastName}
-          </Typography>
-        </Box>
-      </Paper>
-    </Grid>
+    <Box sx={{ width: 1 }}>
+      <ListItemButton onClick={() => handle()} sx={{ width: 1 }}>
+        {firstName} {lastName}
+      </ListItemButton>
+      <Divider />
+    </Box>
   );
 };
 
