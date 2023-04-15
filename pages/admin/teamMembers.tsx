@@ -1,9 +1,11 @@
-import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
-import { Scroll, MemberProfile } from "../../src/components";
+import { Box, Button, Container, Divider, Typography } from "@mui/material";
+import { Add } from "@mui/icons-material";
+import Link from "next/link";
 import { getSession } from "next-auth/react";
 import { useSelector } from "react-redux";
-import { Button } from "@mui/material";
+import { MemberProfile, Navbar, Scroll } from "../../src/components";
+import { MembersProperties } from "../../interfaces/membersObject";
+
 import {
   selectFirstName,
   selectLastName,
@@ -16,9 +18,6 @@ import {
   selectState,
   selectZipcode,
 } from "../../slices/memberProfileSlice";
-import Link from "next/link";
-import { MembersProperties } from "../../interfaces/membersObject";
-import BackButton from "../../src/components/backButton";
 
 const teamMembers = ({ members }: MembersProperties) => {
   const firstName = useSelector(selectFirstName);
@@ -33,71 +32,69 @@ const teamMembers = ({ members }: MembersProperties) => {
   const zipcode = useSelector(selectZipcode);
 
   return (
-    <>
-      <Link href="/admin/adminDashboard">
-        <Button
-          variant="outlined"
+    <Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
+      <Navbar />
+
+      <Box sx={{ p: 2, width: 1, bgcolor: "#FAFAFA" }}>
+        <Container>
+          <Typography variant="h5">
+            <b>Team Members</b>
+          </Typography>
+        </Container>
+      </Box>
+
+      <Divider />
+
+      <Container sx={{ display: "flex", flex: 1 }}>
+        <Box sx={{ pt: 2, pb: 2, justifyContent: "center" }}>
+          <Box sx={{ display: "flex", justifyContent: "right" }}>
+            <Link href="/admin/addMember">
+              <Button
+                variant="text"
+                sx={{
+                  color: "secondary.main",
+                }}
+              >
+                <Add />
+              </Button>
+            </Link>
+          </Box>
+
+          <Scroll members={members} />
+        </Box>
+
+        <Divider orientation="vertical" />
+
+        <Box
           sx={{
-            marginLeft: { sm: "1rem", lg: "2rem", xl: "7rem" },
-            marginTop: "2rem",
-            fontSize: { sm: "0.8rem", lg: "1rem", xl: "1.2rem" },
+            display: "flex",
+            py: 4,
+            pl: 4,
+            flex: 1,
+            justifyContent: "center",
           }}
         >
-          back
-        </Button>
-      </Link>
-      <Link href="/admin/addMember">
-        <Button
-          variant="outlined"
-          sx={{
-            marginLeft: { sm: "1.5rem", lg: "1.5rem", xl: "7rem" },
-            marginTop: "2rem",
-            fontSize: { sm: "0.9rem", lg: "1.2rem", xl: "1.5rem" },
-          }}
-        >
-          Add Team Member
-        </Button>
-      </Link>
-      <Stack direction="row">
-        <Scroll members={members} />
-        {firstName.length > 0 ? (
-          <MemberProfile
-            firstName={firstName}
-            lastName={lastName}
-            email={email}
-            countryCode={countryCode}
-            stateCode={stateCode}
-            phoneNumber={phoneNumber}
-            addressLine={addressLine}
-            city={city}
-            state={state}
-            zipcode={zipcode}
-          />
-        ) : members.length > 0 ? (
-          <Typography
-            variant="h6"
-            component="h4"
-            sx={{
-              marginLeft: { sm: "10rem", lg: "20rem" },
-              marginTop: { sm: "5rem", lg: "10rem" },
-            }}
-          >
-            Select a team member
-          </Typography>
-        ) : (
-          <Typography
-            variant="h6"
-            component="h4"
-            sx={{
-              marginLeft: { sm: "5rem", lg: "10rem" },
-              marginTop: { sm: "5rem", lg: "10rem" },
-            }}
-          >
-            Oops! Looks like you need to add Team Members.
-          </Typography>
-        )}
-      </Stack>
-    </>
+          {firstName.length > 0 ? (
+            <MemberProfile
+              firstName={firstName}
+              lastName={lastName}
+              email={email}
+              countryCode={countryCode}
+              stateCode={stateCode}
+              phoneNumber={phoneNumber}
+              addressLine={addressLine}
+              city={city}
+              state={state}
+              zipcode={zipcode}
+            />
+          ) : members.length > 0 ? (
+            <Typography variant="h5">Select a Team Member.</Typography>
+          ) : (
+            <Typography variant="h5">There are no Team Members.</Typography>
+          )}
+        </Box>
+      </Container>
+    </Box>
   );
 };
 
