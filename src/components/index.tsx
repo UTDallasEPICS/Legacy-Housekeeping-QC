@@ -17,6 +17,7 @@ export { default as SignUp } from "./homeComponents/signup/signup";
 
 // globalComponents
 export { default as CompletedInspectionListItemCard } from "./globalComponents/completedInspectionListItemCard";
+export { default as PageHeading } from "./globalComponents/pageHeading";
 export { default as RemainingInspectionListItemCard } from "./globalComponents/remainingInspectionListItemCard";
 
 // navbarComponents

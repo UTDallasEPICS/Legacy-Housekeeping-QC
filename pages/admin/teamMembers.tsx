@@ -3,7 +3,12 @@ import { Add } from "@mui/icons-material";
 import Link from "next/link";
 import { getSession } from "next-auth/react";
 import { useSelector } from "react-redux";
-import { MemberProfile, Navbar, Scroll } from "../../src/components";
+import {
+  MemberProfile,
+  Navbar,
+  PageHeading,
+  Scroll,
+} from "../../src/components";
 import { MembersProperties } from "../../interfaces/membersObject";
 
 import {
@@ -35,13 +40,7 @@ const teamMembers = ({ members }: MembersProperties) => {
     <Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
       <Navbar />
 
-      <Box sx={{ p: 2, width: 1, bgcolor: "#FAFAFA" }}>
-        <Container>
-          <Typography variant="h5">
-            <b>Team Members</b>
-          </Typography>
-        </Container>
-      </Box>
+      <PageHeading text="Team Members" />
 
       <Divider />
 
