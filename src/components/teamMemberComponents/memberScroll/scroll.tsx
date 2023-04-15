@@ -7,7 +7,7 @@ const scroll = ({ members }: MembersProperties) => {
     <Box
       sx={{
         width: { sm: "12.5rem", md: "25rem" },
-        height: 1,
+        flex: 1,
         overflowY: "auto",
         position: "relative",
         justifyContent: "center",
