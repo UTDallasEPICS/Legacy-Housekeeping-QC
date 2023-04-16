@@ -1,7 +1,7 @@
 //This will be for looking at the rooms we have
 import React from "react";
 import BuildingRoomBanner from "../../../src/components/roomScreenDashboard/componentsForRoomView/buildingRoomBanner";
-import BackButton from "../../../src/components/backButton";
+import { BackButton } from "../../../src/components";
 import AddRoomButton from "../../../src/components/roomScreenDashboard/componentsForRoomView/addRoomButton";
 import DeleteRoomButton from "../../../src/components/roomScreenDashboard/componentsForRoomView/deleteRoomButton";
 import RoomCards from "../../../src/components/roomScreenDashboard/componentsForRoomView/roomCards";

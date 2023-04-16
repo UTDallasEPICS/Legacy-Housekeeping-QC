@@ -1,6 +1,6 @@
 import BuildingSelection from "../../../src/components/roomScreenDashboard/componentsForBuildingSelection/buidlingSelection";
 import BuildingCards from "../../../src/components/roomScreenDashboard/componentsForBuildingSelection/buildingCards";
-import BackButton from "../../../src/components/backButton";
+import { BackButton } from "../../../src/components";
 import { Box } from "@mui/material";
 const buildingChoice = () => {
   return (

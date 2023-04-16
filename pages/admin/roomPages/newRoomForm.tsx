@@ -1,5 +1,5 @@
 import React from "react";
-import BackButton from "../../../src/components/backButton";
+import { BackButton } from "../../../src/components";
 import { Box, TextField } from "@mui/material";
 
 const newRoomForm = () => {

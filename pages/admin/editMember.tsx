@@ -1,27 +1,31 @@
-import { EditForm } from "../../src/components";
+import { Box, Container, Divider, Typography } from "@mui/material";
+import { BackButton, EditForm } from "../../src/components";
 import { useSelector } from "react-redux";
 import { selectMemberId } from "../../slices/memberProfileSlice";
-import Link from "next/link";
-import Button from "@mui/material/Button";
 
 const editMember = () => {
   const memberId = useSelector(selectMemberId);
 
   return (
-    <>
-      <Link href="/admin/teamMembers">
-        <Button
-          variant="outlined"
-          sx={{
-            marginLeft: "7rem",
-            marginTop: "2rem",
-          }}
-        >
-          back
-        </Button>
-      </Link>
-      <EditForm memberId={memberId} />
-    </>
+    <Box>
+      <Box sx={{ p: 2, bgcolor: "#FAFAFA" }}>
+        <Container>
+          <BackButton pageToGoBack="/admin/teamMembers" />
+
+          <Typography variant="h5">
+            <b>Edit Team Member Profile</b>
+          </Typography>
+        </Container>
+      </Box>
+
+      <Divider />
+
+      <Container>
+        <Box sx={{ p: 2 }}>
+          <EditForm memberId={memberId} />
+        </Box>
+      </Container>
+    </Box>
   );
 };
 
