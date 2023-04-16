@@ -1,9 +1,6 @@
-import Box from "@mui/material/Box";
-import { makeStyles } from "tss-react/mui";
-import TextField from "@mui/material/TextField";
-import Alert from "@mui/material/Alert";
-import { Button } from "@mui/material";
+import { Alert, Box, Button, TextField } from "@mui/material";
 import { MuiTelInput } from "mui-tel-input";
+import { makeStyles } from "tss-react/mui";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
@@ -14,8 +11,9 @@ type MemberId = {
 const useStyles = makeStyles()(() => {
   return {
     spaceBtwnCol: {
-      marginTop: "3rem",
-      width: "20rem",
+      marginTop: "1rem",
+      marginBottom: "1rem",
+      width: "25rem",
     },
   };
 });
@@ -38,7 +36,7 @@ const editForm = ({ memberId }: MemberId) => {
 
   const handleSubmit = async () => {
     if (email != "" && !emailRegEx.test(email)) {
-      return setError("Enter valid email");
+      return setError("Enter a valid email.");
     }
 
     const phoneParts = phoneNumber.split(" ");
@@ -82,116 +80,107 @@ const editForm = ({ memberId }: MemberId) => {
   };
 
   return (
-    <>
-      <Box
-        component="form"
-        autoComplete="off"
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-        justifyContent="center"
+    <Box
+      component="form"
+      autoComplete="off"
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+      justifyContent="center"
+    >
+      <TextField
+        className={classes.spaceBtwnCol}
+        id="firstName"
+        label="First Name"
+        variant="standard"
+        value={firstName}
+        onChange={(e) => setFirstName(e.target.value)}
+      />
+
+      <TextField
+        className={classes.spaceBtwnCol}
+        id="lastName"
+        label="Last Name"
+        variant="standard"
+        value={lastName}
+        onChange={(e) => setLastName(e.target.value)}
+      />
+
+      <TextField
+        className={classes.spaceBtwnCol}
+        id="email"
+        label="Email"
+        variant="standard"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+
+      <TextField
+        className={classes.spaceBtwnCol}
+        id="addressLine"
+        label="Address"
+        variant="standard"
+        value={addressLine}
+        onChange={(e) => setAddressLine(e.target.value)}
+      />
+
+      <TextField
+        className={classes.spaceBtwnCol}
+        id="city"
+        label="City"
+        variant="standard"
+        value={city}
+        onChange={(e) => setCity(e.target.value)}
+      />
+
+      <TextField
+        className={classes.spaceBtwnCol}
+        id="state"
+        label="State"
+        variant="standard"
+        value={state}
+        onChange={(e) => setState(e.target.value)}
+      />
+
+      <TextField
+        className={classes.spaceBtwnCol}
+        id="zipcode"
+        label="ZIP Code"
+        variant="standard"
+        inputProps={{ maxLength: 5 }}
+        value={zipcode}
+        onChange={(e) => setZipcode(e.target.value)}
+      />
+
+      <MuiTelInput
+        className={classes.spaceBtwnCol}
+        id="phoneNumber"
+        variant="standard"
+        label="Phone Number"
+        onlyCountries={["US", "MX", "CA"]}
+        inputProps={{ maxLength: 15 }}
+        value={phoneNumber}
+        onChange={(e) => setPhoneNumber(e)}
+      />
+
+      <Button
+        className={classes.spaceBtwnCol}
+        variant="contained"
         sx={{
-          marginTop: "-4rem",
-          paddingBottom: { lg: "2rem" },
+          color: "white",
+          backgroundColor: "primary.main",
         }}
+        onClick={() => handleSubmit()}
       >
-        <TextField
-          className={classes.spaceBtwnCol}
-          id="firstName"
-          label="First Name"
-          variant="standard"
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
-        />
-        <TextField
-          className={classes.spaceBtwnCol}
-          id="lastName"
-          label="Last Name"
-          variant="standard"
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
-        />
-        <TextField
-          className={classes.spaceBtwnCol}
-          id="email"
-          label="Email"
-          variant="standard"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+        Save Changes
+      </Button>
 
-        <TextField
-          className={classes.spaceBtwnCol}
-          id="addressLine"
-          label="Address Line"
-          variant="standard"
-          placeholder="Address"
-          value={addressLine}
-          onChange={(e) => setAddressLine(e.target.value)}
-        />
-        <TextField
-          className={classes.spaceBtwnCol}
-          id="city"
-          label="City"
-          variant="standard"
-          placeholder="City"
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
-        />
-
-        <TextField
-          className={classes.spaceBtwnCol}
-          id="state"
-          label="State"
-          variant="standard"
-          placeholder="State"
-          value={state}
-          onChange={(e) => setState(e.target.value)}
-        />
-
-        <TextField
-          className={classes.spaceBtwnCol}
-          id="zipcode"
-          label="ZIP"
-          variant="standard"
-          placeholder="ZIP"
-          inputProps={{ maxLength: 5 }}
-          value={zipcode}
-          onChange={(e) => setZipcode(e.target.value)}
-        />
-
-        <MuiTelInput
-          className={classes.spaceBtwnCol}
-          id="phoneNumber"
-          variant="standard"
-          label="Phone Number"
-          onlyCountries={["US", "MX", "CA"]}
-          inputProps={{ maxLength: 15 }}
-          value={phoneNumber}
-          onChange={(e) => setPhoneNumber(e)}
-        />
-
-        <Button
-          className={classes.spaceBtwnCol}
-          variant="contained"
-          sx={{
-            color: "white",
-            backgroundColor: "#141c3b",
-            "&:hover": {
-              backgroundColor: "#253880",
-            },
-          }}
-          onClick={() => handleSubmit()}
-        >
-          Submit
-        </Button>
-        {error && (
-          <Alert className={classes.spaceBtwnCol} severity="error">
-            {error}
-          </Alert>
-        )}
-      </Box>
-    </>
+      {error && (
+        <Alert className={classes.spaceBtwnCol} severity="error">
+          {error}
+        </Alert>
+      )}
+    </Box>
   );
 };
 
