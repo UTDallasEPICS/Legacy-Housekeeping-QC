@@ -1,13 +1,58 @@
 import React from "react";
-import BackButton from "../../../src/components/globalComponents/backButton";
-import { Box, Button, TextField } from "@mui/material";
+import { useState } from "react";
+import formValidation from "../../teamMemberComponents/addMember/formValidation";
+import formRoomValidation from "./formRoomValidation";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../store";
+import { RootState } from "../../../../store";
+import BackButton from "../../globalComponents/backButton";
+import { Button } from "@mui/material";
 
-const newRoomForm = () => {
-  const building = useSelector(
+const formAddRoom = () => {
+  const [error, setError] = useState(null);
+  const [building, setBuilding] = useState("");
+  const [roomNum, setRoomNum] = useState("");
+  const [type, setType] = useState("");
+
+  //validates what info they are submitting
+  const handleSubmit = async () => {
+    const resCheck = formRoomValidation(building, roomNum, type);
+
+    if (resCheck) {
+      setError(resCheck);
+      return;
+    }
+
+    //Sending data to the api
+    const res = await fetch("/api/room/add", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        room_number: roomNum,
+        building_number: building, //will need to change to string
+        is_clean: false,
+        is_active: true,
+        type_of_room: type,
+      }),
+    });
+
+    if (!res.ok) {
+      const r = await res.json();
+      setError(r.error);
+      return;
+    }
+
+    setBuilding("");
+    setRoomNum("");
+    setType("");
+  };
+
+  //Actual form
+  const build = useSelector(
     (state: RootState) => state.buildingSelect.building
   );
+
   return (
     <>
       <div>
@@ -19,7 +64,7 @@ const newRoomForm = () => {
       </div>
 
       <div style={{ display: "flex", justifyContent: "center" }}>
-        <h2>Building {building}</h2>
+        <h2>Building {build}</h2>
       </div>
 
       <div style={{ display: "flex", justifyContent: "center" }}>
@@ -95,4 +140,4 @@ const newRoomForm = () => {
   );
 };
 
-export default newRoomForm;
+export default formAddRoom;

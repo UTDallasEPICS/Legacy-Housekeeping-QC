@@ -124,7 +124,7 @@ const performanceInsightsCard = () => {
       <Divider variant="middle" />
 
       <DashboardCardButton
-        linkTo="/admin/performance"
+        linkTo="/members_performance"
         text="More performance data"
       />
     </Card>

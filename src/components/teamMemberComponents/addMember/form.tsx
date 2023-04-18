@@ -1,12 +1,8 @@
 import { Alert, Box, Button, TextField } from "@mui/material";
 import { MuiTelInput } from "mui-tel-input";
 import { makeStyles } from "tss-react/mui";
-import { useRouter } from "next/router";
+import formValidation from "./formValidation";
 import { useState } from "react";
-
-type MemberId = {
-  memberId: string;
-};
 
 const useStyles = makeStyles()(() => {
   return {
@@ -18,7 +14,7 @@ const useStyles = makeStyles()(() => {
   };
 });
 
-const editForm = ({ memberId }: MemberId) => {
+const form = () => {
   const emailRegEx = new RegExp(
     "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$"
   );
@@ -32,32 +28,42 @@ const editForm = ({ memberId }: MemberId) => {
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
   const [zipcode, setZipcode] = useState("");
-  const router = useRouter();
 
   const handleSubmit = async () => {
-    if (email != "" && !emailRegEx.test(email)) {
-      return setError("Enter a valid email.");
+    const phoneParts = phoneNumber.split(" ");
+    const resCheck = formValidation(
+      email,
+      emailRegEx,
+      firstName,
+      lastName,
+      addressLine,
+      city,
+      state,
+      zipcode,
+      phoneNumber
+    );
+
+    if (resCheck) {
+      setError(resCheck);
+      return;
     }
 
-    const phoneParts = phoneNumber.split(" ");
-
-    const res = await fetch("/api/member/update", {
-      method: "PUT",
+    const res = await fetch("/api/member/add", {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        member_id: memberId,
         first_name: firstName,
         last_name: lastName,
-        email: email,
+        email,
         country_code: phoneParts[0],
         state_code: phoneParts[1],
         phone_number: phoneParts[2] + phoneParts[3],
         address_line: addressLine,
-        zipcode: zipcode,
-        city: city,
-        state: state,
+        zipcode,
+        city,
+        state,
       }),
     });
 
@@ -75,8 +81,6 @@ const editForm = ({ memberId }: MemberId) => {
     setState("");
     setZipcode("");
     setPhoneNumber("");
-
-    router.push("/admin/teamMembers");
   };
 
   return (
@@ -172,7 +176,7 @@ const editForm = ({ memberId }: MemberId) => {
         }}
         onClick={() => handleSubmit()}
       >
-        Save Changes
+        Submit
       </Button>
 
       {error && (
@@ -184,4 +188,4 @@ const editForm = ({ memberId }: MemberId) => {
   );
 };
 
-export default editForm;
+export default form;

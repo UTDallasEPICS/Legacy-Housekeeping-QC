@@ -1,6 +1,4 @@
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Grid from "@mui/material/Grid";
+import { Box, List, Typography } from "@mui/material";
 import { MemberInfo } from "../..";
 import { MembersProperties } from "../../../../interfaces/membersObject";
 
@@ -8,24 +6,14 @@ const scroll = ({ members }: MembersProperties) => {
   return (
     <Box
       sx={{
-        width: { sm: "10rem", lg: "25rem" },
+        width: { sm: "12.5rem", md: "25rem" },
+        flex: 1,
+        overflowY: "auto",
         position: "relative",
-        justifyContent: "left",
+        justifyContent: "center",
       }}
     >
-      <Grid
-        container
-        spacing={2}
-        sx={{
-          height: "43rem",
-          width: { sm: "10rem", lg: "25rem" },
-          overflowY: "auto",
-          justifyContent: "left",
-          position: "relative",
-          marginTop: "2rem",
-          marginLeft: "2rem",
-        }}
-      >
+      <List>
         {members.length > 0 ? (
           members.map((member) => (
             <MemberInfo
@@ -44,11 +32,11 @@ const scroll = ({ members }: MembersProperties) => {
             />
           ))
         ) : (
-          <Typography variant="h6" component="h4">
-            EMPTY
+          <Typography variant="h5" sx={{ p: 2 }}>
+            Empty list
           </Typography>
         )}
-      </Grid>
+      </List>
     </Box>
   );
 };

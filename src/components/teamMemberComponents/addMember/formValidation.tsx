@@ -19,7 +19,7 @@ export default function formValidation(
     !zipcode &&
     !phoneNumber
   ) {
-    return "Fill out all fields";
+    return "Fill out all fields.";
   }
 
   if (
@@ -31,7 +31,7 @@ export default function formValidation(
     !zipcode &&
     !phoneNumber
   ) {
-    return "Enter first/last name, address line, city, state, and ZIP";
+    return "Enter the first/last name, address, city, state, and ZIP code.";
   }
 
   if (
@@ -43,7 +43,7 @@ export default function formValidation(
     !state &&
     !zipcode
   ) {
-    return "Enter valid email, first/last name, address line, city, state, and ZIP";
+    return "Enter a valid email, first/last name, address, city, state, and ZIP code.";
   }
 
   if (
@@ -54,7 +54,7 @@ export default function formValidation(
     !zipcode &&
     !phoneNumber
   ) {
-    return "Enter last name, address line, city, state, and ZIP";
+    return "Enter the last name, address, city, state, and ZIP code.";
   }
 
   if (
@@ -65,11 +65,11 @@ export default function formValidation(
     !city &&
     !state
   ) {
-    return "Enter valid email, first/last name, address line, city, and state";
+    return "Enter a valid email, first/last name, address, city, and state.";
   }
 
   if (!addressLine && !city && !state && !zipcode && !phoneNumber) {
-    return "Enter address line, city, state, and ZIP";
+    return "Enter the address, city, state, and ZIP code.";
   }
 
   if (
@@ -79,26 +79,26 @@ export default function formValidation(
     !addressLine &&
     !city
   ) {
-    return "Enter valid email, first/last name, address line, and city";
+    return "Enter a valid email, first/last name, address, and city.";
   }
 
   if (!emailRegEx.test(email) && !firstName && !lastName && !addressLine) {
-    return "Enter valid email, first/last name, and address line";
+    return "Enter a valid email, first/last name, and address.";
   }
 
   if (!emailRegEx.test(email) && !firstName && !lastName) {
-    return "Enter valid email and first/last name";
+    return "Enter a valid email and first/last name.";
   }
 
   if (!emailRegEx.test(email) && !firstName) {
-    return "Enter valid email and first name";
+    return "Enter a valid email and first name.";
   }
 
   if (!emailRegEx.test(email) && !lastName) {
-    return "Enter valid email and last name";
+    return "Enter a valid email and last name.";
   }
 
   if (!emailRegEx.test(email)) {
-    return "Enter valid email";
+    return "Enter a valid email.";
   }
 }

@@ -7,145 +7,122 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// User table
-// One to many relation with Admin and Leader
-model User {
-  user_id      String   @id @default(uuid())
-  first_name   String
-  last_name    String
-  email        String   @unique
-  country_code String
-  state_code   String
-  phone_number String
-  password     String
-  role         Role     @default(USER)
-  admin        Admin[]
-  leader       Leader[]
-}
-
-// Admin table
 model Admin {
   admin_id String @id @default(uuid())
-  user     User   @relation(fields: [userId], references: [user_id])
   userId   String
+
+  @@index([userId], map: "Admin_userId_fkey")
 }
 
-// Leader table
 model Leader {
   leader_id String @id @default(uuid())
-  user      User   @relation(fields: [userId], references: [user_id])
   userId    String
+
+  @@index([userId], map: "Leader_userId_fkey")
 }
 
-// Team Members table
-// One to one relation with Points
-model TeamMembers {
-  member_id    String       @id @default(uuid())
-  first_name   String
-  last_name    String
-  email        String
-  country_code String
-  state_code   String
-  phone_number String
-  address_line String
-  zipcode      String
-  city         String
-  state        String
-  points       Points[]
-  total_points Int          @default(0)
-  rooms_report RoomReport[]
-}
-
-model Points {
-  points_id      String      @id @default(uuid())
-  points         Int         @default(0)
-  time_stamp     DateTime    @default(now())
-  team_member    TeamMembers @relation(fields: [team_member_id], references: [member_id])
+model RoomReport {
   team_member_id String
+  room_id        String
+  date           DateTime @default(now())
+  cleaned        Boolean  @default(false)
+  comments       String?
+
+  @@id([team_member_id, room_id])
+  @@index([room_id], map: "RoomReport_room_id_fkey")
 }
 
-// Room table
-model Room {
-  room_id         String       @id @default(uuid())
+model Items {
+  item_id        String @id @default(uuid())
+  item           String
+  restroom_id    String
+  ancillary_id   String
+  independent_id String
+  assisted_id    String
+  skilled_id     String
+  memory_id      String
+
+  @@index([ancillary_id], map: "Items_ancillary_id_fkey")
+  @@index([assisted_id], map: "Items_assisted_id_fkey")
+  @@index([independent_id], map: "Items_independent_id_fkey")
+  @@index([memory_id], map: "Items_memory_id_fkey")
+  @@index([restroom_id], map: "Items_restroom_id_fkey")
+  @@index([skilled_id], map: "Items_skilled_id_fkey")
+}
+
+model Restrooms {
+  restroom_id String @id @default(uuid())
+  room_id     String
+
+  @@index([room_id], map: "Restrooms_room_id_fkey")
+}
+
+model Ancillary_Areas {
+  ancillary_id String @id @default(uuid())
+}
+
+model Independent_Living {
+  independent_id String @id @default(uuid())
+}
+
+model Assisted_Living {
+  assisted_id String @id @default(uuid())
+}
+
+model Skilled {
+  skilled_id String @id @default(uuid())
+}
+
+model Memory {
+  memory_id String @id @default(uuid())
+}
+
+model points {
+  points_id      String   @id
+  points         Int      @default(0)
+  time_stamp     DateTime @default(now())
+  team_member_id String
+
+  @@index([team_member_id], map: "Points_team_member_id_fkey")
+}
+
+model room {
+  room_id         String  @id
   room_number     String
   building_number Int
   is_clean        Boolean
   is_active       Boolean
   type_of_room    String
-  rooms_report    RoomReport[]
-  restroom        Restrooms[]
 }
 
-// Links Team Members and Room in a many to many relationship
-model RoomReport {
-  team_member    TeamMembers @relation(fields: [team_member_id], references: [member_id])
-  team_member_id String
-  room           Room        @relation(fields: [room_id], references: [room_id])
-  room_id        String
-  date           DateTime    @default(now())
-  cleaned        Boolean     @default(false)
-  comments       String?
-
-  @@id([team_member_id, room_id])
+model teammembers {
+  member_id    String @id
+  first_name   String
+  last_name    String
+  email        String
+  address_line String
+  city         String
+  country_code String
+  phone_number String
+  state        String
+  state_code   String
+  zipcode      String
+  total_points Int    @default(0)
 }
 
-// Items table to relate to the type of rooms
-model Items {
-  item_id        String             @id @default(uuid())
-  item           String
-  restroom       Restrooms          @relation(fields: [restroom_id], references: [restroom_id])
-  restroom_id    String
-  ancillary      Ancillary_Areas    @relation(fields: [ancillary_id], references: [ancillary_id])
-  ancillary_id   String
-  independent    Independent_Living @relation(fields: [independent_id], references: [independent_id])
-  independent_id String
-  assisted       Assisted_Living    @relation(fields: [assisted_id], references: [assisted_id])
-  assisted_id    String
-  skilled        Skilled            @relation(fields: [skilled_id], references: [skilled_id])
-  skilled_id     String
-  memory         Memory             @relation(fields: [memory_id], references: [memory_id])
-  memory_id      String
+model user {
+  user_id      String    @id
+  first_name   String
+  last_name    String
+  email        String    @unique(map: "User_email_key")
+  phone_number String
+  country_code String
+  state_code   String
+  password     String
+  role         user_role @default(USER)
 }
 
-// Restrooms table one to many relation with Items
-model Restrooms {
-  restroom_id String  @id @default(uuid())
-  room        Room    @relation(fields: [room_id], references: [room_id])
-  room_id     String
-  items       Items[]
-}
-
-// Ancillary table one to many relation with Items
-model Ancillary_Areas {
-  ancillary_id String  @id @default(uuid())
-  items        Items[]
-}
-
-// Independent Living table one to many relation with Items
-model Independent_Living {
-  independent_id String  @id @default(uuid())
-  items          Items[]
-}
-
-// Assisted Living table one to many relation with Items
-model Assisted_Living {
-  assisted_id String  @id @default(uuid())
-  items       Items[]
-}
-
-// Skilled table one to many relation with Items
-model Skilled {
-  skilled_id String  @id @default(uuid())
-  items      Items[]
-}
-
-// Memory table one to many relation with Items
-model Memory {
-  memory_id String  @id @default(uuid())
-  items     Items[]
-}
-
-enum Role {
+enum user_role {
   USER
   ADMIN
 }
