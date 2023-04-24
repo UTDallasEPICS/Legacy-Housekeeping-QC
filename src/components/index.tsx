@@ -37,3 +37,6 @@ export { default as Scroll } from "./teamMemberComponents/memberScroll/scroll";
 export { default as MemberProfile } from "./teamMemberComponents/memberProfile/memberProfile";
 export { default as ProfileInfo } from "./teamMemberComponents/profileInfo/profileInfo";
 export { default as EditForm } from "./teamMemberComponents/editMember/editForm";
+
+// Loader
+export { default as Loader } from "./loader/Loading";
