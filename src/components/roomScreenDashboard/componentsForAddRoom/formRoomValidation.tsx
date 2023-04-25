@@ -1,9 +1,9 @@
 export default function formRoomValidation(
   building: string,
-  roomNum: string,
-  type: string
+  type: string,
+  roomNum: string
 ) {
-  if (!building && !roomNum && !type) {
+  if (!building || !type || !roomNum) {
     return "Please fill out all the fields";
   }
 }

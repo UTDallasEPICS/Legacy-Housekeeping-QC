@@ -1,11 +1,11 @@
 import React from "react";
 import { useState } from "react";
-import formValidation from "../../teamMemberComponents/addMember/formValidation";
 import formRoomValidation from "./formRoomValidation";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../store";
 import BackButton from "../../globalComponents/backButton";
-import { Button } from "@mui/material";
+import { Button, Alert } from "@mui/material";
+import Link from "next/link";
 
 const formAddRoom = () => {
   const [error, setError] = useState(null);
@@ -15,7 +15,7 @@ const formAddRoom = () => {
 
   //validates what info they are submitting
   const handleSubmit = async () => {
-    const resCheck = formRoomValidation(building, roomNum, type);
+    const resCheck = formRoomValidation(building, type, roomNum);
 
     if (resCheck) {
       setError(resCheck);
@@ -30,7 +30,7 @@ const formAddRoom = () => {
       },
       body: JSON.stringify({
         room_number: roomNum,
-        building_number: building, //will need to change to string
+        building_number: building,
         is_clean: false,
         is_active: true,
         type_of_room: type,
@@ -46,6 +46,7 @@ const formAddRoom = () => {
     setBuilding("");
     setRoomNum("");
     setType("");
+    console.log("Good");
   };
 
   //Actual form
@@ -83,11 +84,15 @@ const formAddRoom = () => {
           >
             Type of Room:
           </label>
-
-          <select style={{ fontSize: 25 }}>
-            <option selected value="bathroom">
-              Bathroom
+          {/*Bug would be they start off with select, choose something, then go back to select and would allow */}
+          <select
+            style={{ fontSize: 25 }}
+            onChange={(e) => setType(e.target.value)}
+          >
+            <option selected value="selectType">
+              Select
             </option>
+            <option value="bathroom">Bathroom</option>
             <option value="auxiliary">Auxiliary</option>
             <option value="independent">Independent Living</option>
             <option value="assited">Assisted Living</option>
@@ -107,12 +112,14 @@ const formAddRoom = () => {
             </label>
 
             <input
+              onChange={(e) => setRoomNum(e.target.value)}
+              value={roomNum}
               name="RoomNumber"
               style={{ fontSize: 25, width: 100, height: 32 }}
             />
           </div>
 
-          {/* Floor Input */}
+          {/* Use to be floor but changed to building*/}
           <div style={{ marginTop: 20 }}>
             <label
               style={{
@@ -120,11 +127,14 @@ const formAddRoom = () => {
                 marginRight: 10,
               }}
             >
-              Floor:
+              Building:
             </label>
 
+            {/**/}
             <input
-              name="floorNum"
+              onChange={(e) => setBuilding(e.target.value)}
+              value={building}
+              name="building"
               style={{ fontSize: 25, width: 50, height: 32 }}
             />
           </div>
@@ -132,12 +142,19 @@ const formAddRoom = () => {
       </div>
 
       <div style={{ display: "flex", justifyContent: "center", marginTop: 70 }}>
-        <Button variant="outlined" sx={{ border: 5 }}>
+        <Button
+          variant="outlined"
+          sx={{ border: 5 }}
+          onClick={() => handleSubmit()}
+        >
           Submit
         </Button>
       </div>
+
+      {error && <Alert severity="error">{error}</Alert>}
     </>
   );
 };
 
 export default formAddRoom;
+<Link href="/admin/roomPages/roomView" passHref></Link>;
