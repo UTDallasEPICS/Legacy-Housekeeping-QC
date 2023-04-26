@@ -13,14 +13,14 @@ export default withAuth(
       req.nextauth.token?.role !== "ADMIN"
     )
       return NextResponse.rewrite(
-        new URL("/auths/login?message=You Are Not Authorized!", req.url)
+        new URL("/auths/signin?message=You must sign in to continue.", req.url)
       );
     if (
       req.nextUrl.pathname.startsWith("/user") &&
       req.nextauth.token?.role !== "USER"
     )
       return NextResponse.rewrite(
-        new URL("/auths/login?message=You Are Not Authorized!", req.url)
+        new URL("/auths/signin?message=You must sign in to continue.", req.url)
       );
   },
   {
