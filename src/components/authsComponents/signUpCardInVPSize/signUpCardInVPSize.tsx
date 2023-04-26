@@ -87,7 +87,7 @@ const signUpCardInVPSize = () => {
         <Card sx={{ width: { xs: 1, sm: 0.75, md: 0.5 } }}>
           <DashboardCardHeading text="LegacyQC" />
 
-          <Box sx={{ px: 4, py: 2 }}>
+          <Box sx={{ p: 2 }}>
             <Stack spacing={2}>
               <Typography variant="h5">Sign Up</Typography>
 
@@ -126,7 +126,7 @@ const signUpCardInVPSize = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 endAdornment={
-                  <InputAdornment position="end" sx={{ p: 0.5 }}>
+                  <InputAdornment position="end">
                     <IconButton
                       aria-label="toggle password visibility"
                       onClick={handleClickShowPassword}
