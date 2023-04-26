@@ -1,0 +1,125 @@
+import {
+  Box,
+  Button,
+  Card,
+  Checkbox,
+  Container,
+  FormControlLabel,
+  FormGroup,
+  IconButton,
+  InputAdornment,
+  OutlinedInput,
+  Stack,
+  Typography,
+} from "@mui/material";
+import { ArrowForward, Visibility, VisibilityOff } from "@mui/icons-material";
+import { DashboardCardHeading } from "../..";
+import Link from "next/link";
+import { signIn } from "next-auth/react";
+import { useState } from "react";
+
+const signInCardInVPSize = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [checked, setChecked] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleSubmit = async () => {
+    let route: string;
+
+    if (checked) {
+      route = "/user/userDashboard";
+    } else {
+      route = "/admin/adminDashboard";
+    }
+
+    const result = await signIn("credentials", {
+      email,
+      password,
+      redirect: true,
+      callbackUrl: `${route}`,
+    });
+  };
+
+  return (
+    <Container>
+      <Box
+        component="form"
+        sx={{
+          textAlign: "center",
+          display: "flex",
+          width: "1",
+          height: "100vh",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Card sx={{ width: { xs: 1, sm: 0.75, md: 0.5 } }}>
+          <DashboardCardHeading text="LegacyQC" />
+
+          <Box sx={{ px: 4, py: 2 }}>
+            <Stack spacing={2}>
+              <Typography variant="h5">Sign In</Typography>
+
+              <OutlinedInput
+                placeholder="Email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+
+              <OutlinedInput
+                id="outlined-adornment-weight"
+                type={showPassword ? "text" : "password"}
+                placeholder="Password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                endAdornment={
+                  <InputAdornment position="end" sx={{ p: 0.5 }}>
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+              />
+
+              <FormGroup>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Admin"
+                  checked={!checked}
+                  onChange={() => setChecked(false)}
+                />
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Leader"
+                  checked={checked}
+                  onChange={() => setChecked(true)}
+                />
+              </FormGroup>
+
+              <Button
+                variant="contained"
+                endIcon={<ArrowForward />}
+                onClick={() => handleSubmit()}
+              >
+                Sign in
+              </Button>
+
+              <Link href="/auths/signup">Sign up</Link>
+            </Stack>
+          </Box>
+        </Card>
+      </Box>
+    </Container>
+  );
+};
+
+export default signInCardInVPSize;

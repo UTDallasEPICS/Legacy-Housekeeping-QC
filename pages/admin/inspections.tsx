@@ -1,10 +1,10 @@
 import { Card } from "@mui/material";
-import { InspectionGrid, NavBar } from "../../src/components";
+import { InspectionGrid, Navbar } from "../../src/components";
 
 const inspections = () => {
   return (
     <>
-      <NavBar></NavBar>
+      <Navbar></Navbar>
       <main>
         <InspectionGrid></InspectionGrid>
       </main>

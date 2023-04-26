@@ -17,8 +17,8 @@
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx",
-    "src/components/homeComponents/signup"
+    "**/*.tsx"
+    // "src/components/authsComponents/signUpCardInVPSize"
   ],
   "exclude": ["node_modules"]
 }

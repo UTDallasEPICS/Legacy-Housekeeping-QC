@@ -4,9 +4,9 @@ export { default as CompletedInspectionListItemCard } from "./globalComponents/c
 export { default as PageHeading } from "./globalComponents/pageHeading";
 export { default as RemainingInspectionListItemCard } from "./globalComponents/remainingInspectionListItemCard";
 
-// homeComponents
-export { default as SignIn } from "./homeComponents/signin/signin";
-export { default as SignUp } from "./homeComponents/signup/signup";
+// authsComponents
+export { default as SignInCardInVPSize } from "./authsComponents/signInCardInVPSize/signInCardInVPSize";
+export { default as SignUpCardInVPSize } from "./authsComponents/signUpCardInVPSize/signUpCardInVPSize";
 
 // navbarComponents
 export { default as NavbarButton } from "./navbarComponents/navbarButton";
