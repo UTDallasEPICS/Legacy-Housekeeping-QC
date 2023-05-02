@@ -1,4 +1,4 @@
-import { Box, CardMedia, Stack } from "@mui/material";
+import { CardMedia, Stack } from "@mui/material";
 
 const Loading = () => {
   return (
@@ -13,7 +13,7 @@ const Loading = () => {
     >
       <CardMedia
         component="img"
-        alt="Loader"
+        alt="Loading..."
         image="../../../loading.svg"
         sx={{
           height: { sm: "15rem", md: "20rem" },
