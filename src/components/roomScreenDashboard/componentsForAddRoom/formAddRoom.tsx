@@ -12,10 +12,18 @@ const formAddRoom = () => {
   const [building, setBuilding] = useState("");
   const [roomNum, setRoomNum] = useState("");
   const [type, setType] = useState("");
+  const [roomName, setRoomName] = useState("");
+  const [floor, setFloor] = useState("");
 
   //validates what info they are submitting
   const handleSubmit = async () => {
-    const resCheck = formRoomValidation(building, type, roomNum);
+    const resCheck = formRoomValidation(
+      building,
+      type,
+      roomNum,
+      roomName,
+      floor
+    );
 
     if (resCheck) {
       setError(resCheck);
@@ -31,6 +39,8 @@ const formAddRoom = () => {
       body: JSON.stringify({
         room_number: roomNum,
         building_number: building,
+        room_name: roomName,
+        floor_num: floor,
         is_clean: false,
         is_active: true,
         type_of_room: type,
@@ -46,6 +56,8 @@ const formAddRoom = () => {
     setBuilding("");
     setRoomNum("");
     setType("");
+    setRoomName("");
+    setFloor("");
     console.log("Good");
   };
 
@@ -100,6 +112,26 @@ const formAddRoom = () => {
             <option value="skilled">Skilled Nursing</option>
           </select>
 
+          {/* Set the name of the room*/}
+          <div style={{ marginTop: 20 }}>
+            <label
+              style={{
+                fontSize: 25,
+                marginRight: 10,
+              }}
+            >
+              Room Name:
+            </label>
+
+            {/**/}
+            <input
+              onChange={(e) => setRoomName(e.target.value)}
+              value={roomName}
+              name="roomName"
+              style={{ fontSize: 25, width: 300, height: 32 }}
+            />
+          </div>
+
           {/* Room Number Input */}
           <div style={{ marginTop: 20 }}>
             <label
@@ -119,6 +151,26 @@ const formAddRoom = () => {
             />
           </div>
 
+          {/*For floor number*/}
+          <div style={{ marginTop: 20 }}>
+            <label
+              style={{
+                fontSize: 25,
+                marginRight: 10,
+              }}
+            >
+              Floor Number:
+            </label>
+
+            {/**/}
+            <input
+              onChange={(e) => setFloor(e.target.value)}
+              value={floor}
+              name="floor"
+              style={{ fontSize: 25, width: 50, height: 32 }}
+            />
+          </div>
+
           {/* Use to be floor but changed to building*/}
           <div style={{ marginTop: 20 }}>
             <label
@@ -130,7 +182,7 @@ const formAddRoom = () => {
               Building:
             </label>
 
-            {/**/}
+            {/*For building*/}
             <input
               onChange={(e) => setBuilding(e.target.value)}
               value={building}

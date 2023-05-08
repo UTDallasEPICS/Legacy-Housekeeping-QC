@@ -2,6 +2,7 @@ import { CenterFocusStrong } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import React from "react";
 
+//Next semester, make this dynamic with room information
 const roomCards = () => {
   return (
     <>

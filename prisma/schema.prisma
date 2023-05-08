@@ -6,7 +6,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 // User table
 // One to many relation with Admin and Leader
 model User {
@@ -68,7 +67,9 @@ model Points {
 model Room {
   room_id         String       @id @default(uuid())
   room_number     String
-  building_number Int
+  building_number String
+  room_name       String
+  floor_num       String
   is_clean        Boolean
   is_active       Boolean
   type_of_room    String

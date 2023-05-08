@@ -2,12 +2,14 @@ import BuildingSelection from "../../../src/components/roomScreenDashboard/compo
 import BuildingCards from "../../../src/components/roomScreenDashboard/componentsForBuildingSelection/buildingCards";
 import { BackButton } from "../../../src/components";
 import { Box } from "@mui/material";
+import Navbar from "../../../src/components/adminDashboard/navbar/navbar";
 const buildingChoice = () => {
   return (
     <>
       {/*Heading*/}
       <div>
-        <BackButton pageToGoBack={"/admin/adminDashboard"} />
+        <Navbar />
+
         <BuildingSelection />
       </div>
 

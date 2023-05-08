@@ -54,7 +54,7 @@ export default function navbar() {
 
         <Box sx={{ flex: 1 }}>
           <NavbarButton
-            linkTo="/admin/performance"
+            linkTo="/members_performance"
             text="Performance"
           ></NavbarButton>
           <NavbarButton

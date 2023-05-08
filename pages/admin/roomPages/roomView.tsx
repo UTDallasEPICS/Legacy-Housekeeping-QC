@@ -8,7 +8,7 @@ import RoomCards from "../../../src/components/roomScreenDashboard/componentsFor
 import SortButton from "../../../src/components/roomScreenDashboard/componentsForRoomView/sortButton";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
-
+import { Button } from "@mui/material";
 const roomView = () => {
   //Checking if out state is set properly
 
@@ -59,16 +59,285 @@ const roomView = () => {
             justifyContent: "center",
           }}
         >
-          <RoomCards />
-          <RoomCards />
-          <RoomCards />
-          <RoomCards />
-          <RoomCards />
-          <RoomCards />
-          <RoomCards />
-          <RoomCards />
-          <RoomCards />
+          {/*Static Data Here */}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              margin: 5,
+            }}
+          >
+            <Button
+              style={{ width: 600, height: 100, fontSize: 20 }}
+              sx={{ border: 5 }}
+            >
+              <>
+                <div
+                  style={{
+                    display: "inline",
+                    justifyContent: "center",
+
+                    width: 400,
+                    marginBottom: 5,
+                  }}
+                >
+                  <h3 style={{ margin: 0 }}>Marly Johnson #345</h3>
+                  <p
+                    style={{
+                      display: "inline",
+                      margin: 2,
+                      marginLeft: 5,
+                      marginRight: 5,
+                    }}
+                  >
+                    Floor 3
+                  </p>
+                  <p
+                    style={{
+                      display: "inline",
+                      margin: 2,
+                      marginLeft: 5,
+                      marginRight: 5,
+                    }}
+                  >
+                    Independent Living
+                  </p>
+                </div>
+              </>
+            </Button>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              margin: 5,
+            }}
+          >
+            <Button
+              style={{ width: 600, height: 100, fontSize: 20 }}
+              sx={{ border: 5 }}
+            >
+              <>
+                <div
+                  style={{
+                    display: "inline",
+                    justifyContent: "center",
+
+                    width: 400,
+                    marginBottom: 5,
+                  }}
+                >
+                  <h3 style={{ margin: 0 }}>Carly Lentil #212</h3>
+                  <p
+                    style={{
+                      display: "inline",
+                      margin: 2,
+                      marginLeft: 5,
+                      marginRight: 5,
+                    }}
+                  >
+                    Floor 2
+                  </p>
+                  <p
+                    style={{
+                      display: "inline",
+                      margin: 2,
+                      marginLeft: 5,
+                      marginRight: 5,
+                    }}
+                  >
+                    Assisted Living
+                  </p>
+                </div>
+              </>
+            </Button>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              margin: 5,
+            }}
+          >
+            <Button
+              style={{ width: 600, height: 100, fontSize: 20 }}
+              sx={{ border: 5 }}
+            >
+              <>
+                <div
+                  style={{
+                    display: "inline",
+                    justifyContent: "center",
+
+                    width: 400,
+                    marginBottom: 5,
+                  }}
+                >
+                  <h3 style={{ margin: 0 }}>Tonka Williamson #112</h3>
+                  <p
+                    style={{
+                      display: "inline",
+                      margin: 2,
+                      marginLeft: 5,
+                      marginRight: 5,
+                    }}
+                  >
+                    Floor 1
+                  </p>
+                  <p
+                    style={{
+                      display: "inline",
+                      margin: 2,
+                      marginLeft: 5,
+                      marginRight: 5,
+                    }}
+                  >
+                    Memory Care
+                  </p>
+                </div>
+              </>
+            </Button>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              margin: 5,
+            }}
+          >
+            <Button
+              style={{ width: 600, height: 100, fontSize: 20 }}
+              sx={{ border: 5 }}
+            >
+              <>
+                <div
+                  style={{
+                    display: "inline",
+                    justifyContent: "center",
+
+                    width: 400,
+                    marginBottom: 5,
+                  }}
+                >
+                  <h3 style={{ margin: 0 }}>Beth Contue #22</h3>
+                  <p
+                    style={{
+                      display: "inline",
+                      margin: 2,
+                      marginLeft: 5,
+                      marginRight: 5,
+                    }}
+                  >
+                    Floor 2
+                  </p>
+                  <p
+                    style={{
+                      display: "inline",
+                      margin: 2,
+                      marginLeft: 5,
+                      marginRight: 5,
+                    }}
+                  >
+                    Skilled Nursing
+                  </p>
+                </div>
+              </>
+            </Button>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              margin: 5,
+            }}
+          >
+            <Button
+              style={{ width: 600, height: 100, fontSize: 20 }}
+              sx={{ border: 5 }}
+            >
+              <>
+                <div
+                  style={{
+                    display: "inline",
+                    justifyContent: "center",
+
+                    width: 400,
+                    marginBottom: 5,
+                  }}
+                >
+                  <h3 style={{ margin: 0 }}>Jones Pub</h3>
+                  <p
+                    style={{
+                      display: "inline",
+                      margin: 2,
+                      marginLeft: 5,
+                      marginRight: 5,
+                    }}
+                  >
+                    Floor 1
+                  </p>
+                  <p
+                    style={{
+                      display: "inline",
+                      margin: 2,
+                      marginLeft: 5,
+                      marginRight: 5,
+                    }}
+                  >
+                    Auxillary
+                  </p>
+                </div>
+              </>
+            </Button>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              margin: 5,
+            }}
+          >
+            <Button
+              style={{ width: 600, height: 100, fontSize: 20 }}
+              sx={{ border: 5 }}
+            >
+              <>
+                <div
+                  style={{
+                    display: "inline",
+                    justifyContent: "center",
+
+                    width: 400,
+                    marginBottom: 5,
+                  }}
+                >
+                  <h3 style={{ margin: 0 }}>Bathroom #0001</h3>
+                  <p
+                    style={{
+                      display: "inline",
+                      margin: 2,
+                      marginLeft: 5,
+                      marginRight: 5,
+                    }}
+                  >
+                    Floor 1
+                  </p>
+                  <p
+                    style={{
+                      display: "inline",
+                      margin: 2,
+                      marginLeft: 5,
+                      marginRight: 5,
+                    }}
+                  >
+                    Bathroom
+                  </p>
+                </div>
+              </>
+            </Button>
+          </div>
         </div>
+        {/*Static Data Here */}
       </div>
     </>
   );
