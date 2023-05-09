@@ -1,8 +1,10 @@
 import Checkboxes from "../src/components/performance/checkBox";
+import { Navbar} from "../src/components";
 
 const report_performance = () => {
   return (
     <div style={{ textAlign: "center" }}>
+      <Navbar />
       <h1>Team Member 1</h1>
       <h2>08/21/2022</h2>
       <h3>Score: 93%</h3>
