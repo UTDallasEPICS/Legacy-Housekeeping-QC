@@ -1,19 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
+import { reportProps } from "../interfaces/reportProps";
 
 export interface RemainingInspectionState {
-  buildingId: String;
-  roomId: String;
-  teamMember: String;
-  time: String;
+  report: any;
 }
 
 const initialState: RemainingInspectionState = {
-  buildingId: "",
-  roomId: "",
-  teamMember: "",
-  time: "",
+  report: null,
 };
 
 export const inspectionSlice = createSlice({
@@ -21,25 +16,14 @@ export const inspectionSlice = createSlice({
   initialState,
   reducers: {
     setInspectionData: (state, action: PayloadAction<any>) => {
-      const { buildingId, roomId, teamMember, time } = action.payload;
-      state.buildingId = buildingId;
-      state.roomId = roomId;
-      state.teamMember = teamMember;
-      state.time = time;
+      const { report } = action.payload;
+      state.report = report;
     },
   },
 });
 
 export const { setInspectionData } = inspectionSlice.actions;
 
-export const selectBuildingId = (state: RootState) =>
-  state.inspectionData.buildingId;
-
-export const selectRoomId = (state: RootState) => state.inspectionData.roomId;
-
-export const selectTeamMember = (state: RootState) =>
-  state.inspectionData.teamMember;
-
-export const selectTime = (state: RootState) => state.inspectionData.time;
+export const selectReport = (state: RootState) => state.inspectionData.report;
 
 export default inspectionSlice.reducer;

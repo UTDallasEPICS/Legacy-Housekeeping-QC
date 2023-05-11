@@ -1,31 +1,23 @@
 import { Grid, Typography } from "@mui/material";
 import { ReportComponent } from "../..";
 
-const completeGrid = () => {
-  
-  /*const completeReports = [
-    {
-
-    },
-    {
-      
-    }
-  ];*/
-  
+const CompleteGrid = ({ reports }) => {
   return (
     <>
-        <Grid 
-        container 
+      <Grid
+        container
         item
         direction="column"
         xs={4}
         rowSpacing={2}
-        >
-            <ReportComponent/>  
-            <ReportComponent/>
-        </Grid>
+        sx={{ overflow: "auto", height: "40rem" }}
+      >
+        {reports.map((report) => (
+          <ReportComponent report={report} />
+        ))}
+      </Grid>
     </>
   );
-}
+};
 
-export default completeGrid
+export default CompleteGrid;

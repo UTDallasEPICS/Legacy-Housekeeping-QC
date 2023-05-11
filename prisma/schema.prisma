@@ -86,6 +86,7 @@ model RoomReport {
   date           DateTime    @default(now())
   cleaned        Boolean     @default(false)
     comments       String?
+    score        Int?
 
   @@id([team_member_id, room_id])
 }

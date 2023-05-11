@@ -19,6 +19,6 @@ export default async function handler(
       res.status(200).json(roomNotCleaned);
     }
   } catch (error) {
-    res.status(500).json(error + " :Error retrieving not cleaned report");
+    res.status(500).json(error + " :Error retrieving cleaned report");
   }
 }

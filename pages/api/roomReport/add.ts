@@ -7,13 +7,14 @@ export default async function handler(
 ) {
   try {
     if (req.method === "POST") {
-      const { team_member_id, room_id, cleaned, comments } = req.body;
+      const { team_member_id, room_id, cleaned, comments, score } = req.body;
       const addedReport = await prisma.roomReport.create({
         data: {
           team_member_id,
           room_id,
           cleaned,
           comments,
+          score,
         },
       });
       res.status(200).json(addedReport);

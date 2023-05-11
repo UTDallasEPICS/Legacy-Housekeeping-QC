@@ -7,7 +7,7 @@ export default async function handler(
 ) {
   try {
     if (req.method === "PUT") {
-      const { team_member_id, room_id, cleaned, comments } = req.body;
+      const { team_member_id, room_id, cleaned, comments, score } = req.body;
       const updatedReport = await prisma.roomReport.update({
         where: {
           team_member_id_room_id: {
@@ -19,6 +19,7 @@ export default async function handler(
           cleaned,
           comments,
           date: new Date(),
+          score,
         },
       });
       res.status(200).json(updatedReport);

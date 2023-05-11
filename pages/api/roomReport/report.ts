@@ -7,18 +7,15 @@ export default async function handler(
 ) {
   try {
     if (req.method === "GET") {
-      const roomNotCleaned = await prisma.roomReport.findMany({
-        where: {
-          cleaned: false,
-        },
+      const roomCleaned = await prisma.roomReport.findMany({
         include: {
           team_member: true,
           room: true,
         },
       });
-      res.status(200).json(roomNotCleaned);
+      res.status(200).json(roomCleaned);
     }
   } catch (error) {
-    res.status(500).json(error + " :Error retrieving not cleaned report");
+    res.status(500).json(error + " :Error retrieving reports");
   }
 }

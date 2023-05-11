@@ -7,70 +7,143 @@ import {
   CardActions,
   Box,
   Button,
-  Link,
 } from "@mui/material";
-import { makeStyles } from "tss-react/mui";
+import Link from "next/link";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { useDispatch } from "react-redux";
-import { setInspectionData } from "../../../../slices/inspectionSlice";
+import { useHref } from "react-router-dom";
 
-const useStyles = makeStyles()(() => {
-  return {
-    btn: {
-      "&:hover": {
-        backgroundColor: "lightgrey",
-      },
-    },
+const ReportComponent = ({ report }) => {
+  let reportProp = {
+    team_member_id: report.team_member_id,
+    room_id: report.room_id,
+    date: report.date,
+    cleaned: report.cleaned,
+    comments: report.comments,
+    first_name: report.team_member.first_name,
+    last_name: report.team_member.last_name,
+    email: report.team_member.email,
+    country_code: report.team_member.country_code,
+    state_code: report.team_member.state_code,
+    phone_number: report.team_member.phone_number,
+    address_line: report.team_member.address_line,
+    zipcode: report.team_member.zipcode,
+    city: report.team_member.city,
+    state: report.team_member.state,
+    total_points: report.team_member.total_points,
+    room_number: report.room.room_number,
+    building_number: report.room.building_number,
+    is_clean: report.room.is_clean,
+    is_active: report.room.is_active,
+    type_of_room: report.room.type_of_room,
   };
-});
 
-const reportComponent = ({
-  buildingId,
-  roomId,
-  teamMemberName,
-  timeCleaned,
-  cleaningType,
-}) => {
-  const { classes } = useStyles();
+  let scoreChangeColor = "grey.500";
+  /*if (reportProp. === "pass") {
+    scoreChangeColor = "success.main";
+  } else if (reportProp.total_points === "fail") {
+    scoreChangeColor = "grey.500";
+  }*/
 
-  const dispatch = useDispatch();
-  const handle = () => {
-    dispatch(
-      setInspectionData({
-        roomId,
-        buildingId,
-        teamMemberName,
-        timeCleaned,
-      })
-    );
+  const Condition = ({
+    isClean,
+    remainingReport,
+    completeReport,
+  }: {
+    isClean: boolean;
+    remainingReport: any;
+    completeReport: any;
+  }) => {
+    if (isClean) return <>{completeReport}</>;
+    return <>{remainingReport}</>;
   };
 
   return (
-    <Grid item>
-      <Card variant="outlined" sx={{ width: 1 }}>
-        <Box sx={{ display: "inline-flex", width: 1, alignItems: "center" }}>
-          <CardActionArea>
-            <CardContent sx={{ width: 1, mr: 1 }}>
-              <Typography variant="h6">
-                <b>{roomId} </b>in {buildingId}
-              </Typography>
-              <Typography>{cleaningType} Cleaning</Typography>
-              <Typography>
-                Cleaned by {teamMemberName} at {timeCleaned}
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-          <CardActions sx={{ ml: 1 }}>
-            <Link href="../../report">
-              <Button endIcon={<ArrowForwardIcon />} onClick={handle}>
-                Inspect
-              </Button>
-            </Link>
-          </CardActions>
-        </Box>
-      </Card>
-    </Grid>
+    <Condition
+      isClean={reportProp.cleaned}
+      remainingReport={
+        <Grid item>
+          <Card variant="outlined" sx={{ width: 1 }}>
+            <Box
+              sx={{ display: "inline-flex", width: 1, alignItems: "center" }}
+            >
+              <CardActionArea>
+                <CardContent sx={{ width: 1, mr: 1 }}>
+                  <Typography variant="h6">
+                    <b>Room {report.room.room_number} </b>in building{" "}
+                    {reportProp.building_number}
+                  </Typography>
+                  <Typography>Cleaning</Typography>
+                  <Typography>
+                    Cleaned by{" "}
+                    {reportProp.first_name + " " + reportProp.last_name} at{" "}
+                    {report.date}
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+              <CardActions sx={{ ml: 1 }}>
+                <Link
+                  href={{
+                    pathname: "../../report",
+                    query: reportProp,
+                  }}
+                >
+                  <Button endIcon={<ArrowForwardIcon />}>Inspect</Button>
+                </Link>
+              </CardActions>
+            </Box>
+          </Card>
+        </Grid>
+      }
+      completeReport={
+        <Grid item>
+          <Link
+            style={{
+              textDecoration: "none",
+            }}
+            href={{
+              pathname: "../../report",
+              query: reportProp,
+            }}
+          >
+            <Card variant="outlined" sx={{ width: 1 }}>
+              <CardActionArea sx={{ p: 2 }}>
+                <Box
+                  sx={{
+                    width: 1,
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                  }}
+                >
+                  <Box sx={{ flex: 1, mr: 1 }}>
+                    <Typography variant="h6">
+                      <b>Room {reportProp.room_number}</b>
+                    </Typography>
+                    <Typography>
+                      Cleaned by{" "}
+                      {reportProp.first_name + " " + reportProp.last_name} at{" "}
+                      {reportProp.date}
+                    </Typography>
+                  </Box>
+                  <Box sx={{ ml: 1 }}>
+                    <Typography
+                      sx={{
+                        color: scoreChangeColor,
+                        fontWeight: "bold",
+                        textAlign: "right",
+                      }}
+                    >
+                      {reportProp.total_points + "%"}
+                    </Typography>
+                  </Box>
+                </Box>
+              </CardActionArea>
+            </Card>
+          </Link>
+        </Grid>
+      }
+    ></Condition>
   );
 };
 
-export default reportComponent;
+export default ReportComponent;
