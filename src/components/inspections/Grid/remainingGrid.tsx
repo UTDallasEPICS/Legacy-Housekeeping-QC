@@ -12,7 +12,7 @@ const RemainingGrid = ({ reports }) => {
         rowSpacing={2}
         sx={{ overflow: "auto", height: "40rem" }}
       >
-        {reports.map((report) => (
+        {reports?.map((report) => (
           <ReportComponent report={report} />
         ))}
       </Grid>

@@ -4,7 +4,7 @@ import { CompleteGrid, LockedGrid, RemainingGrid } from "../..";
 const GridComponent = ({ reports }) => {
   let notClean = [];
   let clean = [];
-  reports.map((report) => {
+  reports?.map((report) => {
     report.cleaned ? clean.push(report) : notClean.push(report);
   });
 
