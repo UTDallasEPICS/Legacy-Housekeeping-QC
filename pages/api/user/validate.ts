@@ -24,7 +24,7 @@ export default async function handler(
       if (!(await bcrypt.compare(password, userExist.password)))
         res.status(500).send({ error: "Invalid password" });
 
-      const user = await prisma.user.findUnique({
+        const user = await prisma.user.findUnique({
         where: { email: email },
         select: {
           first_name: true,
@@ -32,7 +32,7 @@ export default async function handler(
           email: true,
         },
       });
-
+      
       res.status(200).json(user);
     }
   } catch (error) {
