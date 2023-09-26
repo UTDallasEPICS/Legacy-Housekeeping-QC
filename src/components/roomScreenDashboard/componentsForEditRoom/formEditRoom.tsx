@@ -1,14 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
-import formRoomValidation from "./formRoomValidation";
+import formRoomValidation from "../componentsForAddRoom/formRoomValidation";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../store";
 import BackButton from "../../globalComponents/backButton";
 import { Button, Alert } from "@mui/material";
 import Link from "next/link";
+import { setRoom } from "../../../../slices/roomSelectSlice";
 
-const formAddRoom = () => {
+const formEditRoom = () => {
   const [error, setError] = useState(null);
+  const [roomId, setRoomId] = useState("");
   const [building, setBuilding] = useState("");
   const [roomNum, setRoomNum] = useState("");
   const [type, setType] = useState("");
@@ -31,12 +33,13 @@ const formAddRoom = () => {
     }
 
     //Sending data to the api
-    const res = await fetch("/api/room/add", {
+    const res = await fetch("/api/room/edit", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        room_id : roomId,
         room_number: roomNum,
         building_number: building,
         room_name: roomName,
@@ -52,7 +55,7 @@ const formAddRoom = () => {
       setError(r.error);
       return;
     }
-
+    setRoomId("")
     setBuilding("");
     setRoomNum("");
     setType("");
@@ -65,6 +68,30 @@ const formAddRoom = () => {
   const build = useSelector(
     (state: RootState) => state.buildingSelect.building
   );
+  const room = useSelector(
+    (state: RootState) => state.roomSelect.room
+  );
+
+
+  useEffect(() => {
+    setRoomName(room["room_name"]);
+    setBuilding(room["building_number"]);
+    setRoomId(room["room_id"]);
+    setRoomNum(room["room_num"]);
+    setFloor(room["floor_num"]);
+    setRoomNum(room["room_number"]);
+    setType(room["type_of_room"]);
+    var mySelect = document.getElementById('selector');
+
+    for(var i=0; i<6; i++){
+      var option = mySelect[i];
+      if (room["type_of_room"] == option.value){
+        option.selected = true;
+        break;
+      }
+    }
+      
+  },[]);
 
   return (
     <>
@@ -73,7 +100,7 @@ const formAddRoom = () => {
       </div>
 
       <div style={{ display: "flex", justifyContent: "center" }}>
-        <h1>New Room Form</h1>
+        <h1>Edit Room Form</h1>
       </div>
 
       <div style={{ display: "flex", justifyContent: "center" }}>
@@ -98,10 +125,11 @@ const formAddRoom = () => {
           </label>
           {/*Bug would be they start off with select, choose something, then go back to select and would allow */}
           <select
+            id = 'selector'
             style={{ fontSize: 25 }}
             onChange={(e) => setType(e.target.value)}
           >
-            <option selected value="selectType">
+            <option value="selectType">
               Select
             </option>
             <option value="bathroom">Bathroom</option>
@@ -208,5 +236,5 @@ const formAddRoom = () => {
   );
 };
 
-export default formAddRoom;
+export default formEditRoom;
 <Link href="/admin/roomPages/roomView" passHref></Link>;
