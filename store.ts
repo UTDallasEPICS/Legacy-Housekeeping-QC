@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import memberFirstNameSlice from "./slices/memberProfileSlice";
 import inspectionSlice from "./slices/inspectionSlice";
 import buildingSelectSlice from "./slices/buildingSelectSlice";
+import roomSelectSlice from "./slices/roomSelectSlice";
 
 //Importing our reducers
 export const store = configureStore({
@@ -9,6 +10,7 @@ export const store = configureStore({
     memberProfile: memberFirstNameSlice,
     buildingSelect: buildingSelectSlice,
     inspectionData: inspectionSlice,
+    roomSelect: roomSelectSlice,
   },
 });
 
