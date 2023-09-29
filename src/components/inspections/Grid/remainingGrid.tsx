@@ -1,5 +1,5 @@
 import { Grid } from "@mui/material";
-import { ReportComponent } from "../..";
+import { ReportComponent} from "../..";
 
 const RemainingGrid = ({ reports }) => {
   return (

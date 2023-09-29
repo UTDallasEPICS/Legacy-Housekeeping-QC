@@ -25,9 +25,11 @@ export async function getServerSideProps(context) {
     };
   }
 
+  //Fetch Data from API
   const res = await fetch("http://localhost:3000/api/roomReport/report");
   const data = await res.json();
-  //console.log(data.room);
+  console.log(data.room);
+
   return {
     props: {
       reports: data,
