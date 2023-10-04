@@ -33,16 +33,17 @@ const ReportComponent = ({ report }) => {
     room_number: report.room.room_number,
     building_number: report.room.building_number,
     is_clean: report.room.is_clean,
+    is_locked: report.room.is_locked,
     is_active: report.room.is_active,
     type_of_room: report.room.type_of_room,
   };
 
   let scoreChangeColor = "grey.500";
-  /*if (reportProp. === "pass") {
+  if (reportProp.total_points === "pass") {
     scoreChangeColor = "success.main";
   } else if (reportProp.total_points === "fail") {
     scoreChangeColor = "grey.500";
-  }*/
+  }
 
   const Condition = ({
     isClean,

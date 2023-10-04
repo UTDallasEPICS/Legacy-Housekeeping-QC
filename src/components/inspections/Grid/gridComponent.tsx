@@ -4,8 +4,9 @@ import { CompleteGrid, LockedGrid, RemainingGrid } from "../..";
 const GridComponent = ({ reports }) => {
   let notClean = [];
   let clean = [];
+  let locked = [];
   reports?.map((report) => {
-    report.cleaned ? clean.push(report) : notClean.push(report);
+    report.locked ? locked.push(report) : report.cleaned ? clean.push(report) : notClean.push(report);
   });
 
   return (
@@ -37,7 +38,7 @@ const GridComponent = ({ reports }) => {
       >
         <CompleteGrid reports={clean} />
         <RemainingGrid reports={notClean} />
-        <LockedGrid reports={notClean} />
+        <LockedGrid reports={locked} />
       </Grid>
     </>
   );

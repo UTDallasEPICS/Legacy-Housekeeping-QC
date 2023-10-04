@@ -132,7 +132,7 @@ const report = () => {
 
             <Button
               onClick={handle}
-              href="/inspections"
+              href="/admin/inspections" //Check why this is so slow to go back to the inspections page
               sx={{ display: "flex", justifyContent: "flex-end" }}
             >
               Back
