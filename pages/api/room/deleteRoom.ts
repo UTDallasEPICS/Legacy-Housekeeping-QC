@@ -8,16 +8,16 @@ export default async function handler(
   try {
     if (req.method === "POST") {
       const {
-        givenroom_id,
+        room_id,
       } = req.body;
       const deletedRoom = await prisma.room.delete({
         where: {
-          room_id:givenroom_id,
+          room_id:room_id,
         },
       });
       res.status(200).json(deletedRoom);
     }
   } catch (error) {
-    res.status(500).json(error + " :Error creating room");
+    res.status(500).json(error + " :Error deleting room");
   }
 }

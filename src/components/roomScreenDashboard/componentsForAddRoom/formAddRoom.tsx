@@ -69,7 +69,7 @@ const formAddRoom = () => {
   return (
     <>
       <div>
-        <BackButton pageToGoBack={"/admin/roomPages/roomView"} />
+        <BackButton pageToGoBack={"/admin/roomPages/roomView?building".concat(build)} />
       </div>
 
       <div style={{ display: "flex", justifyContent: "center" }}>

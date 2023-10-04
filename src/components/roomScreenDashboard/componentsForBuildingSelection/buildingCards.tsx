@@ -17,7 +17,7 @@ const buildingCards = () => {
   return (
     <>
       <Box>
-        <Link href="/admin/roomPages/roomView" passHref>
+        <Link href="/admin/roomPages/roomView?building=A" passHref>
           <Button
             onClick={() => handleClick("A")}
             variant="outlined"
@@ -35,10 +35,11 @@ const buildingCards = () => {
           >
             Building A
           </Button>
+        </Link>
 
+        <Link href="/admin/roomPages/roomView?building=B" passHref>
           <Button
             onClick={() => handleClick("B")}
-            href="/admin/roomPages/roomView"
             variant="outlined"
             color="primary"
             disableElevation={true}
@@ -54,10 +55,11 @@ const buildingCards = () => {
           >
             Building B
           </Button>
+        </Link>
 
+        <Link href="/admin/roomPages/roomView?building=C" passHref>
           <Button
             onClick={() => handleClick("C")}
-            href="/roomPages/roomView"
             variant="outlined"
             color="primary"
             disableElevation={true}
@@ -73,10 +75,10 @@ const buildingCards = () => {
           >
             Building C
           </Button>
-
+        </Link>
+        <Link href="/admin/roomPages/roomView?building=D" passHref>
           <Button
             onClick={() => handleClick("D")}
-            href="/roomPages/roomView"
             variant="outlined"
             color="primary"
             disableElevation={true}
