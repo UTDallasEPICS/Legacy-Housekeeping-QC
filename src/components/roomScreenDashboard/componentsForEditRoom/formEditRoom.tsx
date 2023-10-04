@@ -7,7 +7,16 @@ import BackButton from "../../globalComponents/backButton";
 import { Button, Alert } from "@mui/material";
 import Link from "next/link";
 import { setRoom } from "../../../../slices/roomSelectSlice";
-
+import { Route, Routes, useNavigate } from 'react-router-dom';
+/*
+function RedirectReactRouterExample() {
+  return (
+    <Routes>
+      <Route path="/admin/roomPages/roomView" element={<About />} />
+    </Routes>
+  );
+}
+*/
 const formEditRoom = () => {
   const [error, setError] = useState(null);
   const [roomId, setRoomId] = useState("");
@@ -31,39 +40,67 @@ const formEditRoom = () => {
       setError(resCheck);
       return;
     }
+    if (confirm("Are you sure you would like to edit this room?") == true) {
+      //Sending data to the api
+      const res = await fetch("/api/room/edit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          room_id : roomId,
+          room_number: roomNum,
+          building_number: building,
+          room_name: roomName,
+          floor_num: floor,
+          is_clean: false,
+          is_active: true,
+          type_of_room: type,
+        }),
+      });
 
-    //Sending data to the api
-    const res = await fetch("/api/room/edit", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        room_id : roomId,
-        room_number: roomNum,
-        building_number: building,
-        room_name: roomName,
-        floor_num: floor,
-        is_clean: false,
-        is_active: true,
-        type_of_room: type,
-      }),
-    });
-
-    if (!res.ok) {
-      const r = await res.json();
-      setError(r.error);
-      return;
-    }
-    setRoomId("")
-    setBuilding("");
-    setRoomNum("");
-    setType("");
-    setRoomName("");
-    setFloor("");
-    console.log("Good");
+      if (!res.ok) {
+        const r = await res.json();
+        setError(r.error);
+        return;
+      }
+      setRoomId("")
+      setBuilding(building);
+      setRoomNum("");
+      setType("");
+      setRoomName("");
+      setFloor("");
+      window.location.replace("/admin/roomPages/roomView?building=".concat(building));
+    };
   };
+  const handleDelete = async () => {
+    if (confirm("Are you sure you would like to delete this room?") == true) {
+      const res = await fetch("/api/room/deleteRoom", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          room_id : roomId,
+        }),
+      });
+  
+      if (!res.ok) {
+        const r = await res.json();
+        setError(r.error);
+        return;
+      }
+      setRoomId("")
+      setBuilding(building);
+      setRoomNum("");
+      setType("");
+      setRoomName("");
+      setFloor("");
+      //window.location.href = "/admin/roomPages/roomView";
+      window.location.replace("/admin/roomPages/roomView?building=".concat(building));
+    }
 
+  };
   //Actual form
   const build = useSelector(
     (state: RootState) => state.buildingSelect.building
@@ -74,6 +111,8 @@ const formEditRoom = () => {
 
 
   useEffect(() => {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
     setRoomName(room["room_name"]);
     setBuilding(room["building_number"]);
     setRoomId(room["room_id"]);
@@ -96,7 +135,7 @@ const formEditRoom = () => {
   return (
     <>
       <div>
-        <BackButton pageToGoBack={"/admin/roomPages/roomView"} />
+        <BackButton pageToGoBack={"/admin/roomPages/roomView?building=".concat(building)} />
       </div>
 
       <div style={{ display: "flex", justifyContent: "center" }}>
@@ -228,6 +267,13 @@ const formEditRoom = () => {
           onClick={() => handleSubmit()}
         >
           Submit
+        </Button>
+        <Button
+          variant="outlined"
+          sx={{ border: 5 }}
+          onClick={() => handleDelete()}
+        >
+          Delete Room
         </Button>
       </div>
 

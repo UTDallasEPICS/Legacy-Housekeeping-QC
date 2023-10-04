@@ -16,7 +16,6 @@ import Link from "next/link";
 
 
 
-
 const makeButton = (roomJSON : JSON) => {
   const dispatch = useDispatch();
   const handleClick = (roomJSON: JSON) => {
@@ -27,6 +26,8 @@ const makeButton = (roomJSON : JSON) => {
   let floorNumber = roomJSON["floor_num"];
   let typeOfRoom = roomJSON["type_of_room"];
   let roomId = roomJSON["room_id"];
+  let building = roomJSON["building_number"];
+  let newLink = "/admin/roomPages/editRoomForm?".concat("building=",building)
   return(
   <div
             style={{
@@ -35,7 +36,7 @@ const makeButton = (roomJSON : JSON) => {
               margin: 5,
             }}
           >
-            <Link href="/admin/roomPages/editRoomForm" passHref>
+            <Link href={newLink} passHref>
               <Button
                 style={{ width: 600, height: 100, fontSize: 20 }}
                 sx={{ border: 5 }}
@@ -82,16 +83,23 @@ const makeButton = (roomJSON : JSON) => {
 
 
 const roomView = () => {
-  
+  let buildingParam
+  const [building, setBuilding] = useState("");
+  useEffect(() => {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    buildingParam = urlParams.get("building")
+    setBuilding(buildingParam);
+  })
   
   const [result, setResult] = useState([])
-
+  /*
   const building = useSelector(
     (state: RootState) => state.buildingSelect.building
   );
-
+  */
   useEffect(() => {
-    getData("http://localhost:3000/api/room/rooms".concat(building))
+    getData("http://localhost:3000/api/room/rooms".concat(buildingParam))
   },[]);
 
   const getData = (apiUrl) => {
@@ -115,7 +123,7 @@ const roomView = () => {
     <>
       <div>
         <BackButton pageToGoBack={"/admin/roomPages/buildingChoice"} />
-        <BuildingRoomBanner />
+        <BuildingRoomBanner buildingVal={building}/>
       </div>
       <div
         style={{
