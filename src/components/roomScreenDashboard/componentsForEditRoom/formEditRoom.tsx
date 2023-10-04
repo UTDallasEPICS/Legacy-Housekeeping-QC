@@ -109,7 +109,7 @@ const formEditRoom = () => {
     (state: RootState) => state.roomSelect.room
   );
 
-
+    
   useEffect(() => {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
@@ -143,7 +143,7 @@ const formEditRoom = () => {
       </div>
 
       <div style={{ display: "flex", justifyContent: "center" }}>
-        <h2>Building {build}</h2>
+        <h2>Building {building}</h2>
       </div>
 
       <div style={{ display: "flex", justifyContent: "center" }}>
