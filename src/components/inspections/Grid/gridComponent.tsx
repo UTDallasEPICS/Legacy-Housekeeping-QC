@@ -13,23 +13,27 @@ const GridComponent = ({ reports }) => {
     <>
       <Grid
         container
-        justifyContent="center"
+        justifyContent="flex-start"
+        direction="column"
         rowSpacing={2}
         spacing={6}
-        sx={{ pt: 24, px: 24, pb: 0 }}
+        sx={{ pt: 2, px: 2, pb: 0 }}
       >
         <Grid item xs={4}>
           <Typography>Complete:</Typography>
+          <CompleteGrid reports={clean} />
         </Grid>
         <Grid item xs={4}>
           <Typography>Remaining:</Typography>
+          <RemainingGrid reports={notClean} />
         </Grid>
         <Grid item xs={4}>
           <Typography>Locked:</Typography>
+          <LockedGrid reports={locked} />
         </Grid>
       </Grid>
 
-      <Grid
+      {/* <Grid
         container
         justifyContent="center"
         rowSpacing={2}
@@ -39,7 +43,7 @@ const GridComponent = ({ reports }) => {
         <CompleteGrid reports={clean} />
         <RemainingGrid reports={notClean} />
         <LockedGrid reports={locked} />
-      </Grid>
+      </Grid> */}
     </>
   );
 };

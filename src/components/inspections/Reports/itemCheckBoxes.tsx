@@ -14,22 +14,22 @@ const ItemCheckBoxes = () => {
         <FormControlLabel
           control={<Checkbox onChange={checkUpdate} />}
           label="Toilet"
-          labelPlacement="start"
+          labelPlacement="end"
         />
         <FormControlLabel
           control={<Checkbox onChange={checkUpdate} />}
           label="Sink"
-          labelPlacement="start"
+          labelPlacement="end"
         />
         <FormControlLabel
           control={<Checkbox onChange={checkUpdate} />}
           label="Floor"
-          labelPlacement="start"
+          labelPlacement="end"
         />
         <FormControlLabel
           control={<Checkbox onChange={checkUpdate} />}
           label="Handrail"
-          labelPlacement="start"
+          labelPlacement="end"
         />
       </FormGroup>
     </FormControl>

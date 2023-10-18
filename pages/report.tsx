@@ -2,6 +2,7 @@ import { Typography, Box, Button, TextField } from "@mui/material";
 import { InspectionCheckBox } from "../src/components";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
+import { pbkdf2 } from "crypto";
 
 const report = () => {
   const router = useRouter();
@@ -70,7 +71,7 @@ const report = () => {
             <Typography> Time: {report.date} </Typography>
             <Typography>
               {" "}
-              HK: {report.first_name + " " + report.last_name}{" "}
+              House Keeper: {report.first_name + " " + report.last_name}{" "}
             </Typography>
 
             <InspectionCheckBox />
@@ -78,22 +79,25 @@ const report = () => {
 
           <Box
             display="inline-flex"
-            justifyContent="flex-end"
-            alignItems="flex-end"
+            justifyContent="flex-start"
+            alignItems="flex-start"
             flexDirection="column"
-            sx={{ ml: 200 }}
+            sx={{ ml: 2 }}
           >
             <Typography>Comments:</Typography>
             <TextField
               id="comments"
               label="Comments"
               variant="outlined"
-              value={comments}
-              onChange={handleChange}
+              sx={{ pb: 2}}
+              //value={comments} **********************************************************************************************************************
+              //onChange={handleChange}
             />
             <Button
               onClick={handle}
-              sx={{ display: "flex", justifyContent: "flex-end" }}
+              href="/admin/inspections" //Check why this is so slow to go back to the inspections page
+              sx={{ display: "flex", justifyContent: "flex-start" }}
+              variant="contained"
             >
               Submit
             </Button>
@@ -114,7 +118,7 @@ const report = () => {
             <Typography> Time: {report.date} </Typography>
             <Typography>
               {" "}
-              HK: {report.first_name + " " + report.last_name}{" "}
+              House Keeper: {report.first_name + " " + report.last_name}{" "}
             </Typography>
 
             <InspectionCheckBox />
@@ -122,10 +126,10 @@ const report = () => {
 
           <Box
             display="inline-flex"
-            justifyContent="flex-end"
-            alignItems="flex-end"
+            justifyContent="flex-start"
+            alignItems="flex-start"
             flexDirection="column"
-            sx={{ ml: 200 }}
+            sx={{ ml: 2 }}
           >
             <Typography>Comments:</Typography>
             <Typography>{report.comments}</Typography>
@@ -133,7 +137,8 @@ const report = () => {
             <Button
               onClick={handle}
               href="/admin/inspections" //Check why this is so slow to go back to the inspections page
-              sx={{ display: "flex", justifyContent: "flex-end" }}
+              sx={{ display: "flex", justifyContent: "flex-start" }}
+              variant="contained"
             >
               Back
             </Button>
