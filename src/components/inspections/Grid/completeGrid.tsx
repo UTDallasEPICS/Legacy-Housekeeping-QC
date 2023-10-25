@@ -8,7 +8,9 @@ const CompleteGrid = ({ reports }) => {
         container
         item
         direction="column"
-        xs={4}
+        alignContent={"center"}
+        justifyContent={"center"}
+        xs={0}
         rowSpacing={2}
         sx={{ overflow: "visible", height: "min-content" }}
       >

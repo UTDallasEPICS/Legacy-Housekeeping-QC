@@ -63,25 +63,23 @@ const ReportComponent = ({ report }) => {
       isClean={reportProp.cleaned}
       remainingReport={
         <Grid item>
-          <Card variant="outlined" sx={{ width: 1 }}>
+          <Card variant="outlined" sx={{ width: "auto" }}>
             <Box
-              sx={{ display: "inline-flex", width: 1, alignItems: "center" }}
+              sx={{ display: "inline-flex", width: "auto", alignItems: "center" }}
             >
               <CardActionArea>
-                <CardContent sx={{ width: 1, mr: 1 }}>
+                <CardContent sx={{ width: "auto", mr: 0 }}>
                   <Typography variant="h6">
-                    <b>Room {report.room.room_number} </b>in building{" "}
-                    {reportProp.building_number}
+                    <b>Room {report.room.room_number} </b>Building{" "} {reportProp.building_number}
                   </Typography>
-                  <Typography>Cleaning</Typography>
-                  <Typography>
+                  {/* <Typography>
                     Cleaned by{" "}
                     {reportProp.first_name + " " + reportProp.last_name} at{" "}
                     {report.date}
-                  </Typography>
+                  </Typography> */}
                 </CardContent>
               </CardActionArea>
-              <CardActions sx={{ ml: 1 }}>
+              <CardActions sx={{ ml: 0 }}>
                 <Link
                   href={{
                     pathname: "../../report",
@@ -106,11 +104,11 @@ const ReportComponent = ({ report }) => {
               query: reportProp,
             }}
           >
-            <Card variant="outlined" sx={{ width: 1 }}>
+            <Card variant="outlined" sx={{ width: "max-content" }}>
               <CardActionArea sx={{ p: 2 }}>
                 <Box
                   sx={{
-                    width: 1,
+                    width: "max-content",
                     display: "flex",
                     flexDirection: "row",
                     alignItems: "center",
@@ -120,11 +118,11 @@ const ReportComponent = ({ report }) => {
                     <Typography variant="h6">
                       <b>Room {reportProp.room_number}</b>
                     </Typography>
-                    <Typography>
+                    {/* <Typography>
                       Cleaned by{" "}
                       {reportProp.first_name + " " + reportProp.last_name} at{" "}
                       {reportProp.date}
-                    </Typography>
+                    </Typography> */}
                   </Box>
                   <Box sx={{ ml: 1 }}>
                     <Typography

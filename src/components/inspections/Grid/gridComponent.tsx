@@ -13,37 +13,26 @@ const GridComponent = ({ reports }) => {
     <>
       <Grid
         container
-        justifyContent="flex-start"
-        direction="column"
-        rowSpacing={2}
-        spacing={6}
-        sx={{ pt: 2, px: 2, pb: 0 }}
-      >
-        <Grid item xs={4}>
-          <Typography>Complete:</Typography>
-          <CompleteGrid reports={clean} />
-        </Grid>
-        <Grid item xs={4}>
-          <Typography>Remaining:</Typography>
-          <RemainingGrid reports={notClean} />
-        </Grid>
-        <Grid item xs={4}>
-          <Typography>Locked:</Typography>
-          <LockedGrid reports={locked} />
-        </Grid>
-      </Grid>
-
-      {/* <Grid
-        container
         justifyContent="center"
-        rowSpacing={2}
-        spacing={6}
-        sx={{ pt: 2, px: 24 }}
-      >
-        <CompleteGrid reports={clean} />
-        <RemainingGrid reports={notClean} />
-        <LockedGrid reports={locked} />
-      </Grid> */}
+        alignContent={"center"}
+        direction="column"
+        //rowSpacing={2}
+        //spacing={2}
+        sx={{pt: 0, pl: 0, pb: 0, width: "100vw"}}
+       >
+          <Grid bgcolor={"#059033"} item xs={4} sx={{borderRadius: 5, m: 1, alignContent: "center", width: "100vw", pb: 2}}>
+            <Typography fontSize={24} align="center">Completed</Typography>
+            <CompleteGrid reports={clean} />
+          </Grid>
+          <Grid bgcolor={"lightsalmon"} item xs={4} sx={{ borderRadius: 5, m: 1, alignContent: "center", width: "100vw", pb: 2}}>
+            <Typography fontSize={24} align="center">Remaining</Typography>
+            <RemainingGrid reports={notClean} />
+          </Grid>
+          <Grid bgcolor={"lightgrey"} item xs={4} sx={{ borderRadius: 5, m: 1, alignContent: "center", width: "100vw", pb: 2}}>
+            <Typography fontSize={24} align="center">Locked</Typography>
+            <LockedGrid reports={locked} />
+          </Grid>
+      </Grid>
     </>
   );
 };
