@@ -3,11 +3,13 @@ import { Button, CssBaseline } from "@mui/material";
 import Link from "next/link";
 
 //Button to click that allows a user to create a new room
-const addRoomButton = () => {
+const addRoomButton = ({ buildingName,floorName,buildid }) => {
+  console.log(buildingName)
+  console.log(floorName)
   return (
     <>
       <CssBaseline />
-      <Link href="/admin/roomPages/newRoomForm" passHref>
+      <Link href={"/admin/roomPages/newRoomForm?building=".concat(buildingName).concat("&floor=").concat(floorName).concat("&building_id=").concat(buildid)} passHref>
         <Button
           style={{
             fontSize: 22,

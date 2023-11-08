@@ -22,7 +22,7 @@ const buildingRoomBanner = ({buildingVal=""}) => {
       <CssBaseline />
       <AppBar position="relative">
         <Typography variant="h3" align="center">
-          Welcome to Building {finalval}
+          Welcome to Building - {finalval}
         </Typography>
       </AppBar>
     </>
