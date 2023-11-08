@@ -1,18 +1,19 @@
 //This will be for looking at the rooms we have
 import React, {useState, useEffect} from "react";
 import BuildingRoomBanner from "../../../src/components/roomScreenDashboard/componentsForRoomView/buildingRoomBanner";
-import { BackButton } from "../../../src/components";
+import { BackButton, Scroll } from "../../../src/components";
 import AddRoomButton from "../../../src/components/roomScreenDashboard/componentsForRoomView/addRoomButton";
 import DeleteRoomButton from "../../../src/components/roomScreenDashboard/componentsForRoomView/deleteRoomButton";
 import RoomCards from "../../../src/components/roomScreenDashboard/componentsForRoomView/roomCards";
 import SortButton from "../../../src/components/roomScreenDashboard/componentsForRoomView/sortButton";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
-import { Button } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import { Diversity3 } from "@mui/icons-material";
 import { setRoom } from "../../../slices/roomSelectSlice";
 import { useDispatch } from "react-redux";
 import Link from "next/link";
+import { useSearchParams } from "react-router-dom";
 
 
 
@@ -27,85 +28,66 @@ const makeButton = (roomJSON : JSON) => {
   let typeOfRoom = roomJSON["type_of_room"];
   let roomId = roomJSON["room_id"];
   let building = roomJSON["building_number"];
-  let newLink = "/admin/roomPages/editRoomForm?".concat("building=",building)
+  let newLink = "/admin/roomPages/editRoomForm?building=".concat(building).concat("&floor=").concat(floorNumber)
   return(
-  <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              margin: 5,
-            }}
+      <Grid
+        style={{
+          display: "flex",
+          justifyContent: "center",
+        }}
+        item xs = {12} md = {6} lg = {3} xl = {1}
+        alignItems="center"
+        justifyContent="center"
+      >
+        <Link href={newLink} passHref>
+          <Button
+            style={{width: '30vh', height: '15vh', fontSize: "2.5vh" }}
+            sx={{ border: 5, justifyContent: "center", alignContent:"center"}}
+            onClick={() => handleClick(roomJSON)}
           >
-            <Link href={newLink} passHref>
-              <Button
-                style={{ width: 600, height: 100, fontSize: 20 }}
-                sx={{ border: 5 }}
-                onClick={() => handleClick(roomJSON)}
-              >
-                <>
-                  <div
-                    style={{
-                      display: "inline",
-                      justifyContent: "center",
-
-                      width: 400,
-                      marginBottom: 5,
-                    }}
-                  >
-                    <h3 style={{ margin: 0 }}>{roomName} #{roomNumber}</h3>
-                    <p
-                      style={{
-                        display: "inline",
-                        margin: 2,
-                        marginLeft: 5,
-                        marginRight: 5,
-                      }}
-                    >
-                      Floor {floorNumber}
-                    </p>
-                    <p
-                      style={{
-                        display: "inline",
-                        margin: 2,
-                        marginLeft: 5,
-                        marginRight: 5,
-                      }}
-                    >
-                      {typeOfRoom}
-                    </p>
-                  </div>
-                </>
-              </Button>
-            </Link>
-          </div>
+            <div>
+                <h3 style={{ margin: 0 }}>{roomName} #{roomNumber} </h3>
+                <p
+                  style={{
+                    display: "block",
+                    margin: 2,
+                    marginLeft: 5,
+                    marginRight: 5,
+                  }}
+                >
+                  {typeOfRoom}
+                </p>
+            </div>
+          </Button>
+        </Link>
+      </Grid>
   )
 }
 
 
 const roomView = () => {
-  let buildingParam
+  let buildingParam : string
+  let floorParam : string
+  let buildid: string
   const [building, setBuilding] = useState("");
-  useEffect(() => {
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    buildingParam = urlParams.get("building")
-    setBuilding(buildingParam);
-  })
-  
+  const [floor,setFloor] = useState("");
+  const [buildingid, setBuildingid] = useState("");
   const [result, setResult] = useState([])
   /*
   const building = useSelector(
     (state: RootState) => state.buildingSelect.building
   );
   */
-  useEffect(() => {
-    getData("http://localhost:3000/api/room/rooms".concat(buildingParam))
-  },[]);
 
   const getData = (apiUrl) => {
 
-    return fetch(apiUrl, {method: "GET",
-    headers: {"Content-Type": "application/json",},})
+    return fetch(apiUrl, {method: "POST",
+    headers: {"Content-Type": "application/json",},
+    body:JSON.stringify(
+      {
+        floor_num: floorParam,
+        building_id: buildid,
+      })})
         .then((response) => {
             if (!response.ok) {
   
@@ -117,24 +99,41 @@ const roomView = () => {
   
         })
    }
-  console.log(result)
+
+  
+  useEffect(() => {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    buildingParam = urlParams.get("building")
+    floorParam = urlParams.get("floor")
+    buildid = urlParams.get("building_id")
+    setBuilding(buildingParam);
+    setFloor(floorParam)
+    setBuildingid(buildid)
+    getData("http://localhost:3000/api/room/roomsInBuildingOnFloor")
+  },[]);
 
   return (
-    <>
-      <div>
-        <BackButton pageToGoBack={"/admin/roomPages/buildingChoice"} />
+    <Grid container spacing = {1}
+          direction="column"
+          justifyContent="center"
+          //alignItems="center"
+    >
+      
+      <Grid item>
+        <BackButton pageToGoBack={"/admin/roomPages/floorChoice?building=".concat(building)}/>
         <BuildingRoomBanner buildingVal={building}/>
-      </div>
-      <div
+      </Grid>
+      <Grid
         style={{
           display: "flex",
           justifyContent: "center",
         }}
       >
         <h2 style={{ paddingTop: 20, fontSize: 40 }}>Current Rooms:</h2>
-      </div>
+      </Grid>
 
-      <div
+      <Grid
         style={{
           display: "flex",
           justifyContent: "center",
@@ -142,40 +141,51 @@ const roomView = () => {
         }}
       >
         <SortButton />
-      </div>
+      </Grid>
 
-      <div
+      <Grid
         style={{
           display: "flex",
           justifyContent: "center",
           marginBottom: 20,
         }}
+        item xs = {12}
       >
-        <AddRoomButton />
+        <AddRoomButton buildingName={building} floorName={floor} buildid={buildingid}/>
         {/*<DeleteRoomButton /> */}
-      </div>
-
+      </Grid>
       {/*This presents a area where user can scroll and look through the rooms */}
-      <div id="scroll" style={{ display: "flex", justifyContent: "center" }}>
+      <Grid id="scroll" 
+        style={{ display: "flex", justifyContent: "center" }}
+        alignItems="center"
+        justifyContent="center"
+        item xs = {12} md = {12} lg = {12} xl = {12}
+        >
         <div
           style={{
             overflowY: "scroll",
-            width: 630,
-            height: 420,
+            width: "50vh",
+            height: "50vh",
             display: "justfied",
             justifyContent: "center",
           }}
         >
           {/*Static Data Here */}
           
-          <div>
-            {result.map(roomVal => (makeButton(roomVal)))}
-          </div>
+          <Grid
+            direction="column"
+            alignItems="center"
+            justifyContent="center"
+            //justifyContent="center"
+            
+          >
+              {result.map(roomVal => (makeButton(roomVal)))}
+          </Grid>
           {/*Static Data Here */}
         </div>
         
-      </div>
-    </>
+      </Grid>
+    </Grid>
   );
 };
 

@@ -68,6 +68,8 @@ model Room {
   room_id         String       @id @default(uuid())
   room_number     String
   building_number String
+  //building        Building     @relation(fields: [building_id],references:[id])
+  building_id     String
   room_name       String
   floor_num       String
   is_clean        Boolean
@@ -75,6 +77,14 @@ model Room {
   type_of_room    String
   rooms_report    RoomReport[]
   restroom        Restrooms[]
+}
+
+model Building {
+  id              String      @id @default(uuid())
+  building_name   String      @unique
+  floors_amount   Int
+  //rooms           Room[]
+
 }
 
 // Links Team Members and Room in a many to many relationship

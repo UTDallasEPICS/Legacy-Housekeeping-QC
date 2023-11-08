@@ -1,5 +1,5 @@
 import BuildingSelection from "../../../src/components/roomScreenDashboard/componentsForBuildingSelection/buidlingSelection";
-import BuildingCards from "../../../src/components/roomScreenDashboard/componentsForBuildingSelection/buildingCards";
+import BuildingCardsNew from "../../../src/components/roomScreenDashboard/componentsForBuildingSelection/buildingCardsNew";
 import { BackButton } from "../../../src/components";
 import { Box } from "@mui/material";
 import Navbar from "../../../src/components/adminDashboard/navbar/navbar";
@@ -9,14 +9,15 @@ const buildingChoice = () => {
       {/*Heading*/}
       <div>
         <Navbar />
-
+        
         <BuildingSelection />
       </div>
 
       {/*Displays the buildings for the user to choose*/}
-      <Box align="center">
-        <BuildingCards />
-      </Box>
+      <div style={{marginTop:10}}>
+        <BuildingCardsNew />
+      </div>
+        
     </>
   );
 };
