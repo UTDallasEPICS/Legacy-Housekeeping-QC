@@ -39,9 +39,9 @@ const ReportComponent = ({ report }) => {
   };
 
   let scoreChangeColor = "grey.500";
-  if (reportProp.total_points === "pass") {
+  if (reportProp.total_points >= "pass") {
     scoreChangeColor = "success.main";
-  } else if (reportProp.total_points === "fail") {
+  } else if (reportProp.total_points <= "fail") {
     scoreChangeColor = "grey.500";
   }
 
@@ -132,7 +132,7 @@ const ReportComponent = ({ report }) => {
                         textAlign: "right",
                       }}
                     >
-                      {reportProp.total_points + "%"}
+                      {reportProp.total_points + "test%"}
                     </Typography>
                   </Box>
                 </Box>

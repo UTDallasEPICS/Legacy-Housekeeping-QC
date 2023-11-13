@@ -16,11 +16,12 @@ const GridComponent = ({ reports }) => {
         justifyContent="center"
         alignContent={"center"}
         direction="column"
+        display="flex"
         //rowSpacing={2}
         //spacing={2}
         sx={{pt: 0, pl: 0, pb: 0, width: "100vw"}}
        >
-          <Grid bgcolor={"#059033"} item xs={4} sx={{borderRadius: 5, m: 1, alignContent: "center", width: "100vw", pb: 2}}>
+          <Grid bgcolor={"#50c878"} item xs={4} sx={{borderRadius: 5, m: 1, alignContent: "center", justifyContent: "center", width: "100vw", pb: 2}}>
             <Typography fontSize={24} align="center">Completed</Typography>
             <CompleteGrid reports={clean} />
           </Grid>

@@ -31,7 +31,7 @@ const inspections = () => {
       date: "2021-10-10",
       cleaned: true,
       comments: "Cleaned",
-      total_points: 500,
+      total_points: 8,
     }, {
       team_member: {
         first_name: "Name 2",
