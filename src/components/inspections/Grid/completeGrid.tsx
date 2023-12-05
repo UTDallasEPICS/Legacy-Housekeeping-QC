@@ -10,7 +10,7 @@ const CompleteGrid = ({ reports }) => {
         direction="column"
         xs={4}
         rowSpacing={2}
-        sx={{ overflow: "auto", height: "40rem" }}
+        sx={{ width: "max-content", overflow: "visible", p: 2 }}
       >
         {reports?.map((report) => (
           <ReportComponent report={report} />

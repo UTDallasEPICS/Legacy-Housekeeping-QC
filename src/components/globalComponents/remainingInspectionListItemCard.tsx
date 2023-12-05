@@ -7,6 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import ArrowForward from "@mui/icons-material/ArrowForward";
+import Link from "next/link";
 
 interface RIListItemCardProps {
   roomId: string;
@@ -38,16 +39,26 @@ const remainingInspectionListItemCard = (props: RIListItemCardProps) => {
               </Typography>
             </Box>
             <Box sx={{ ml: 1 }}>
-              <Button
-                disableElevation
-                disableFocusRipple
-                disableRipple
-                variant="text"
-                endIcon={<ArrowForward />}
-                sx={{ color: "primary.main" }}
-              >
-                Inspect
-              </Button>
+            {/* <Link
+                  href={{
+                    pathname: "../../report",
+                    //query: props,
+                  }}
+                > */}
+                <Button
+                  disableElevation
+                  disableFocusRipple
+                  disableRipple
+                  variant="text"
+                  endIcon={<ArrowForward />}
+                  
+                  sx={{ color: "primary.main", href: "../../report" }}
+                  
+                >
+                  Inspect
+                </Button>
+                {/* </Link> */}
+
             </Box>
           </Box>
         </CardActionArea>
