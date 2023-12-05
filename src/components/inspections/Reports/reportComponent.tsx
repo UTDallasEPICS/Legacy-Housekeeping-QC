@@ -68,9 +68,12 @@ const ReportComponent = ({ report }) => {
               sx={{ display: "inline-flex", width: "fit-content", alignItems: "center" }}
             >
               <CardActionArea>
-                <CardContent sx={{ width: "auto", mr: 0 }}>
+                <CardContent sx={{ width: "180px", mr: 0 }}>
                   <Typography variant="h6">
-                    <b>Room {reportProp.room_number} </b>Building{" "} {reportProp.building_number}
+                    <b>Room {reportProp.room_number} </b>
+                  </Typography>
+                  <Typography variant="h6">
+                    Building{" "} {reportProp.building_number}
                   </Typography>
                   {/* <Typography>
                     Cleaned by{" "}

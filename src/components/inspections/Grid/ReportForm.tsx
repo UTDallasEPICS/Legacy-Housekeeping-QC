@@ -52,13 +52,15 @@ const ReportForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}
+    style={{ display: 'flex', flexDirection: 'column', maxWidth: '300px', margin: '0 auto' }}>
       <input
         type="text"
         name="team_member_id"
         value={report.team_member_id}
         onChange={handleChange}
         placeholder="Team Member ID"
+        style={{ margin: '10px 0', padding: '5px' }}
       />
       <input
         type="text"
@@ -66,14 +68,19 @@ const ReportForm = () => {
         value={report.room_id}
         onChange={handleChange}
         placeholder="Room ID"
+        style={{ margin: '0px 0', padding: '5px' }}
       />
+      <div style={{ display: 'flex', alignItems: 'center', margin: '10px 0' }}>
+      <label htmlFor="cleaned" style={{ margin: '0px 0' }}>Cleaned?</label>
       <input
         type="checkbox"
+        id="cleaned"
         name="cleaned"
         checked={report.cleaned}
         onChange={handleCheckboxChange}
       />
-      <button type="submit">Add Report</button>
+      </div>
+      <button type="submit" style={{ padding: '10px', backgroundColor: '#141c3b', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', marginBottom: '5px' }}>Add Report</button>
     </form>
   );
 };

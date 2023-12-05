@@ -43,9 +43,9 @@ const GridComponent = ({ reports }) => {
 
   return (
     <>
-      <Box sx={{/*display: "flex", alignContent: "center", justifyContent: "center"*/}}>
+      <Box sx={{/*display: "column", alignContent: "center", justifyContent: "center", alignItems: "center"*/}}>
 
-      <ReportForm/> {/*Form to manually add new report to the database*/}
+      
       
       <Card
       sx={{
@@ -54,13 +54,13 @@ const GridComponent = ({ reports }) => {
         flexDirection: "column",
         flexBasis: 0,
         flexGrow: 1,
-        width: "max-content",
+        //width: "max-content",
       }}
     >
       <DashboardCardHeading text="Inspections" />
 
       <Box sx={{ display: "flex", flexDirection: "column", flex: 1, width: 1 }}>
-        <Box sx={{ p: 2 }}>
+        <Box sx={{ p: 2, alignContent: "center", alignItems: "center" }}>
           <ToggleButtonGroup
             value={todaysInspectionsType}
             exclusive
@@ -109,6 +109,20 @@ const GridComponent = ({ reports }) => {
         </Box>
       </Box>
     </Card>
+    
+    <Card 
+    sx={{
+      m: 2,
+      display: "flex",
+      flexDirection: "column",
+      flexBasis: 0,
+      flexGrow: 1,
+      //width: "max-content",
+    }}>
+      <DashboardCardHeading text="Add Inspection" />
+      <ReportForm/> {/*Form to manually add new report to the database*/}
+      </Card>
+    
     </Box>
 
     
