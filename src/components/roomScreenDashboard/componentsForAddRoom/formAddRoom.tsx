@@ -15,6 +15,7 @@ const formAddRoom = () => {
   const [roomName, setRoomName] = useState("");
   const [floor, setFloor] = useState("");
   const [buildId, setBuildId] = useState("");
+  const [formErrors, setFormErrors] = useState<any>({});
   let gobacklink = "/admin/roomPages/roomView?building=".concat(building).concat("&floor=").concat(floor);
   //validates what info they are submitting
   const handleSubmit = async () => {
@@ -25,9 +26,9 @@ const formAddRoom = () => {
       roomName,
       floor
     );
-
-    if (resCheck) {
-      setError(resCheck);
+    setFormErrors(resCheck);
+    if (resCheck!=0) {
+      //setError(resCheck);
       return;
     }
 
@@ -109,8 +110,9 @@ const formAddRoom = () => {
 
         {/*This area will be the section where admin fills out info*/}
         <Grid alignContent={"center"} direction={"column"} sx={{textAlign:"center"}}>
+
             {/* Room type */}
-            <Grid>
+            <Grid style={{ marginTop: 20 }}>
               <label
                 style={{
                   fontSize: "5vh",
@@ -119,21 +121,16 @@ const formAddRoom = () => {
               >
                 Type of Room:
               </label>
-            </Grid>
-            
-            {/*Bug would be they start off with select, choose something, then go back to select and would allow */}
-            <Grid>
+            </Grid>         
+            <Grid style={{ marginTop: 20 }}>
               <InputLabel id="demo-simple-select-label">Room Type</InputLabel>
               <Select
-                style={{ fontSize: "5vh", width: "30vh", height: "8vh", textAlign:"center" }}
+                style={{ fontSize: "2.5vh", width: "30vh", height: "7.5vh", textAlign:"center" }}
                 onChange={handleTypeChange}
                 label={"Room Type"}
                 value={type}
                 autoWidth
               >
-                <MenuItem selected value="selectType">
-                  Select
-                </MenuItem>
                 <MenuItem value="bathroom">Bathroom</MenuItem>
                 <MenuItem value="auxiliary">Auxiliary</MenuItem>
                 <MenuItem value="independent">Independent Living</MenuItem>
@@ -141,6 +138,9 @@ const formAddRoom = () => {
                 <MenuItem value="memory">Memory Care</MenuItem>
                 <MenuItem value="skilled">Skilled Nursing</MenuItem>
               </Select>
+              {formErrors["type"] && (
+                <Alert severity="error" sx={{ whiteSpace: 'pre-line' }}>{formErrors["type"]}</Alert>
+            )}
             </Grid>
             
 
@@ -149,7 +149,6 @@ const formAddRoom = () => {
               <label
                 style={{
                   fontSize: 25,
-                  marginRight: 10,
                 }}
               >
                 Room Name:
@@ -165,14 +164,17 @@ const formAddRoom = () => {
                 name="roomName"
                 style={{ fontSize: "5vh", width: "30vh", height: "15vh", textAlign:"center" }}
               />
+              {formErrors["name"] && (
+                <Alert severity="error" sx={{ whiteSpace: 'pre-line' }}>{formErrors["name"]}</Alert>
+            )}
             </Grid>
+            
 
             {/* Room Number Input */}
             <Grid style={{ marginTop: 20 }}>
               <label
                 style={{
                   fontSize: 25,
-                  marginRight: 10,
                 }}
               >
                 Room Number:
@@ -187,48 +189,12 @@ const formAddRoom = () => {
                 name="RoomNumber"
                 style={{ fontSize: "5vh", width: "30vh", height: "15vh", textAlign:"center" }}
               />
+              {formErrors["number"] && (
+                <Alert severity="error" sx={{ whiteSpace: 'pre-line' }}>{formErrors["number"]}</Alert>
+              )}
             </Grid>
-
-            {/*For floor number*/}
-
-            {/* <div style={{ marginTop: 20 }}>
-              <label
-                style={{
-                  fontSize: 25,
-                  marginRight: 10,
-                }}
-              >
-                Floor Number:
-              </label>
-
-              <input
-                onChange={(e) => setFloor(e.target.value)}
-                value={floor}
-                name="floor"
-                style={{ fontSize: 25, width: 50, height: 32 }}
-              />
-            </div>
-
-            <div style={{ marginTop: 20 }}>
-              <label
-                style={{
-                  fontSize: 25,
-                  marginRight: 10,
-                }}
-              >
-                Building:
-              </label>
-
-              <input
-                onChange={(e) => setBuilding(e.target.value)}
-                value={building}
-                name="building"
-                style={{ fontSize: 25, width: 50, height: 32 }}
-              />
-            </div> */}
             
         </Grid>
-
         <Grid style={{ display: "flex", justifyContent: "center", marginTop: 70 }}>
           <Button
             variant="outlined"
@@ -239,7 +205,6 @@ const formAddRoom = () => {
           </Button>
         </Grid>
       </Grid>
-      {error && <Alert severity="error">{error}</Alert>}
     </>
   );
 };

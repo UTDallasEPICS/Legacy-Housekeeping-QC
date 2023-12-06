@@ -62,12 +62,6 @@ const makeAddCard = () => {
               maxWidth: "20vh",
               border: "5px solid",
             }}
-            style={{
-              
-              //border: 5,
-              //backgroundImage:"url(https://d7hftxdivxxvm.cloudfront.net/?quality=80&resize_to=width&src=https%3A%2F%2Fartsy-media-uploads.s3.amazonaws.com%2F2RNK1P0BYVrSCZEy_Sd1Ew%252F3417757448_4a6bdf36ce_o.jpg&width=910)",
-              //backgroundSize:"100%"
-            }} 
           >
             Add Building
           </Button>

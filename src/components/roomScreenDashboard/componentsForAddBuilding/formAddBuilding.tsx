@@ -1,6 +1,6 @@
 import React from "react";
-import { useState } from "react";
-//import formRoomValidation from "./formRoomValidation";
+import { useState, useEffect } from "react";
+import formBuildingValidation from "./formBuildingValidation";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../store";
 import BackButton from "../../globalComponents/backButton";
@@ -11,21 +11,20 @@ const formAddRoom = () => {
   const [error, setError] = useState(null);
   const [buildingName, setBuildingName] = useState("");
   const [floorsAmount, setFloorsAmount] = useState(0);
+  const [formErrors, setFormErrors] = useState<any>({});
 
   //validates what info they are submitting
   const handleSubmit = async () => {
-    // const resCheck = formRoomValidation(
-    //   building,
-    //   type,
-    //   roomNum,
-    //   roomName,
-    //   floor
-    // );
+    const resCheck = formBuildingValidation(
+      buildingName,
+      floorsAmount,
+    );
 
-    // if (resCheck) {
-    //   setError(resCheck);
-    //   return;
-    // }
+    setFormErrors(resCheck);
+    if (resCheck!=0) {
+      //setError(resCheck);
+      return;
+    }
 
     //Sending data to the api
     if (confirm("Are you sure you would like to create this building?") == true) {
@@ -52,15 +51,16 @@ const formAddRoom = () => {
   //Actual form
 
   return (
-    <>
+    <div>
       <div>
           <BackButton pageToGoBack={"/admin/roomPages/buildingChoice"} />
       </div>
 
-      <Grid container spacing = {1}
+    <Grid container spacing = {1}
           direction="column"
           justifyContent="center"
-          alignItems="center">
+          alignItems="center"
+          >
       
 
       <Grid item xs = {12} sm = {12} md = {12} lg = {12} xl = {12}
@@ -93,11 +93,11 @@ const formAddRoom = () => {
               variant="outlined"
               onChange={(e) => setBuildingName(e.target.value)}
               value={buildingName}
-              name="roomName"
+              name="buildingName"
               style={{ fontSize: "25vh", width: "30vh", height: "10vh", justifyContent:"center", }}
             />
           </Grid>
-          
+          {(formErrors["name"] || formErrors["invalid"]) && <Alert severity="error" sx={{ whiteSpace: 'pre-line' }}>{formErrors["name"].concat(formErrors["invalid"])}</Alert>}
 
           {/* Room Number Input */}
           <Grid style={{ }} item xs={12} sm={12} md={12} lg={12} xl={12}>
@@ -120,7 +120,8 @@ const formAddRoom = () => {
               style={{ fontSize: "25vh", width: "30vh", height: "10vh", justifyContent:"center", }}
             />
           </Grid>
-
+          {formErrors["flooramount"] && <Alert severity="error" sx={{ whiteSpace: 'pre-line' }}>{formErrors["flooramount"]}</Alert>}
+      
       <div style={{ display: "flex", justifyContent: "center", marginTop: 70 }}>
         <Button
           variant="outlined"
@@ -130,10 +131,9 @@ const formAddRoom = () => {
           Submit
         </Button>
       </div>
-
-      {error && <Alert severity="error">{error}</Alert>}
+      
     </Grid>
-    </>
+    </div>
     
   );
 };

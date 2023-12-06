@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../store";
 import BackButton from "../../globalComponents/backButton";
+import formBuildingValidation from "../componentsForAddBuilding/formBuildingValidation";
 import { Button, Alert, TextField, Grid } from "@mui/material";
 import Link from "next/link";
 
@@ -15,6 +16,7 @@ const formEditBuilding = () => {
   const [floorsAmount, setFloorsAmount] = useState(0); 
   const [building_id, setBuildingId] = useState("");
   const [result,setResult] = useState([]);
+  const [formErrors, setFormErrors] = useState<any>({});
   const getData = (apiUrl) => {
     return fetch(apiUrl, 
     {
@@ -58,18 +60,16 @@ const formEditBuilding = () => {
 
   //validates what info they are submitting
   const handleSubmit = async () => {
-    // const resCheck = formRoomValidation(
-    //   building,
-    //   type,
-    //   roomNum,
-    //   roomName,
-    //   floor
-    // );
+    const resCheck = formBuildingValidation(
+      buildingName,
+      floorsAmount,
+    );
 
-    // if (resCheck) {
-    //   setError(resCheck);
-    //   return;
-    // }
+    setFormErrors(resCheck);
+    if (resCheck!=0) {
+      //setError(resCheck);
+      return;
+    }
 
     //Sending data to the api
     if (confirm("Are you sure you would like to edit this building?") == true) {
@@ -164,7 +164,7 @@ const formEditBuilding = () => {
               style={{ fontSize: "25vh", width: "30vh", height: "10vh", justifyContent:"center", }}
             />
           </Grid>
-          
+          {(formErrors["name"] || formErrors["invalid"]) && <Alert severity="error" sx={{ whiteSpace: 'pre-line' }}>{formErrors["name"].concat(formErrors["invalid"])}</Alert>}
 
           {/* Room Number Input */}
           <Grid style={{ }} item xs={12} sm={12} md={12} lg={12} xl={12}>
@@ -187,25 +187,31 @@ const formEditBuilding = () => {
               style={{ fontSize: "25vh", width: "30vh", height: "10vh", justifyContent:"center", }}
             />
           </Grid>
+          {formErrors["flooramount"] && <Alert severity="error" sx={{ whiteSpace: 'pre-line' }}>{formErrors["flooramount"]}</Alert>}
+      <Grid style={{ display: "flex", justifyContent: "center", marginTop: 70 }} spacing={3}>
+        <Grid item>
+          <Button
+            variant="outlined"
+            sx={{ border: 5, marginRight: "1vh" }}
+            onClick={() => handleSubmit()}
+          >
+            Submit
+          </Button>
+        </Grid>
 
-      <div style={{ display: "flex", justifyContent: "center", marginTop: 70 }}>
-        <Button
-          variant="outlined"
-          sx={{ border: 5 }}
-          onClick={() => handleSubmit()}
-        >
-          Submit
-        </Button>
-        <Button
-          variant="outlined"
-          sx={{ border: 5 }}
-          onClick={() => handleDelete()}
-        >
-          Delete Building
-        </Button>
-      </div>
+        <Grid item>
+          <Button
+            variant="outlined"
+            sx={{ border: 5 }}
+            onClick={() => handleDelete()}
+          >
+            Delete Building
+          </Button>
+        </Grid>
+        
+      </Grid>
 
-      {error && <Alert severity="error">{error}</Alert>}
+      
     </Grid>
     </>
     
