@@ -114,78 +114,80 @@ const roomView = () => {
   },[]);
 
   return (
-    <Grid container spacing = {1}
-          direction="column"
-          justifyContent="center"
-          //alignItems="center"
-    >
-      
-      <Grid item>
-        <BackButton pageToGoBack={"/admin/roomPages/floorChoice?building=".concat(building)}/>
-        <BuildingRoomBanner buildingVal={building}/>
-      </Grid>
-      <Grid
-        style={{
-          display: "flex",
-          justifyContent: "center",
-        }}
+    <div style={{marginTop:10,background: 'linear-gradient(#141c3b,#ffffff)',height:"100vh"}}>
+      <Grid container spacing = {1}
+            direction="column"
+            justifyContent="center"
+            //alignItems="center"
       >
-        <h2 style={{ paddingTop: 20, fontSize: 40 }}>Current Rooms:</h2>
-      </Grid>
-
-      <Grid
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          marginBottom: 20,
-        }}
-      >
-        <SortButton />
-      </Grid>
-
-      <Grid
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          marginBottom: 20,
-        }}
-        item xs = {12}
-      >
-        <AddRoomButton buildingName={building} floorName={floor} buildid={buildingid}/>
-        {/*<DeleteRoomButton /> */}
-      </Grid>
-      {/*This presents a area where user can scroll and look through the rooms */}
-      <Grid id="scroll" 
-        style={{ display: "flex", justifyContent: "center" }}
-        alignItems="center"
-        justifyContent="center"
-        item xs = {12} md = {12} lg = {12} xl = {12}
-        >
-        <div
+        
+        <Grid item>
+          <BuildingRoomBanner buildingVal={building}/>
+          <BackButton pageToGoBack={"/admin/roomPages/floorChoice?building=".concat(building)}/>
+        </Grid>
+        <Grid
           style={{
-            overflowY: "scroll",
-            width: "50vh",
-            height: "50vh",
-            display: "justfied",
+            display: "flex",
             justifyContent: "center",
           }}
         >
-          {/*Static Data Here */}
-          
-          <Grid
-            direction="column"
-            alignItems="center"
-            justifyContent="center"
-            //justifyContent="center"
-            
+          <h2 style={{ paddingTop: 20, fontSize: 40 }}>Current Rooms:</h2>
+        </Grid>
+
+        <Grid
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginBottom: 20,
+          }}
+        >
+          <SortButton />
+        </Grid>
+
+        <Grid
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginBottom: 20,
+          }}
+          item xs = {12}
+        >
+          <AddRoomButton buildingName={building} floorName={floor} buildid={buildingid}/>
+          {/*<DeleteRoomButton /> */}
+        </Grid>
+        {/*This presents a area where user can scroll and look through the rooms */}
+        <Grid id="scroll" 
+          style={{ display: "flex", justifyContent: "center" }}
+          alignItems="center"
+          justifyContent="center"
+          item xs = {12} md = {12} lg = {12} xl = {12}
           >
-              {result.map(roomVal => (makeButton(roomVal)))}
-          </Grid>
-          {/*Static Data Here */}
-        </div>
-        
+          <div
+            style={{
+              overflowY: "scroll",
+              width: "50vh",
+              height: "50vh",
+              display: "justfied",
+              justifyContent: "center",
+            }}
+          >
+            {/*Static Data Here */}
+            
+            <Grid
+              direction="column"
+              alignItems="center"
+              justifyContent="center"
+              //justifyContent="center"
+              
+            >
+                {result.map(roomVal => (makeButton(roomVal)))}
+            </Grid>
+            {/*Static Data Here */}
+          </div>
+          
+        </Grid>
       </Grid>
-    </Grid>
+    </div>
   );
 };
 

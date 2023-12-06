@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../store";
+import formRoomValidation from "../componentsForAddRoom/formRoomValidation";
 import BackButton from "../../globalComponents/backButton";
 import { Button, Alert, Select, SelectChangeEvent, InputLabel, MenuItem, Grid, TextField } from "@mui/material";
 import Link from "next/link";
@@ -15,10 +16,24 @@ const formEditRoom = () => {
   const [roomName, setRoomName] = useState("");
   const [floor, setFloor] = useState("");
   const [buildId, setbuildId] = useState("");
+  const [formErrors, setFormErrors] = useState<any>({});
 
   let gobacklink = "/admin/roomPages/roomView?building=".concat(building).concat("&floor=").concat(floor);
   //validates what info they are submitting
   const handleSubmit = async () => {
+
+    const resCheck = formRoomValidation(
+      building,
+      type,
+      roomNum,
+      roomName,
+      floor
+    );
+    setFormErrors(resCheck);
+    if (resCheck!=0) {
+      //setError(resCheck);
+      return;
+    }
 
     //Sending data to the api
     const res = await fetch("/api/room/edit", {
@@ -28,6 +43,7 @@ const formEditRoom = () => {
       },
       body: JSON.stringify({
         room_number: roomNum,
+        room_id: roomId,
         building_number: building,
         building_id:buildId,
         room_name: roomName,
@@ -51,7 +67,34 @@ const formEditRoom = () => {
     setFloor("");
     window.location.replace("/admin/roomPages/roomView?building=".concat(building).concat("&floor=").concat(floor).concat("&building_id=").concat(buildId));
   };
+  const handleDelete = async () => {
+    if (confirm("Are you sure you would like to delete this room?") == true) {
+      const res = await fetch("/api/room/deleteRoom", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          room_id : roomId,
+        }),
+      });
+  
+      if (!res.ok) {
+        const r = await res.json();
+        setError(r.error);
+        return;
+      }
+      setRoomId("")
+      setBuilding(building);
+      setRoomNum("");
+      setType("");
+      setRoomName("");
+      setFloor("");
+      //window.location.href = "/admin/roomPages/roomView";
+      window.location.replace("/admin/roomPages/roomView?building=".concat(building).concat("&floor=").concat(floor).concat("&building_id=").concat(buildId));
+    }
 
+  };
   //Actual form
   const build = useSelector(
     (state: RootState) => state.buildingSelect.building
@@ -76,14 +119,6 @@ const formEditRoom = () => {
     setbuildId(room["building_id"]);
     var mySelect = document.getElementById('selector');
 
-    for(var i=0; i<6; i++){
-      var option = mySelect[i];
-      console.log(option)
-      if (room["type_of_room"] == option.getAttribute("value")){
-        option.selected = true;
-        break;
-      }
-    }
   },[]);
 
   const handleTypeChange = (event : SelectChangeEvent) => {
@@ -99,7 +134,7 @@ const formEditRoom = () => {
       direction={"column"}
       alignItems={"center"}>
         <Grid style={{ display: "flex", justifyContent: "center" }}>
-          <h1>New Room Form</h1>
+          <h1>Edit Room</h1>
         </Grid>
 
         <Grid style={{ display: "flex", justifyContent: "center" }}>
@@ -125,20 +160,16 @@ const formEditRoom = () => {
               </label>
             </Grid>
             
-            {/*Bug would be they start off with select, choose something, then go back to select and would allow */}
             <Grid>
               <InputLabel id="demo-simple-select-label">Room Type</InputLabel>
               <Select
                 id = "selector"
-                style={{ fontSize: "5vh", width: "30vh", height: "8vh", textAlign:"center" }}
+                style={{ fontSize: "2.5vh", width: "30vh", height: "8vh",}}
                 onChange={handleTypeChange}
                 label={"Room Type"}
                 value={type}
                 autoWidth
               >
-                <MenuItem value="selectType">
-                  Select
-                </MenuItem>
                 <MenuItem value="bathroom">Bathroom</MenuItem>
                 <MenuItem value="auxiliary">Auxiliary</MenuItem>
                 <MenuItem value="independent">Independent Living</MenuItem>
@@ -146,6 +177,9 @@ const formEditRoom = () => {
                 <MenuItem value="memory">Memory Care</MenuItem>
                 <MenuItem value="skilled">Skilled Nursing</MenuItem>
               </Select>
+              {formErrors["type"] && (
+                <Alert severity="error" sx={{ whiteSpace: 'pre-line' }}>{formErrors["type"]}</Alert>
+            )}
             </Grid>
             
 
@@ -170,7 +204,11 @@ const formEditRoom = () => {
                 name="roomName"
                 style={{ fontSize: "5vh", width: "30vh", height: "15vh", textAlign:"center" }}
               />
+              {formErrors["name"] && (
+                <Alert severity="error" sx={{ whiteSpace: 'pre-line' }}>{formErrors["name"]}</Alert>
+            )}
             </Grid>
+            
 
             {/* Room Number Input */}
             <Grid style={{ marginTop: 20 }}>
@@ -192,10 +230,14 @@ const formEditRoom = () => {
                 name="RoomNumber"
                 style={{ fontSize: "5vh", width: "30vh", height: "15vh", textAlign:"center" }}
               />
+              {formErrors["number"] && (
+                <Alert severity="error" sx={{ whiteSpace: 'pre-line' }}>{formErrors["number"]}</Alert>
+              )}
             </Grid>
             
         </Grid>
-
+        
+        {error && <Alert severity="error" sx={{ whiteSpace: 'pre-line' }}>{error}</Alert>}
         <Grid style={{ display: "flex", justifyContent: "center", marginTop: 70 }}>
           <Button
             variant="outlined"
@@ -204,9 +246,16 @@ const formEditRoom = () => {
           >
             Submit
           </Button>
+          <Button
+            variant="outlined"
+            sx={{ border: 5 }}
+            onClick={() => handleDelete()}
+          >
+            Delete Room
+          </Button>
         </Grid>
+        
       </Grid>
-      {error && <Alert severity="error">{error}</Alert>}
     </>
   );
 };
