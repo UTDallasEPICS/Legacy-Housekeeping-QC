@@ -6,17 +6,22 @@ const report_performance = () => {
     <div style={{ textAlign: "center" }}>
       <Navbar />
       <h1>Team Member 1</h1>
-      <h2>08/21/2022</h2>
-      <h3>Score: 93%</h3>
-      <hr />
+      <h2 style={{marginTop:"-30px"}}>08/21/2022</h2>
+      <h3 style={{marginTop:"-25px"}}>Score: 93%</h3>
+      
 
-      <div style={{ position: 'absolute', top: '200px', left: '100px'}}>
+      <div style = {{ display: "flex", justifyContent: "center"}}>
+      <div style={{ position: 'absolute', top: '170px'}}>
         <p>7:00 am  Bathroom #0001</p>
         </div>
 
-        <div style={{ position: 'absolute', top: '220px', left: '100px'}}>
+        <div style={{ position: 'absolute', top: '190px'}}>
         <p>Building A Floor 1 </p>
         </div>
+      
+      </div>
+
+      <hr style={{marginTop: "35px"}}/>
 
       <div style={{ display: "flex", justifyContent: "center" }}>
         <div style={{ marginRight: "20px" }}>

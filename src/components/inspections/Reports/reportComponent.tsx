@@ -30,19 +30,20 @@ const ReportComponent = ({ report }) => {
     city: report.team_member.city,
     state: report.team_member.state,
     total_points: report.team_member.total_points,
-    room_number: report.room.room_number,
-    building_number: report.room.building_number,
-    is_clean: report.room.is_clean,
-    is_active: report.room.is_active,
-    type_of_room: report.room.type_of_room,
+    room_number: report?.room?.room_number,
+    building_number: report?.room?.building_number,
+    is_clean: report?.room?.is_clean,
+    //is_locked: report.room.is_locked,
+    is_active: report?.room?.is_active,
+    type_of_room: report?.room?.type_of_room,
   };
 
   let scoreChangeColor = "grey.500";
-  /*if (reportProp. === "pass") {
+  if (reportProp.total_points >= "pass") {
     scoreChangeColor = "success.main";
-  } else if (reportProp.total_points === "fail") {
+  } else if (reportProp.total_points <= "fail") {
     scoreChangeColor = "grey.500";
-  }*/
+  }
 
   const Condition = ({
     isClean,
@@ -61,26 +62,27 @@ const ReportComponent = ({ report }) => {
     <Condition
       isClean={reportProp.cleaned}
       remainingReport={
-        <Grid item>
-          <Card variant="outlined" sx={{ width: 1 }}>
+        <Grid item sx={{width: "fit-content"}}>
+          <Card variant="outlined" sx={{ width: "fit-content" }}>
             <Box
-              sx={{ display: "inline-flex", width: 1, alignItems: "center" }}
+              sx={{ display: "inline-flex", width: "fit-content", alignItems: "center" }}
             >
               <CardActionArea>
-                <CardContent sx={{ width: 1, mr: 1 }}>
+                <CardContent sx={{ width: "180px", mr: 0 }}>
                   <Typography variant="h6">
-                    <b>Room {report.room.room_number} </b>in building{" "}
-                    {reportProp.building_number}
+                    <b>Room {reportProp.room_number} </b>
                   </Typography>
-                  <Typography>Cleaning</Typography>
-                  <Typography>
+                  <Typography variant="h6">
+                    Building{" "} {reportProp.building_number}
+                  </Typography>
+                  {/* <Typography>
                     Cleaned by{" "}
                     {reportProp.first_name + " " + reportProp.last_name} at{" "}
                     {report.date}
-                  </Typography>
+                  </Typography> */}
                 </CardContent>
               </CardActionArea>
-              <CardActions sx={{ ml: 1 }}>
+              <CardActions sx={{ ml: 0 }}>
                 <Link
                   href={{
                     pathname: "../../report",
@@ -105,11 +107,11 @@ const ReportComponent = ({ report }) => {
               query: reportProp,
             }}
           >
-            <Card variant="outlined" sx={{ width: 1 }}>
+            <Card variant="outlined" sx={{ width: "max-content" }}>
               <CardActionArea sx={{ p: 2 }}>
                 <Box
                   sx={{
-                    width: 1,
+                    width: "max-content",
                     display: "flex",
                     flexDirection: "row",
                     alignItems: "center",
@@ -119,11 +121,11 @@ const ReportComponent = ({ report }) => {
                     <Typography variant="h6">
                       <b>Room {reportProp.room_number}</b>
                     </Typography>
-                    <Typography>
+                    {/* <Typography>
                       Cleaned by{" "}
                       {reportProp.first_name + " " + reportProp.last_name} at{" "}
                       {reportProp.date}
-                    </Typography>
+                    </Typography> */}
                   </Box>
                   <Box sx={{ ml: 1 }}>
                     <Typography
@@ -133,7 +135,7 @@ const ReportComponent = ({ report }) => {
                         textAlign: "right",
                       }}
                     >
-                      {reportProp.total_points + "%"}
+                      {reportProp.total_points + "test%"}
                     </Typography>
                   </Box>
                 </Box>

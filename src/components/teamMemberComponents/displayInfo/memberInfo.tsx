@@ -15,6 +15,8 @@ export const memberInfo = ({
   state,
   zipcode,
   memberId,
+
+  
 }: MemberInfoProps) => {
   const dispatch = useDispatch();
 
@@ -32,6 +34,7 @@ export const memberInfo = ({
         state,
         zipcode,
         memberId,
+       
       })
     );
   };

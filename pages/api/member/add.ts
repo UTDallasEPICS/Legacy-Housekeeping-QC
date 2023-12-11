@@ -30,7 +30,7 @@ export default async function handler(
         !address_line ||
         !zipcode ||
         !city ||
-        !state
+        !state 
       ) {
         res.status(500).send({ error: "Fill out all required fields" });
         return;

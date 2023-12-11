@@ -18,7 +18,8 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-    // "src/components/authsComponents/signUpCardInVPSize"
+, "src/components/scheduleComponents/ScheduleRoomPanel/scheduleRoomPanel.tsx"    // "src/components/authsComponents/signUpCardInVPSize"
+  ,"pages/members_performanceChart.tsx"
   ],
   "exclude": ["node_modules"]
 }
