@@ -10,32 +10,36 @@
   },
   "dependencies": {
     "@emotion/cache": "^11.10.5",
-    "@emotion/react": "^11.10.6",
+    "@emotion/react": "^11.11.1",
     "@emotion/server": "^11.10.0",
-    "@emotion/styled": "^11.10.6",
+    "@emotion/styled": "^11.11.0",
     "@fontsource/montserrat": "^4.5.14",
     "@mui/base": "^5.0.0-beta.17",
     "@mui/icons-material": "^5.11.11",
-    "@mui/material": "^5.11.13",
+    "@mui/material": "^5.14.11",
+    "@mui/x-charts": "^6.0.0-alpha.12",
     "@prisma/client": "^4.11.0",
     "@reduxjs/toolkit": "^1.9.3",
-    "@toast-ui/calendar": "^2.1.3",
     "@types/node": "18.14.4",
     "@types/react": "18.0.28",
     "@types/react-dom": "18.0.11",
     "bcrypt": "^5.1.0",
     "mui-tel-input": "^3.1.1",
-    "next": "13.2.3",
+    "mysql2": "^3.6.0",
+    "next": "^13.5.4",
     "next-auth": "^4.20.1",
     "node": "^21.2.0",
     "react": "18.2.0",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "18.2.0",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.10.0",
+    "recharts": "^2.8.0",
     "tss-react": "^4.7.5",
     "typescript": "4.9.5"
   },
   "devDependencies": {
-    "prisma": "^4.16.2"
+    "@types/node": "^20.5.9",
+    "prisma": "^4.12.0"
   }
 }

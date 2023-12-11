@@ -19,6 +19,7 @@
     "**/*.ts",
     "**/*.tsx"
 , "src/components/scheduleComponents/ScheduleRoomPanel/scheduleRoomPanel.tsx"    // "src/components/authsComponents/signUpCardInVPSize"
+  ,"pages/members_performanceChart.tsx"
   ],
   "exclude": ["node_modules"]
 }
