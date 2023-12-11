@@ -15,6 +15,8 @@ export default async function handler(
         country_code,
         state_code,
         phone_number,
+      
+
       } = req.body;
       const updatedUser = await prisma.user.update({
         where: {

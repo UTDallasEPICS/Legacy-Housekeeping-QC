@@ -3,6 +3,8 @@ import { MuiTelInput } from "mui-tel-input";
 import { makeStyles } from "tss-react/mui";
 import formValidation from "./formValidation";
 import { useState } from "react";
+import { useRouter } from "next/router";
+
 
 const useStyles = makeStyles()(() => {
   return {
@@ -15,6 +17,8 @@ const useStyles = makeStyles()(() => {
 });
 
 const form = () => {
+ 
+ 
   const emailRegEx = new RegExp(
     "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$"
   );
@@ -28,6 +32,8 @@ const form = () => {
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
   const [zipcode, setZipcode] = useState("");
+  const router = useRouter();
+
 
   const handleSubmit = async () => {
     const phoneParts = phoneNumber.split(" ");
@@ -81,6 +87,8 @@ const form = () => {
     setState("");
     setZipcode("");
     setPhoneNumber("");
+
+    router.push("/admin/teamMembers");
   };
 
   return (
