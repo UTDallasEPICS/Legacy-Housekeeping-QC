@@ -11,21 +11,20 @@ export default async function handler(
         room_id,
         room_number,
         building_number,
-        building_id,
-        building,
         room_name,
         floor_num,
         is_clean,
         is_active,
         type_of_room,
       } = req.body;
-      const addedRoom = await prisma.room.create({
+      const addedRoom = await prisma.room.update({
+        where:{
+          room_id : room_id
+        },
         data: {
           room_id,
           room_number,
           building_number,
-          building_id,
-          building,
           room_name,
           floor_num,
           is_clean,
@@ -36,6 +35,6 @@ export default async function handler(
       res.status(200).json(addedRoom);
     }
   } catch (error) {
-    res.status(500).json(error + " :Error creating room");
+    res.status(500).json(error + " :Error updating room");
   }
 }

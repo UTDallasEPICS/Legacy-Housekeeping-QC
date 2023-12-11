@@ -1,345 +1,193 @@
 //This will be for looking at the rooms we have
-import React from "react";
+import React, {useState, useEffect} from "react";
 import BuildingRoomBanner from "../../../src/components/roomScreenDashboard/componentsForRoomView/buildingRoomBanner";
-import { BackButton } from "../../../src/components";
+import { BackButton, Scroll } from "../../../src/components";
 import AddRoomButton from "../../../src/components/roomScreenDashboard/componentsForRoomView/addRoomButton";
 import DeleteRoomButton from "../../../src/components/roomScreenDashboard/componentsForRoomView/deleteRoomButton";
 import RoomCards from "../../../src/components/roomScreenDashboard/componentsForRoomView/roomCards";
 import SortButton from "../../../src/components/roomScreenDashboard/componentsForRoomView/sortButton";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
-import { Button } from "@mui/material";
+import { Button, Grid } from "@mui/material";
+import { Diversity3 } from "@mui/icons-material";
+import { setRoom } from "../../../slices/roomSelectSlice";
+import { useDispatch } from "react-redux";
+import Link from "next/link";
+import { useSearchParams } from "react-router-dom";
+
+
+
+const makeButton = (roomJSON : JSON) => {
+  const dispatch = useDispatch();
+  const handleClick = (roomJSON: JSON) => {
+    dispatch(setRoom(roomJSON));
+   };
+  let roomName = roomJSON["room_name"];
+  let roomNumber = roomJSON["room_number"];
+  let floorNumber = roomJSON["floor_num"];
+  let typeOfRoom = roomJSON["type_of_room"];
+  let roomId = roomJSON["room_id"];
+  let building = roomJSON["building_number"];
+  let newLink = "/admin/roomPages/editRoomForm?building=".concat(building).concat("&floor=").concat(floorNumber)
+  return(
+      <Grid
+        style={{
+          display: "flex",
+          justifyContent: "center",
+        }}
+        item xs = {12} md = {6} lg = {3} xl = {1}
+        alignItems="center"
+        justifyContent="center"
+      >
+        <Link href={newLink} passHref>
+          <Button
+            style={{width: '30vh', height: '15vh', fontSize: "2.5vh" }}
+            sx={{ border: 5, justifyContent: "center", alignContent:"center"}}
+            onClick={() => handleClick(roomJSON)}
+          >
+            <div>
+                <h3 style={{ margin: 0 }}>{roomName} #{roomNumber} </h3>
+                <p
+                  style={{
+                    display: "block",
+                    margin: 2,
+                    marginLeft: 5,
+                    marginRight: 5,
+                  }}
+                >
+                  {typeOfRoom}
+                </p>
+            </div>
+          </Button>
+        </Link>
+      </Grid>
+  )
+}
+
+
 const roomView = () => {
-  //Checking if out state is set properly
+  let buildingParam : string
+  let floorParam : string
+  let buildid: string
+  const [building, setBuilding] = useState("");
+  const [floor,setFloor] = useState("");
+  const [buildingid, setBuildingid] = useState("");
+  const [result, setResult] = useState([])
+  /*
+  const building = useSelector(
+    (state: RootState) => state.buildingSelect.building
+  );
+  */
+
+  const getData = (apiUrl) => {
+
+    return fetch(apiUrl, {method: "POST",
+    headers: {"Content-Type": "application/json",},
+    body:JSON.stringify(
+      {
+        floor_num: floorParam,
+        building_id: buildid,
+      })})
+        .then((response) => {
+            if (!response.ok) {
+  
+            }
+            return response.json();
+        })
+        .then(json => {setResult(json)})
+        .catch((error) => {
+  
+        })
+   }
+
+  
+  useEffect(() => {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    buildingParam = urlParams.get("building")
+    floorParam = urlParams.get("floor")
+    buildid = urlParams.get("building_id")
+    setBuilding(buildingParam);
+    setFloor(floorParam)
+    setBuildingid(buildid)
+    getData("http://localhost:3000/api/room/roomsInBuildingOnFloor")
+  },[]);
 
   return (
-    <>
-      <div>
-        <BackButton pageToGoBack={"/admin/roomPages/buildingChoice"} />
-        <BuildingRoomBanner />
-      </div>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-        }}
+    <div style={{marginTop:10,background: 'linear-gradient(#141c3b,#ffffff)',height:"100vh"}}>
+      <Grid container spacing = {1}
+            direction="column"
+            justifyContent="center"
+            //alignItems="center"
       >
-        <h2 style={{ paddingTop: 20, fontSize: 40 }}>Current Rooms:</h2>
-      </div>
-
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          marginBottom: 20,
-        }}
-      >
-        <SortButton />
-      </div>
-
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          marginBottom: 20,
-        }}
-      >
-        <AddRoomButton />
-        <DeleteRoomButton />
-      </div>
-
-      {/*This presents a area where user can scroll and look through the rooms */}
-      <div style={{ display: "flex", justifyContent: "center" }}>
-        <div
+        
+        <Grid item>
+          <BuildingRoomBanner buildingVal={building}/>
+          <BackButton pageToGoBack={"/admin/roomPages/floorChoice?building=".concat(building)}/>
+        </Grid>
+        <Grid
           style={{
-            overflowY: "scroll",
-            width: 630,
-            height: 420,
-            display: "justfied",
+            display: "flex",
             justifyContent: "center",
           }}
         >
-          {/*Static Data Here */}
+          <h2 style={{ paddingTop: 20, fontSize: 40 }}>Current Rooms:</h2>
+        </Grid>
+
+        <Grid
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginBottom: 20,
+          }}
+        >
+          <SortButton />
+        </Grid>
+
+        <Grid
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginBottom: 20,
+          }}
+          item xs = {12}
+        >
+          <AddRoomButton buildingName={building} floorName={floor} buildid={buildingid}/>
+          {/*<DeleteRoomButton /> */}
+        </Grid>
+        {/*This presents a area where user can scroll and look through the rooms */}
+        <Grid id="scroll" 
+          style={{ display: "flex", justifyContent: "center" }}
+          alignItems="center"
+          justifyContent="center"
+          item xs = {12} md = {12} lg = {12} xl = {12}
+          >
           <div
             style={{
-              display: "flex",
+              overflowY: "scroll",
+              width: "50vh",
+              height: "50vh",
+              display: "justfied",
               justifyContent: "center",
-              margin: 5,
             }}
           >
-            <Button
-              style={{ width: 600, height: 100, fontSize: 20 }}
-              sx={{ border: 5 }}
+            {/*Static Data Here */}
+            
+            <Grid
+              direction="column"
+              alignItems="center"
+              justifyContent="center"
+              //justifyContent="center"
+              
             >
-              <>
-                <div
-                  style={{
-                    display: "inline",
-                    justifyContent: "center",
-
-                    width: 400,
-                    marginBottom: 5,
-                  }}
-                >
-                  <h3 style={{ margin: 0 }}>Marly Johnson #345</h3>
-                  <p
-                    style={{
-                      display: "inline",
-                      margin: 2,
-                      marginLeft: 5,
-                      marginRight: 5,
-                    }}
-                  >
-                    Floor 3
-                  </p>
-                  <p
-                    style={{
-                      display: "inline",
-                      margin: 2,
-                      marginLeft: 5,
-                      marginRight: 5,
-                    }}
-                  >
-                    Independent Living
-                  </p>
-                </div>
-              </>
-            </Button>
+                {result.map(roomVal => (makeButton(roomVal)))}
+            </Grid>
+            {/*Static Data Here */}
           </div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              margin: 5,
-            }}
-          >
-            <Button
-              style={{ width: 600, height: 100, fontSize: 20 }}
-              sx={{ border: 5 }}
-            >
-              <>
-                <div
-                  style={{
-                    display: "inline",
-                    justifyContent: "center",
-
-                    width: 400,
-                    marginBottom: 5,
-                  }}
-                >
-                  <h3 style={{ margin: 0 }}>Carly Lentil #212</h3>
-                  <p
-                    style={{
-                      display: "inline",
-                      margin: 2,
-                      marginLeft: 5,
-                      marginRight: 5,
-                    }}
-                  >
-                    Floor 2
-                  </p>
-                  <p
-                    style={{
-                      display: "inline",
-                      margin: 2,
-                      marginLeft: 5,
-                      marginRight: 5,
-                    }}
-                  >
-                    Assisted Living
-                  </p>
-                </div>
-              </>
-            </Button>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              margin: 5,
-            }}
-          >
-            <Button
-              style={{ width: 600, height: 100, fontSize: 20 }}
-              sx={{ border: 5 }}
-            >
-              <>
-                <div
-                  style={{
-                    display: "inline",
-                    justifyContent: "center",
-
-                    width: 400,
-                    marginBottom: 5,
-                  }}
-                >
-                  <h3 style={{ margin: 0 }}>Tonka Williamson #112</h3>
-                  <p
-                    style={{
-                      display: "inline",
-                      margin: 2,
-                      marginLeft: 5,
-                      marginRight: 5,
-                    }}
-                  >
-                    Floor 1
-                  </p>
-                  <p
-                    style={{
-                      display: "inline",
-                      margin: 2,
-                      marginLeft: 5,
-                      marginRight: 5,
-                    }}
-                  >
-                    Memory Care
-                  </p>
-                </div>
-              </>
-            </Button>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              margin: 5,
-            }}
-          >
-            <Button
-              style={{ width: 600, height: 100, fontSize: 20 }}
-              sx={{ border: 5 }}
-            >
-              <>
-                <div
-                  style={{
-                    display: "inline",
-                    justifyContent: "center",
-
-                    width: 400,
-                    marginBottom: 5,
-                  }}
-                >
-                  <h3 style={{ margin: 0 }}>Beth Contue #22</h3>
-                  <p
-                    style={{
-                      display: "inline",
-                      margin: 2,
-                      marginLeft: 5,
-                      marginRight: 5,
-                    }}
-                  >
-                    Floor 2
-                  </p>
-                  <p
-                    style={{
-                      display: "inline",
-                      margin: 2,
-                      marginLeft: 5,
-                      marginRight: 5,
-                    }}
-                  >
-                    Skilled Nursing
-                  </p>
-                </div>
-              </>
-            </Button>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              margin: 5,
-            }}
-          >
-            <Button
-              style={{ width: 600, height: 100, fontSize: 20 }}
-              sx={{ border: 5 }}
-            >
-              <>
-                <div
-                  style={{
-                    display: "inline",
-                    justifyContent: "center",
-
-                    width: 400,
-                    marginBottom: 5,
-                  }}
-                >
-                  <h3 style={{ margin: 0 }}>Jones Pub</h3>
-                  <p
-                    style={{
-                      display: "inline",
-                      margin: 2,
-                      marginLeft: 5,
-                      marginRight: 5,
-                    }}
-                  >
-                    Floor 1
-                  </p>
-                  <p
-                    style={{
-                      display: "inline",
-                      margin: 2,
-                      marginLeft: 5,
-                      marginRight: 5,
-                    }}
-                  >
-                    Auxillary
-                  </p>
-                </div>
-              </>
-            </Button>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              margin: 5,
-            }}
-          >
-            <Button
-              style={{ width: 600, height: 100, fontSize: 20 }}
-              sx={{ border: 5 }}
-            >
-              <>
-                <div
-                  style={{
-                    display: "inline",
-                    justifyContent: "center",
-
-                    width: 400,
-                    marginBottom: 5,
-                  }}
-                >
-                  <h3 style={{ margin: 0 }}>Bathroom #0001</h3>
-                  <p
-                    style={{
-                      display: "inline",
-                      margin: 2,
-                      marginLeft: 5,
-                      marginRight: 5,
-                    }}
-                  >
-                    Floor 1
-                  </p>
-                  <p
-                    style={{
-                      display: "inline",
-                      margin: 2,
-                      marginLeft: 5,
-                      marginRight: 5,
-                    }}
-                  >
-                    Bathroom
-                  </p>
-                </div>
-              </>
-            </Button>
-          </div>
-        </div>
-        {/*Static Data Here */}
-      </div>
-    </>
+          
+        </Grid>
+      </Grid>
+    </div>
   );
 };
 

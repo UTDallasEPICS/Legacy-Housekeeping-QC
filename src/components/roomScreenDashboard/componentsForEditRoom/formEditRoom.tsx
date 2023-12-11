@@ -1,24 +1,27 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import formRoomValidation from "./formRoomValidation";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../store";
+import formRoomValidation from "../componentsForAddRoom/formRoomValidation";
 import BackButton from "../../globalComponents/backButton";
 import { Button, Alert, Select, SelectChangeEvent, InputLabel, MenuItem, Grid, TextField } from "@mui/material";
 import Link from "next/link";
 
-const formAddRoom = () => {
+const formEditRoom = () => {
   const [error, setError] = useState(null);
+  const [roomId, setRoomId] = useState("");
   const [building, setBuilding] = useState("");
   const [roomNum, setRoomNum] = useState("");
   const [type, setType] = useState("");
   const [roomName, setRoomName] = useState("");
   const [floor, setFloor] = useState("");
-  const [buildId, setBuildId] = useState("");
+  const [buildId, setbuildId] = useState("");
   const [formErrors, setFormErrors] = useState<any>({});
+
   let gobacklink = "/admin/roomPages/roomView?building=".concat(building).concat("&floor=").concat(floor);
   //validates what info they are submitting
   const handleSubmit = async () => {
+
     const resCheck = formRoomValidation(
       building,
       type,
@@ -33,13 +36,14 @@ const formAddRoom = () => {
     }
 
     //Sending data to the api
-    const res = await fetch("/api/room/add", {
+    const res = await fetch("/api/room/edit", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         room_number: roomNum,
+        room_id: roomId,
         building_number: building,
         building_id:buildId,
         room_name: roomName,
@@ -63,24 +67,58 @@ const formAddRoom = () => {
     setFloor("");
     window.location.replace("/admin/roomPages/roomView?building=".concat(building).concat("&floor=").concat(floor).concat("&building_id=").concat(buildId));
   };
+  const handleDelete = async () => {
+    if (confirm("Are you sure you would like to delete this room?") == true) {
+      const res = await fetch("/api/room/deleteRoom", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          room_id : roomId,
+        }),
+      });
+  
+      if (!res.ok) {
+        const r = await res.json();
+        setError(r.error);
+        return;
+      }
+      setRoomId("")
+      setBuilding(building);
+      setRoomNum("");
+      setType("");
+      setRoomName("");
+      setFloor("");
+      //window.location.href = "/admin/roomPages/roomView";
+      window.location.replace("/admin/roomPages/roomView?building=".concat(building).concat("&floor=").concat(floor).concat("&building_id=").concat(buildId));
+    }
 
+  };
   //Actual form
   const build = useSelector(
     (state: RootState) => state.buildingSelect.building
   );
+  const room = useSelector(
+    (state: RootState) => state.roomSelect.room
+  );
+
   let buildingParam;
   let floorParam;
   let idParam;
   useEffect(() => {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    buildingParam = urlParams.get("building")
-    floorParam = urlParams.get("floor")
-    idParam = urlParams.get("building_id")
-    
-    setBuilding(buildingParam);
-    setFloor(floorParam);
-    setBuildId(idParam);
+    setRoomName(room["room_name"]);
+    setBuilding(room["building_number"]);
+    setRoomId(room["room_id"]);
+    setRoomNum(room["room_num"]);
+    setFloor(room["floor_num"]);
+    setRoomNum(room["room_number"]);
+    setType(room["type_of_room"]);
+    setbuildId(room["building_id"]);
+    var mySelect = document.getElementById('selector');
+
   },[]);
 
   const handleTypeChange = (event : SelectChangeEvent) => {
@@ -96,7 +134,7 @@ const formAddRoom = () => {
       direction={"column"}
       alignItems={"center"}>
         <Grid style={{ display: "flex", justifyContent: "center" }}>
-          <h1>New Room Form</h1>
+          <h1>Edit Room</h1>
         </Grid>
 
         <Grid style={{ display: "flex", justifyContent: "center" }}>
@@ -110,9 +148,8 @@ const formAddRoom = () => {
 
         {/*This area will be the section where admin fills out info*/}
         <Grid alignContent={"center"} direction={"column"} sx={{textAlign:"center"}}>
-
             {/* Room type */}
-            <Grid style={{ marginTop: 20 }}>
+            <Grid>
               <label
                 style={{
                   fontSize: "5vh",
@@ -121,11 +158,13 @@ const formAddRoom = () => {
               >
                 Type of Room:
               </label>
-            </Grid>         
-            <Grid style={{ marginTop: 20 }}>
+            </Grid>
+            
+            <Grid>
               <InputLabel id="demo-simple-select-label">Room Type</InputLabel>
               <Select
-                style={{ fontSize: "2.5vh", width: "30vh", height: "7.5vh", textAlign:"center" }}
+                id = "selector"
+                style={{ fontSize: "2.5vh", width: "30vh", height: "8vh",}}
                 onChange={handleTypeChange}
                 label={"Room Type"}
                 value={type}
@@ -149,6 +188,7 @@ const formAddRoom = () => {
               <label
                 style={{
                   fontSize: 25,
+                  marginRight: 10,
                 }}
               >
                 Room Name:
@@ -175,6 +215,7 @@ const formAddRoom = () => {
               <label
                 style={{
                   fontSize: 25,
+                  marginRight: 10,
                 }}
               >
                 Room Number:
@@ -195,6 +236,8 @@ const formAddRoom = () => {
             </Grid>
             
         </Grid>
+        
+        {error && <Alert severity="error" sx={{ whiteSpace: 'pre-line' }}>{error}</Alert>}
         <Grid style={{ display: "flex", justifyContent: "center", marginTop: 70 }}>
           <Button
             variant="outlined"
@@ -203,11 +246,19 @@ const formAddRoom = () => {
           >
             Submit
           </Button>
+          <Button
+            variant="outlined"
+            sx={{ border: 5 }}
+            onClick={() => handleDelete()}
+          >
+            Delete Room
+          </Button>
         </Grid>
+        
       </Grid>
     </>
   );
 };
 
-export default formAddRoom;
+export default formEditRoom;
 <Link href="/admin/roomPages/roomView" passHref></Link>;
