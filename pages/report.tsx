@@ -2,6 +2,7 @@ import { Typography, Box, Button, TextField } from "@mui/material";
 import { InspectionCheckBox } from "../src/components";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
+import SendIcon from '@mui/icons-material/Send';
 
 const report = () => {
   const router = useRouter();
@@ -58,86 +59,129 @@ const report = () => {
       isClean={report.cleaned}
       remainingReport={
         <>
-          <Box
-            sx={{ pt: 3, m: 1 }}
-            display={"inline-flex"}
-            justifyContent="flex-start"
-            alignItems="flex-start"
+          <Box //box for the whole screen
+            // sx={{ pt: 3, m: 1 }}
+            // display={"inline-flex"}
+            justifyContent="center"
+            alignItems="center"
             flexDirection="column"
           >
-            <Typography>Room: {report.room_number} </Typography>
-            <Typography>Building Number: {report.building_number} </Typography>
-            <Typography> Time: {report.date} </Typography>
-            <Typography>
-              {" "}
-              HK: {report.first_name + " " + report.last_name}{" "}
-            </Typography>
+            <Box //box for top header
+              justifyContent={"center"}
+              alignContent={"center"}
+              sx={{ border: 1, borderRadius: 5, m: 1, bgcolor: "primary.main", color: "white", textAlign: "center"}}
+              >
+                  <Typography fontSize={32}>Room: {report.room_number} </Typography>
+                  <Typography>Building: {report.building_number} | Date: {report.date} </Typography>
+                  {/* <Typography> Time: {report.date} </Typography> */}
+                  <Typography>
+                    {" "}
+                    House Keeper: {report.first_name + " " + report.last_name}{" "}
+                  </Typography>
+            </Box>
 
-            <InspectionCheckBox />
+            <Box
+              sx={{ pt: 3, m: 1, bgcolor: "lightgray", borderRadius: 5 }}
+              //display={"inline-flex"}
+              justifyContent="center"
+              alignItems="center"
+              flexDirection="column">
+
+                <InspectionCheckBox />
+
+                <Box //box for comments & submit button
+                  display="inline-flex"
+                  justifyContent="flex-start"
+                  alignItems="flex-start"
+                  flexDirection="column"
+                  sx={{ ml: 2, pt: 3 }}
+                  >
+                  <Typography>Comments:</Typography>
+                  <TextField
+                    id="comments"
+                    label="Comments"
+                    variant="outlined"
+                    sx={{ pb: 2}}
+                    //value={comments} **********************************************************************************************************************
+                    //onChange={handleChange}
+                  />
+                  <Button
+                    onClick={handle}
+                    href="/admin/inspections" //Check why this is so slow to go back to the inspections page
+                    sx={{ display: "flex", justifyContent: "flex-start"}}
+                    variant="contained"
+                    endIcon={<SendIcon />}
+                  >
+                    Submit
+                  </Button>
+                </Box>
+
+            </Box>
+
+
+            
           </Box>
 
-          <Box
-            display="inline-flex"
-            justifyContent="flex-end"
-            alignItems="flex-end"
-            flexDirection="column"
-            sx={{ ml: 200 }}
-          >
-            <Typography>Comments:</Typography>
-            <TextField
-              id="comments"
-              label="Comments"
-              variant="outlined"
-              value={comments}
-              onChange={handleChange}
-            />
-            <Button
-              onClick={handle}
-              sx={{ display: "flex", justifyContent: "flex-end" }}
-            >
-              Submit
-            </Button>
-          </Box>
+          
         </>
       }
       completeReport={
         <>
-          <Box
-            sx={{ pt: 3, m: 1 }}
-            display={"inline-flex"}
-            justifyContent="flex-start"
-            alignItems="flex-start"
+          <Box //box for the whole screen
+            //sx={{ pt: 3, m: 1 }}
+            //display={"inline-flex"}
+            justifyContent="center"
+            alignItems="center"
             flexDirection="column"
           >
-            <Typography>Room: {report.room_number} </Typography>
-            <Typography>Building Number: {report.building_number} </Typography>
-            <Typography> Time: {report.date} </Typography>
-            <Typography>
-              {" "}
-              HK: {report.first_name + " " + report.last_name}{" "}
-            </Typography>
 
-            <InspectionCheckBox />
+              <Box //box for top header
+                justifyContent={"center"}
+                alignContent={"center"}
+                sx={{ border: 1, borderRadius: 5, m: 1, bgcolor: "primary.main", color: "white", textAlign: "center"}}
+                >
+                    <Typography fontSize={32}>Room: {report.room_number} </Typography>
+                    <Typography>Building: {report.building_number} | Date: {report.date} </Typography>
+                    {/* <Typography> Time: {report.date} </Typography> */}
+                    <Typography>
+                      {" "}
+                      House Keeper: {report.first_name + " " + report.last_name}{" "}
+                    </Typography>
+              </Box>
+
+
+              <Box
+              sx={{ pt: 3, m: 1, bgcolor: "lightgray", borderRadius: 5 }}
+              //display={"inline-flex"}
+              justifyContent="center"
+              alignItems="center"
+              flexDirection="column">
+
+                    <InspectionCheckBox />
+
+                    <Box //box for comments & submit button
+                      display="inline-flex"
+                      justifyContent="flex-start"
+                      alignItems="flex-start"
+                      flexDirection="column"
+                      sx={{ ml: 2, pt: 3 }}
+                    >
+                      <Typography>Comments:</Typography>
+                      <Typography>{report.comments}</Typography>
+
+                      <Button
+                        onClick={handle}
+                        href="/admin/inspections" //Check why this is so slow to go back to the inspections page
+                        sx={{ display: "flex", justifyContent: "flex-start" }}
+                        variant="contained"
+                      >
+                        Back
+                      </Button>
+                    </Box>
+                   </Box>
           </Box>
 
-          <Box
-            display="inline-flex"
-            justifyContent="flex-end"
-            alignItems="flex-end"
-            flexDirection="column"
-            sx={{ ml: 200 }}
-          >
-            <Typography>Comments:</Typography>
-            <Typography>{report.comments}</Typography>
-
-            <Button
-              onClick={handle}
-              href="/inspections"
-              sx={{ display: "flex", justifyContent: "flex-end" }}
-            >
-              Back
-            </Button>
-          </Box>
+          
         </>
       }
     ></Condition>
