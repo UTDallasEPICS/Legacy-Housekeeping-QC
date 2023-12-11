@@ -84,19 +84,6 @@ model Building {
   floors_amount   Int
 }
 
-model Timeslot {
-  id              String      @id @default(uuid())
-  time            String
-  team_member     TeamMembers
-
-}
-
-model Inspection {
-  id              String      @id @default(uuid())
-  time            String
-  team_member     TeamMembers
-}
-
 // Links Team Members and Room in a many to many relationship
 model RoomReport {
   team_member    TeamMembers @relation(fields: [team_member_id], references: [member_id])
