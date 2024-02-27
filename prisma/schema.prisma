@@ -7,157 +7,151 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Person {
+  person_id    Int     @id @default(autoincrement())
+  first_name   String
+  last_name    String
+  email        String  @unique
+  country_code String
+  state_code   String
+  phone_number String
+
+  User User?
+  TeamMembers TeamMembers?
+}
+
 model User {
-  user_id      String   @id @default(uuid())
-  first_name   String
-  last_name    String
-  email        String   @unique
-  country_code String
-  state_code   String
-  phone_number String
-  password     String
-  role         Role     @default(USER)
-  admin        Admin[]
-  leader       Leader[]
+  user_id Int @id
+  person Person @relation(fields: [user_id], references: [person_id])
+  username String
+  password String
+  inspections Inspection[]
 }
 
-model Admin {
-  admin_id String @id @default(uuid())
-  userId   String
-  user     User   @relation(fields: [userId], references: [user_id])
-
-  @@index([userId], map: "Admin_userId_fkey")
+model TeamMembers{
+  team_member_id Int @id
+  person Person @relation(fields: [team_member_id], references: [person_id])
+  scores Score[]
+  schedules Schedule[]
 }
 
-model Leader {
-  leader_id String @id @default(uuid())
-  userId    String
-  user      User   @relation(fields: [userId], references: [user_id])
-
-  @@index([userId], map: "Leader_userId_fkey")
+model Score {
+  score_id Int @id @default(autoincrement())
+  score Int
+  team_member_id Int
+  team_member TeamMembers @relation(fields: [team_member_id], references: [team_member_id])
 }
 
-model TeamMembers {
-  member_id    String       @id @default(uuid())
-  first_name   String
-  last_name    String
-  email        String
-  country_code String
-  state_code   String
-  phone_number String
-  address_line String
-  zipcode      String
-  city         String
-  state        String
-  total_points Int          @default(0)
-  points       Points[]
-  rooms_report RoomReport[]
+
+model Schedule {
+  schedule_id Int @id @default(autoincrement())
+  start_time DateTime
+  end_time   DateTime
+  clean_type CleanType
+
+  team_member TeamMembers[]
+  
+  room_id Int
+  room Room @relation(fields: [room_id], references: [room_id])
+
+  inspections Inspection[]
 }
 
-model Points {
-  points_id      String      @id @default(uuid())
-  points         Int         @default(0)
-  time_stamp     DateTime    @default(now())
-  team_member_id String
-  team_member    TeamMembers @relation(fields: [team_member_id], references: [member_id])
-
-  @@index([team_member_id], map: "Points_team_member_id_fkey")
+enum CleanType {
+  NORMAL
+  DEEP
 }
 
 model Room {
-  room_id         String       @id @default(uuid())
-  room_number     String
-  building_number String
-  building_id     String
-  room_name       String
-  floor_num       String
-  is_clean        Boolean
-  is_active       Boolean
-  type_of_room    String
-  restroom        Restrooms[]
-  rooms_report    RoomReport[]
+  room_id Int @id @default(autoincrement())
+  room_name String
+
+  schedule Schedule[]
+  
+  building_id Int
+  building Building @relation(fields: [building_id], references: [building_id])
+
+  common_area CommonArea?
+  personal_room PersonalRoom?
+  items Item[]
+}
+
+model CommonArea {
+  room_id Int @id
+  room Room @relation(fields: [room_id], references: [room_id])
+}
+
+model PersonalRoom {
+  room_id Int @id
+  room Room @relation(fields: [room_id], references: [room_id])
+  is_occupied Boolean
+  items Item[]
 }
 
 model Building {
-  id              String      @id @default(uuid())
-  building_name   String      @unique
-  floors_amount   Int
+  building_id Int @id @default(autoincrement())
+  building_name String
+  rooms Room[]
 }
 
-// Links Team Members and Room in a many to many relationship
-model RoomReport {
-  team_member_id String
-  room_id        String
-  date           DateTime?    @default(now())
-  cleaned        Boolean     @default(false)
-  comments       String?
-  score          Int
-  room           Room        @relation(fields: [room_id], references: [room_id])
-  team_member    TeamMembers @relation(fields: [team_member_id], references: [member_id])
+model Inspection {
+  inspector_id Int @id
+  inspector User @relation(fields: [inspector_id], references: [user_id])
 
-  @@id([team_member_id, room_id])
-  @@index([room_id], map: "RoomReport_room_id_fkey")
+  schedule_id Int
+  schedule Schedule @relation(fields: [schedule_id], references: [schedule_id])
+
+  timestamp DateTime
+  room_pics String
+  comment String
+  clean_status Clean_Status
+  inspection_score Int 
+  rubrics Rubric[]
 }
 
-model Items {
-  item_id        String             @id @default(uuid())
-  item           String
-  restroom_id    String
-  ancillary_id   String
-  independent_id String
-  assisted_id    String
-  skilled_id     String
-  memory_id      String
-  ancillary      Ancillary_Areas    @relation(fields: [ancillary_id], references: [ancillary_id])
-  assisted       Assisted_Living    @relation(fields: [assisted_id], references: [assisted_id])
-  independent    Independent_Living @relation(fields: [independent_id], references: [independent_id])
-  memory         Memory             @relation(fields: [memory_id], references: [memory_id])
-  restroom       Restrooms          @relation(fields: [restroom_id], references: [restroom_id])
-  skilled        Skilled            @relation(fields: [skilled_id], references: [skilled_id])
-
-  @@index([ancillary_id], map: "Items_ancillary_id_fkey")
-  @@index([assisted_id], map: "Items_assisted_id_fkey")
-  @@index([independent_id], map: "Items_independent_id_fkey")
-  @@index([memory_id], map: "Items_memory_id_fkey")
-  @@index([restroom_id], map: "Items_restroom_id_fkey")
-  @@index([skilled_id], map: "Items_skilled_id_fkey")
+enum Clean_Status {
+  CLEANED
+  NOT_CLEANED
+  UNFINISHED
 }
 
-model Restrooms {
-  restroom_id String  @id @default(uuid())
-  room_id     String
-  items       Items[]
-  room        Room    @relation(fields: [room_id], references: [room_id])
+model Rubric {
+  rubric_id Int @id @default(autoincrement())
+  inspection Inspection[]
+  requirements Requirement[]
 
-  @@index([room_id], map: "Restrooms_room_id_fkey")
+  quantitative_rubrics QuantitativeRubric?
+  hollistic_rubrics HollisticRubric?
 }
 
-model Ancillary_Areas {
-  ancillary_id String  @id @default(uuid())
-  items        Items[]
+model QuantitativeRubric {
+  quantitative_id Int @id
+  rubric Rubric @relation(fields: [quantitative_id], references: [rubric_id])
+  items Item[]
 }
 
-model Independent_Living {
-  independent_id String  @id @default(uuid())
-  items          Items[]
+model HollisticRubric {
+  hollistic_id Int @id
+  rubric Rubric @relation(fields: [hollistic_id], references: [rubric_id])
 }
 
-model Assisted_Living {
-  assisted_id String  @id @default(uuid())
-  items       Items[]
+model Requirement {
+  requirement_id Int @id @default(autoincrement())
+  rubric_id Int 
+  rubric Rubric @relation(fields: [rubric_id], references: [rubric_id])
 }
 
-model Skilled {
-  skilled_id String  @id @default(uuid())
-  items      Items[]
-}
+model Item {
+  item_name String
 
-model Memory {
-  memory_id String  @id @default(uuid())
-  items     Items[]
-}
+  room_id Int
+  room Room @relation(fields: [room_id], references: [room_id])
 
-enum Role {
-  USER
-  ADMIN
+  @@id([room_id, item_name])
+
+  quantitative_id Int
+  quantitative_rubrics QuantitativeRubric @relation(fields: [quantitative_id], references: [quantitative_id])
+  
+  personal_room_id Int
+  personal_room PersonalRoom @relation(fields: [personal_room_id], references: [room_id])
 }
