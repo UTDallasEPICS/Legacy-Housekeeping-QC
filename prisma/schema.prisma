@@ -8,52 +8,71 @@ datasource db {
 }
 
 model Person {
-  person_id    Int     @id @default(autoincrement())
-  first_name   String
+  // Indexes
+  id    Int     @id @default(autoincrement())
+  // Fields
+  first_name   String 
   last_name    String
   email        String  @unique
-  country_code String
-  state_code   String
-  phone_number String
-
+  country_code String? 
+  state_code   String?
+  phone_number String?
+  person_type  PersonType
   User User?
   TeamMembers TeamMembers?
+  // Relations
+}
+
+enum PersonType {
+  USER
+  TEAM_MEMBER
 }
 
 model User {
-  user_id Int @id
-  person Person @relation(fields: [user_id], references: [person_id])
+  // Indexes
+  id Int @id @default(autoincrement())
+  // Fields
   username String
   password String
+  // Relations
+  person_id Int @unique
+  person Person @relation(fields: [person_id], references: [id])
+
   inspections Inspection[]
 }
 
 model TeamMembers{
-  team_member_id Int @id
-  person Person @relation(fields: [team_member_id], references: [person_id])
-  scores Score[]
+  // Indexes
+  id Int @id @default(autoincrement())
+  // Fields
+  // Relations
+  person_id Int @unique
+  person Person @relation(fields: [person_id], references: [id])
   schedules Schedule[]
+  scores Score[]
 }
 
 model Score {
-  score_id Int @id @default(autoincrement())
-  score Int
+  // Indexes
+  id Int @id @default(autoincrement())
+  // Fields
+  amount Int
+  // Relations
   team_member_id Int
-  team_member TeamMembers @relation(fields: [team_member_id], references: [team_member_id])
+  team_member TeamMembers @relation(fields: [team_member_id], references: [id])
 }
 
-
 model Schedule {
-  schedule_id Int @id @default(autoincrement())
+  // Indexes
+  id Int @id @default(autoincrement())
+  // Fields
   start_time DateTime
   end_time   DateTime
-  clean_type CleanType
-
-  team_member TeamMembers[]
-  
+  clean_type CleanType @default(NORMAL)
+  // Relations
   room_id Int
-  room Room @relation(fields: [room_id], references: [room_id])
-
+  room Room @relation(fields: [room_id], references: [id])
+  team_member TeamMembers[]
   inspections Inspection[]
 }
 
@@ -63,50 +82,79 @@ enum CleanType {
 }
 
 model Room {
-  room_id Int @id @default(autoincrement())
-  room_name String
-
-  schedule Schedule[]
-  
-  building_id Int
-  building Building @relation(fields: [building_id], references: [building_id])
-
+  // Indexes
+  id Int @id @default(autoincrement())
+  // Fields
+  name String
+  type RoomType
   common_area CommonArea?
   personal_room PersonalRoom?
+  // Relations
+  floor_id Int 
+  floor Floor @relation(fields: [floor_id], references: [id])
+  schedule Schedule[]
   items Item[]
+}
+
+enum RoomType {
+  COMMON_AREA
+  PERSONAL_ROOM
 }
 
 model CommonArea {
-  room_id Int @id
-  room Room @relation(fields: [room_id], references: [room_id])
+  // Indexes
+  id Int @id
+  // Fields
+  // Relations
+  room_id Int @unique
+  room Room @relation(fields: [room_id], references: [id])
 }
 
 model PersonalRoom {
-  room_id Int @id
-  room Room @relation(fields: [room_id], references: [room_id])
+  // Indexes
+  id Int @id
+  // Fields
   is_occupied Boolean
+  // Relations
+  room_id Int @unique
+  room Room @relation(fields: [room_id], references: [id])
   items Item[]
 }
 
-
 model Building {
-  building_id Int @id @default(autoincrement())
-  building_name String
+  // Indexes
+  id Int @id @default(autoincrement())
+  // Fields
+  name String
+  // Relations
+  floors Floor[]
+}
+
+model Floor {
+  // Indexes
+  id Int @id @default(autoincrement())
+  // Fields
+  number Int
+  // Relations
+  building_id Int 
+  building Building @relation(fields: [building_id], references: [id])
   rooms Room[]
 }
 
 model Inspection {
-  inspector_id Int @id
-  inspector User @relation(fields: [inspector_id], references: [user_id])
-
-  schedule_id Int
-  schedule Schedule @relation(fields: [schedule_id], references: [schedule_id])
-
+  // Indexes
+  id Int @id @default(autoincrement())
+  // Fields
   timestamp DateTime
-  room_pics String
-  comment String
+  room_pics String?
+  comment String?
   clean_status Clean_Status
-  inspection_score Int 
+  score Int 
+  // Relations
+  inspector_id Int 
+  inspector User @relation(fields: [inspector_id], references: [id])
+  schedule_id Int 
+  schedule Schedule @relation(fields: [schedule_id], references: [id])
   rubrics Rubric[]
 }
 
@@ -117,42 +165,61 @@ enum Clean_Status {
 }
 
 model Rubric {
-  rubric_id Int @id @default(autoincrement())
-  inspection Inspection[]
-  requirements Requirement[]
-
+  // Indexes
+  id Int @id @default(autoincrement())
+  // Fields
+  type RubricType
   quantitative_rubrics QuantitativeRubric?
   hollistic_rubrics HollisticRubric?
+  // Relations
+  inspection Inspection[]
+  requirements Requirement[]
+}
+
+enum RubricType {
+  QUANTITATIVE
+  HOLLISTIC
 }
 
 model QuantitativeRubric {
-  quantitative_id Int @id
-  rubric Rubric @relation(fields: [quantitative_id], references: [rubric_id])
+  // Indexes
+  id Int @id @default(autoincrement())
+  // Fields
+  // Relations
+  rubric_id Int @unique
+  rubric Rubric @relation(fields: [rubric_id], references: [id])
   items Item[]
 }
 
 model HollisticRubric {
-  hollistic_id Int @id
-  rubric Rubric @relation(fields: [hollistic_id], references: [rubric_id])
+  // Indexes
+  id Int @id @default(autoincrement())
+  // Fields
+  // Relations
+  hollistic_id Int @unique
+  rubric Rubric @relation(fields: [hollistic_id], references: [id])
 }
 
 model Requirement {
-  requirement_id Int @id @default(autoincrement())
+  // Indexes
+  id Int @id @default(autoincrement())
+  // Fields
+  description String
+  // Relations
   rubric_id Int 
-  rubric Rubric @relation(fields: [rubric_id], references: [rubric_id])
+  rubric Rubric @relation(fields: [rubric_id], references: [id])
 }
 
 model Item {
-  item_name String
-
-  room_id Int
-  room Room @relation(fields: [room_id], references: [room_id])
-
+  // Indexes
   @@id([room_id, item_name])
-
+  // Fields
+  item_name String
+  // Relations
+  room_id Int
+  room Room @relation(fields: [room_id], references: [id])
   quantitative_id Int
-  quantitative_rubrics QuantitativeRubric @relation(fields: [quantitative_id], references: [quantitative_id])
-  
+  quantitative_rubrics QuantitativeRubric @relation(fields: [quantitative_id], references: [id])
   personal_room_id Int
-  personal_room PersonalRoom @relation(fields: [personal_room_id], references: [room_id])
+  personal_room PersonalRoom @relation(fields: [personal_room_id], references: [id])
 }
