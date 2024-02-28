@@ -19,7 +19,7 @@ model Person {
   phone_number String?
   person_type  PersonType
   User User?
-  TeamMembers TeamMembers?
+  TeamMembers TeamMember?
   // Relations
 }
 
@@ -41,7 +41,7 @@ model User {
   inspections Inspection[]
 }
 
-model TeamMembers{
+model TeamMember {
   // Indexes
   id Int @id @default(autoincrement())
   // Fields
@@ -59,7 +59,7 @@ model Score {
   amount Int
   // Relations
   team_member_id Int
-  team_member TeamMembers @relation(fields: [team_member_id], references: [id])
+  team_member TeamMember @relation(fields: [team_member_id], references: [id])
 }
 
 model Schedule {
@@ -72,7 +72,7 @@ model Schedule {
   // Relations
   room_id Int
   room Room @relation(fields: [room_id], references: [id])
-  team_member TeamMembers[]
+  team_member TeamMember[]
   inspections Inspection[]
 }
 
