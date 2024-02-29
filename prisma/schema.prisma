@@ -17,9 +17,9 @@ model Person {
   country_code String? 
   state_code   String?
   phone_number String?
-  person_type  PersonType
-  User User?
-  TeamMembers TeamMember?
+  type  PersonType
+  user User?
+  teamMember TeamMember?
   // Relations
 }
 
@@ -173,7 +173,6 @@ model Rubric {
   hollistic_rubrics HollisticRubric?
   // Relations
   inspection Inspection[]
-  requirements Requirement[]
 }
 
 enum RubricType {
@@ -196,8 +195,9 @@ model HollisticRubric {
   id Int @id @default(autoincrement())
   // Fields
   // Relations
-  hollistic_id Int @unique
-  rubric Rubric @relation(fields: [hollistic_id], references: [id])
+  rubric_id Int @unique
+  rubric Rubric @relation(fields: [rubric_id], references: [id])
+  requirements Requirement[]
 }
 
 model Requirement {
@@ -206,8 +206,8 @@ model Requirement {
   // Fields
   description String
   // Relations
-  rubric_id Int 
-  rubric Rubric @relation(fields: [rubric_id], references: [id])
+  hollistic_id Int 
+  hollistic_rubric HollisticRubric @relation(fields: [hollistic_id], references: [id])
 }
 
 model Item {
