@@ -1,3 +1,4 @@
+/*
 export interface RoomProperties {
   roomInfo: [
     {
@@ -10,3 +11,4 @@ export interface RoomProperties {
     }
   ];
 }
+*/

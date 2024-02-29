@@ -18,7 +18,7 @@
     "@mui/icons-material": "^5.11.11",
     "@mui/material": "^5.14.11",
     "@mui/x-charts": "^6.0.0-alpha.12",
-    "@prisma/client": "^4.11.0",
+    "@prisma/client": "^4.16.2",
     "@reduxjs/toolkit": "^1.9.3",
     "@types/node": "18.14.4",
     "@types/react": "18.0.28",
