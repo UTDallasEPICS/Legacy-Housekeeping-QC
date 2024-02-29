@@ -1,3 +1,4 @@
+/*
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../lib/prisma";
 
@@ -8,9 +9,9 @@ export default async function handler(
   try {
     if (req.method === "GET") {
       const { id } = req.query;
-      const user = await prisma.user.findUnique({
+      const user = await prisma.person.findUnique({
         where: {
-          user_id: id.toString(),
+          id: id,
         },
       });
       res.status(200).json(user);
@@ -19,3 +20,4 @@ export default async function handler(
     res.status(500).json(error + " :Error retrieving user");
   }
 }
+*/

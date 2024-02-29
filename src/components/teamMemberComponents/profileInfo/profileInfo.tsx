@@ -1,20 +1,16 @@
 import { Avatar, Box, Button, Stack, Typography } from "@mui/material";
 import { Edit } from "@mui/icons-material";
 import Link from "next/link";
-import { MemberProfileProps } from "../../../../interfaces/memberProfileProps";
+import { TeamMemberProfile } from "../../../../ts/types/teamMember.interfaces";
 
 const profileInfo = ({
-  firstName,
-  lastName,
+  first_name,
+  last_name,
   email,
-  countryCode,
-  stateCode,
-  phoneNumber,
-  addressLine,
-  city,
-  state,
-  zipcode,
-}: MemberProfileProps) => {
+  country_code,
+  state_code,
+  phone_number,
+}: TeamMemberProfile) => {
   return (
     <Box
       sx={{
@@ -33,21 +29,17 @@ const profileInfo = ({
             mr: 1,
           }}
         >
-          {firstName[0]}
-          {lastName[0]}
+          {first_name[0]}
+          {last_name[0]}
         </Avatar>
         <Stack direction="column" sx={{ ml: 1 }}>
           <Typography>
-            {firstName} {lastName}
+            {first_name} {last_name}
           </Typography>
           <Typography>{email}</Typography>
           <Typography>
-            {countryCode} ({stateCode}) {phoneNumber.substring(0, 3)}-
-            {phoneNumber.substring(3)}
-          </Typography>
-          <Typography>{addressLine}</Typography>
-          <Typography>
-            {city}, {state} {zipcode}
+            {country_code} ({state_code}) {phone_number.substring(0, 3)}-
+            {phone_number.substring(3)}
           </Typography>
         </Stack>
       </Box>

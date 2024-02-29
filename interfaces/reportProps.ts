@@ -1,3 +1,4 @@
+/*
 export interface reportProps {
   team_member_id: string;
   room_id: string;
@@ -27,3 +28,4 @@ export interface reportProps {
     type_of_room: string;
   };
 }
+*/

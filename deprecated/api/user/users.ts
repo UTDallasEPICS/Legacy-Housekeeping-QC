@@ -1,3 +1,4 @@
+/*
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../lib/prisma";
 
@@ -14,3 +15,4 @@ export default async function handler(
     res.status(500).json(error + " :Error retrieving users");
   }
 }
+*/
