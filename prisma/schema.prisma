@@ -90,8 +90,9 @@ model Room {
   common_area CommonArea?
   personal_room PersonalRoom?
   // Relations
-  floor_id Int 
-  floor Floor @relation(fields: [floor_id], references: [id])
+  building_id Int
+  floor_number Int 
+  floor Floor @relation(fields: [building_id, floor_number], references: [building_id, number])
   schedule Schedule[]
   items Item[]
 }
@@ -132,9 +133,9 @@ model Building {
 
 model Floor {
   // Indexes
-  id Int @id @default(autoincrement())
+  @@id(name: "id" ,[building_id, number])
   // Fields
-  number Int
+  number Int @unique
   // Relations
   building_id Int 
   building Building @relation(fields: [building_id], references: [id])

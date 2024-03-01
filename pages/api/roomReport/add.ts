@@ -24,7 +24,7 @@ export default async function handler(
           data: {
             inspector: { connect: { id: session?.user?.id } },
             schedule: { connect: { id: schedule.id } },
-            inspect_status: "UNFINISHED",
+            inspect_status: "NOT_INSPECTED",
           },
         });
       });
