@@ -66,13 +66,13 @@ model Schedule {
   // Indexes
   id Int @id @default(autoincrement())
   // Fields
-  start_time DateTime
-  end_time   DateTime
+  start_time DateTime?
+  end_time   DateTime?
   clean_type CleanType @default(NORMAL)
   // Relations
   room_id Int
   room Room @relation(fields: [room_id], references: [id])
-  team_member TeamMember[]
+  team_members TeamMember[]
   inspections Inspection[]
 }
 
@@ -145,17 +145,24 @@ model Inspection {
   // Indexes
   id Int @id @default(autoincrement())
   // Fields
-  timestamp DateTime
+  timestamp DateTime?
   room_pics String?
   comment String?
-  clean_status Clean_Status
-  score Int 
+  inspect_status Inspect_Status
+  clean_status Clean_Status?
+  score Int?
   // Relations
   inspector_id Int 
   inspector User @relation(fields: [inspector_id], references: [id])
   schedule_id Int 
   schedule Schedule @relation(fields: [schedule_id], references: [id])
   rubrics Rubric[]
+}
+
+enum Inspect_Status {
+  INSPECTED
+  NOT_INSPECTED
+  UNFINISHED
 }
 
 enum Clean_Status {
@@ -169,8 +176,8 @@ model Rubric {
   id Int @id @default(autoincrement())
   // Fields
   type RubricType
-  quantitative_rubrics QuantitativeRubric?
-  hollistic_rubrics HollisticRubric?
+  quantitative_rubric QuantitativeRubric?
+  hollistic_rubric HollisticRubric?
   // Relations
   inspection Inspection[]
 }
