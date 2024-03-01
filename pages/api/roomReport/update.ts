@@ -15,6 +15,7 @@ export default async function handler(
           comment,
           room_pics,
           clean_status,
+          inspect_status: "INSPECTED",
           score,
         },
       });
