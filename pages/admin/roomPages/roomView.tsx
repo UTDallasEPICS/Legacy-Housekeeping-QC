@@ -22,12 +22,11 @@ const makeButton = (roomJSON : JSON) => {
   const handleClick = (roomJSON: JSON) => {
     dispatch(setRoom(roomJSON));
    };
-  let roomName = roomJSON["room_name"];
-  let roomNumber = roomJSON["room_number"];
-  let floorNumber = roomJSON["floor_num"];
-  let typeOfRoom = roomJSON["type_of_room"];
-  let roomId = roomJSON["room_id"];
-  let building = roomJSON["building_number"];
+  let roomName = roomJSON["name"];
+  let floorNumber = roomJSON["floor_number"];
+  let typeOfRoom = roomJSON["type"];
+  let roomId = roomJSON["id"];
+  let building = roomJSON["building_id"];
   let newLink = "/admin/roomPages/editRoomForm?building=".concat(building).concat("&floor=").concat(floorNumber)
   return(
       <Grid
@@ -46,7 +45,7 @@ const makeButton = (roomJSON : JSON) => {
             onClick={() => handleClick(roomJSON)}
           >
             <div>
-                <h3 style={{ margin: 0 }}>{roomName} #{roomNumber} </h3>
+                <h3 style={{ margin: 0 }}>{roomName} </h3>
                 <p
                   style={{
                     display: "block",
@@ -90,8 +89,9 @@ const roomView = () => {
       })})
         .then((response) => {
             if (!response.ok) {
-  
+
             }
+            console.log(response.json())
             return response.json();
         })
         .then(json => {setResult(json)})

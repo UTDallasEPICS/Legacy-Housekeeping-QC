@@ -7,11 +7,18 @@ export default async function handler(
 ) {
   try {
     if (req.method === "POST") {
-      const { id } = req.body;
+      const { name } = req.body;
       const building = await prisma.building.findFirst({
-        where: { id },
+        where: {
+          name: name,
+        }
       });
-      res.status(200).json(building);
+      const floors_amount = await prisma.floor.count({
+        where: {
+          building_id: building.id
+        }
+      });
+      res.status(200).json({name: building.name, floors_amount: floors_amount, id: building.id});
     }
   } catch (error) {
     res.status(500).json(error + " :Error retrieving a building");

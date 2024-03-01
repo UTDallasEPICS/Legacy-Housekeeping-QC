@@ -8,12 +8,8 @@ const sortButton = () => {
         <option selected value="">
           Sort By
         </option>
-        <option value="bathroom">Bathroom</option>
-        <option value="auxiliary">Auxiliary</option>
-        <option value="independent">Independent Living</option>
-        <option value="assited">Assisted Living</option>
-        <option value="memory">Memory Care</option>
-        <option value="skilled">Skilled Nursing</option>
+        <option value="personal">Personal Room</option>
+        <option value="common">Common Area</option>
       </select>
     </>
   );

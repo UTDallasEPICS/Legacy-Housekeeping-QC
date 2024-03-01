@@ -79,7 +79,7 @@ const mfloorCards = (results) =>{
   let number = Number(results["floors_amount"]);
   let arr = []
   for (let i = 1; i <= number; i++) {
-    arr.push(makeCard(i+"",results["building_name"],results["id"]))
+    arr.push(makeCard(i+"",results["name"],results["id"]))
   }
   return(arr)
   
@@ -97,7 +97,7 @@ const floorCards = () => {
       method: "POST",
       headers: {"Content-Type": "application/json",},
       body: JSON.stringify({
-        building_name : name,
+        name : name,
       }),
     })
     .then((response) => {
@@ -140,7 +140,7 @@ const floorCards = () => {
           //backgroundColor:"red",
           }}>
         {mfloorCards(result)}
-        {makeEditCard(result["building_name"],result["floors_amount"],result["id"])}
+        {makeEditCard(result["name"],result["floors_amount"],result["id"])}
         
         
     </Grid>
