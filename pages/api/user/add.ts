@@ -44,9 +44,7 @@ export default async function handler(
         });
       });
 
-      const addedUser = toUser(user);
-      //console.log(addedUser);
-      res.status(200).json(addedUser);
+      res.status(200);
     }
   } catch (error) {
     console.log(error);
