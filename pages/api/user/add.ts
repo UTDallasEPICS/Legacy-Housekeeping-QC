@@ -22,9 +22,9 @@ export default async function handler(
 
       const hash = await bcrypt.hash(password, 12);
 
-      let user;
+      let person;
       await prisma.$transaction(async (prisma) => {
-        const person = await prisma.person.create({
+        person = await prisma.person.create({
           data: {
             type: "USER",
             first_name,
@@ -35,7 +35,7 @@ export default async function handler(
             phone_number,
           },
         });
-        user = await prisma.user.create({
+        const user = await prisma.user.create({
           data: {
             person: { connect: { id: person.id } },
             username: email,
@@ -44,7 +44,7 @@ export default async function handler(
         });
       });
 
-      res.status(200);
+      res.status(200).json(person);
     }
   } catch (error) {
     console.log(error);
