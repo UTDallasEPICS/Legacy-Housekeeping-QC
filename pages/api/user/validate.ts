@@ -33,6 +33,7 @@ export default async function handler(
       select: {
         first_name: true,
         email: true,
+        id: true,
       },
     });
 
