@@ -1,7 +1,6 @@
 export default function formRoomValidation(
   building: string,
   type: string,
-  roomNum: string,
   roomName: string,
   floor: string
 ) {
@@ -13,10 +12,6 @@ export default function formRoomValidation(
   }
   if(type=="" || type =="selectType"){
     returnarray["type"] = "Please provide a room type."
-    errorCount++;
-  }
-  if(roomNum==""){
-    returnarray["number"] = "Please provide a room number."
     errorCount++;
   }
   if(roomName==""){

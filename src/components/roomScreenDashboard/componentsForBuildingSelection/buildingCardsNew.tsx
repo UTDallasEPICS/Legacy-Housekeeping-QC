@@ -9,7 +9,7 @@ import React, {useState, useEffect} from "react";
 
 const makeCard = (buildingVal : JSON) => {
   const dispatch = useDispatch();
-  let name = buildingVal["building_name"]
+  let name = buildingVal["name"]
   const handleClick = (building: string) => {
     dispatch(setBuilding(building));
   };
@@ -19,7 +19,7 @@ const makeCard = (buildingVal : JSON) => {
         textAlign="center">
       <Link href={"/admin/roomPages/floorChoice?building=".concat(name)} passHref>
           <Button
-            onClick={() => handleClick("A")}
+            onClick={() => handleClick(name)}
             variant="contained"
             color="secondary"
             sx={{

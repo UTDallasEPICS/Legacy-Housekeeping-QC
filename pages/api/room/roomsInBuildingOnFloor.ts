@@ -13,9 +13,9 @@ export default async function handler(
       } = req.body;
       const rooms = await prisma.room.findMany({
         where: {
-          floor_num: floor_num,
-          building_id: building_id,
-        },
+          floor_number: Number(floor_num),
+          building_id: Number(building_id)
+        }
       });
       res.status(200).json(rooms);
     }

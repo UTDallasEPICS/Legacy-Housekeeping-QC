@@ -91,7 +91,8 @@ model Room {
   personal_room PersonalRoom?
   // Relations
   building_id Int
-  floor_number Int 
+  building Building @relation(fields: [building_id], references: [id])
+  floor_number Int
   floor Floor @relation(fields: [building_id, floor_number], references: [building_id, number])
   schedule Schedule[]
   items Item[]
@@ -129,6 +130,7 @@ model Building {
   name String
   // Relations
   floors Floor[]
+  rooms Room[]
 }
 
 model Floor {
