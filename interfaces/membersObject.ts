@@ -1,3 +1,4 @@
+/*
 export interface MembersProperties {
   members: {
     member_id: string;
@@ -20,3 +21,4 @@ export interface MembersProperties {
     }[];
   }[];
 }
+*/

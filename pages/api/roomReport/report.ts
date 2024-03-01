@@ -7,10 +7,14 @@ export default async function handler(
 ) {
   try {
     if (req.method === "GET") {
-      const roomCleaned = await prisma.roomReport.findMany({
+      const roomCleaned = await prisma.inspection.findMany({
         include: {
-          team_member: true,
-          room: true,
+          schedule: {
+            include: {
+              room: true,
+              team_members: true,
+            },
+          },
         },
       });
       res.status(200).json(roomCleaned);

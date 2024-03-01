@@ -13,31 +13,34 @@ export default async function handler(
 
     const { email, password } = req.body;
 
-    const userExist = await prisma.user.findUnique({
+    const personExist = await prisma.person.findUnique({
       where: { email: email },
-      select: {
-        password: true,
-      },
+      include: { user: true },
     });
+
+    const userExist = personExist?.user;
 
     // Check if user exists if not return
     if (!userExist) return res.status(404).send({ error: "User not found" });
 
     // Check if password matches if not return
     const isPasswordMatch = await bcrypt.compare(password, userExist.password);
-    if (!isPasswordMatch) return res.status(401).send({ error: "Invalid password" });
+    if (!isPasswordMatch)
+      return res.status(401).send({ error: "Invalid password" });
 
-    const user = await prisma.user.findUnique({
+    const person = await prisma.person.findUnique({
       where: { email: email },
       select: {
         first_name: true,
-        role: true,
         email: true,
+        id: true,
       },
     });
 
-    return res.status(200).json(user);
+    return res.status(200).json(person);
   } catch (error) {
-    return res.status(500).send({ error: `Error updating user: ${error.message}` });
+    return res
+      .status(500)
+      .send({ error: `Error updating user: ${error.message}` });
   }
 }

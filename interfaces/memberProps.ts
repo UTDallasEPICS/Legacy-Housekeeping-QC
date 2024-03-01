@@ -1,3 +1,4 @@
+/*
 export interface MemberInfoProps {
   firstName: string;
   lastName: string;
@@ -11,3 +12,4 @@ export interface MemberInfoProps {
   zipcode: string;
   memberId: string;
 }
+*/

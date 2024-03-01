@@ -7,18 +7,15 @@ export default async function handler(
 ) {
   try {
     if (req.method === "PUT") {
-      const { team_member_id, room_id, cleaned, comments, score } = req.body;
-      const updatedReport = await prisma.roomReport.update({
-        where: {
-          team_member_id_room_id: {
-            team_member_id,
-            room_id,
-          },
-        },
+      const { id, room_pics, clean_status, comment, score } = req.body;
+      const updatedReport = await prisma.inspection.update({
+        where: { id },
         data: {
-          cleaned,
-          comments,
-          date: new Date(),
+          timestamp: new Date(),
+          comment,
+          room_pics,
+          clean_status,
+          inspect_status: "INSPECTED",
           score,
         },
       });

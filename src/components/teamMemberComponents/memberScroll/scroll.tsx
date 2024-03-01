@@ -1,8 +1,8 @@
 import { Box, List, Typography } from "@mui/material";
 import { MemberInfo } from "../..";
-import { MembersProperties } from "../../../../interfaces/membersObject";
+import { TeamMemberProperties } from "../../../../ts/types/teamMember.interfaces";
 
-const scroll = ({ members }: MembersProperties) => {
+const scroll = ({ members }: TeamMemberProperties) => {
   return (
     <Box
       sx={{
@@ -17,18 +17,14 @@ const scroll = ({ members }: MembersProperties) => {
         {members.length > 0 ? (
           members.map((member) => (
             <MemberInfo
-              key={member.member_id}
-              firstName={member.first_name}
-              lastName={member.last_name}
+              key={member.id}
+              first_name={member.first_name}
+              last_name={member.last_name}
               email={member.email}
-              countryCode={member.country_code}
-              stateCode={member.state_code}
-              phoneNumber={member.phone_number}
-              addressLine={member.address_line}
-              city={member.city}
-              state={member.state}
-              zipcode={member.zipcode}
-              memberId={member.member_id}
+              country_code={member.country_code}
+              state_code={member.state_code}
+              phone_number={member.phone_number}
+              id={member.id}
             />
           ))
         ) : (

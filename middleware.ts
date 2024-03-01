@@ -10,14 +10,7 @@ export default withAuth(
 
     if (
       req.nextUrl.pathname.startsWith("/admin") &&
-      req.nextauth.token?.role !== "ADMIN"
-    )
-      return NextResponse.rewrite(
-        new URL("/auths/signin?message=You must sign in to continue.", req.url)
-      );
-    if (
-      req.nextUrl.pathname.startsWith("/user") &&
-      req.nextauth.token?.role !== "USER"
+      req.nextauth.token === null
     )
       return NextResponse.rewrite(
         new URL("/auths/signin?message=You must sign in to continue.", req.url)

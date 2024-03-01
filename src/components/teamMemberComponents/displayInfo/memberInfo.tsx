@@ -1,40 +1,29 @@
 import { Box, Divider, ListItemButton } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { setMemberProfile } from "../../../../slices/memberProfileSlice";
-import { MemberInfoProps } from "../../../../interfaces/memberProps";
+import { TeamMemberInfo } from "../../../../ts/types/teamMember.interfaces";
 
 export const memberInfo = ({
-  firstName,
-  lastName,
+  first_name,
+  last_name,
   email,
-  countryCode,
-  stateCode,
-  phoneNumber,
-  addressLine,
-  city,
-  state,
-  zipcode,
-  memberId,
-
-  
-}: MemberInfoProps) => {
+  country_code,
+  state_code,
+  phone_number,
+  id,
+}: TeamMemberInfo) => {
   const dispatch = useDispatch();
 
   const handle = () => {
     dispatch(
       setMemberProfile({
-        firstName,
-        lastName,
+        first_name,
+        last_name,
         email,
-        countryCode,
-        stateCode,
-        phoneNumber,
-        addressLine,
-        city,
-        state,
-        zipcode,
-        memberId,
-       
+        country_code,
+        state_code,
+        phone_number,
+        id,
       })
     );
   };
@@ -42,7 +31,7 @@ export const memberInfo = ({
   return (
     <Box sx={{ width: 1 }}>
       <ListItemButton onClick={() => handle()} sx={{ width: 1 }}>
-        {firstName} {lastName}
+        {first_name} {last_name}
       </ListItemButton>
       <Divider />
     </Box>
