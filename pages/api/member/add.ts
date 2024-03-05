@@ -14,46 +14,37 @@ export default async function handler(
         country_code,
         state_code,
         phone_number,
-        address_line,
-        zipcode,
-        city,
-        state,
       } = req.body;
 
-      if (
-        !first_name ||
-        !last_name ||
-        !email ||
-        !country_code ||
-        !state_code ||
-        !phone_number ||
-        !address_line ||
-        !zipcode ||
-        !city ||
-        !state 
-      ) {
+      if (!first_name || !last_name || !email) {
         res.status(500).send({ error: "Fill out all required fields" });
         return;
       }
 
-      const addedMember = await prisma.teamMembers.create({
-        data: {
-          first_name,
-          last_name,
-          email,
-          country_code,
-          state_code,
-          phone_number,
-          address_line,
-          zipcode,
-          city,
-          state,
-        },
+      let person;
+      await prisma.$transaction(async (prisma) => {
+        person = await prisma.person.create({
+          data: {
+            type: "TEAM_MEMBER",
+            first_name,
+            last_name,
+            country_code,
+            state_code,
+            phone_number,
+            teamMember: {
+              create: {
+                email,
+              },
+            },
+          },
+        });
       });
 
-      res.status(200).send(addedMember);
+      res.status(200).send(person);
     }
   } catch (error) {
-    res.status(500).send({ error: "Error creating new member" });
+    res
+      .status(500)
+      .send({ error: error.message + ": Error creating new member" });
   }
 }
