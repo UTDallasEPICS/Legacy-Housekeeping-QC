@@ -17,7 +17,6 @@ export default async function handler(
         state_code,
         phone_number,
         password,
-        role,
       } = req.body;
 
       const hash = await bcrypt.hash(password, 12);
@@ -29,7 +28,6 @@ export default async function handler(
             type: "USER",
             first_name,
             last_name,
-            email,
             country_code,
             state_code,
             phone_number,
@@ -38,7 +36,7 @@ export default async function handler(
         const user = await prisma.user.create({
           data: {
             person: { connect: { id: person.id } },
-            username: email,
+            email: email,
             password: hash,
           },
         });

@@ -1,6 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../lib/prisma";
 import bcrypt from "bcrypt";
+import { toUser } from "../../../ts/types/db.interfaces";
+import { LensTwoTone } from "@mui/icons-material";
 
 export default async function handler(
   req: NextApiRequest,
@@ -13,12 +15,9 @@ export default async function handler(
 
     const { email, password } = req.body;
 
-    const personExist = await prisma.person.findUnique({
+    const userExist = await prisma.user.findUnique({
       where: { email: email },
-      include: { user: true },
     });
-
-    const userExist = personExist?.user;
 
     // Check if user exists if not return
     if (!userExist) return res.status(404).send({ error: "User not found" });
@@ -28,16 +27,18 @@ export default async function handler(
     if (!isPasswordMatch)
       return res.status(401).send({ error: "Invalid password" });
 
-    const person = await prisma.person.findUnique({
+    const userPerson = await prisma.user.findUnique({
       where: { email: email },
-      select: {
-        first_name: true,
-        email: true,
-        id: true,
-      },
+      include: { person: true },
     });
+    const user = toUser(userPerson);
+    const validatedUser = {
+      id: user.id,
+      first_name: user.first_name,
+      email: user.email,
+    };
 
-    return res.status(200).json(person);
+    return res.status(200).json(validatedUser);
   } catch (error) {
     return res
       .status(500)

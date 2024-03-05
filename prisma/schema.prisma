@@ -13,7 +13,6 @@ model Person {
   // Fields
   first_name   String 
   last_name    String
-  email        String  @unique
   country_code String? 
   state_code   String?
   phone_number String?
@@ -32,11 +31,11 @@ model User {
   // Indexes
   id Int @id @default(autoincrement())
   // Fields
-  username String
+  email    String  @unique
   password String
   // Relations
   person_id Int @unique
-  person Person @relation(fields: [person_id], references: [id])
+  person Person @relation(fields: [person_id], references: [id], onDelete: Cascade)
 
   inspections Inspection[]
 }
@@ -45,9 +44,10 @@ model TeamMember {
   // Indexes
   id Int @id @default(autoincrement())
   // Fields
+  email String?
   // Relations
   person_id Int @unique
-  person Person @relation(fields: [person_id], references: [id])
+  person Person @relation(fields: [person_id], references: [id], onDelete: Cascade)
   schedules Schedule[]
   scores Score[]
 }
@@ -59,7 +59,7 @@ model Score {
   amount Int
   // Relations
   team_member_id Int
-  team_member TeamMember @relation(fields: [team_member_id], references: [id])
+  team_member TeamMember @relation(fields: [team_member_id], references: [id], onDelete: Cascade)
 }
 
 model Schedule {
