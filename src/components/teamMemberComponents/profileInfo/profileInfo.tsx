@@ -2,6 +2,7 @@ import { Avatar, Box, Button, Stack, Typography } from "@mui/material";
 import { Edit } from "@mui/icons-material";
 import Link from "next/link";
 import { TeamMemberProfile } from "../../../../ts/types/teamMember.interfaces";
+import { formatPhoneNumberForDisplay } from "../../../../functions/phoneNumber";
 
 const profileInfo = ({
   first_name,
@@ -11,6 +12,12 @@ const profileInfo = ({
   state_code,
   phone_number,
 }: TeamMemberProfile) => {
+  const formattedPhoneNumber = formatPhoneNumberForDisplay(
+    country_code,
+    state_code,
+    phone_number
+  );
+
   return (
     <Box
       sx={{
@@ -38,8 +45,7 @@ const profileInfo = ({
           </Typography>
           <Typography>{email}</Typography>
           <Typography>
-            {country_code} ({state_code}) {phone_number.substring(0, 3)}-
-            {phone_number.substring(3)}
+            {formattedPhoneNumber ? formattedPhoneNumber : "No phone number"}
           </Typography>
         </Stack>
       </Box>
