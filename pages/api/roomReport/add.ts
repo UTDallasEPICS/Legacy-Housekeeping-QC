@@ -22,7 +22,7 @@ export default async function handler(
         });
         inspection = await prisma.inspection.create({
           data: {
-            inspector: { connect: { id: session?.user?.id } },
+            inspector: { connect: { person_id: session?.user?.id } },
             schedule: { connect: { id: schedule.id } },
             inspect_status: "NOT_INSPECTED",
           },

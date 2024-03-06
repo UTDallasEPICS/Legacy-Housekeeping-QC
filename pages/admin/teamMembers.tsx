@@ -27,7 +27,7 @@ import {
   selectStateCode,
   selectPhoneNumber,
 } from "../../slices/memberProfileSlice";
-import { TeamMemberProperties } from "../../ts/types/teamMember.interfaces";
+import { TeamMemberProperties } from "../../ts/interfaces/teamMember.interfaces";
 
 const teamMembers = ({ members }: TeamMemberProperties) => {
   // Use Redux selectors to get member profile data
