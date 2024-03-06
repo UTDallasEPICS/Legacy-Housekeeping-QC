@@ -20,10 +20,15 @@ export function formatPhoneNumberForDisplay(
 }
 
 export function formatPhoneNumberForApi(phoneNumber: string): PhoneNumber {
-  const phoneParts = phoneNumber.split(/-| /);
+  // Split into country code, state code, and phone number
+  const phoneParts = stripPhoneNumber(phoneNumber).match(
+    /^(\+\d{1,3})(\d{3})(\d{3})(\d{4})$/
+  );
   return {
-    country_code: phoneParts[0],
-    state_code: phoneParts[1],
-    phone_number: phoneParts[2] + "-" + phoneParts[3],
+    country_code: phoneParts[1],
+    state_code: phoneParts[2],
+    phone_number: phoneParts[3] + "-" + phoneParts[4],
   };
 }
+
+export const PHONE_NUMBER_REG_EX = new RegExp(/^(\+|d)[0-9]{7,16}$/);
