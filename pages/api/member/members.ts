@@ -8,15 +8,18 @@ export default async function handler(
 ) {
   try {
     if (req.method === "GET") {
-      const memberPersons = await prisma.teamMember.findMany({
-        include: { person: true },
+      const persons = await prisma.person.findMany({
+        where: { type: "TEAM_MEMBER" },
+        include: { teamMember: true },
       });
-      const members = memberPersons.map(toTeamMember);
+      const members = persons.map(toTeamMember);
 
       res.status(200).json(members);
     } else if (req.method === "DELETE") {
-      const members = await prisma.teamMember.deleteMany({});
-      res.status(200).json(members);
+      const amount = await prisma.person.deleteMany({
+        where: { type: "TEAM_MEMBER" },
+      });
+      res.status(200).json(amount);
     }
   } catch (error) {
     res.status(500).send({ error: "Error: " + error });

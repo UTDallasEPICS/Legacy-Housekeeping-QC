@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../lib/prisma";
+import { toTeamMember } from "../../../ts/types/db.interfaces";
 
 export default async function handler(
   req: NextApiRequest,
