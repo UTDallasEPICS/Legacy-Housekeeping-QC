@@ -21,6 +21,9 @@ export default async function handler(
       } else if (type_of_room == "common") {
         type = RoomType.COMMON_AREA;
       }
+      else{
+        res.status(500).json("Invalid room type provided.");
+      }
 
       const addedRoom = await prisma.room.create({
         data: {
@@ -30,7 +33,26 @@ export default async function handler(
           type: type
         },
       });
-      res.status(200).json(addedRoom);
+
+      if (type_of_room == "personal") {
+        const addedPersonalRoom = await prisma.personalRoom.create({
+          data: {
+            id: addedRoom.id,
+            room_id: addedRoom.id,
+            is_occupied: false
+          }}
+        );
+        res.status(200).json({addedPersonalRoom, addedRoom});
+      }
+      else if (type_of_room == "common") {
+        const addedCommonRoom = await prisma.commonArea.create({
+          data: {
+            id: addedRoom.id,
+            room_id: addedRoom.id,
+          }}
+        );
+        res.status(200).json({addedCommonRoom, addedRoom});
+      }
     }
   } catch (error) {
     res.status(500).json(error + " :Error creating room");
