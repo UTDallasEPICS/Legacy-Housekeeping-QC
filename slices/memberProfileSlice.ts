@@ -9,7 +9,7 @@ export interface FirstNameState {
   countryCode: string;
   stateCode: string;
   phoneNumber: string;
-  memberId: string;
+  memberId: number;
 }
 
 const initialState: FirstNameState = {
@@ -19,7 +19,7 @@ const initialState: FirstNameState = {
   countryCode: "",
   stateCode: "",
   phoneNumber: "",
-  memberId: "",
+  memberId: -1,
 };
 
 export const memberProfileSlice = createSlice({
@@ -34,7 +34,7 @@ export const memberProfileSlice = createSlice({
         country_code,
         state_code,
         phone_number,
-        member_id,
+        id,
       } = action.payload;
 
       state.firstName = first_name;
@@ -43,7 +43,7 @@ export const memberProfileSlice = createSlice({
       state.countryCode = country_code;
       state.stateCode = state_code;
       state.phoneNumber = phone_number;
-      state.memberId = member_id;
+      state.memberId = id;
     },
   },
 });

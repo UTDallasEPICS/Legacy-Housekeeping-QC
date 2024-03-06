@@ -3,9 +3,14 @@ import { MuiTelInput } from "mui-tel-input";
 import { makeStyles } from "tss-react/mui";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
+import { format } from "path";
+import {
+  formatPhoneNumberForApi,
+  formatPhoneNumberForDisplay,
+} from "../../../../functions/phoneNumber";
 
 type MemberId = {
-  memberId: string;
+  memberId: number;
 };
 
 const useStyles = makeStyles()(() => {
@@ -19,6 +24,8 @@ const useStyles = makeStyles()(() => {
 });
 
 const editForm = ({ memberId }: MemberId) => {
+  console.log(memberId);
+
   const emailRegEx = new RegExp(
     "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$"
   );
@@ -27,8 +34,6 @@ const editForm = ({ memberId }: MemberId) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [countryCode, setCountryCode] = useState("");
-  const [stateCode, setStateCode] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const router = useRouter();
 
@@ -40,17 +45,17 @@ const editForm = ({ memberId }: MemberId) => {
 
         const data = await response.json();
 
-        const phoneParts = data.phone_number.split(" ");
-        if (phoneParts.length >= 3) {
-          setCountryCode(phoneParts[0]);
-          setStateCode(phoneParts[1]);
-          setPhoneNumber(phoneParts.slice(2).join(" "));
-        }
+        setPhoneNumber(
+          formatPhoneNumberForDisplay(
+            data.country_code,
+            data.state_code,
+            data.phone_number
+          )
+        );
 
         setFirstName(data.first_name);
         setLastName(data.last_name);
         setEmail(data.email);
-        setPhoneNumber(data.phone_number);
       } catch (error) {
         console.error(error);
         setError("Failed to load member data.");
@@ -66,7 +71,7 @@ const editForm = ({ memberId }: MemberId) => {
       return setError("Enter a valid email.");
     }
 
-    const phoneParts = phoneNumber.split(" ");
+    const phoneParts = formatPhoneNumberForApi(phoneNumber);
 
     const res = await fetch("/api/member/update", {
       method: "PUT",
@@ -74,13 +79,13 @@ const editForm = ({ memberId }: MemberId) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        member_id: memberId,
+        id: memberId,
         first_name: firstName,
         last_name: lastName,
         email: email,
-        country_code: phoneParts[0],
-        state_code: phoneParts[1],
-        phone_number: phoneParts[2] + phoneParts[3],
+        country_code: phoneParts.country_code,
+        state_code: phoneParts.state_code,
+        phone_number: phoneParts.phone_number,
       }),
     });
 
