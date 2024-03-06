@@ -14,7 +14,11 @@ export default async function handler(
         include: { teamMember: true },
       });
 
-      res.status(200).json(person);
+      if (!person || !person.teamMember) {
+        res.status(404).json({ error: "Member not found" });
+      }
+
+      res.status(200).json(toTeamMember(person));
     }
   } catch (error) {
     res.status(500).send(error + ": Error retrieving member");

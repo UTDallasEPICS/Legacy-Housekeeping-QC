@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../lib/prisma";
 import bcrypt from "bcrypt";
-import { toUser } from "../../../ts/types/db.interfaces";
+import { fromUser, toUser } from "../../../ts/types/db.interfaces";
 import { LensTwoTone } from "@mui/icons-material";
 
 export default async function handler(
@@ -31,7 +31,7 @@ export default async function handler(
       where: { email: email },
       include: { person: true },
     });
-    const user = toUser(userPerson);
+    const user = fromUser(userPerson);
     const validatedUser = {
       id: user.id,
       first_name: user.first_name,
@@ -42,6 +42,6 @@ export default async function handler(
   } catch (error) {
     return res
       .status(500)
-      .send({ error: `Error updating user: ${error.message}` });
+      .send({ error: `Error validating user: ${error.message}` });
   }
 }
