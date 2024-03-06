@@ -78,7 +78,7 @@ const roomView = () => {
   );
   */
 
-  const getData = (apiUrl) => {
+  async function getData(apiUrl) {
 
     return fetch(apiUrl, {method: "POST",
     headers: {"Content-Type": "application/json",},
@@ -89,12 +89,14 @@ const roomView = () => {
       })})
         .then((response) => {
             if (!response.ok) {
-
+                throw new Error('Network response was not ok');
             }
-            console.log(response.json())
             return response.json();
         })
-        .then(json => {setResult(json)})
+        .then(json => {
+            console.log(json)
+            setResult(json)
+        })
         .catch((error) => {
   
         })
@@ -171,18 +173,14 @@ const roomView = () => {
               justifyContent: "center",
             }}
           >
-            {/*Static Data Here */}
-            
             <Grid
               direction="column"
               alignItems="center"
               justifyContent="center"
-              //justifyContent="center"
-              
+
             >
                 {result.map(roomVal => (makeButton(roomVal)))}
             </Grid>
-            {/*Static Data Here */}
           </div>
           
         </Grid>
