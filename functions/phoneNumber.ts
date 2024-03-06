@@ -20,6 +20,13 @@ export function formatPhoneNumberForDisplay(
 }
 
 export function formatPhoneNumberForApi(phoneNumber: string): PhoneNumber {
+  if (!phoneNumber) {
+    return {
+      country_code: null,
+      state_code: null,
+      phone_number: null,
+    };
+  }
   // Split into country code, state code, and phone number
   const phoneParts = stripPhoneNumber(phoneNumber).match(
     /^(\+\d{1,3})(\d{3})(\d{3})(\d{4})$/

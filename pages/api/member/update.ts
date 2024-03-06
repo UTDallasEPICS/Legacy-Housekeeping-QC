@@ -40,5 +40,6 @@ export default async function handler(
     }
   } catch (err) {
     res.status(500).send({ error: "Error updating new member,  " + err });
+    console.error(err);
   }
 }
