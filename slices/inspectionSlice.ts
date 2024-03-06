@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
-import { reportProps } from "../interfaces/reportProps";
 
 export interface RemainingInspectionState {
   report: any;
