@@ -1,7 +1,7 @@
 import { Avatar, Box, Button, Stack, Typography } from "@mui/material";
 import { Edit } from "@mui/icons-material";
 import Link from "next/link";
-import { TeamMemberProfile } from "../../../../ts/types/teamMember.interfaces";
+import { TeamMemberProfile } from "../../../../ts/interfaces/teamMember.interfaces";
 import { formatPhoneNumberForDisplay } from "../../../../functions/phoneNumber";
 
 const profileInfo = ({

@@ -1,6 +1,6 @@
 import { Box, List, Typography } from "@mui/material";
 import { MemberInfo } from "../..";
-import { TeamMemberProperties } from "../../../../ts/types/teamMember.interfaces";
+import { TeamMemberProperties } from "../../../../ts/interfaces/teamMember.interfaces";
 
 const scroll = ({ members }: TeamMemberProperties) => {
   return (

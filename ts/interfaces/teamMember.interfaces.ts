@@ -1,4 +1,4 @@
-import { TeamMember } from "./db.interfaces";
+import { TeamMember } from "../types/db.interfaces";
 
 export interface TeamMemberProperties {
   members: TeamMember[];

@@ -1,5 +1,5 @@
 import { ProfileInfo } from "../..";
-import { TeamMemberProfile } from "../../../../ts/types/teamMember.interfaces";
+import { TeamMemberProfile } from "../../../../ts/interfaces/teamMember.interfaces";
 
 const memberProfile = ({
   first_name,

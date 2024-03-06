@@ -1,7 +1,7 @@
 import { Box, Divider, ListItemButton } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { setMemberProfile } from "../../../../slices/memberProfileSlice";
-import { TeamMemberInfo } from "../../../../ts/types/teamMember.interfaces";
+import { TeamMemberInfo } from "../../../../ts/interfaces/teamMember.interfaces";
 
 export const memberInfo = ({
   first_name,
