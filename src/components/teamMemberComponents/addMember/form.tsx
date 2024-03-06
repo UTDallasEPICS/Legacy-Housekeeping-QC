@@ -21,9 +21,8 @@ const useStyles = makeStyles()(() => {
 
 const form = () => {
   const emailRegEx = new RegExp(
-    "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$"
+    /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/
   );
-  const phoneNumberRegEx = new RegExp("^(+|d)[0-9]{7,16}$");
   const { classes } = useStyles();
   const [error, setError] = useState(null);
   const [firstName, setFirstName] = useState("");
@@ -39,8 +38,7 @@ const form = () => {
       emailRegEx,
       firstName,
       lastName,
-      phoneNumber,
-      phoneNumberRegEx
+      phoneNumber
     );
 
     if (resCheck) {

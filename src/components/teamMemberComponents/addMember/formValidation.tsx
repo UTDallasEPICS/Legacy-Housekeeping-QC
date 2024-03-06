@@ -1,15 +1,23 @@
-import { stripPhoneNumber } from "../../../../functions/phoneNumber";
+import {
+  PHONE_NUMBER_REG_EX,
+  stripPhoneNumber,
+} from "../../../../functions/phoneNumber";
 
 export default function formValidation(
   email: string,
   emailRegEx: RegExp,
   firstName: string,
   lastName: string,
-  phoneNumber: string,
-  phoneNumberRegEx: RegExp
+  phoneNumber: string
 ) {
-  if (!phoneNumber || !phoneNumberRegEx.test(stripPhoneNumber(phoneNumber))) {
-    return "Enter a valid phone number.";
+  if (
+    !phoneNumber ||
+    !PHONE_NUMBER_REG_EX.test(stripPhoneNumber(phoneNumber))
+  ) {
+    return (
+      "Enter a valid phone number. You entered: " +
+      stripPhoneNumber(phoneNumber)
+    );
   }
 
   if (!emailRegEx.test(email) && !firstName && !lastName && !phoneNumber) {
