@@ -29,12 +29,11 @@ enum PersonType {
 
 model User {
   // Indexes
-  id Int @id @default(autoincrement())
+  person_id Int @unique @id
   // Fields
   email    String  @unique
   password String
   // Relations
-  person_id Int @unique
   person Person @relation(fields: [person_id], references: [id], onDelete: Cascade)
 
   inspections Inspection[]
@@ -42,11 +41,10 @@ model User {
 
 model TeamMember {
   // Indexes
-  id Int @id @default(autoincrement())
+  person_id Int @unique @id
   // Fields
   email String?
   // Relations
-  person_id Int @unique
   person Person @relation(fields: [person_id], references: [id], onDelete: Cascade)
   schedules Schedule[]
   scores Score[]
@@ -59,7 +57,7 @@ model Score {
   amount Int
   // Relations
   team_member_id Int
-  team_member TeamMember @relation(fields: [team_member_id], references: [id], onDelete: Cascade)
+  team_member TeamMember @relation(fields: [team_member_id], references: [person_id], onDelete: Cascade)
 }
 
 model Schedule {
@@ -156,7 +154,7 @@ model Inspection {
   score Int?
   // Relations
   inspector_id Int 
-  inspector User @relation(fields: [inspector_id], references: [id])
+  inspector User @relation(fields: [inspector_id], references: [person_id])
   schedule_id Int 
   schedule Schedule @relation(fields: [schedule_id], references: [id])
   rubrics Rubric[]
