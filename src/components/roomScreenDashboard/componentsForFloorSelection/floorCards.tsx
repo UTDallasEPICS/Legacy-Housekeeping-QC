@@ -76,7 +76,7 @@ const makeEditCard = (bName : string, floors : string, id : string) => {
 }
 
 const mfloorCards = (results) =>{
-  let number = Number(results["floors_amount"]);
+  let number = Number(results["floor_count"]);
   let arr = []
   for (let i = 1; i <= number; i++) {
     arr.push(makeCard(i+"",results["name"],results["id"]))
@@ -140,7 +140,7 @@ const floorCards = () => {
           //backgroundColor:"red",
           }}>
         {mfloorCards(result)}
-        {makeEditCard(result["name"],result["floors_amount"],result["id"])}
+        {makeEditCard(result["name"],result["floor_count"],result["id"])}
         
         
     </Grid>

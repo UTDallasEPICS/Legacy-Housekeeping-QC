@@ -91,7 +91,6 @@ model Room {
   building_id Int
   building Building @relation(fields: [building_id], references: [id])
   floor_number Int
-  floor Floor @relation(fields: [building_id, floor_number], references: [building_id, number])
   schedule Schedule[]
   items Item[]
 }
@@ -126,19 +125,8 @@ model Building {
   id Int @id @default(autoincrement())
   // Fields
   name String
+  floor_count Int
   // Relations
-  floors Floor[]
-  rooms Room[]
-}
-
-model Floor {
-  // Indexes
-  @@id(name: "id" ,[building_id, number])
-  // Fields
-  number Int @unique
-  // Relations
-  building_id Int 
-  building Building @relation(fields: [building_id], references: [id])
   rooms Room[]
 }
 
