@@ -27,9 +27,9 @@ export default async function handler(
 
       const addedRoom = await prisma.room.create({
         data: {
-          building_id: building_id,
+          building_id: Number(building_id),
           name: room_name,
-          floor_number: floor_num,
+          floor_number: Number(floor_num),
           type: type
         },
       });

@@ -11,7 +11,6 @@ const formEditRoom = () => {
   const [error, setError] = useState(null);
   const [roomId, setRoomId] = useState("");
   const [building, setBuilding] = useState("");
-  const [roomNum, setRoomNum] = useState("");
   const [type, setType] = useState("");
   const [roomName, setRoomName] = useState("");
   const [floor, setFloor] = useState("");
@@ -25,7 +24,6 @@ const formEditRoom = () => {
     const resCheck = formRoomValidation(
       building,
       type,
-      roomNum,
       roomName,
       floor
     );
@@ -42,7 +40,6 @@ const formEditRoom = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        room_number: roomNum,
         room_id: roomId,
         building_number: building,
         building_id:buildId,
@@ -61,7 +58,6 @@ const formEditRoom = () => {
     }
 
     setBuilding(building);
-    setRoomNum("");
     setType("");
     setRoomName("");
     setFloor("");
@@ -86,7 +82,6 @@ const formEditRoom = () => {
       }
       setRoomId("")
       setBuilding(building);
-      setRoomNum("");
       setType("");
       setRoomName("");
       setFloor("");
@@ -112,9 +107,7 @@ const formEditRoom = () => {
     setRoomName(room["room_name"]);
     setBuilding(room["building_number"]);
     setRoomId(room["room_id"]);
-    setRoomNum(room["room_num"]);
     setFloor(room["floor_num"]);
-    setRoomNum(room["room_number"]);
     setType(room["type_of_room"]);
     setbuildId(room["building_id"]);
     var mySelect = document.getElementById('selector');
@@ -170,12 +163,8 @@ const formEditRoom = () => {
                 value={type}
                 autoWidth
               >
-                <MenuItem value="bathroom">Bathroom</MenuItem>
-                <MenuItem value="auxiliary">Auxiliary</MenuItem>
-                <MenuItem value="independent">Independent Living</MenuItem>
-                <MenuItem value="assisted">Assisted Living</MenuItem>
-                <MenuItem value="memory">Memory Care</MenuItem>
-                <MenuItem value="skilled">Skilled Nursing</MenuItem>
+                <MenuItem value="personal">Personal Room</MenuItem>
+                <MenuItem value="common">Common Area</MenuItem>
               </Select>
               {formErrors["type"] && (
                 <Alert severity="error" sx={{ whiteSpace: 'pre-line' }}>{formErrors["type"]}</Alert>
@@ -208,33 +197,6 @@ const formEditRoom = () => {
                 <Alert severity="error" sx={{ whiteSpace: 'pre-line' }}>{formErrors["name"]}</Alert>
             )}
             </Grid>
-            
-
-            {/* Room Number Input */}
-            <Grid style={{ marginTop: 20 }}>
-              <label
-                style={{
-                  fontSize: 25,
-                  marginRight: 10,
-                }}
-              >
-                Room Number:
-              </label>
-            </Grid>
-            <Grid style={{ marginTop: 20 }}>
-              <TextField
-                label="Room Number" 
-                variant="outlined"
-                onChange={(e) => setRoomNum(e.target.value)}
-                value={roomNum}
-                name="RoomNumber"
-                style={{ fontSize: "5vh", width: "30vh", height: "15vh", textAlign:"center" }}
-              />
-              {formErrors["number"] && (
-                <Alert severity="error" sx={{ whiteSpace: 'pre-line' }}>{formErrors["number"]}</Alert>
-              )}
-            </Grid>
-            
         </Grid>
         
         {error && <Alert severity="error" sx={{ whiteSpace: 'pre-line' }}>{error}</Alert>}

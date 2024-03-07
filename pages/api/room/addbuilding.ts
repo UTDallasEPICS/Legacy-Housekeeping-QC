@@ -13,16 +13,11 @@ export default async function handler(
       } = req.body;
       const addedBuilding = await prisma.building.create({
         data: {
-          name
+          name: name,
+          floor_count: floors_amount
         },
       });
-      const addedFloors = await prisma.floor.createMany({
-        data: Array.from({length: floors_amount}, (_, i) => ({
-          number: i + 1,
-          building_id: addedBuilding.id
-        }))
-      });
-      res.status(200).json({addedBuilding, addedFloors});
+      res.status(200).json(addedBuilding);
     }
   } catch (error) {
     res.status(500).json(error + " :Error creating room");

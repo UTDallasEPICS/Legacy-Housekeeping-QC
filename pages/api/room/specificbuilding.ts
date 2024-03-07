@@ -13,12 +13,7 @@ export default async function handler(
           name: name,
         }
       });
-      const floors_amount = await prisma.floor.count({
-        where: {
-          building_id: building.id
-        }
-      });
-      res.status(200).json({name: building.name, floors_amount: floors_amount, id: building.id});
+      res.status(200).json(building);
     }
   } catch (error) {
     res.status(500).json(error + " :Error retrieving a building");

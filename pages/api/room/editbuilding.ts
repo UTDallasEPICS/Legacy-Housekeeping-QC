@@ -14,21 +14,13 @@ export default async function handler(
       } = req.body;
       const editedBuilding = await prisma.building.update({
         where:{
-          id: id,
+          id: Number(id),
         },
         data: {
-          id,
-          building_name,
-          floors_amount
+          id: Number(id),
+          name: building_name,
+          floor_count: floors_amount
         },
-      });
-      const editedRoom = await prisma.room.updateMany({
-        where:{
-          building_id: id,
-        },
-        data:{
-          building_number: building_name
-        }
       });
       res.status(200).json(editedBuilding);
     }
