@@ -79,9 +79,9 @@ const formEditBuilding = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          id:building_id,
-          building_name:buildingName,
-          floors_amount:floorsAmount
+          id: building_id,
+          building_name: buildingName,
+          floors_amount: floorsAmount
         }),
       });
 

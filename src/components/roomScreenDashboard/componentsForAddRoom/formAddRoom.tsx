@@ -10,7 +10,6 @@ import Link from "next/link";
 const formAddRoom = () => {
   const [error, setError] = useState(null);
   const [building, setBuilding] = useState("");
-  const [roomNum, setRoomNum] = useState("");
   const [type, setType] = useState("");
   const [roomName, setRoomName] = useState("");
   const [floor, setFloor] = useState("");
@@ -22,7 +21,6 @@ const formAddRoom = () => {
     const resCheck = formRoomValidation(
       building,
       type,
-      roomNum,
       roomName,
       floor
     );
@@ -39,13 +37,9 @@ const formAddRoom = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        room_number: roomNum,
-        building_number: building,
-        building_id:buildId,
+        building_id: buildId,
         room_name: roomName,
         floor_num: floor,
-        is_clean: false,
-        is_active: true,
         type_of_room: type,
       }),
     });
@@ -57,7 +51,6 @@ const formAddRoom = () => {
     }
 
     setBuilding(building);
-    setRoomNum("");
     setType("");
     setRoomName("");
     setFloor("");
@@ -131,12 +124,8 @@ const formAddRoom = () => {
                 value={type}
                 autoWidth
               >
-                <MenuItem value="bathroom">Bathroom</MenuItem>
-                <MenuItem value="auxiliary">Auxiliary</MenuItem>
-                <MenuItem value="independent">Independent Living</MenuItem>
-                <MenuItem value="assisted">Assisted Living</MenuItem>
-                <MenuItem value="memory">Memory Care</MenuItem>
-                <MenuItem value="skilled">Skilled Nursing</MenuItem>
+                <MenuItem value="personal">Personal Room</MenuItem>
+                <MenuItem value="common">Common Area</MenuItem>
               </Select>
               {formErrors["type"] && (
                 <Alert severity="error" sx={{ whiteSpace: 'pre-line' }}>{formErrors["type"]}</Alert>
@@ -167,31 +156,6 @@ const formAddRoom = () => {
               {formErrors["name"] && (
                 <Alert severity="error" sx={{ whiteSpace: 'pre-line' }}>{formErrors["name"]}</Alert>
             )}
-            </Grid>
-            
-
-            {/* Room Number Input */}
-            <Grid style={{ marginTop: 20 }}>
-              <label
-                style={{
-                  fontSize: 25,
-                }}
-              >
-                Room Number:
-              </label>
-            </Grid>
-            <Grid style={{ marginTop: 20 }}>
-              <TextField
-                label="Room Number" 
-                variant="outlined"
-                onChange={(e) => setRoomNum(e.target.value)}
-                value={roomNum}
-                name="RoomNumber"
-                style={{ fontSize: "5vh", width: "30vh", height: "15vh", textAlign:"center" }}
-              />
-              {formErrors["number"] && (
-                <Alert severity="error" sx={{ whiteSpace: 'pre-line' }}>{formErrors["number"]}</Alert>
-              )}
             </Grid>
             
         </Grid>

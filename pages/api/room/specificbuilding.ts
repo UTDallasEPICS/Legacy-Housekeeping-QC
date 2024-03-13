@@ -7,13 +7,11 @@ export default async function handler(
 ) {
   try {
     if (req.method === "POST") {
-      const {
-        building_name,
-      } = req.body;
+      const { name } = req.body;
       const building = await prisma.building.findFirst({
         where: {
-          building_name: building_name,
-        },
+          name: name,
+        }
       });
       res.status(200).json(building);
     }

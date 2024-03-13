@@ -9,11 +9,7 @@ export interface FirstNameState {
   countryCode: string;
   stateCode: string;
   phoneNumber: string;
-  addressLine: string;
-  city: string;
-  state: string;
-  zipcode: string;
-  memberId: string;
+  memberId: number;
 }
 
 const initialState: FirstNameState = {
@@ -23,11 +19,7 @@ const initialState: FirstNameState = {
   countryCode: "",
   stateCode: "",
   phoneNumber: "",
-  addressLine: "",
-  city: "",
-  state: "",
-  zipcode: "",
-  memberId: "",
+  memberId: -1,
 };
 
 export const memberProfileSlice = createSlice({
@@ -36,30 +28,22 @@ export const memberProfileSlice = createSlice({
   reducers: {
     setMemberProfile: (state, action: PayloadAction<any>) => {
       const {
-        firstName,
-        lastName,
+        first_name,
+        last_name,
         email,
-        countryCode,
-        stateCode,
-        phoneNumber,
-        addressLine,
-        city,
-        stateUS,
-        zipcode,
-        memberId,
+        country_code,
+        state_code,
+        phone_number,
+        id,
       } = action.payload;
 
-      state.firstName = firstName;
-      state.lastName = lastName;
+      state.firstName = first_name;
+      state.lastName = last_name;
       state.email = email;
-      state.countryCode = countryCode;
-      state.stateCode = stateCode;
-      state.phoneNumber = phoneNumber;
-      state.addressLine = addressLine;
-      state.city = city;
-      state.state = stateUS;
-      state.zipcode = zipcode;
-      state.memberId = memberId;
+      state.countryCode = country_code;
+      state.stateCode = state_code;
+      state.phoneNumber = phone_number;
+      state.memberId = id;
     },
   },
 });
@@ -83,15 +67,6 @@ export const selectStateCode = (state: RootState) =>
 
 export const selectPhoneNumber = (state: RootState) =>
   state.memberProfile.phoneNumber;
-
-export const selectAddressLine = (state: RootState) =>
-  state.memberProfile.addressLine;
-
-export const selectCity = (state: RootState) => state.memberProfile.city;
-
-export const selectState = (state: RootState) => state.memberProfile.state;
-
-export const selectZipcode = (state: RootState) => state.memberProfile.zipcode;
 
 export const selectMemberId = (state: RootState) =>
   state.memberProfile.memberId;

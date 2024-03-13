@@ -1,3 +1,4 @@
+/*
 export interface MemberObject {
   member_id: string;
   first_name: string;
@@ -20,3 +21,4 @@ export interface MemberObject {
     }
   ];
 }
+*/

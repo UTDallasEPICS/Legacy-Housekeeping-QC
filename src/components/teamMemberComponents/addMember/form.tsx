@@ -4,7 +4,10 @@ import { makeStyles } from "tss-react/mui";
 import formValidation from "./formValidation";
 import { useState } from "react";
 import { useRouter } from "next/router";
-
+import {
+  formatPhoneNumberForApi,
+  stripPhoneNumber,
+} from "../../../../functions/phoneNumber";
 
 const useStyles = makeStyles()(() => {
   return {
@@ -17,10 +20,8 @@ const useStyles = makeStyles()(() => {
 });
 
 const form = () => {
- 
- 
   const emailRegEx = new RegExp(
-    "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$"
+    /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/
   );
   const { classes } = useStyles();
   const [error, setError] = useState(null);
@@ -28,24 +29,15 @@ const form = () => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [addressLine, setAddressLine] = useState("");
-  const [city, setCity] = useState("");
-  const [state, setState] = useState("");
-  const [zipcode, setZipcode] = useState("");
   const router = useRouter();
 
-
   const handleSubmit = async () => {
-    const phoneParts = phoneNumber.split(" ");
+    const phoneParts = formatPhoneNumberForApi(phoneNumber);
     const resCheck = formValidation(
       email,
       emailRegEx,
       firstName,
       lastName,
-      addressLine,
-      city,
-      state,
-      zipcode,
       phoneNumber
     );
 
@@ -63,13 +55,9 @@ const form = () => {
         first_name: firstName,
         last_name: lastName,
         email,
-        country_code: phoneParts[0],
-        state_code: phoneParts[1],
-        phone_number: phoneParts[2] + phoneParts[3],
-        address_line: addressLine,
-        zipcode,
-        city,
-        state,
+        country_code: phoneParts.country_code,
+        state_code: phoneParts.state_code,
+        phone_number: phoneParts.phone_number,
       }),
     });
 
@@ -82,10 +70,6 @@ const form = () => {
     setFirstName("");
     setLastName("");
     setEmail("");
-    setAddressLine("");
-    setCity("");
-    setState("");
-    setZipcode("");
     setPhoneNumber("");
 
     router.push("/admin/teamMembers");
@@ -125,43 +109,6 @@ const form = () => {
         variant="standard"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-      />
-
-      <TextField
-        className={classes.spaceBtwnCol}
-        id="addressLine"
-        label="Address"
-        variant="standard"
-        value={addressLine}
-        onChange={(e) => setAddressLine(e.target.value)}
-      />
-
-      <TextField
-        className={classes.spaceBtwnCol}
-        id="city"
-        label="City"
-        variant="standard"
-        value={city}
-        onChange={(e) => setCity(e.target.value)}
-      />
-
-      <TextField
-        className={classes.spaceBtwnCol}
-        id="state"
-        label="State"
-        variant="standard"
-        value={state}
-        onChange={(e) => setState(e.target.value)}
-      />
-
-      <TextField
-        className={classes.spaceBtwnCol}
-        id="zipcode"
-        label="ZIP Code"
-        variant="standard"
-        inputProps={{ maxLength: 5 }}
-        value={zipcode}
-        onChange={(e) => setZipcode(e.target.value)}
       />
 
       <MuiTelInput

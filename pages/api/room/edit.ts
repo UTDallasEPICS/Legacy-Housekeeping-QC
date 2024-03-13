@@ -9,27 +9,25 @@ export default async function handler(
     if (req.method === "POST") {
       const {
         room_id,
-        room_number,
         building_number,
+        building_id,
         room_name,
         floor_num,
         is_clean,
         is_active,
         type_of_room,
       } = req.body;
+
       const addedRoom = await prisma.room.update({
         where:{
-          room_id : room_id
+          id : room_id
         },
         data: {
-          room_id,
-          room_number,
-          building_number,
-          room_name,
-          floor_num,
-          is_clean,
-          is_active,
-          type_of_room,
+          id :room_id,
+          name: room_name,
+          type: type_of_room,
+          building_id: building_id,
+          floor_number: floor_num,
         },
       });
       res.status(200).json(addedRoom);

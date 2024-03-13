@@ -22,12 +22,11 @@ const makeButton = (roomJSON : JSON) => {
   const handleClick = (roomJSON: JSON) => {
     dispatch(setRoom(roomJSON));
    };
-  let roomName = roomJSON["room_name"];
-  let roomNumber = roomJSON["room_number"];
-  let floorNumber = roomJSON["floor_num"];
-  let typeOfRoom = roomJSON["type_of_room"];
-  let roomId = roomJSON["room_id"];
-  let building = roomJSON["building_number"];
+  let roomName = roomJSON["name"];
+  let floorNumber = roomJSON["floor_number"];
+  let typeOfRoom = roomJSON["type"];
+  let roomId = roomJSON["id"];
+  let building = roomJSON["building_id"];
   let newLink = "/admin/roomPages/editRoomForm?building=".concat(building).concat("&floor=").concat(floorNumber)
   return(
       <Grid
@@ -46,7 +45,7 @@ const makeButton = (roomJSON : JSON) => {
             onClick={() => handleClick(roomJSON)}
           >
             <div>
-                <h3 style={{ margin: 0 }}>{roomName} #{roomNumber} </h3>
+                <h3 style={{ margin: 0 }}>{roomName} </h3>
                 <p
                   style={{
                     display: "block",
@@ -79,7 +78,7 @@ const roomView = () => {
   );
   */
 
-  const getData = (apiUrl) => {
+  async function getData(apiUrl) {
 
     return fetch(apiUrl, {method: "POST",
     headers: {"Content-Type": "application/json",},
@@ -90,11 +89,14 @@ const roomView = () => {
       })})
         .then((response) => {
             if (!response.ok) {
-  
+                throw new Error('Network response was not ok');
             }
             return response.json();
         })
-        .then(json => {setResult(json)})
+        .then(json => {
+            console.log(json)
+            setResult(json)
+        })
         .catch((error) => {
   
         })
@@ -171,18 +173,14 @@ const roomView = () => {
               justifyContent: "center",
             }}
           >
-            {/*Static Data Here */}
-            
             <Grid
               direction="column"
               alignItems="center"
               justifyContent="center"
-              //justifyContent="center"
-              
+
             >
                 {result.map(roomVal => (makeButton(roomVal)))}
             </Grid>
-            {/*Static Data Here */}
           </div>
           
         </Grid>

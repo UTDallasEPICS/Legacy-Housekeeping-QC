@@ -1,30 +1,22 @@
 import { ProfileInfo } from "../..";
-import { MemberProfileProps } from "../../../../interfaces/memberProfileProps";
+import { TeamMemberProfile } from "../../../../ts/interfaces/teamMember.interfaces";
 
 const memberProfile = ({
-  firstName,
-  lastName,
+  first_name,
+  last_name,
   email,
-  countryCode,
-  stateCode,
-  phoneNumber,
-  addressLine,
-  city,
-  state,
-  zipcode,
-}: MemberProfileProps) => {
+  country_code,
+  state_code,
+  phone_number,
+}: TeamMemberProfile) => {
   return (
     <ProfileInfo
-      firstName={firstName}
-      lastName={lastName}
+      first_name={first_name}
+      last_name={last_name}
       email={email}
-      countryCode={countryCode}
-      stateCode={stateCode}
-      phoneNumber={phoneNumber}
-      addressLine={addressLine}
-      city={city}
-      state={state}
-      zipcode={zipcode}
+      country_code={country_code}
+      state_code={state_code}
+      phone_number={phone_number}
     />
   );
 };

@@ -1,24 +1,25 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../lib/prisma";
-import { authOptions } from "../auth/[...nextauth]";
-import { getServerSession } from "next-auth/next";
+import { toTeamMember } from "../../../ts/types/db.interfaces";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  // const session = await getServerSession(req, res, authOptions);
   try {
     if (req.method === "GET") {
-      const members = await prisma.teamMembers.findMany({
-        include: {
-          points: true,
-        },
+      const persons = await prisma.person.findMany({
+        where: { type: "TEAM_MEMBER" },
+        include: { teamMember: true },
       });
+      const members = persons.map(toTeamMember);
+
       res.status(200).json(members);
     } else if (req.method === "DELETE") {
-      const members = await prisma.teamMembers.deleteMany({});
-      res.status(200).json(members);
+      const amount = await prisma.person.deleteMany({
+        where: { type: "TEAM_MEMBER" },
+      });
+      res.status(200).json(amount);
     }
   } catch (error) {
     res.status(500).send({ error: "Error: " + error });

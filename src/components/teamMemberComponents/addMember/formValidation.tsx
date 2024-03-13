@@ -1,88 +1,50 @@
+import {
+  PHONE_NUMBER_REG_EX,
+  stripPhoneNumber,
+} from "../../../../functions/phoneNumber";
+
 export default function formValidation(
-  email: String,
-  emailRegEx,
-  firstName: String,
-  lastName: String,
-  addressLine: String,
-  city: String,
-  state: String,
-  zipcode: String,
-  phoneNumber: String
+  email: string,
+  emailRegEx: RegExp,
+  firstName: string,
+  lastName: string,
+  phoneNumber: string
 ) {
   if (
-    !emailRegEx.test(email) &&
-    !firstName &&
-    !lastName &&
-    !addressLine &&
-    !city &&
-    !state &&
-    !zipcode &&
-    !phoneNumber
+    !phoneNumber ||
+    !PHONE_NUMBER_REG_EX.test(stripPhoneNumber(phoneNumber))
   ) {
+    return (
+      "Enter a valid phone number. You entered: " +
+      stripPhoneNumber(phoneNumber)
+    );
+  }
+
+  if (!emailRegEx.test(email) && !firstName && !lastName && !phoneNumber) {
     return "Fill out all fields.";
   }
 
-  if (
-    !firstName &&
-    !lastName &&
-    !addressLine &&
-    !city &&
-    !state &&
-    !zipcode &&
-    !phoneNumber
-  ) {
-    return "Enter the first/last name, address, city, state, and ZIP code.";
+  if (!firstName && !lastName && !phoneNumber) {
+    return "Enter the first/last name and phone number.";
   }
 
-  if (
-    !emailRegEx.test(email) &&
-    !firstName &&
-    !lastName &&
-    !addressLine &&
-    !city &&
-    !state &&
-    !zipcode
-  ) {
-    return "Enter a valid email, first/last name, address, city, state, and ZIP code.";
+  if (!emailRegEx.test(email) && !firstName && !lastName) {
+    return "Enter a valid email, first/last name.";
   }
 
-  if (
-    !lastName &&
-    !addressLine &&
-    !city &&
-    !state &&
-    !zipcode &&
-    !phoneNumber
-  ) {
-    return "Enter the last name, address, city, state, and ZIP code.";
-  }
-
-  if (
-    !emailRegEx.test(email) &&
-    !firstName &&
-    !lastName &&
-    !addressLine &&
-    !city &&
-    !state
-  ) {
+  if (!emailRegEx.test(email) && !firstName && !lastName) {
     return "Enter a valid email, first/last name, address, city, and state.";
   }
 
-  if (!addressLine && !city && !state && !zipcode && !phoneNumber) {
+  if (!phoneNumber) {
     return "Enter the address, city, state, and ZIP code.";
   }
 
-  if (
-    !emailRegEx.test(email) &&
-    !firstName &&
-    !lastName &&
-    !addressLine &&
-    !city
-  ) {
+  if (!emailRegEx.test(email) && !firstName && !lastName) {
     return "Enter a valid email, first/last name, address, and city.";
   }
 
-  if (!emailRegEx.test(email) && !firstName && !lastName && !addressLine) {
+  if (!emailRegEx.test(email) && !firstName && !lastName) {
     return "Enter a valid email, first/last name, and address.";
   }
 

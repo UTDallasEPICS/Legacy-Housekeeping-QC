@@ -1,3 +1,4 @@
+/*
 export interface MemberProfileProps {
   firstName: string;
   lastName: string;
@@ -5,8 +6,5 @@ export interface MemberProfileProps {
   countryCode: string;
   stateCode: string;
   phoneNumber: string;
-  addressLine: string;
-  city: string;
-  state: string;
-  zipcode: string;
 }
+*/

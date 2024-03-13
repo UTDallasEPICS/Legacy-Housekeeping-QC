@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../lib/prisma";
+import { RoomType } from "@prisma/client";
 
 export default async function handler(
   req: NextApiRequest,
@@ -8,32 +9,50 @@ export default async function handler(
   try {
     if (req.method === "POST") {
       const {
-        room_id,
-        room_number,
-        building_number,
         building_id,
-        building,
         room_name,
         floor_num,
-        is_clean,
-        is_active,
         type_of_room,
       } = req.body;
+
+      let type: RoomType;
+      if (type_of_room == "personal") {
+        type = RoomType.PERSONAL_ROOM;
+      } else if (type_of_room == "common") {
+        type = RoomType.COMMON_AREA;
+      }
+      else{
+        res.status(500).json("Invalid room type provided.");
+      }
+
       const addedRoom = await prisma.room.create({
         data: {
-          room_id,
-          room_number,
-          building_number,
-          building_id,
-          building,
-          room_name,
-          floor_num,
-          is_clean,
-          is_active,
-          type_of_room,
+          building_id: Number(building_id),
+          name: room_name,
+          floor_number: Number(floor_num),
+          type: type
         },
       });
-      res.status(200).json(addedRoom);
+
+      if (type_of_room == "personal") {
+        const addedPersonalRoom = await prisma.personalRoom.create({
+          data: {
+            id: addedRoom.id,
+            room_id: addedRoom.id,
+            is_occupied: false
+          }}
+        );
+        res.status(200).json({addedPersonalRoom, addedRoom});
+      }
+      else if (type_of_room == "common") {
+        const addedCommonRoom = await prisma.commonArea.create({
+          data: {
+            id: addedRoom.id,
+            room_id: addedRoom.id,
+          }}
+        );
+        res.status(200).json({addedCommonRoom, addedRoom});
+      }
     }
   } catch (error) {
     res.status(500).json(error + " :Error creating room");

@@ -3,10 +3,14 @@ import { MuiTelInput } from "mui-tel-input";
 import { makeStyles } from "tss-react/mui";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-
+import { format } from "path";
+import {
+  formatPhoneNumberForApi,
+  formatPhoneNumberForDisplay,
+} from "../../../../functions/phoneNumber";
 
 type MemberId = {
-  memberId: string;
+  memberId: number;
 };
 
 const useStyles = makeStyles()(() => {
@@ -20,6 +24,8 @@ const useStyles = makeStyles()(() => {
 });
 
 const editForm = ({ memberId }: MemberId) => {
+  console.log(memberId);
+
   const emailRegEx = new RegExp(
     "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$"
   );
@@ -28,41 +34,31 @@ const editForm = ({ memberId }: MemberId) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [countryCode, setCountryCode] = useState("");
-  const [stateCode, setStateCode] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [addressLine, setAddressLine] = useState("");
-  const [city, setCity] = useState("");
-  const [state, setState] = useState("");
-  const [zipcode, setZipcode] = useState("");
   const router = useRouter();
 
   useEffect(() => {
     const fetchMemberData = async () => {
       try {
         const response = await fetch(`/api/member/${memberId}`);
-        if (!response.ok) throw new Error('Member data fetch failed');
-        
+        if (!response.ok) throw new Error("Member data fetch failed");
+
         const data = await response.json();
-        
-        const phoneParts = data.phone_number.split(" ");
-        if (phoneParts.length >= 3) {
-          setCountryCode(phoneParts[0]);
-          setStateCode(phoneParts[1]);
-          setPhoneNumber(phoneParts.slice(2).join(" "));
-        }
+
+        setPhoneNumber(
+          formatPhoneNumberForDisplay(
+            data.country_code,
+            data.state_code,
+            data.phone_number
+          )
+        );
 
         setFirstName(data.first_name);
         setLastName(data.last_name);
         setEmail(data.email);
-        setPhoneNumber(data.phone_number);
-        setAddressLine(data.address_line);
-        setCity(data.city);
-        setState(data.state);
-        setZipcode(data.zipcode);
       } catch (error) {
         console.error(error);
-        setError('Failed to load member data.');
+        setError("Failed to load member data.");
       }
     };
     if (memberId) {
@@ -70,13 +66,12 @@ const editForm = ({ memberId }: MemberId) => {
     }
   }, [memberId]);
 
-
   const handleSubmit = async () => {
     if (email != "" && !emailRegEx.test(email)) {
       return setError("Enter a valid email.");
     }
 
-    const phoneParts = phoneNumber.split(" ");
+    const phoneParts = formatPhoneNumberForApi(phoneNumber);
 
     const res = await fetch("/api/member/update", {
       method: "PUT",
@@ -84,18 +79,13 @@ const editForm = ({ memberId }: MemberId) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        member_id: memberId,
+        id: memberId,
         first_name: firstName,
         last_name: lastName,
         email: email,
-        country_code: phoneParts[0],
-        state_code: phoneParts[1],
-        phone_number:phoneParts[2] + phoneParts[3],
-        address_line: addressLine,
-        zipcode: zipcode,
-        city: city,
-        state: state,
-        
+        country_code: phoneParts.country_code,
+        state_code: phoneParts.state_code,
+        phone_number: phoneParts.phone_number,
       }),
     });
 
@@ -108,13 +98,7 @@ const editForm = ({ memberId }: MemberId) => {
     setFirstName("");
     setLastName("");
     setEmail("");
-    setAddressLine("");
-    setCity("");
-    setState("");
-    setZipcode("");
     setPhoneNumber("");
-    
-
 
     router.push("/admin/teamMembers");
   };
@@ -123,12 +107,10 @@ const editForm = ({ memberId }: MemberId) => {
       const res = await fetch(`/api/member/delete?memberId=${memberId}`, {
         method: "DELETE",
       });
-      
+
       if (res.ok) {
-         
         router.push("/admin/teamMembers");
       } else {
-        
         const data = await res.json();
         setError(data.error);
       }
@@ -137,7 +119,6 @@ const editForm = ({ memberId }: MemberId) => {
       setError("An error occurred while deleting the member.");
     }
   };
-
 
   return (
     <Box
@@ -175,47 +156,7 @@ const editForm = ({ memberId }: MemberId) => {
         onChange={(e) => setEmail(e.target.value)}
       />
 
-      <TextField
-        className={classes.spaceBtwnCol}
-        id="addressLine"
-        label="Address"
-        variant="standard"
-        value={addressLine}
-        onChange={(e) => setAddressLine(e.target.value)}
-      />
-
-      <TextField
-        className={classes.spaceBtwnCol}
-        id="city"
-        label="City"
-        variant="standard"
-        value={city}
-        onChange={(e) => setCity(e.target.value)}
-      />
-
-      <TextField
-        className={classes.spaceBtwnCol}
-        id="state"
-        label="State"
-        variant="standard"
-        value={state}
-        onChange={(e) => setState(e.target.value)}
-      />
-
-      <TextField
-        className={classes.spaceBtwnCol}
-        id="zipcode"
-        label="ZIP Code"
-        variant="standard"
-        inputProps={{ maxLength: 5 }}
-        value={zipcode}
-        onChange={(e) => setZipcode(e.target.value)}
-      />
-  
-      
-    
-
-     <MuiTelInput
+      <MuiTelInput
         className={classes.spaceBtwnCol}
         id="phoneNumber"
         variant="standard"
@@ -224,10 +165,7 @@ const editForm = ({ memberId }: MemberId) => {
         inputProps={{ maxLength: 15 }}
         value={phoneNumber}
         onChange={(e) => setPhoneNumber(e)}
-   
-      
       />
-    
 
       <Button
         className={classes.spaceBtwnCol}
@@ -247,9 +185,7 @@ const editForm = ({ memberId }: MemberId) => {
         sx={{
           color: "primary.main",
           backgroundColor: "white",
-
         }}
-  
         onClick={() => handleRemoveMember()}
       >
         Remove Member
@@ -265,4 +201,3 @@ const editForm = ({ memberId }: MemberId) => {
 };
 
 export default editForm;
-
