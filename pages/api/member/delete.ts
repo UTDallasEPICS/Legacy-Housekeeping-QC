@@ -9,10 +9,10 @@ export default async function handler(
 ) {
   try {
     if (req.method === "DELETE") {
-      const { id } = req.query;
+      const { memberId } = req.query;
 
       const person = await prisma.person.delete({
-        where: { id: parseInt(id.toString()) },
+        where: { id: parseInt(memberId.toString()) },
       });
 
       res.status(200).json({ message: "Member deleted successfully" });
