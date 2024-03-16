@@ -104,11 +104,10 @@ const formEditRoom = () => {
   useEffect(() => {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    setRoomName(room["room_name"]);
-    setBuilding(room["building_number"]);
-    setRoomId(room["room_id"]);
+    setRoomName(room["name"]);
+    setRoomId(room["id"]);
     setFloor(room["floor_num"]);
-    setType(room["type_of_room"]);
+    setType(room["type"]);
     setbuildId(room["building_id"]);
     var mySelect = document.getElementById('selector');
 
