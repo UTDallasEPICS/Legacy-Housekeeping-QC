@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../lib/prisma";
+import {RoomType} from "@prisma/client";
 
 export default async function handler(
   req: NextApiRequest,
@@ -10,12 +11,37 @@ export default async function handler(
       const {
         room_id,
       } = req.body;
-      const deletedRoom = await prisma.room.delete({
+
+      const roomToDelete = await prisma.room.findUnique({
         where: {
-          room_id:room_id,
+          id: room_id,
         },
       });
-      res.status(200).json(deletedRoom);
+
+      let deletedSubroom
+
+      if (roomToDelete.type == RoomType.PERSONAL_ROOM) {
+          deletedSubroom = await prisma.personalRoom.delete({
+            where: {
+                id: room_id,
+            },
+          });
+      }
+      else if (roomToDelete.type == RoomType.COMMON_AREA) {
+          deletedSubroom = await prisma.commonArea.delete({
+              where: {
+                  id: room_id,
+              },
+          });
+      }
+
+      const deletedRoom = await prisma.room.delete({
+           where: {
+                id: roomToDelete.id,
+           },
+      });
+
+      res.status(200).json({deletedRoom, deletedSubroom});
     }
   } catch (error) {
     res.status(500).json(error + " :Error deleting room");
