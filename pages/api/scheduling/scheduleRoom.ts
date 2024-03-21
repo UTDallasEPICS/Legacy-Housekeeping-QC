@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../lib/prisma";
-import { RoomType } from "@prisma/client";
+import {CleanType} from "@prisma/client";
 
 export default async function handler(
     req: NextApiRequest,
@@ -17,12 +17,13 @@ export default async function handler(
 
             const addedSchedule = await prisma.schedule.create({
                 data: {
-                    start_time: start_time,
-                    end_time: end_time,
-                    clean_type: clean_type,
+                    start_time: new Date(start_time),
+                    end_time: new Date(end_time),
+                    clean_type: clean_type.toUpperCase() as CleanType,
                     room_id: room_id
                 },
             });
+            res.status(200).json(addedSchedule);
         }
     } catch (error) {
         res.status(500).json(error + " :Error creating room");
