@@ -1,8 +1,8 @@
-import { Button, Typography, Container, Box, Grid } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import { setBuilding } from "../../../../slices/buildingSelectSlice";
 import { useDispatch } from "react-redux";
 import Link from "next/link";
-import { alignProperty } from "@mui/material/styles/cssUtils";
+//import { alignProperty } from "@mui/material/styles/cssUtils";
 import React, {useState, useEffect} from "react";
 
 //This will produce buttons for the user to select
@@ -13,36 +13,38 @@ const makeCard = (number : string,name : string, buildid : string) => {
     dispatch(setBuilding(building));
   };
   return(
-  <Grid item xs = {6} sm = {6} md = {3} lg = {3} xl = {1}
-        justifyContent="center"
-        textAlign="center">
+    <Grid item xs = {5} sm = {4} md = {3} lg = {3} xl = {2}
+      justifyContent="center"
+      textAlign="center">
       <Link href={"/admin/roomPages/roomView?building=".concat(name).concat("&floor=").concat(number).concat("&building_id=").concat(buildid)} passHref>
-          <Button
-            //onClick={() => handleClick("A")}
-            variant="contained"
-            color="secondary"
-            sx={{
-              fontweight: "bold",
-              fontSize: "2.5vh",
-            }}
-            style={{
-              minHeight: "20vh",
-              minWidth: "20vh",
-              maxHeight: "20vh",
-              maxWidth: "20vh",
-              border: "5px solid",
-
-              //border: 5,
-              //backgroundImage:"url(https://d7hftxdivxxvm.cloudfront.net/?quality=80&resize_to=width&src=https%3A%2F%2Fartsy-media-uploads.s3.amazonaws.com%2F2RNK1P0BYVrSCZEy_Sd1Ew%252F3417757448_4a6bdf36ce_o.jpg&width=910)",
-              //backgroundSize:"100%"
-            }} 
-          >
-            {"Floor #".concat(number)}
-          </Button>
+        <Button
+          //onClick={() => handleClick("A")}
+          variant="contained"
+          sx={{
+            minHeight: "12vh",
+            minWidth: "40vh",
+            maxHeight: "12vh", 
+            maxWidth: "40vh",
+            marginBottom: "-0.5vh",
+            fontweight: "bold",
+            fontSize: "5vh",
+            color: "primary.main",
+            border: "4px solid",
+            borderColor: "primary.main",
+            bgcolor: "white",
+            "&:hover": {
+              color: "white",
+              bgcolor: "primary.main", 
+            },
+          }}
+        >
+          {"".concat(number)}
+        </Button>
       </Link>
     </Grid>
   )
 }
+
 const makeEditCard = (bName : string, floors : string, id : string) => {
   return(
   <Grid item xs = {12} sm = {12} md = {12} lg = {12} xl = {12}
@@ -51,22 +53,23 @@ const makeEditCard = (bName : string, floors : string, id : string) => {
       <Link href={"/admin/roomPages/editBuildingForm?building=".concat(bName).concat("&floors_amount=").concat(floors).concat("&building_id=").concat(id)} passHref>
           <Button
             variant="contained"
-            color="success"
             sx={{
               fontweight: "bold",
-              fontSize: "3vh",
-              minHeight: "20vh",
+              fontSize: "2vh",
+              color: "secondary.main",
+              minHeight: "10vh",
               minWidth: "20vh",
-              maxHeight: "20vh",
+              maxHeight: "10vh",
               maxWidth: "20vh",
-              border: "5px solid",
+              border: "0.5vh solid",
+              borderColor: "secondary.main",
+              bgcolor: "transparent",
+              marginBottom: "2vh",
+              "&:hover": {
+                color: "white",
+                bgcolor: "secondary.main", 
+              },
             }}
-            style={{
-              
-              //border: 5,
-              //backgroundImage:"url(https://d7hftxdivxxvm.cloudfront.net/?quality=80&resize_to=width&src=https%3A%2F%2Fartsy-media-uploads.s3.amazonaws.com%2F2RNK1P0BYVrSCZEy_Sd1Ew%252F3417757448_4a6bdf36ce_o.jpg&width=910)",
-              //backgroundSize:"100%"
-            }} 
           >
             Edit Building
           </Button>
@@ -75,18 +78,16 @@ const makeEditCard = (bName : string, floors : string, id : string) => {
   )
 }
 
-const mfloorCards = (results) =>{
-  let number = Number(results["floor_count"]);
+/*const mfloorCards = (results) =>{
+  let number = Number(results["floors_amount"]);
   let arr = []
   for (let i = 1; i <= number; i++) {
-    arr.push(makeCard(i+"",results["name"],results["id"]))
+    //arr.push(makeCard(i+"",results["building_name"],results["id"]))
+    arr.push(i+"")
   }
-  return(arr)
   
-}
-
-
-
+  return(arr)
+}*/
 
 const floorCards = () => {
   
@@ -97,7 +98,7 @@ const floorCards = () => {
       method: "POST",
       headers: {"Content-Type": "application/json",},
       body: JSON.stringify({
-        name : name,
+        building_name : name,
       }),
     })
     .then((response) => {
@@ -115,9 +116,6 @@ const floorCards = () => {
 
    let name
   //When we click a button, we call a reducer to change the state of the building we select
-  
-  
-  
 
   useEffect(() => {
     const queryString = window.location.search;
@@ -125,27 +123,57 @@ const floorCards = () => {
     name = urlParams.get("building")
     getData("http://localhost:3000/api/room/specificbuilding")
   },[]);
-
   
+  {/* */}
+  let arr = []
+  for (let i = Number(result["floors_amount"]); i >= 1; i--) {
+    arr.push(i+"")
+  }
   
-  //Each button represents a certain building
   return (
-      <div style={{margin:"2px"}}>
-        <Grid container
+    <div>
+      <Grid container
         id="cardgrid"
         columnSpacing={0}
-        rowSpacing={2}
+        rowSpacing={4}
         sx={{
-          justifyContent:"center",
-          //backgroundColor:"red",
-          }}>
-        {mfloorCards(result)}
-        {makeEditCard(result["name"],result["floor_count"],result["id"])}
+          justifyContent: "center",
+        }}
+      >
+        <Grid id="scroll" 
+          style={{ display: "flex", justifyContent: "center" }}
+          justifyContent="center"
+          item xs = {12} md = {12} lg = {12} xl = {12}
+        >
+          <div
+            style={{
+              overflowX: "visible",
+              width: "50vh",
+              display: "justified",
+              justifyContent: "center",
+              //marginLeft: "16px", // width of scrollbar
+            }}
+          >
+            <Grid
+              direction="column"
+              alignItems="center"
+              justifyContent="center"
+            >
+              {arr.map(floorNum => (makeCard(floorNum, result["building_name"], result["id"])))}
+            </Grid>
+            <div
+              style={{
+                marginTop: 2,
+                width: "100%",
+                borderBottom: "4px solid",
+                borderColor: "primary.main",
+              }}/>
+          </div>
+        </Grid>
         
-        
-    </Grid>
-      </div>
-    
+        {makeEditCard(result["building_name"], result["floors_amount"], result["id"])}    
+      </Grid>
+    </div>
   );
   
 };

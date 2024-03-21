@@ -7,8 +7,7 @@ import BackButton from "../../globalComponents/backButton";
 import formBuildingValidation from "../componentsForAddBuilding/formBuildingValidation";
 import { Button, Alert, TextField, Grid } from "@mui/material";
 import Link from "next/link";
-
-
+import Navbar from "../../../../src/components/adminDashboard/navbar/navbar";
 
 const formEditBuilding = () => {
   const [error, setError] = useState(null);
@@ -79,9 +78,9 @@ const formEditBuilding = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          id: building_id,
-          building_name: buildingName,
-          floors_amount: floorsAmount
+          id:building_id,
+          building_name:buildingName,
+          floors_amount:floorsAmount
         }),
       });
 
@@ -120,6 +119,7 @@ const formEditBuilding = () => {
 
   return (
     <>
+      <Navbar/>
       <div>
           <BackButton pageToGoBack={"/admin/roomPages/buildingChoice"} />
       </div>
@@ -192,7 +192,16 @@ const formEditBuilding = () => {
         <Grid item>
           <Button
             variant="outlined"
-            sx={{ border: 5, marginRight: "1vh" }}
+            sx={{ 
+              border: 5, 
+              marginRight: "1vh", 
+              "&:hover": {            
+                border: 5,
+                borderColor: "primary.main",
+                color: "white",
+                bgcolor: "primary.main", 
+              }, 
+            }}
             onClick={() => handleSubmit()}
           >
             Submit
@@ -202,7 +211,15 @@ const formEditBuilding = () => {
         <Grid item>
           <Button
             variant="outlined"
-            sx={{ border: 5 }}
+            sx={{ 
+              border: 5,
+              "&:hover": {            
+                border: 5,
+                borderColor: "primary.main",
+                color: "white",
+                bgcolor: "primary.main", 
+              },
+            }}
             onClick={() => handleDelete()}
           >
             Delete Building

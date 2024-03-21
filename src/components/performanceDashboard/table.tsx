@@ -22,12 +22,18 @@ const MemberTable = () => {
   return (
     <Paper>
     <TableContainer sx={{overflowX: "auto"}}>
-      <Table sx={{ minWidth: { xs: "150px", sm: "150px", md: "150px", lg: "200px" }, height: { xs: "150px", sm: "20vh", md: "30vh", lg: "35vh"}}}>
+      <Table 
+        sx={{ 
+          minWidth: { xs: "150px", sm: "150px", md: "150px", lg: "250px" }, 
+          height: { xs: "150px", sm: "20vh", md: "30vh", lg: "35vh"}
+        }}>
         <TableHead sx={{backgroundColor: "#141c3b"}}>
           <TableRow>
             <TableCell sx={{color: "#FFFFFF"}}>
               <Typography sx={{fontSize: { xs: 13, sm: 14, md: 16, lg: 18 } }}>
-              Trend Data</Typography></TableCell>
+                Category
+              </Typography>
+            </TableCell>
             <TableCell sx={{color: "#FFFFFF"}} align="right">
             <Typography sx={{ fontSize: { xs: 13, sm: 14, md: 16, lg: 18 } }}>
               Average Score</Typography></TableCell>
