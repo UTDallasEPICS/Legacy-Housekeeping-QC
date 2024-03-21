@@ -6,10 +6,12 @@ import { RootState } from "../../../../store";
 import BackButton from "../../globalComponents/backButton";
 import { Button, Alert, Select, SelectChangeEvent, InputLabel, MenuItem, Grid, TextField } from "@mui/material";
 import Link from "next/link";
+import Navbar from "../../../../src/components/adminDashboard/navbar/navbar";
 
 const formAddRoom = () => {
   const [error, setError] = useState(null);
   const [building, setBuilding] = useState("");
+  const [roomNum, setRoomNum] = useState("");
   const [type, setType] = useState("");
   const [roomName, setRoomName] = useState("");
   const [floor, setFloor] = useState("");
@@ -37,9 +39,13 @@ const formAddRoom = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        building_id: buildId,
+        room_number: roomNum,
+        building_number: building,
+        building_id:buildId,
         room_name: roomName,
         floor_num: floor,
+        is_clean: false,
+        is_active: true,
         type_of_room: type,
       }),
     });
@@ -51,6 +57,7 @@ const formAddRoom = () => {
     }
 
     setBuilding(building);
+    setRoomNum("");
     setType("");
     setRoomName("");
     setFloor("");
@@ -82,19 +89,20 @@ const formAddRoom = () => {
 
   return (
     <>
+      <Navbar/>
       <div>
         <BackButton pageToGoBack={"/admin/roomPages/roomView?building=".concat(building).concat("&floor=").concat(floor).concat("&building_id=").concat(buildId)} />
       </div>
       <Grid container
-      direction={"column"}
-      alignItems={"center"}>
+        direction={"column"}
+        alignItems={"center"}
+      >
         <Grid style={{ display: "flex", justifyContent: "center" }}>
           <h1>New Room Form</h1>
         </Grid>
 
         <Grid style={{ display: "flex", justifyContent: "center" }}>
           <h2 style={{textAlign:"center"}}>Building: {building} <br></br>Floor {floor}</h2>
-          
         </Grid>
 
         <Grid style={{ display: "flex", justifyContent: "center", textAlign:"center" }}>
@@ -102,67 +110,94 @@ const formAddRoom = () => {
         </Grid>
 
         {/*This area will be the section where admin fills out info*/}
-        <Grid alignContent={"center"} direction={"column"} sx={{textAlign:"center"}}>
+        <Grid 
+          direction={"column"} 
+          alignContent={"center"} 
+          sx={{textAlign:"center"}}
+        >
 
             {/* Room type */}
-            <Grid style={{ marginTop: 20 }}>
-              <label
-                style={{
-                  fontSize: "5vh",
-                  marginRight: 10,
-                }}
-              >
-                Type of Room:
-              </label>
-            </Grid>         
-            <Grid style={{ marginTop: 20 }}>
+                    
+            <Grid>
               <InputLabel id="demo-simple-select-label">Room Type</InputLabel>
               <Select
-                style={{ fontSize: "2.5vh", width: "30vh", height: "7.5vh", textAlign:"center" }}
+                style={{ 
+                  fontSize: "2.5vh", 
+                  width: "30vh", 
+                  height: "8vh", 
+                  textAlign:"center" 
+                }}
                 onChange={handleTypeChange}
-                label={"Room Type"}
                 value={type}
                 autoWidth
               >
-                <MenuItem value="personal">Personal Room</MenuItem>
-                <MenuItem value="common">Common Area</MenuItem>
+                <MenuItem value="bathroom">Bathroom</MenuItem>
+                <MenuItem value="auxiliary">Auxiliary</MenuItem>
+                <MenuItem value="independent">Independent Living</MenuItem>
+                <MenuItem value="assisted">Assisted Living</MenuItem>
+                <MenuItem value="memory">Memory Care</MenuItem>
+                <MenuItem value="skilled">Skilled Nursing</MenuItem>
               </Select>
               {formErrors["type"] && (
                 <Alert severity="error" sx={{ whiteSpace: 'pre-line' }}>{formErrors["type"]}</Alert>
             )}
-            </Grid>
-            
-
+           </Grid>
+           
             {/* Set the name of the room*/}
+            
             <Grid style={{ marginTop: 20 }}>
-              <label
-                style={{
-                  fontSize: 25,
-                }}
-              >
-                Room Name:
-              </label>
-            </Grid>
-            <Grid style={{ marginTop: 20 }}>
-              {/**/}
               <TextField
+                style={{ 
+                  fontSize: "5vh", 
+                  width: "30vh", 
+                  height: "8vh", 
+                  textAlign:"center" 
+                }}
                 label="Room Name" 
                 variant="outlined"
                 onChange={(e) => setRoomName(e.target.value)}
                 value={roomName}
                 name="roomName"
-                style={{ fontSize: "5vh", width: "30vh", height: "15vh", textAlign:"center" }}
               />
               {formErrors["name"] && (
                 <Alert severity="error" sx={{ whiteSpace: 'pre-line' }}>{formErrors["name"]}</Alert>
             )}
             </Grid>
+
+            <Grid>
+              <TextField
+                style={{ 
+                  fontSize: "5vh", 
+                  width: "30vh", 
+                  height: "8vh", 
+                  textAlign:"center",
+                  margin: 0,
+                }}
+                label="Room Number" 
+                variant="outlined"
+                onChange={(e) => setRoomNum(e.target.value)}
+                value={roomNum}
+                name="RoomNumber"
+              />
+              {formErrors["number"] && (
+                <Alert severity="error" sx={{ whiteSpace: 'pre-line' }}>{formErrors["number"]}</Alert>
+              )}
+            </Grid>
             
         </Grid>
-        <Grid style={{ display: "flex", justifyContent: "center", marginTop: 70 }}>
+        <Grid style={{ display: "flex", justifyContent: "center"}}>
           <Button
             variant="outlined"
-            sx={{ border: 5 }}
+            sx={{ 
+              border: 5,
+              marginRight: "1vh",
+              "&:hover": {            
+                border: 5,
+                borderColor: "primary.main",
+                color: "white",
+                bgcolor: "primary.main", 
+              }, 
+            }}
             onClick={() => handleSubmit()}
           >
             Submit

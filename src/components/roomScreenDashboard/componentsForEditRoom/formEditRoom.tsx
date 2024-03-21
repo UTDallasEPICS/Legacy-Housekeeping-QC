@@ -11,6 +11,7 @@ const formEditRoom = () => {
   const [error, setError] = useState(null);
   const [roomId, setRoomId] = useState("");
   const [building, setBuilding] = useState("");
+  const [roomNum, setRoomNum] = useState("");
   const [type, setType] = useState("");
   const [roomName, setRoomName] = useState("");
   const [floor, setFloor] = useState("");
@@ -40,6 +41,7 @@ const formEditRoom = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        room_number: roomNum,
         room_id: roomId,
         building_number: building,
         building_id:buildId,
@@ -58,6 +60,7 @@ const formEditRoom = () => {
     }
 
     setBuilding(building);
+    setRoomNum("");
     setType("");
     setRoomName("");
     setFloor("");
@@ -82,6 +85,7 @@ const formEditRoom = () => {
       }
       setRoomId("")
       setBuilding(building);
+      setRoomNum("");
       setType("");
       setRoomName("");
       setFloor("");
@@ -107,7 +111,9 @@ const formEditRoom = () => {
     setRoomName(room["room_name"]);
     setBuilding(room["building_number"]);
     setRoomId(room["room_id"]);
+    setRoomNum(room["room_num"]);
     setFloor(room["floor_num"]);
+    setRoomNum(room["room_number"]);
     setType(room["type_of_room"]);
     setbuildId(room["building_id"]);
     var mySelect = document.getElementById('selector');
@@ -143,28 +149,20 @@ const formEditRoom = () => {
         <Grid alignContent={"center"} direction={"column"} sx={{textAlign:"center"}}>
             {/* Room type */}
             <Grid>
-              <label
-                style={{
-                  fontSize: "5vh",
-                  marginRight: 10,
-                }}
-              >
-                Type of Room:
-              </label>
-            </Grid>
-            
-            <Grid>
               <InputLabel id="demo-simple-select-label">Room Type</InputLabel>
               <Select
                 id = "selector"
                 style={{ fontSize: "2.5vh", width: "30vh", height: "8vh",}}
                 onChange={handleTypeChange}
-                label={"Room Type"}
                 value={type}
                 autoWidth
               >
-                <MenuItem value="personal">Personal Room</MenuItem>
-                <MenuItem value="common">Common Area</MenuItem>
+                <MenuItem value="bathroom">Bathroom</MenuItem>
+                <MenuItem value="auxiliary">Auxiliary</MenuItem>
+                <MenuItem value="independent">Independent Living</MenuItem>
+                <MenuItem value="assisted">Assisted Living</MenuItem>
+                <MenuItem value="memory">Memory Care</MenuItem>
+                <MenuItem value="skilled">Skilled Nursing</MenuItem>
               </Select>
               {formErrors["type"] && (
                 <Alert severity="error" sx={{ whiteSpace: 'pre-line' }}>{formErrors["type"]}</Alert>
@@ -174,43 +172,70 @@ const formEditRoom = () => {
 
             {/* Set the name of the room*/}
             <Grid style={{ marginTop: 20 }}>
-              <label
-                style={{
-                  fontSize: 25,
-                  marginRight: 10,
-                }}
-              >
-                Room Name:
-              </label>
-            </Grid>
-            <Grid style={{ marginTop: 20 }}>
-              {/**/}
               <TextField
                 label="Room Name" 
                 variant="outlined"
                 onChange={(e) => setRoomName(e.target.value)}
                 value={roomName}
                 name="roomName"
-                style={{ fontSize: "5vh", width: "30vh", height: "15vh", textAlign:"center" }}
+                style={{ 
+                  fontSize: "5vh", 
+                  width: "30vh", 
+                  height: "8vh", 
+                  textAlign:"center" 
+                }}
               />
               {formErrors["name"] && (
                 <Alert severity="error" sx={{ whiteSpace: 'pre-line' }}>{formErrors["name"]}</Alert>
             )}
             </Grid>
+
+            {/* Room Number Input */}
+            <Grid>
+              <TextField
+                label="Room Number" 
+                variant="outlined"
+                onChange={(e) => setRoomNum(e.target.value)}
+                value={roomNum}
+                name="RoomNumber"
+                style={{ fontSize: "5vh", width: "30vh", height: "8vh", textAlign:"center" }}
+              />
+              {formErrors["number"] && (
+                <Alert severity="error" sx={{ whiteSpace: 'pre-line' }}>{formErrors["number"]}</Alert>
+              )}
+            </Grid>
+            
         </Grid>
         
         {error && <Alert severity="error" sx={{ whiteSpace: 'pre-line' }}>{error}</Alert>}
-        <Grid style={{ display: "flex", justifyContent: "center", marginTop: 70 }}>
+        <Grid style={{ display: "flex", justifyContent: "center"}}>
           <Button
             variant="outlined"
-            sx={{ border: 5 }}
+            sx={{ 
+              border: 5,
+              marginRight: "1vh",
+              "&:hover": {            
+                border: 5,
+                borderColor: "primary.main",
+                color: "white",
+                bgcolor: "primary.main", 
+              }, 
+            }}
             onClick={() => handleSubmit()}
           >
             Submit
           </Button>
           <Button
             variant="outlined"
-            sx={{ border: 5 }}
+            sx={{ 
+              border: 5,
+              "&:hover": {            
+                border: 5,
+                borderColor: "primary.main",
+                color: "white",
+                bgcolor: "primary.main", 
+              }, 
+            }}
             onClick={() => handleDelete()}
           >
             Delete Room

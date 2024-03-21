@@ -19,46 +19,50 @@ import DownloadButton from "../src/components/performanceDashboard/buttons/downl
 import ScoreHistory from "../src/components/performanceDashboard/scoreHistory";
 import MemberTabs from "../src/components/performanceDashboard/memberTabs";
 
-const performance = () => {
+// placeholder data
+export const memberData = { 
+  Bob: [
+    { name: "Week 1", Score: 80 },
+    { name: "Week 2", Score: 90 },
+    { name: "Week 3", Score: 70 },
+    { name: "Week 4", Score: 100 },
+    { name: "Week 5", Score: 80 },
+    { name: "Week 6", Score: 75 },
+    { name: "Week 7", Score: 55 },
+  ],
+  Mister: [
+    { name: "Week 1", Score: 20 },
+    { name: "Week 2", Score: 40 },
+    { name: "Week 3", Score: 90 },
+    { name: "Week 4", Score: 100 },
+    { name: "Week 5", Score: 30 },
+    { name: "Week 6", Score: 80 },
+  ],
+  Joe: [
+    { name: "Week 1", Score: 40 },
+    { name: "Week 2", Score: 20 },
+    { name: "Week 3", Score: 10 },
+    { name: "Week 4", Score: 70 },
+    { name: "Week 5", Score: 80 },
+  ],
+  Chicken: [
+    { name: "Week 1", Score: 30 },
+    { name: "Week 2", Score: 60 },
+    { name: "Week 3", Score: 80 },
+    { name: "Week 4", Score: 100 },
+    { name: "Week 5", Score: 80 },
+  ],
+};
+
+const performance = () => { 
   const theme = useTheme();
   const isSmScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const IsXsScreen = useMediaQuery(theme.breakpoints.up("sm"));
-  const [selectedMember, setSelectedMember] = React.useState("member1");
+
+  const [selectedMember, setSelectedMember] = React.useState(Object.keys(memberData)[0]);
 
   const handleMemberClick = (member: string) => {
     setSelectedMember(member);
-  };
-
-  
-  const memberData = {
-    member1: [
-      { name: "Week 1", Score: 80 },
-      { name: "Week 2", Score: 90 },
-      { name: "Week 3", Score: 70 },
-      { name: "Week 4", Score: 100 },
-      { name: "Week 5", Score: 80 },
-    ],
-    member2: [
-      { name: "Week 1", Score: 20 },
-      { name: "Week 2", Score: 40 },
-      { name: "Week 3", Score: 90 },
-      { name: "Week 4", Score: 100 },
-      { name: "Week 5", Score: 30 },
-    ],
-    member3: [
-      { name: "Week 1", Score: 40 },
-      { name: "Week 2", Score: 20 },
-      { name: "Week 3", Score: 10 },
-      { name: "Week 4", Score: 70 },
-      { name: "Week 5", Score: 80 },
-    ],
-    member4: [
-      { name: "Week 1", Score: 30 },
-      { name: "Week 2", Score: 60 },
-      { name: "Week 3", Score: 80 },
-      { name: "Week 4", Score: 100 },
-      { name: "Week 5", Score: 80 },
-    ],
   };
 
   const memberScores = memberData[selectedMember].map((data) => data.Score);
@@ -66,6 +70,7 @@ const performance = () => {
     memberScores.reduce((total, score) => total + score, 0) /
     memberScores.length;
   const roundedAverageScore = Math.round(averageScore);
+  const memberNames = Object.keys(memberData); 
 
   return (
     <Box>
@@ -86,26 +91,28 @@ const performance = () => {
                   flexDirection: "column",
                   alignItems: "flex-start",
                   justifyContent: "space-evenly",
-                  mt: 2,
+                  marginTop: 2,
                 }}
               >
-                <MemberButton member="member1" onClick={handleMemberClick} />
-                <MemberButton member="member2" onClick={handleMemberClick} />
-                <MemberButton member="member3" onClick={handleMemberClick} />
-                <MemberButton member="member4" onClick={handleMemberClick} />
+                {memberNames.map((member, index) => (
+                  <MemberButton
+                    key={index}
+                    member={member}
+                    onClick={handleMemberClick}
+                  />))
+                }
               </Box>
             </Grid>
           )}
 
-          <Grid container item xs={12} sm={9} md={9} lg={9} spacing={2}>
-            <Grid item xs={4} sm={3} md={3} lg={3}>
+          <Grid container item xs={12} sm={9} md={9} lg={9} spacing={1}>
+            <Grid item xs={4} sm={3} md={3} lg={4}>
               <Box
                 style={{
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "flex-start",
-                  backgroundColor: "#fff",
-                  marginLeft: "5px",
+                  marginLeft: "30px",
                 }}
               >
                 <Typography
@@ -116,17 +123,17 @@ const performance = () => {
                     mt: 2,
                   }}
                 >
-                  {`Member ${selectedMember.slice(-1)}`}
+                  {selectedMember}
                 </Typography>
                 <Typography
                   variant="h4"
                   sx={{
                     fontSize: { xs: 14, sm: 16, md: 20 },
                     fontWeight: "bold",
-                    mt: 1,
+                    marginTop: 1,
                   }}
                 >
-                  Avg Score: {roundedAverageScore}%
+                  Average Score: {roundedAverageScore}%
                 </Typography>
               </Box>
             </Grid>
@@ -163,9 +170,7 @@ const performance = () => {
                     },
                   }}
                 >
-                  <MembersPerformanceChart
-                    memberData={memberData[selectedMember]}
-                  />
+                  <MembersPerformanceChart memberData={memberData[selectedMember]}/>
                 </Box>
               </Grid>
 
@@ -185,7 +190,7 @@ const performance = () => {
                     },
                   }}
                 >
-                  <ScoreHistory />
+                  <ScoreHistory memberData={memberData[selectedMember]}/>
                 </Box>
               </Grid>
 
@@ -227,7 +232,7 @@ const performance = () => {
                     fontSize: { xs: 14, sm: 16, nd: 20 },
                   }}
                 >
-                  © 2023 The Legacy Senior Communities
+                  © 2024 The Legacy Senior Communities
                 </Typography>
               </Box>
             </Grid>
@@ -239,35 +244,3 @@ const performance = () => {
 };
 
 export default performance;
-
-
-export const memberData = {
-  member1: [
-    { name: "Week 1", Score: 80 },
-    { name: "Week 2", Score: 90 },
-    { name: "Week 3", Score: 70 },
-    { name: "Week 4", Score: 100 },
-    { name: "Week 5", Score: 80 },
-  ],
-  member2: [
-    { name: "Week 1", Score: 20 },
-    { name: "Week 2", Score: 40 },
-    { name: "Week 3", Score: 90 },
-    { name: "Week 4", Score: 100 },
-    { name: "Week 5", Score: 30 },
-  ],
-  member3: [
-    { name: "Week 1", Score: 40 },
-    { name: "Week 2", Score: 20 },
-    { name: "Week 3", Score: 10 },
-    { name: "Week 4", Score: 70 },
-    { name: "Week 5", Score: 80 },
-  ],
-  member4: [
-    { name: "Week 1", Score: 30 },
-    { name: "Week 2", Score: 60 },
-    { name: "Week 3", Score: 80 },
-    { name: "Week 4", Score: 100 },
-    { name: "Week 5", Score: 80 },
-  ],
-};
