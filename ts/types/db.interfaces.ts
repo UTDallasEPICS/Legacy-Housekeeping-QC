@@ -9,28 +9,142 @@ import {
   Rubric as RubricDB,
   HollisticRubric as HollisticRubricDB,
   QuantitativeRubric as QuantitativeRubricDB,
+  Inspection as InspectionDB,
+  Schedule as ScheduleDB,
+  Building as BuildingDB,
+  RubricType,
 } from "@prisma/client";
 export type TeamMember = Omit<TeamMemberDB & PersonDB, "type" | "person_id">;
 export type User = Omit<UserDB & PersonDB, "type" | "person_id">;
 
-export type CommonArea = Omit<CommonAreaDB & RoomDB, "type">;
-export type PersonalRoom = Omit<PersonalRoomDB & RoomDB, "type">;
+export type CommonArea = Omit<CommonAreaDB & RoomDB, "type" | "room_id">;
+export type PersonalRoom = Omit<PersonalRoomDB & RoomDB, "type" | "room_id">;
 
-export type HollisticRubric = Omit<HollisticRubricDB & RubricDB, "type">;
-export type QuantitativeRubric = Omit<QuantitativeRubricDB & RubricDB, "type">;
+export type HollisticRubric = {
+  requirements: Requirement[];
+} & Omit<HollisticRubricDB & RubricDB, "type" | "rubric_id">;
+export type QuantitativeRubric = {
+  items: Item[];
+} & Omit<QuantitativeRubricDB & RubricDB, "type" | "rubric_id">;
 
-const personIncludeTeamMember = Prisma.validator<Prisma.PersonArgs>()({
-  include: { teamMember: true },
+export type Requirement = {
+  id: number;
+  description: string;
+};
+
+export type Item = {
+  item_name: string;
+};
+
+export type Inspection = {
+  schedule: Schedule;
+  rubric: Rubric;
+  inspector: User;
+} & InspectionDB;
+
+export type Schedule = {
+  room: Room;
+  building: Building;
+  team_members: TeamMember[];
+} & ScheduleDB;
+
+export type Rubric = HollisticRubric | QuantitativeRubric;
+export type Room = CommonArea | PersonalRoom;
+export type Building = BuildingDB;
+
+export const inspectionIncludeAll =
+  Prisma.validator<Prisma.InspectionInclude>()({
+    rubrics: {
+      include: {
+        hollistic_rubric: {
+          include: { requirements: true },
+        },
+        quantitative_rubric: {
+          include: { items: true },
+        },
+      },
+    },
+    schedule: {
+      include: {
+        room: {
+          include: { building: true, common_area: true, personal_room: true },
+        },
+        team_members: { include: { person: true } },
+      },
+    },
+    inspector: {
+      include: { person: true },
+    },
+  });
+type InspectionIncludeAll = Prisma.InspectionGetPayload<{
+  include: typeof inspectionIncludeAll;
+}>;
+export function toInspection(a: InspectionIncludeAll): Inspection {
+  let rubric;
+  switch (rubric.type) {
+    case RubricType.HOLLISTIC:
+      rubric = toHollisticRubric(a.rubrics[0]);
+    case RubricType.QUANTITATIVE:
+      rubric = toQuantitativeRubric(a.rubrics[0]);
+  }
+  return {
+    id: a.id,
+    inspect_status: a.inspect_status,
+    clean_status: a.clean_status,
+    schedule: toSchedule(a.schedule),
+    rubric: rubric,
+    inspector: fromUser(a.inspector),
+    timestamp: a.timestamp,
+    room_pics: a.room_pics,
+    inspector_id: a.inspector_id,
+    schedule_id: a.schedule_id,
+    comment: a.comment,
+    score: a.score,
+  };
+}
+
+export const scheduleIncludeAll = Prisma.validator<Prisma.ScheduleInclude>()({
+  room: {
+    include: { building: true, common_area: true, personal_room: true },
+  },
+  team_members: {
+    include: { person: true },
+  },
 });
-type PersonIncludeTeamMember = Prisma.PersonGetPayload<
-  typeof personIncludeTeamMember
->;
-const teamMemberIncludePerson = Prisma.validator<Prisma.TeamMemberArgs>()({
-  include: { person: true },
-});
-type TeamMemberIncludePerson = Prisma.TeamMemberGetPayload<
-  typeof teamMemberIncludePerson
->;
+type ScheduleIncludeAll = Prisma.ScheduleGetPayload<{
+  include: typeof scheduleIncludeAll;
+}>;
+export function toSchedule(a: ScheduleIncludeAll): Schedule {
+  const room = a.room.common_area
+    ? toCommonArea(a.room)
+    : toPersonalRoom(a.room);
+  return {
+    id: a.id,
+    room_id: a.room_id,
+    room: room,
+    start_time: a.start_time,
+    end_time: a.end_time,
+    clean_type: a.clean_type,
+    building: a.room.building,
+    team_members: a.team_members.map((member) => {
+      return fromTeamMember(member);
+    }),
+  };
+}
+
+export const personIncludeTeamMember = Prisma.validator<Prisma.PersonInclude>()(
+  { teamMember: true }
+);
+type PersonIncludeTeamMember = Prisma.PersonGetPayload<{
+  include: typeof personIncludeTeamMember;
+}>;
+export const teamMemberIncludePerson =
+  Prisma.validator<Prisma.TeamMemberInclude>()({
+    person: true,
+  });
+type TeamMemberIncludePerson = Prisma.TeamMemberGetPayload<{
+  include: typeof teamMemberIncludePerson;
+}>;
 export function toTeamMember(a: PersonIncludeTeamMember): TeamMember {
   return {
     id: a.id,
@@ -54,14 +168,18 @@ export function fromTeamMember(a: TeamMemberIncludePerson): TeamMember {
   };
 }
 
-const personIncludeUser = Prisma.validator<Prisma.PersonArgs>()({
-  include: { user: true },
+export const personIncludeUser = Prisma.validator<Prisma.PersonInclude>()({
+  user: true,
 });
-type PersonIncludeUser = Prisma.PersonGetPayload<typeof personIncludeUser>;
-const userIncludePerson = Prisma.validator<Prisma.UserArgs>()({
-  include: { person: true },
+type PersonIncludeUser = Prisma.PersonGetPayload<{
+  include: typeof personIncludeUser;
+}>;
+export const userIncludePerson = Prisma.validator<Prisma.UserInclude>()({
+  person: true,
 });
-type UserIncludePerson = Prisma.UserGetPayload<typeof userIncludePerson>;
+type UserIncludePerson = Prisma.UserGetPayload<{
+  include: typeof userIncludePerson;
+}>;
 export function toUser(a: PersonIncludeUser): User {
   return {
     id: a.id,
@@ -87,62 +205,128 @@ export function fromUser(a: UserIncludePerson): User {
   };
 }
 
-/* Need to reverse the direction of the type
-
-const commonAreaRoom = Prisma.validator<Prisma.CommonAreaArgs>()({
-  include: { room: true },
+export const roomIncludeCommonArea = Prisma.validator<Prisma.RoomInclude>()({
+  common_area: true,
 });
-type CommonAreaRoom = Prisma.CommonAreaGetPayload<typeof commonAreaRoom>;
-export function toCommonArea(a: CommonAreaRoom): CommonArea {
-  return {
-    id: a.id,
-    name: a.room.name,
-    room_id: a.room_id,
-    floor_id: a.room.floor_id,
-  };
-}
-
-const personalRoomRoom = Prisma.validator<Prisma.PersonalRoomArgs>()({
-  include: { room: true },
-});
-type PersonalRoomRoom = Prisma.PersonalRoomGetPayload<typeof personalRoomRoom>;
-export function toPersonalRoom(a: PersonalRoomRoom): PersonalRoom {
-  return {
-    id: a.id,
-    name: a.room.name,
-    is_occupied: a.is_occupied,
-    room_id: a.room_id,
-    floor_id: a.room.floor_id,
-  };
-}
-
-const hollisticRubricRubric = Prisma.validator<Prisma.HollisticRubricArgs>()({
-  include: { rubric: true },
-});
-type HollisticRubricRubric = Prisma.HollisticRubricGetPayload<
-  typeof hollisticRubricRubric
->;
-export function toHollisticRubric(a: HollisticRubricRubric): HollisticRubric {
-  return {
-    id: a.id,
-    rubric_id: a.rubric_id,
-  };
-}
-
-const quantitativeRubricRubric =
-  Prisma.validator<Prisma.QuantitativeRubricArgs>()({
-    include: { rubric: true },
+type RoomIncludeCommonArea = Prisma.RoomGetPayload<{
+  include: typeof roomIncludeCommonArea;
+}>;
+export const commonAreaIncludeRoom =
+  Prisma.validator<Prisma.CommonAreaInclude>()({
+    room: true,
   });
-type QuantitativeRubricRubric = Prisma.QuantitativeRubricGetPayload<
-  typeof quantitativeRubricRubric
->;
+type CommonAreaIncludeRoom = Prisma.CommonAreaGetPayload<{
+  include: typeof commonAreaIncludeRoom;
+}>;
+export function toCommonArea(a: RoomIncludeCommonArea): CommonArea {
+  return {
+    id: a.id,
+    name: a.name,
+    floor_number: a.floor_number,
+    building_id: a.building_id,
+  };
+}
+export function fromCommonArea(a: CommonAreaIncludeRoom): CommonArea {
+  return {
+    id: a.room.id,
+    name: a.room.name,
+    floor_number: a.room.floor_number,
+    building_id: a.room.building_id,
+  };
+}
+
+export const roomIncludePersonalRoom = Prisma.validator<Prisma.RoomInclude>()({
+  personal_room: true,
+});
+type RoomIncludePersonalRoom = Prisma.RoomGetPayload<{
+  include: typeof roomIncludePersonalRoom;
+}>;
+export const personalRoomIncludeRoom =
+  Prisma.validator<Prisma.PersonalRoomInclude>()({
+    room: true,
+  });
+type PersonalRoomIncludeRoom = Prisma.PersonalRoomGetPayload<{
+  include: typeof personalRoomIncludeRoom;
+}>;
+export function toPersonalRoom(a: RoomIncludePersonalRoom): PersonalRoom {
+  return {
+    id: a.id,
+    name: a.name,
+    floor_number: a.floor_number,
+    building_id: a.building_id,
+    is_occupied: a.personal_room.is_occupied,
+  };
+}
+export function fromPersonalRoom(a: PersonalRoomIncludeRoom): PersonalRoom {
+  return {
+    id: a.room.id,
+    name: a.room.name,
+    floor_number: a.room.floor_number,
+    building_id: a.room.building_id,
+    is_occupied: a.is_occupied,
+  };
+}
+
+export const rubricIncludeHollisticRubric =
+  Prisma.validator<Prisma.RubricInclude>()({
+    hollistic_rubric: { include: { requirements: true } },
+  });
+type RubricIncludeHollisticRubric = Prisma.RubricGetPayload<{
+  include: typeof rubricIncludeHollisticRubric;
+}>;
+export const hollisticRubricIncludeRubric =
+  Prisma.validator<Prisma.HollisticRubricInclude>()({
+    rubric: true,
+    requirements: true,
+  });
+type HollisticRubricIncludeRubric = Prisma.HollisticRubricGetPayload<{
+  include: typeof hollisticRubricIncludeRubric;
+}>;
+export function toHollisticRubric(
+  a: RubricIncludeHollisticRubric
+): HollisticRubric {
+  return {
+    id: a.id,
+    requirements: a.hollistic_rubric.requirements,
+  };
+}
+export function fromHollisticRubric(
+  a: HollisticRubricIncludeRubric
+): HollisticRubric {
+  return {
+    id: a.rubric.id,
+    requirements: a.requirements,
+  };
+}
+
+const rubricIncludeQuantitativeRubric =
+  Prisma.validator<Prisma.RubricInclude>()({
+    quantitative_rubric: { include: { items: true } },
+  });
+type RubricIncludeQuantitativeRubric = Prisma.RubricGetPayload<{
+  include: typeof rubricIncludeQuantitativeRubric;
+}>;
+const quantitativeRubricIncludeRubric =
+  Prisma.validator<Prisma.QuantitativeRubricInclude>()({
+    rubric: true,
+    items: true,
+  });
+type QuantitativeRubricIncludeRubric = Prisma.QuantitativeRubricGetPayload<{
+  include: typeof quantitativeRubricIncludeRubric;
+}>;
 export function toQuantitativeRubric(
-  a: QuantitativeRubricRubric
+  a: RubricIncludeQuantitativeRubric
 ): QuantitativeRubric {
   return {
     id: a.id,
-    rubric_id: a.rubric_id,
+    items: a.quantitative_rubric.items,
   };
 }
-
-*/
+export function fromQuantitativeRubric(
+  a: QuantitativeRubricIncludeRubric
+): QuantitativeRubric {
+  return {
+    id: a.rubric.id,
+    items: a.items,
+  };
+}
