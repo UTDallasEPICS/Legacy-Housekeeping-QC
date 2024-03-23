@@ -54,7 +54,6 @@ const generatePDF = async (schedule_data: [{id: number, start_time: Date, end_ti
     doc.on('data', (chunk) => {
         chunks.push(chunk);
     });
-
     doc.end();
 
     let data : string = undefined;
