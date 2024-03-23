@@ -24,20 +24,20 @@ export default async function handler(
                     }
             }
             else {
-                const dateOnly = date.split('T')[0];
+                const dateWithNoTime = date.split('T')[0];
                 if (person_id === undefined){
                     query = {
                         start_time: {
-                            gte: new Date(dateOnly),
-                            lt: new Date(dateOnly + "T23:59:59")
+                            gte: new Date(dateWithNoTime),
+                            lt: new Date(dateWithNoTime + "T23:59:59")
                         }
                     }
                 }
                 else {
                     query = {
                         start_time: {
-                            gte: new Date(dateOnly),
-                            lt: new Date(dateOnly + "T23:59:59")
+                            gte: new Date(dateWithNoTime),
+                            lt: new Date(dateWithNoTime + "T23:59:59")
                         },
                         team_members: {
                             some: {
