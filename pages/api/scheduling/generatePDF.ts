@@ -47,19 +47,15 @@ const generatePDF = async (schedule_data: [{id: number, start_time: Date, end_ti
         doc.fontSize(15).text(`Start Time: ${schedule_data[i].start_time}`);
         doc.fontSize(15).text(`End Time: ${schedule_data[i].end_time}`);
         doc.fontSize(15).text(`Clean Type: ${schedule_data[i].clean_type}`);
+        doc.fontSize(15).text('-------------------');
     }
 
     const chunks = [];
-    const stream = doc.pipe(new PassThrough());
+    doc.pipe(new PassThrough());
     doc.on('data', (chunk) => {
         chunks.push(chunk);
     });
     doc.end();
 
-    let data : string = undefined;
-    stream.on('end', () => {
-        data = Buffer.concat(chunks).toString('base64');
-    });
-
-    return data;
+    return Buffer.concat(chunks).toString('base64');
 }
