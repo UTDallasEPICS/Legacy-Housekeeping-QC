@@ -1,75 +1,51 @@
-import { Card } from "@mui/material";
 import { InspectionGrid, Navbar } from "../../src/components";
-import { useEffect, useState } from "react";
+import InspectionPlanner from "../../src/components/inspections/Planner/inspectionPlanner";
 
-const inspections = ({ reports }) => {
-  console.log(reports);
+const inspections = ({ inspections, members, buildings }) => {
+  console.log(members);
   return (
     <>
       <Navbar />
       <main>
-        <InspectionGrid reports={reports} />
+        <InspectionGrid inspections={inspections} />
+        <InspectionPlanner members={members} buildings={buildings} />
       </main>
     </>
   );
 };
 
 export async function getServerSideProps() {
-  const res = await fetch("http://localhost:3000/api/roomReport/report", {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+  const inspectionRes = await fetch(
+    "http://localhost:3000/api/roomReport/report",
+    {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    }
+  );
+  const inspectionData = await inspectionRes.json();
+
+  const memberRes = await fetch("http://localhost:3000/api/member/members", {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
   });
-  
-  const data = await res.json();
+  const memberData = await memberRes.json();
+
+  const buildingsRes = await fetch(
+    "http://localhost:3000/api/building/buildingsWithRoom",
+    {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    }
+  );
+  const buildingsData = await buildingsRes.json();
 
   return {
     props: {
-      reports: data,
+      inspections: inspectionData,
+      members: memberData,
+      buildings: buildingsData,
     },
   };
 }
 
 export default inspections;
-
-
-/*
-import { Card } from "@mui/material";
-import { InspectionGrid, Navbar } from "../../src/components";
-import { useEffect } from "react";
-
-const inspections = () => {
-  
-  useEffect(() => {
-
-    const res = fetch("http://localhost:3000/api/roomReport/report", {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(Report),
-  });
-  const data = res.json();
-  console.log(data.room);
-  return {
-    props: {
-      reports: data,
-      
-    },
-  };
-  },[]);
-  
-  
-  return (
-    <>
-      <Navbar></Navbar>
-      <main>
-        <InspectionGrid reports={data}></InspectionGrid>
-      </main>
-    </>
-  );
-};
-
-export default inspections;
-*/
