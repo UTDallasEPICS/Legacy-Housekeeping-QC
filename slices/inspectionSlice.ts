@@ -1,13 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
+import { Inspection } from "../ts/types/db.interfaces";
 
-export interface RemainingInspectionState {
-  report: any;
+export interface InspectionState {
+  inspection: Inspection | null;
 }
 
-const initialState: RemainingInspectionState = {
-  report: null,
+const initialState: InspectionState = {
+  inspection: null,
 };
 
 export const inspectionSlice = createSlice({
@@ -15,14 +16,15 @@ export const inspectionSlice = createSlice({
   initialState,
   reducers: {
     setInspectionData: (state, action: PayloadAction<any>) => {
-      const { report } = action.payload;
-      state.report = report;
+      const { inspection } = action.payload;
+      state.inspection = inspection;
     },
   },
 });
 
 export const { setInspectionData } = inspectionSlice.actions;
 
-export const selectReport = (state: RootState) => state.inspectionData.report;
+export const selectReport = (state: RootState) =>
+  state.inspectionData.inspection;
 
 export default inspectionSlice.reducer;
