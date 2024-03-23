@@ -14,6 +14,7 @@ import {
   Building as BuildingDB,
   RubricType,
 } from "@prisma/client";
+import { BuildingWithRooms } from "../interfaces/room.interface";
 export type TeamMember = Omit<TeamMemberDB & PersonDB, "type" | "person_id">;
 export type User = Omit<UserDB & PersonDB, "type" | "person_id">;
 
@@ -51,6 +52,23 @@ export type Schedule = {
 export type Rubric = HollisticRubric | QuantitativeRubric;
 export type Room = CommonArea | PersonalRoom;
 export type Building = BuildingDB;
+
+export const buildingIncludeRooms = Prisma.validator<Prisma.BuildingInclude>()({
+  rooms: true,
+});
+type BuildingIncludeRooms = Prisma.BuildingGetPayload<{
+  include: typeof buildingIncludeRooms;
+}>;
+
+export function toBuildingWithRooms(
+  a: BuildingIncludeRooms
+): BuildingWithRooms {
+  return {
+    id: a.id,
+    name: a.name,
+    rooms: a.rooms,
+  };
+}
 
 export const inspectionIncludeAll =
   Prisma.validator<Prisma.InspectionInclude>()({
