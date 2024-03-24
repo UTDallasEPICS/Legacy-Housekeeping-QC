@@ -15,10 +15,12 @@ import {
   TextField,
 } from "@mui/material";
 import Link from "next/link";
+import Navbar from "../../../../src/components/adminDashboard/navbar/navbar";
 
 const formAddRoom = () => {
   const [error, setError] = useState(null);
   const [building, setBuilding] = useState("");
+  const [roomNum, setRoomNum] = useState("");
   const [type, setType] = useState("");
   const [roomName, setRoomName] = useState("");
   const [floor, setFloor] = useState("");
@@ -51,9 +53,13 @@ const formAddRoom = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        room_number: roomNum,
+        building_number: building,
         building_id: buildId,
         room_name: roomName,
         floor_num: floor,
+        is_clean: false,
+        is_active: true,
         type_of_room: type,
         rubric_id: rubric.id,
       }),
@@ -66,6 +72,7 @@ const formAddRoom = () => {
     }
 
     setBuilding(building);
+    setRoomNum("");
     setType("");
     setRoomName("");
     setFloor("");
@@ -104,6 +111,7 @@ const formAddRoom = () => {
 
   return (
     <>
+      <Navbar />
       <div>
         <BackButton
           pageToGoBack={"/admin/roomPages/roomView?building="
@@ -137,32 +145,22 @@ const formAddRoom = () => {
 
         {/*This area will be the section where admin fills out info*/}
         <Grid
-          alignContent={"center"}
           direction={"column"}
+          alignContent={"center"}
           sx={{ textAlign: "center" }}
         >
           {/* Room type */}
-          <Grid style={{ marginTop: 20 }}>
-            <label
-              style={{
-                fontSize: "5vh",
-                marginRight: 10,
-              }}
-            >
-              Type of Room:
-            </label>
-          </Grid>
-          <Grid style={{ marginTop: 20 }}>
+
+          <Grid>
             <InputLabel id="demo-simple-select-label">Room Type</InputLabel>
             <Select
               style={{
                 fontSize: "2.5vh",
                 width: "30vh",
-                height: "7.5vh",
+                height: "8vh",
                 textAlign: "center",
               }}
               onChange={handleTypeChange}
-              label={"Room Type"}
               value={type}
               autoWidth
             >
@@ -213,7 +211,16 @@ const formAddRoom = () => {
         >
           <Button
             variant="outlined"
-            sx={{ border: 5 }}
+            sx={{
+              border: 5,
+              marginRight: "1vh",
+              "&:hover": {
+                border: 5,
+                borderColor: "primary.main",
+                color: "white",
+                bgcolor: "primary.main",
+              },
+            }}
             onClick={() => handleSubmit()}
           >
             Submit

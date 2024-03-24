@@ -1,11 +1,8 @@
 import { Box, Typography } from "@mui/material";
-import { memberData } from "../../../pages/members_performance";
 
-const ScoreHistory = () => {
-
-
-
-
+// uses placeholder data
+const ScoreHistory = ({ memberData }) => {
+  const sortedMemberData = [...memberData].sort((a, b) => b.Score - a.Score);
 
   return (
     <Box
@@ -15,6 +12,7 @@ const ScoreHistory = () => {
         alignItems: "flex-start",
         justifyContent: "center",
         textAlign: "center",
+        marginLeft: "30px",
       }}
     >
       <Typography
@@ -27,6 +25,7 @@ const ScoreHistory = () => {
       >
         Score History
       </Typography>
+
       <Typography
         variant="subtitle1"
         sx={{
@@ -37,27 +36,17 @@ const ScoreHistory = () => {
       >
         Top 3 Scores:
       </Typography>
-      <Typography
-        variant="body1"
-        sx={{ fontSize: { xs: 11, sm: 11, md: 13, lg: 16 } }}
-        gutterBottom
-      >
-        08/21/23: 100
-      </Typography>
-      <Typography
-        variant="body1"
-        sx={{ fontSize: { xs: 11, sm: 11, md: 13, lg: 16 } }}
-        gutterBottom
-      >
-        08/27/23: 89
-      </Typography>
-      <Typography
-        variant="body1"
-        sx={{ fontSize: { xs: 11, sm: 11, md: 13, lg: 16 } }}
-        gutterBottom
-      >
-        08/06/23: 87
-      </Typography>
+      {sortedMemberData.slice(0,3).map((week, index) => (
+        <Typography
+          key={index}
+          variant="body1"
+          sx={{ fontSize: { xs: 11, sm: 11, md: 13, lg: 16 } }}
+          gutterBottom
+        >
+          {`${week.name}: ${week.Score}`}
+        </Typography>
+      ))}
+
       <Typography
         variant="subtitle1"
         sx={{
@@ -68,27 +57,16 @@ const ScoreHistory = () => {
       >
         Lowest 3 Scores:
       </Typography>
-      <Typography
-        variant="body1"
-        sx={{ fontSize: { xs: 11, sm: 11, md: 13, lg: 16 } }}
-        gutterBottom
-      >
-        08/28/23: 79
-      </Typography>
-      <Typography
-        variant="body1"
-        sx={{ fontSize: { xs: 11, sm: 11, md: 13, lg: 16 } }}
-        gutterBottom
-      >
-        08/01/23: 78
-      </Typography>
-      <Typography
-        variant="body1"
-        sx={{ fontSize: { xs: 11, sm: 11, md: 13, lg: 16 } }}
-        gutterBottom
-      >
-        08/17/23: 69
-      </Typography>
+      {sortedMemberData.slice(-3).map((week, index) => (
+        <Typography
+          key={index}
+          variant="body1"
+          sx={{ fontSize: { xs: 11, sm: 11, md: 13, lg: 16 } }}
+          gutterBottom
+        >
+          {`${week.name}: ${week.Score}`}
+        </Typography>
+      ))}
     </Box>
   );
 };

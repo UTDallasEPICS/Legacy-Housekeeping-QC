@@ -6,6 +6,7 @@ import { RootState } from "../../../../store";
 import BackButton from "../../globalComponents/backButton";
 import { Button, Alert, TextField, Grid } from "@mui/material";
 import Link from "next/link";
+import Navbar from "../../../../src/components/adminDashboard/navbar/navbar";
 
 const formAddRoom = () => {
   const [error, setError] = useState(null);
@@ -34,7 +35,7 @@ const formAddRoom = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          name:buildingName,
+          building_name:buildingName,
           floors_amount:floorsAmount
         }),
       });
@@ -52,15 +53,17 @@ const formAddRoom = () => {
 
   return (
     <div>
+      <Navbar/>
       <div>
           <BackButton pageToGoBack={"/admin/roomPages/buildingChoice"} />
       </div>
 
-    <Grid container spacing = {1}
-          direction="column"
-          justifyContent="center"
-          alignItems="center"
-          >
+    <Grid container 
+      spacing = {1}
+      direction="column"
+      justifyContent="center"
+      alignItems="center"
+    >
       
 
       <Grid item xs = {12} sm = {12} md = {12} lg = {12} xl = {12}
@@ -74,58 +77,44 @@ const formAddRoom = () => {
       </Grid>
 
       {/*This area will be the section where admin fills out info*/}
-          {/* Set the name of the room*/}
-          <Grid item xs={12} sm={12} md={12} lg={12} xl={12}  alignItems={"center"}>
-            <label
-              style={{
-                fontSize: "3vh",
-                marginRight: 10,
-                textAlign: "center",
-              }}
-            >
-              Building Name:
-            </label>
-          </Grid>  
-
-          <Grid item xs={12} sm={12} md={12} lg={12} xl={12}  alignItems={"center"}>
+          
+          {/* Set the name of the building*/}
+          <Grid item>
             <TextField
               label="Building Name" 
               variant="outlined"
               onChange={(e) => setBuildingName(e.target.value)}
               value={buildingName}
               name="buildingName"
-              style={{ fontSize: "25vh", width: "30vh", height: "10vh", justifyContent:"center", }}
+              style={{ fontSize: "5vh", width: "30vh", height: "10vh", }}
             />
           </Grid>
           {(formErrors["name"] || formErrors["invalid"]) && <Alert severity="error" sx={{ whiteSpace: 'pre-line' }}>{formErrors["name"].concat(formErrors["invalid"])}</Alert>}
 
-          {/* Room Number Input */}
-          <Grid style={{ }} item xs={12} sm={12} md={12} lg={12} xl={12}>
-            <label
-              style={{
-                fontSize: "3vh",
-                marginRight: 10,
-                textAlign: "center",
-              }}
-            >
-              Amount of Floors:
-            </label>
-          </Grid>
+          {/* Floor Number Input */}
           <Grid style={{ }} item xs={12} sm={12} md={12} lg={12} xl={12}>
             <TextField
               onChange={(e) => setFloorsAmount(Number(e.target.value))}
-              label="# of Floors"
+              label="Number of Floors"
               value={floorsAmount}
               name="RoomNumber"
-              style={{ fontSize: "25vh", width: "30vh", height: "10vh", justifyContent:"center", }}
+              style={{ fontSize: "25vh", width: "30vh", height: "10vh", }}
             />
           </Grid>
           {formErrors["flooramount"] && <Alert severity="error" sx={{ whiteSpace: 'pre-line' }}>{formErrors["flooramount"]}</Alert>}
       
-      <div style={{ display: "flex", justifyContent: "center", marginTop: 70 }}>
+      <div style={{ display: "flex", justifyContent: "center",}}>
         <Button
           variant="outlined"
-          sx={{ border: 5 }}
+          sx={{ 
+            border: 5,
+            "&:hover": {            
+              border: 5,
+              borderColor: "primary.main",
+              color: "white",
+              bgcolor: "primary.main", 
+            },
+          }}
           onClick={() => handleSubmit()}
         >
           Submit
