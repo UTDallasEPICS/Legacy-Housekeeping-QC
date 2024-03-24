@@ -24,10 +24,7 @@ export { default as TodaysInspectionsCard } from "./dashboardComponents/todaysIn
 
 // inspections
 export { default as ReportComponent } from "./inspections/Reports/reportComponent";
-export { default as InspectionGrid } from "./inspections/Grid/gridComponent";
-export { default as CompleteGrid } from "./inspections/Grid/completeGrid";
-export { default as RemainingGrid } from "./inspections/Grid/remainingGrid";
-export { default as LockedGrid } from "./inspections/Grid/lockedGrid";
+export { default as InspectionGrid } from "./inspections/Grid/InspectionGrid";
 export { default as InspectionCheckBox } from "./inspections/Reports/itemCheckBoxes";
 
 // teamMemberComponents
@@ -41,9 +38,8 @@ export { default as EditForm } from "./teamMemberComponents/editMember/editForm"
 // Loader
 export { default as Loader } from "./loader/Loading";
 
-
 //schedules
 export { default as ScheduleRoomPanel } from "./scheduleComponents/ScheduleRoomPanel/scheduleRoomPanel";
 export { default as ScheduleWeekPanel } from "./scheduleComponents/scheduleWeekPanel/scheduleWeekPanel";
 export { default as SelectionBox } from "./scheduleComponents/selectionBox/selectionBox";
-export { default as DayTimeSelectionPanel } from "./scheduleComponents/dayTimeSelectionBox/DayTimeSelectionPanel"
+export { default as DayTimeSelectionPanel } from "./scheduleComponents/dayTimeSelectionBox/DayTimeSelectionPanel";
