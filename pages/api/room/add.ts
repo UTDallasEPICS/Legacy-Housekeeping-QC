@@ -8,29 +8,25 @@ export default async function handler(
 ) {
   try {
     if (req.method === "POST") {
-      const {
-        building_id,
-        room_name,
-        floor_num,
-        type_of_room,
-      } = req.body;
+      const { building_id, room_name, floor_num, type_of_room, rubric_id } =
+        req.body;
 
       let type: RoomType;
       if (type_of_room == "personal") {
         type = RoomType.PERSONAL_ROOM;
       } else if (type_of_room == "common") {
         type = RoomType.COMMON_AREA;
-      }
-      else{
+      } else {
         res.status(500).json("Invalid room type provided.");
       }
 
       const addedRoom = await prisma.room.create({
         data: {
-          building_id: Number(building_id),
           name: room_name,
           floor_number: Number(floor_num),
-          type: type
+          building: { connect: { id: Number(building_id) } },
+          type: type,
+          rubric: { connect: { id: Number(rubric_id) } },
         },
       });
 
@@ -39,19 +35,18 @@ export default async function handler(
           data: {
             id: addedRoom.id,
             room_id: addedRoom.id,
-            is_occupied: false
-          }}
-        );
-        res.status(200).json({addedPersonalRoom, addedRoom});
-      }
-      else if (type_of_room == "common") {
+            is_occupied: false,
+          },
+        });
+        res.status(200).json({ addedPersonalRoom, addedRoom });
+      } else if (type_of_room == "common") {
         const addedCommonRoom = await prisma.commonArea.create({
           data: {
             id: addedRoom.id,
             room_id: addedRoom.id,
-          }}
-        );
-        res.status(200).json({addedCommonRoom, addedRoom});
+          },
+        });
+        res.status(200).json({ addedCommonRoom, addedRoom });
       }
     }
   } catch (error) {
