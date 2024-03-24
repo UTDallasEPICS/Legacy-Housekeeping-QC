@@ -14,7 +14,8 @@ const InspectionCardGrid = ({
 }) => {
   let notInspected = [];
   let inspected = [];
-  inspections?.map((inspection) => {
+
+  inspections.forEach((inspection) => {
     switch (inspection.inspect_status) {
       case Inspect_Status.INSPECTED:
         inspected.push(inspection);
@@ -32,7 +33,7 @@ const InspectionCardGrid = ({
       <Grid
         container
         item
-        direction="column"
+        direction="row"
         xs={4}
         rowSpacing={2}
         sx={{ width: "max-content", overflow: "visible", p: 2 }}
