@@ -1,3 +1,4 @@
+import { Container } from "@mui/material";
 import { InspectionGrid, Navbar } from "../../src/components";
 import InspectionPlanner from "../../src/components/inspections/Planner/inspectionPlanner";
 
@@ -7,8 +8,22 @@ const inspections = ({ inspections, members, buildings }) => {
     <>
       <Navbar />
       <main>
-        <InspectionGrid inspections={inspections} />
-        <InspectionPlanner members={members} buildings={buildings} />
+        <Container
+          sx={{
+            display: "flex",
+            flexDirection: {
+              xs: "column",
+              md: "row",
+            },
+            justifyContent: "center",
+            padding: "2",
+            gap: "2",
+          }}
+          maxWidth={false}
+        >
+          <InspectionGrid inspections={inspections} />
+          <InspectionPlanner members={members} buildings={buildings} />
+        </Container>
       </main>
     </>
   );

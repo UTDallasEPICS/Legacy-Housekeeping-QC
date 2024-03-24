@@ -16,8 +16,10 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { TeamMember } from "../../../../ts/types/db.interfaces";
-import { RubricType } from "@prisma/client";
+import { CleanType } from "@prisma/client";
 import { BuildingWithRooms } from "../../../../ts/interfaces/room.interface";
+import { useSession } from "next-auth/react";
+import { maxHeaderSize } from "http";
 
 export interface InspectionPlannerProps {
   members: TeamMember[];
@@ -31,14 +33,15 @@ interface RoomSelectionProps {
 }
 
 const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
+  const { data: session } = useSession();
   const [selectedMembers, setSelectedMembers] = useState<string[]>([]);
   const [selectedRoom, setSelectedRoom] = useState<RoomSelectionProps>({
     room_id: -1,
     room_name: "",
     building_name: "",
   });
-  const [selectedRubrics, setSelectedRubrics] = useState<RubricType>(
-    RubricType.QUANTITATIVE
+  const [selectedCleanType, setSelectedCleanType] = useState<CleanType>(
+    CleanType.NORMAL
   );
 
   const handleMemberChange = (event) => {
@@ -59,12 +62,56 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
     );
   };
 
-  const handleRubricChange = (event: SelectChangeEvent<RubricType>) => {
-    setSelectedRubrics(event.target.value as RubricType);
+  const handleCleanTypeChange = (event: SelectChangeEvent<CleanType>) => {
+    setSelectedCleanType(event.target.value as CleanType);
   };
 
-  const handleSubmission = () => {
-    console.log(selectedMembers, selectedRoom, selectedRubrics);
+  const handleSubmission = async () => {
+    console.log(selectedMembers, selectedRoom, selectedCleanType);
+    const scheduleRes = await fetch(
+      "http://localhost:3000/api/scheduling/scheduleRoom",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          start_time: new Date().toISOString(),
+          end_time: new Date().toISOString(),
+          clean_type: selectedCleanType,
+          room_id: selectedRoom.room_id,
+        }),
+      }
+    );
+    const scheduleData = await scheduleRes.json();
+    console.log(scheduleData);
+
+    selectedMembers.forEach((member) => {
+      const person_id = parseInt(member.split(":")[0]);
+      const schedule_id = scheduleData.id;
+      fetch("http://localhost:3000/api/scheduling/addTeamMemberToSchedule", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          person_id,
+          schedule_id,
+        }),
+      });
+    });
+
+    console.log(session);
+    const inspectionRes = await fetch(
+      "http://localhost:3000/api/scheduling/createInspection",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          schedule_id: scheduleData.id,
+          room_id: selectedRoom.room_id,
+          inspector_id: session?.user?.id,
+        }),
+      }
+    );
+    const inspectionData = await inspectionRes.json();
+    console.log(inspectionData);
   };
 
   return (
@@ -74,9 +121,13 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
         flexDirection: "column",
         gap: 2,
         padding: 2,
+        alignSelf: "start",
+        width: "min-content",
       }}
     >
-      <Box sx={{ display: "flex", justifyContent: "center" }}>
+      <Box
+        sx={{ display: "flex", width: "max-content", justifyContent: "center" }}
+      >
         <Typography variant="h4">Inspection Planner</Typography>
       </Box>
 
@@ -108,7 +159,7 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
         </Select>
       </FormControl>
 
-      <FormControl fullWidth variant="standard">
+      <FormControl variant="standard">
         <InputLabel>Select a room</InputLabel>
         <Select
           value={selectedRoom}
@@ -120,7 +171,7 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
           }
         >
           <MenuItem key={-1} value={"-1:"}>
-            &nbsp;
+            No room selected
           </MenuItem>
           {buildings.map((building) => {
             return [
@@ -147,8 +198,12 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
 
       <FormControl>
         <FormLabel>Rubric</FormLabel>
-        <RadioGroup row value={selectedRubrics} onChange={handleRubricChange}>
-          {Object.values(RubricType).map((rubric) => (
+        <RadioGroup
+          row
+          value={selectedCleanType}
+          onChange={handleCleanTypeChange}
+        >
+          {Object.values(CleanType).map((rubric) => (
             <FormControlLabel
               key={rubric}
               value={rubric}
