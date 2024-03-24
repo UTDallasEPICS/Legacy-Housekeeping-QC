@@ -72,7 +72,7 @@ export function toBuildingWithRooms(
 
 export const inspectionIncludeAll =
   Prisma.validator<Prisma.InspectionInclude>()({
-    rubrics: {
+    rubric: {
       include: {
         hollistic_rubric: {
           include: { requirements: true },
@@ -99,11 +99,11 @@ type InspectionIncludeAll = Prisma.InspectionGetPayload<{
 }>;
 export function toInspection(a: InspectionIncludeAll): Inspection {
   let rubric;
-  switch (rubric.type) {
+  switch (a.rubric.type) {
     case RubricType.HOLLISTIC:
-      rubric = toHollisticRubric(a.rubrics[0]);
+      rubric = toHollisticRubric(a.rubric);
     case RubricType.QUANTITATIVE:
-      rubric = toQuantitativeRubric(a.rubrics[0]);
+      rubric = toQuantitativeRubric(a.rubric);
   }
   return {
     id: a.id,
@@ -116,6 +116,7 @@ export function toInspection(a: InspectionIncludeAll): Inspection {
     room_pics: a.room_pics,
     inspector_id: a.inspector_id,
     schedule_id: a.schedule_id,
+    rubric_id: a.rubric_id,
     comment: a.comment,
     score: a.score,
   };
@@ -242,6 +243,7 @@ export function toCommonArea(a: RoomIncludeCommonArea): CommonArea {
     name: a.name,
     floor_number: a.floor_number,
     building_id: a.building_id,
+    rubric_id: a.rubric_id,
   };
 }
 export function fromCommonArea(a: CommonAreaIncludeRoom): CommonArea {
@@ -250,6 +252,7 @@ export function fromCommonArea(a: CommonAreaIncludeRoom): CommonArea {
     name: a.room.name,
     floor_number: a.room.floor_number,
     building_id: a.room.building_id,
+    rubric_id: a.room.rubric_id,
   };
 }
 
@@ -273,6 +276,7 @@ export function toPersonalRoom(a: RoomIncludePersonalRoom): PersonalRoom {
     floor_number: a.floor_number,
     building_id: a.building_id,
     is_occupied: a.personal_room.is_occupied,
+    rubric_id: a.rubric_id,
   };
 }
 export function fromPersonalRoom(a: PersonalRoomIncludeRoom): PersonalRoom {
@@ -282,6 +286,7 @@ export function fromPersonalRoom(a: PersonalRoomIncludeRoom): PersonalRoom {
     floor_number: a.room.floor_number,
     building_id: a.room.building_id,
     is_occupied: a.is_occupied,
+    rubric_id: a.room.rubric_id,
   };
 }
 

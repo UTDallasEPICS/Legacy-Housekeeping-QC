@@ -93,6 +93,8 @@ model Room {
   floor_number Int
   schedule Schedule[]
   items Item[]
+  rubric_id Int @unique
+  rubric Rubric @relation(fields: [rubric_id], references: [id])
 
   @@index([building_id, floor_number])
 }
@@ -119,7 +121,6 @@ model PersonalRoom {
   // Relations
   room_id Int @unique
   room Room @relation(fields: [room_id], references: [id])
-  items Item[]
 }
 
 model Building {
@@ -147,7 +148,8 @@ model Inspection {
   inspector User @relation(fields: [inspector_id], references: [person_id])
   schedule_id Int 
   schedule Schedule @relation(fields: [schedule_id], references: [id])
-  rubrics Rubric[]
+  rubric_id Int
+  rubric Rubric @relation(fields: [rubric_id], references: [id])
 }
 
 enum Inspect_Status {
@@ -171,6 +173,7 @@ model Rubric {
   hollistic_rubric HollisticRubric?
   // Relations
   inspection Inspection[]
+  room Room?
 }
 
 enum RubricType {
@@ -202,6 +205,8 @@ model Requirement {
   // Indexes
   id Int @id @default(autoincrement())
   // Fields
+  is_default Boolean
+  category String
   description String
   // Relations
   hollistic_id Int 
@@ -210,14 +215,12 @@ model Requirement {
 
 model Item {
   // Indexes
-  @@id([room_id, item_name])
+  id Int @id @default(autoincrement())
   // Fields
+  is_default Boolean
+  category String
   item_name String
   // Relations
-  room_id Int
-  room Room @relation(fields: [room_id], references: [id])
-  quantitative_id Int
-  quantitative_rubrics QuantitativeRubric @relation(fields: [quantitative_id], references: [id])
-  personal_room_id Int
-  personal_room PersonalRoom @relation(fields: [personal_room_id], references: [id])
+  room Room[]
+  quantitative_rubrics QuantitativeRubric[]
 }
