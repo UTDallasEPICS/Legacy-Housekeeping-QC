@@ -3,6 +3,7 @@ import prisma from "../../../lib/prisma";
 import bcrypt from "bcrypt";
 import { fromUser, toUser } from "../../../ts/types/db.interfaces";
 import { LensTwoTone } from "@mui/icons-material";
+import { Identification } from "../../../ts/interfaces/identification.interfaces";
 
 export default async function handler(
   req: NextApiRequest,
@@ -36,7 +37,7 @@ export default async function handler(
       id: user.id,
       first_name: user.first_name,
       email: user.email,
-    };
+    } as Identification;
 
     return res.status(200).json(validatedUser);
   } catch (error) {
