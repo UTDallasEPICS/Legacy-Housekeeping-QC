@@ -1,5 +1,5 @@
 import { Grid } from "@mui/material";
-import { ReportComponent } from "../..";
+import { ReportComponent } from "../../src/components";
 
 const RemainingGrid = ({ reports }) => {
   return (
@@ -10,7 +10,7 @@ const RemainingGrid = ({ reports }) => {
         direction="column"
         xs={4}
         rowSpacing={2}
-        sx={{ width: "min-content",overflow: "visible", p: 2 }}
+        sx={{ width: "min-content", overflow: "visible", p: 2 }}
       >
         {reports?.map((report) => (
           <ReportComponent report={report} />
