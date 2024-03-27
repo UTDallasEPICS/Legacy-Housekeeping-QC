@@ -1,32 +1,18 @@
-import { Card, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 import { Inspect_Status } from "@prisma/client";
 import { Inspection } from "../../../../ts/types/db.interfaces";
 import CompletedCard from "../Card/completedCard";
 import UncompletedCard from "../Card/uncompletedCard";
-import { toCompletedInspectionCardProps } from "../../../../ts/interfaces/roomReport.interfaces";
+import { toUncompletedInspectionCardProps } from "../../../../ts/interfaces/roomReport.interfaces";
+import { useSelector } from "react-redux";
+import {
+  getInspectedReports,
+  getNotInspectedReports,
+} from "../../../../slices/inspectionsFetchSlice";
 
-const InspectionCardGrid = ({
-  inspections,
-  status,
-}: {
-  inspections: Inspection[];
-  status: Inspect_Status;
-}) => {
-  let notInspected = [];
-  let inspected = [];
-
-  inspections.forEach((inspection) => {
-    switch (inspection.inspect_status) {
-      case Inspect_Status.INSPECTED:
-        inspected.push(inspection);
-        break;
-      case Inspect_Status.NOT_INSPECTED:
-        notInspected.push(inspection);
-        break;
-      default:
-        break;
-    }
-  });
+const InspectionCardGrid = ({ status }: { status: Inspect_Status }) => {
+  const inspected = useSelector(getInspectedReports);
+  const notInspected = useSelector(getNotInspectedReports);
 
   return (
     <>
@@ -38,11 +24,7 @@ const InspectionCardGrid = ({
         rowSpacing={2}
         sx={{ width: "max-content", overflow: "visible", p: 2 }}
       >
-        <CardCondition
-          status={status}
-          inspected={inspected}
-          notInspected={notInspected}
-        />
+        {CardCondition({ status, inspected, notInspected })}
       </Grid>
     </>
   );
@@ -59,25 +41,19 @@ const CardCondition = ({
 }) => {
   switch (status) {
     case Inspect_Status.INSPECTED:
-      return (
-        <>
-          {inspected.map((inspection) => (
-            <CompletedCard
-              inspectionProps={toCompletedInspectionCardProps(inspection)}
-            />
-          ))}
-        </>
-      );
+      return inspected.map((inspection, index) => (
+        <UncompletedCard
+          card_id={index}
+          inspectionProps={toUncompletedInspectionCardProps(inspection)}
+        />
+      ));
     case Inspect_Status.NOT_INSPECTED:
-      return (
-        <>
-          {notInspected.map((inspection) => (
-            <UncompletedCard
-              inspectionProps={toCompletedInspectionCardProps(inspection)}
-            />
-          ))}
-        </>
-      );
+      return notInspected.map((inspection, index) => (
+        <UncompletedCard
+          card_id={index}
+          inspectionProps={toUncompletedInspectionCardProps(inspection)}
+        />
+      ));
     default:
       return <></>;
   }
