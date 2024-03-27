@@ -1,8 +1,9 @@
 import { Clean_Status, Inspect_Status } from "@prisma/client";
 import { Inspection, TeamMember } from "../types/db.interfaces";
 
-export interface CompletedInspectionCardProps {
+export interface UncompletedInspectionCardProps {
   id: number;
+  rubric_id: number;
   inspect_status: Inspect_Status;
   clean_status: Clean_Status;
   room_name: string;
@@ -11,11 +12,23 @@ export interface CompletedInspectionCardProps {
   team_members: TeamMember[];
 }
 
-export function toCompletedInspectionCardProps(
+export interface CompletedInspectionCardProps {
+  id: number;
+  inspect_status: Inspect_Status;
+  clean_status: Clean_Status;
+  room_name: string;
+  building_name: string;
+  floor_number: number;
+  team_members: TeamMember[];
+  score: number;
+}
+
+export function toUncompletedInspectionCardProps(
   inspection: Inspection
-): CompletedInspectionCardProps {
+): UncompletedInspectionCardProps {
   return {
     id: inspection.id,
+    rubric_id: inspection.rubric_id,
     inspect_status: inspection.inspect_status,
     clean_status: inspection.clean_status,
     room_name: inspection.schedule.room.name,

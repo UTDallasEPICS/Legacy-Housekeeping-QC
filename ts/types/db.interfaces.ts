@@ -13,6 +13,8 @@ import {
   Schedule as ScheduleDB,
   Building as BuildingDB,
   RubricType,
+  Item as ItemDB,
+  Requirement as RequirementDB,
 } from "@prisma/client";
 import { BuildingWithRooms } from "../interfaces/room.interface";
 export type TeamMember = Omit<TeamMemberDB & PersonDB, "type" | "person_id">;
@@ -22,20 +24,11 @@ export type CommonArea = Omit<CommonAreaDB & RoomDB, "type" | "room_id">;
 export type PersonalRoom = Omit<PersonalRoomDB & RoomDB, "type" | "room_id">;
 
 export type HollisticRubric = {
-  requirements: Requirement[];
-} & Omit<HollisticRubricDB & RubricDB, "type" | "rubric_id">;
+  requirements: RequirementDB[];
+} & Omit<HollisticRubricDB & RubricDB, "rubric_id">;
 export type QuantitativeRubric = {
-  items: Item[];
-} & Omit<QuantitativeRubricDB & RubricDB, "type" | "rubric_id">;
-
-export type Requirement = {
-  id: number;
-  description: string;
-};
-
-export type Item = {
-  item_name: string;
-};
+  items: ItemDB[];
+} & Omit<QuantitativeRubricDB & RubricDB, "rubric_id">;
 
 export type Inspection = {
   schedule: Schedule;
@@ -311,6 +304,7 @@ export function toHollisticRubric(
   return {
     id: a.id,
     requirements: a.hollistic_rubric.requirements,
+    type: a.type,
   };
 }
 export function fromHollisticRubric(
@@ -319,6 +313,7 @@ export function fromHollisticRubric(
   return {
     id: a.rubric.id,
     requirements: a.requirements,
+    type: a.rubric.type,
   };
 }
 
@@ -343,6 +338,7 @@ export function toQuantitativeRubric(
   return {
     id: a.id,
     items: a.quantitative_rubric.items,
+    type: a.type,
   };
 }
 export function fromQuantitativeRubric(
@@ -351,5 +347,6 @@ export function fromQuantitativeRubric(
   return {
     id: a.rubric.id,
     items: a.items,
+    type: a.rubric.type,
   };
 }
