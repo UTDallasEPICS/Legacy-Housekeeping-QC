@@ -208,19 +208,24 @@ model Requirement {
   is_default Boolean
   category String
   description String
+  is_checked Boolean
   // Relations
   hollistic_id Int 
   hollistic_rubric HollisticRubric @relation(fields: [hollistic_id], references: [id])
 }
 
+
 model Item {
   // Indexes
   id Int @id @default(autoincrement())
   // Fields
-  is_default Boolean
   category String
-  item_name String
+  name String
+  is_checked Boolean
+  weight Int @default(1)
   // Relations
-  room Room[]
-  quantitative_rubrics QuantitativeRubric[]
+  room_id Int
+  room Room @relation(fields: [room_id], references: [id])
+  quantitative_id Int
+  quantitative_rubric QuantitativeRubric @relation(fields: [quantitative_id], references: [id])
 }
