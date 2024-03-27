@@ -19,7 +19,10 @@ import { TeamMember } from "../../../../ts/types/db.interfaces";
 import { CleanType } from "@prisma/client";
 import { BuildingWithRooms } from "../../../../ts/interfaces/room.interface";
 import { useSession } from "next-auth/react";
-import { maxHeaderSize } from "http";
+import { montserrat } from "../../../../pages/theme";
+import { setInspectionsFetchData } from "../../../../slices/inspectionsFetchSlice";
+import { useDispatch } from "react-redux";
+import { splitInspectionWithStatus } from "../../../../functions/splitInspectionWithStatus";
 
 export interface InspectionPlannerProps {
   members: TeamMember[];
@@ -33,6 +36,7 @@ interface RoomSelectionProps {
 }
 
 const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
+  const dispatch = useDispatch();
   const { data: session } = useSession();
   const [selectedMembers, setSelectedMembers] = useState<string[]>([]);
   const [selectedRoom, setSelectedRoom] = useState<RoomSelectionProps>({
@@ -67,7 +71,6 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
   };
 
   const handleSubmission = async () => {
-    console.log(selectedMembers, selectedRoom, selectedCleanType);
     const scheduleRes = await fetch(
       "http://localhost:3000/api/scheduling/scheduleRoom",
       {
@@ -82,7 +85,6 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
       }
     );
     const scheduleData = await scheduleRes.json();
-    console.log(scheduleData);
 
     selectedMembers.forEach((member) => {
       const person_id = parseInt(member.split(":")[0]);
@@ -97,7 +99,6 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
       });
     });
 
-    console.log(session);
     const inspectionRes = await fetch(
       "http://localhost:3000/api/scheduling/createInspection",
       {
@@ -111,7 +112,23 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
       }
     );
     const inspectionData = await inspectionRes.json();
-    console.log(inspectionData);
+
+    const inspectionFetchRes = await fetch(
+      "http://localhost:3000/api/roomReport/report",
+      {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    const inspectionFetch = await inspectionFetchRes.json();
+    const { inspected, notInspected } =
+      splitInspectionWithStatus(inspectionFetch);
+    dispatch(
+      setInspectionsFetchData({
+        inspected: inspected,
+        notInspected: notInspected,
+      })
+    );
   };
 
   return (
@@ -128,7 +145,16 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
       <Box
         sx={{ display: "flex", width: "max-content", justifyContent: "center" }}
       >
-        <Typography variant="h4">Inspection Planner</Typography>
+        <Typography
+          variant="h4"
+          sx={{
+            fontSize: { sm: 20, md: 30 },
+            fontWeight: "bold",
+            fontFamily: montserrat.style.fontFamily,
+          }}
+        >
+          Inspection Planner
+        </Typography>
       </Box>
 
       <FormControl fullWidth variant="standard">

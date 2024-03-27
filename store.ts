@@ -4,6 +4,7 @@ import inspectionSlice from "./slices/inspectionSlice";
 import buildingSelectSlice from "./slices/buildingSelectSlice";
 import roomSelectSlice from "./slices/roomSelectSlice";
 import inspectionsFetchSlice from "./slices/inspectionsFetchSlice";
+import inspectionSelectionSlice from "./slices/inspectionSelectionSlice";
 
 //Importing our reducers
 export const store = configureStore({
@@ -13,6 +14,7 @@ export const store = configureStore({
     inspectionData: inspectionSlice,
     roomSelect: roomSelectSlice,
     inspectionsFetchData: inspectionsFetchSlice,
+    inspectionSelectionData: inspectionSelectionSlice,
   },
 });
 
