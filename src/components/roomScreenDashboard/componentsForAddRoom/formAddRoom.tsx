@@ -65,6 +65,17 @@ const formAddRoom = () => {
       }),
     });
 
+    const itemsRes = await fetch("/api/roomItem/addDefault", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        room_id: res.id,
+        rubric_id: rubric.id,
+      }),
+    });
+
     if (!res.ok) {
       const r = await res.json();
       setError(r.error);

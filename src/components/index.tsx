@@ -23,9 +23,9 @@ export { default as PerformanceInsightsCard } from "./dashboardComponents/perfor
 export { default as TodaysInspectionsCard } from "./dashboardComponents/todaysInspectionsCard";
 
 // inspections
-export { default as ReportComponent } from "./inspections/Reports/reportComponent";
+///export { default as ReportComponent } from "./inspections/Reports/reportComponent";
 export { default as InspectionGrid } from "./inspections/Grid/InspectionGrid";
-export { default as InspectionCheckBox } from "./inspections/Reports/itemCheckBoxes";
+///export { default as InspectionCheckBox } from "./inspections/Reports/itemCheckBoxes";
 
 // teamMemberComponents
 export { default as MemberInfo } from "./teamMemberComponents/displayInfo/memberInfo";
