@@ -3,6 +3,7 @@ import { Inspection, TeamMember } from "../types/db.interfaces";
 
 export interface UncompletedInspectionCardProps {
   id: number;
+  room_id: number;
   rubric_id: number;
   inspect_status: Inspect_Status;
   clean_status: Clean_Status;
@@ -28,6 +29,7 @@ export function toUncompletedInspectionCardProps(
 ): UncompletedInspectionCardProps {
   return {
     id: inspection.id,
+    room_id: inspection.schedule.room_id,
     rubric_id: inspection.rubric_id,
     inspect_status: inspection.inspect_status,
     clean_status: inspection.clean_status,

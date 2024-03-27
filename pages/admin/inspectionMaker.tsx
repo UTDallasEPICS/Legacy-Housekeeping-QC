@@ -29,20 +29,50 @@ const inspectionMaker = () => {
     setExtra(event.target.value);
   };
 
-  const handleSubmission = async () => {
-    const res = await fetch("/api/inspection", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        inspection_id: inspectionProps.inspection_id,
-        comment: comment,
-        extra: extra,
-        items: items,
-      }),
+  const convertCategoriesToItems = (categories: { [key: string]: Item[] }) => {
+    let items: Item[] = [];
+    Object.keys(categories).forEach((category) => {
+      items = items.concat(categories[category]);
     });
-    console.log(await res.json());
+    return items;
+  };
+
+  const handleSubmission = async () => {
+    const itemUpdateRes = await fetch(
+      "http://localhost:3000/api/rubric/updateOnRubric",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          items: convertCategoriesToItems(items),
+          rubric_id: inspectionProps.rubric_id,
+          room_id: inspectionProps.room_id,
+        }),
+      }
+    );
+    //const itemUpdateData = await itemUpdateRes.json();
+    //console.log(itemUpdateData);
+
+    const rubricUpdateRes = await fetch(
+      "http://localhost:3000/api/roomReport/update",
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: inspectionProps.id,
+          room_pics: null,
+          clean_status: "CLEANED",
+          comment: comment,
+          score: 0,
+        }),
+      }
+    );
+    const rubricUpdateData = await rubricUpdateRes.json();
+    console.log(rubricUpdateData);
   };
 
   const setItemInCategory = (category: string, item: Item) => {
@@ -168,7 +198,11 @@ const inspectionMaker = () => {
               </Button>
             </Box>
 
-            <Button variant="contained" color="primary">
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleSubmission}
+            >
               Submit
             </Button>
           </Stack>

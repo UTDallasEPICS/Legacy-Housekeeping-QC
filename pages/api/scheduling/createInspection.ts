@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../lib/prisma";
-import { useSession } from "next-auth/react";
 
 export default async function handler(
   req: NextApiRequest,
@@ -16,7 +15,6 @@ export default async function handler(
           where: { id: room_id },
           select: { rubric_id: true },
         });
-        if (room) console.log(room);
         inspection = await prisma.inspection.create({
           data: {
             inspector: { connect: { person_id: Number(inspector_id) } },
