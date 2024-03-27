@@ -18,16 +18,19 @@ import theme from "../../../pages/theme";
 
 const makeButton = (roomJSON : JSON) => {
   const dispatch = useDispatch();
+
   const handleClick = (roomJSON: JSON) => {
     dispatch(setRoom(roomJSON));
    };
-  let roomName = roomJSON["room_name"];
-  let roomNumber = roomJSON["room_number"];
-  let floorNumber = roomJSON["floor_num"];
-  let typeOfRoom = roomJSON["type_of_room"];
-  let roomId = roomJSON["room_id"];
-  let building = roomJSON["building_number"];
-  let newLink = "/admin/roomPages/editRoomForm?building=".concat(building).concat("&floor=").concat(floorNumber)
+
+  let roomId = roomJSON["id"];
+  let roomName = roomJSON["name"];
+  let floorNumber = roomJSON["floor_number"];
+  let typeOfRoom = roomJSON["type"];
+  let building = roomJSON["building_id"];
+
+  let newLink = "/admin/roomPages/editRoomForm?building=".concat(building).concat("&floor=").concat(floorNumber);
+
   return(
     <Grid
       style={{
@@ -61,7 +64,7 @@ const makeButton = (roomJSON : JSON) => {
           onClick={() => handleClick(roomJSON)}
         >
           <div>
-              <h3 style={{ margin: 0 }}>{roomName} #{roomNumber} </h3>
+              <h3 style={{ margin: 0 }}>{roomName} #{roomId} </h3>
               <p
                 style={{
                   display: "block",
@@ -79,7 +82,6 @@ const makeButton = (roomJSON : JSON) => {
   )
 }
 
-
 const roomView = () => {
   let buildingParam : string
   let floorParam : string
@@ -87,12 +89,7 @@ const roomView = () => {
   const [building, setBuilding] = useState("");
   const [floor,setFloor] = useState("");
   const [buildingid, setBuildingid] = useState("");
-  const [result, setResult] = useState([])
-  /*
-  const building = useSelector(
-    (state: RootState) => state.buildingSelect.building
-  );
-  */
+  const [rooms, setRooms] = useState([]);
 
   const getData = (apiUrl) => {
 
@@ -109,24 +106,23 @@ const roomView = () => {
             }
             return response.json();
         })
-        .then(json => {setResult(json)})
+        .then(json => {setRooms(json)})
         .catch((error) => {
   
         })
    }
-
   
   useEffect(() => {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    buildingParam = urlParams.get("building")
-    floorParam = urlParams.get("floor")
-    buildid = urlParams.get("building_id")
+    buildingParam = urlParams.get("building");
+    floorParam = urlParams.get("floor");
+    buildid = urlParams.get("building_id");
     setBuilding(buildingParam);
-    setFloor(floorParam)
-    setBuildingid(buildid)
-    getData("http://localhost:3000/api/room/roomsInBuildingOnFloor")
-  },[]);
+    setFloor(floorParam);
+    setBuildingid(buildid);
+    getData("http://localhost:3000/api/room/roomsInBuildingOnFloor");
+  }, []);
 
   return (
     <div style={{background: theme.palette.background.default, height:"100vh"}}>
@@ -181,17 +177,14 @@ const roomView = () => {
               justifyContent: "center",
             }}
           >
-            {/*Static Data Here */}
             
-            <Grid
+            <Grid container
               direction="column"
               alignItems="center"
               justifyContent="center"
-              
             >
-                {result.map(roomVal => (makeButton(roomVal)))}
+                {rooms.map(roomVal => (makeButton(roomVal)))}
             </Grid>
-            {/*Static Data Here */}
           </div>
           
         </Grid>
@@ -201,12 +194,3 @@ const roomView = () => {
 };
   
 export default roomView;
-
-/*
-        style={{
-          width: 630,
-          height: 700,
-          display: "flex",
-          justifyContent: "center",
-        }}
-*/

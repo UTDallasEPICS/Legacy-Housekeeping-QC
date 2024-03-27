@@ -1,7 +1,5 @@
 import FloorSelection from "../../../src/components/roomScreenDashboard/componentsForFloorSelection/floorSelection";
 import FloorCards from "../../../src/components/roomScreenDashboard/componentsForFloorSelection/floorCards";
-import { BackButton } from "../../../src/components";
-import { Box } from "@mui/material";
 import Navbar from "../../../src/components/adminDashboard/navbar/navbar";
 import theme from "../../../pages/theme";
 

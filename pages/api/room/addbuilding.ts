@@ -8,12 +8,12 @@ export default async function handler(
   try {
     if (req.method === "POST") {
       const {
-        name,
+        building_name,
         floors_amount,
       } = req.body;
       const addedBuilding = await prisma.building.create({
         data: {
-          name: name,
+          name: building_name,
           floor_count: floors_amount
         },
       });

@@ -35,8 +35,8 @@ const formAddRoom = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          building_name:buildingName,
-          floors_amount:floorsAmount
+          building_name: buildingName,
+          floors_amount: floorsAmount
         }),
       });
 
