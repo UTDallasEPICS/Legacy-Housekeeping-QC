@@ -3,27 +3,42 @@ import { setBuilding } from "../../../../slices/buildingSelectSlice";
 import { useDispatch } from "react-redux";
 import Link from "next/link";
 //import { alignProperty } from "@mui/material/styles/cssUtils";
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 
 //This will produce buttons for the user to select
 
-const makeCard = (number : string,name : string, buildid : string) => {
+const makeCard = (number: string, name: string, buildid: string) => {
   const dispatch = useDispatch();
   const handleClick = (building: string) => {
     dispatch(setBuilding(building));
   };
-  return(
-    <Grid item xs = {5} sm = {4} md = {3} lg = {3} xl = {2}
+  return (
+    <Grid
+      item
+      xs={5}
+      sm={4}
+      md={3}
+      lg={3}
+      xl={2}
       justifyContent="center"
-      textAlign="center">
-      <Link href={"/admin/roomPages/roomView?building=".concat(name).concat("&floor=").concat(number).concat("&building_id=").concat(buildid)} passHref>
+      textAlign="center"
+    >
+      <Link
+        href={"/admin/roomPages/roomView?building="
+          .concat(name)
+          .concat("&floor=")
+          .concat(number)
+          .concat("&building_id=")
+          .concat(buildid)}
+        passHref
+      >
         <Button
           //onClick={() => handleClick("A")}
           variant="contained"
           sx={{
             minHeight: "12vh",
             minWidth: "40vh",
-            maxHeight: "12vh", 
+            maxHeight: "12vh",
             maxWidth: "40vh",
             marginBottom: "-0.5vh",
             fontweight: "bold",
@@ -34,7 +49,7 @@ const makeCard = (number : string,name : string, buildid : string) => {
             bgcolor: "white",
             "&:hover": {
               color: "white",
-              bgcolor: "primary.main", 
+              bgcolor: "primary.main",
             },
           }}
         >
@@ -42,41 +57,56 @@ const makeCard = (number : string,name : string, buildid : string) => {
         </Button>
       </Link>
     </Grid>
-  )
-}
+  );
+};
 
-const makeEditCard = (bName : string, floors : string, id : string) => {
-  return(
-  <Grid item xs = {12} sm = {12} md = {12} lg = {12} xl = {12}
-        justifyContent="center"
-        textAlign="center">
-      <Link href={"/admin/roomPages/editBuildingForm?building=".concat(bName).concat("&floors_amount=").concat(floors).concat("&building_id=").concat(id)} passHref>
-          <Button
-            variant="contained"
-            sx={{
-              fontweight: "bold",
-              fontSize: "2vh",
-              color: "secondary.main",
-              minHeight: "10vh",
-              minWidth: "20vh",
-              maxHeight: "10vh",
-              maxWidth: "20vh",
-              border: "0.5vh solid",
-              borderColor: "secondary.main",
-              bgcolor: "transparent",
-              marginBottom: "2vh",
-              "&:hover": {
-                color: "white",
-                bgcolor: "secondary.main", 
-              },
-            }}
-          >
-            Edit Building
-          </Button>
+const makeEditCard = (bName: string, floors: string, id: string) => {
+  return (
+    <Grid
+      item
+      xs={12}
+      sm={12}
+      md={12}
+      lg={12}
+      xl={12}
+      justifyContent="center"
+      textAlign="center"
+    >
+      <Link
+        href={"/admin/roomPages/editBuildingForm?building="
+          .concat(bName)
+          .concat("&floors_amount=")
+          .concat(floors)
+          .concat("&building_id=")
+          .concat(id)}
+        passHref
+      >
+        <Button
+          variant="contained"
+          sx={{
+            fontweight: "bold",
+            fontSize: "2vh",
+            color: "secondary.main",
+            minHeight: "10vh",
+            minWidth: "20vh",
+            maxHeight: "10vh",
+            maxWidth: "20vh",
+            border: "0.5vh solid",
+            borderColor: "secondary.main",
+            bgcolor: "transparent",
+            marginBottom: "2vh",
+            "&:hover": {
+              color: "white",
+              bgcolor: "secondary.main",
+            },
+          }}
+        >
+          Edit Building
+        </Button>
       </Link>
     </Grid>
-  )
-}
+  );
+};
 
 /*const mfloorCards = (results) =>{
   let number = Number(results["floors_amount"]);
@@ -90,49 +120,48 @@ const makeEditCard = (bName : string, floors : string, id : string) => {
 }*/
 
 const floorCards = () => {
-  
-  const [result, setResult] = useState([])
+  const [result, setResult] = useState([]);
   const getData = (apiUrl) => {
-    return fetch(apiUrl, 
-    {
+    return fetch(apiUrl, {
       method: "POST",
-      headers: {"Content-Type": "application/json",},
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        building_name : name,
+        name: name,
       }),
     })
-    .then((response) => {
+      .then((response) => {
         if (!response.ok) {
-  
         }
         return response.json();
-    })
-    .then(json => {setResult(json)})
-    .catch((error) => {
-  
-    })
-        
-   }
+      })
+      .then((json) => {
+        setResult(json);
+      })
+      .catch((error) => {});
+  };
 
-   let name
+  let name;
   //When we click a button, we call a reducer to change the state of the building we select
 
   useEffect(() => {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    name = urlParams.get("building")
-    getData("http://localhost:3000/api/room/specificbuilding")
-  },[]);
-  
-  {/* */}
-  let arr = []
-  for (let i = Number(result["floors_amount"]); i >= 1; i--) {
-    arr.push(i+"")
+    name = urlParams.get("building");
+    getData("http://localhost:3000/api/room/specificbuilding");
+  }, []);
+
+  {
+    /* */
   }
-  
+  let arr = [];
+  for (let i = Number(result["floor_count"]); i >= 1; i--) {
+    arr.push(i + "");
+  }
+
   return (
     <div>
-      <Grid container
+      <Grid
+        container
         id="cardgrid"
         columnSpacing={0}
         rowSpacing={4}
@@ -140,10 +169,15 @@ const floorCards = () => {
           justifyContent: "center",
         }}
       >
-        <Grid id="scroll" 
+        <Grid
+          id="scroll"
           style={{ display: "flex", justifyContent: "center" }}
           justifyContent="center"
-          item xs = {12} md = {12} lg = {12} xl = {12}
+          item
+          xs={12}
+          md={12}
+          lg={12}
+          xl={12}
         >
           <div
             style={{
@@ -159,7 +193,9 @@ const floorCards = () => {
               alignItems="center"
               justifyContent="center"
             >
-              {arr.map(floorNum => (makeCard(floorNum, result["building_name"], result["id"])))}
+              {arr.map((floorNum) =>
+                makeCard(floorNum, result["name"], result["id"])
+              )}
             </Grid>
             <div
               style={{
@@ -167,15 +203,15 @@ const floorCards = () => {
                 width: "100%",
                 borderBottom: "4px solid",
                 borderColor: "primary.main",
-              }}/>
+              }}
+            />
           </div>
         </Grid>
-        
-        {makeEditCard(result["building_name"], result["floors_amount"], result["id"])}    
+
+        {makeEditCard(result["name"], result["floor_count"], result["id"])}
       </Grid>
     </div>
   );
-  
 };
 
 export default floorCards;
