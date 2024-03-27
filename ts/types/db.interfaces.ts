@@ -20,8 +20,8 @@ import { BuildingWithRooms } from "../interfaces/room.interface";
 export type TeamMember = Omit<TeamMemberDB & PersonDB, "type" | "person_id">;
 export type User = Omit<UserDB & PersonDB, "type" | "person_id">;
 
-export type CommonArea = Omit<CommonAreaDB & RoomDB, "type" | "room_id">;
-export type PersonalRoom = Omit<PersonalRoomDB & RoomDB, "type" | "room_id">;
+export type CommonArea = Omit<CommonAreaDB & RoomDB, "room_id">;
+export type PersonalRoom = Omit<PersonalRoomDB & RoomDB, "room_id">;
 
 export type HollisticRubric = {
   requirements: RequirementDB[];
@@ -237,6 +237,7 @@ export function toCommonArea(a: RoomIncludeCommonArea): CommonArea {
     floor_number: a.floor_number,
     building_id: a.building_id,
     rubric_id: a.rubric_id,
+    type: a.type,
   };
 }
 export function fromCommonArea(a: CommonAreaIncludeRoom): CommonArea {
@@ -246,6 +247,7 @@ export function fromCommonArea(a: CommonAreaIncludeRoom): CommonArea {
     floor_number: a.room.floor_number,
     building_id: a.room.building_id,
     rubric_id: a.room.rubric_id,
+    type: a.room.type,
   };
 }
 
@@ -270,6 +272,7 @@ export function toPersonalRoom(a: RoomIncludePersonalRoom): PersonalRoom {
     building_id: a.building_id,
     is_occupied: a.personal_room.is_occupied,
     rubric_id: a.rubric_id,
+    type: a.type,
   };
 }
 export function fromPersonalRoom(a: PersonalRoomIncludeRoom): PersonalRoom {
@@ -280,6 +283,7 @@ export function fromPersonalRoom(a: PersonalRoomIncludeRoom): PersonalRoom {
     building_id: a.room.building_id,
     is_occupied: a.is_occupied,
     rubric_id: a.room.rubric_id,
+    type: a.room.type,
   };
 }
 

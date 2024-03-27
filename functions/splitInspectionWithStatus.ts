@@ -4,6 +4,8 @@ import { Inspection } from "../ts/types/db.interfaces";
 export const splitInspectionWithStatus = (inspections: Inspection[]) => {
   let notInspected = [];
   let inspected = [];
+  console.log(inspections);
+  /*
   inspections.forEach((inspection) => {
     switch (inspection.inspect_status) {
       case Inspect_Status.INSPECTED:
@@ -16,5 +18,6 @@ export const splitInspectionWithStatus = (inspections: Inspection[]) => {
         break;
     }
   });
+  */
   return { notInspected, inspected };
 };
