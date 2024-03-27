@@ -18,18 +18,22 @@ import theme from "../../../pages/theme";
 
 const makeButton = (roomJSON: JSON) => {
   const dispatch = useDispatch();
+
   const handleClick = (roomJSON: JSON) => {
     dispatch(setRoom(roomJSON));
   };
+
+  let roomId = roomJSON["id"];
   let roomName = roomJSON["name"];
   let floorNumber = roomJSON["floor_number"];
   let typeOfRoom = roomJSON["type"];
-  let roomId = roomJSON["id"];
   let building = roomJSON["building_id"];
+
   let newLink = "/admin/roomPages/editRoomForm?building="
     .concat(building)
     .concat("&floor=")
     .concat(floorNumber);
+
   return (
     <Grid
       style={{
@@ -67,7 +71,9 @@ const makeButton = (roomJSON: JSON) => {
           onClick={() => handleClick(roomJSON)}
         >
           <div>
-            <h3 style={{ margin: 0 }}>{"Room " + roomName}</h3>
+            <h3 style={{ margin: 0 }}>
+              {roomName} #{roomId}{" "}
+            </h3>
             <p
               style={{
                 display: "block",
@@ -92,12 +98,7 @@ const roomView = () => {
   const [building, setBuilding] = useState("");
   const [floor, setFloor] = useState("");
   const [buildingid, setBuildingid] = useState("");
-  const [result, setResult] = useState([]);
-  /*
-  const building = useSelector(
-    (state: RootState) => state.buildingSelect.building
-  );
-  */
+  const [rooms, setRooms] = useState([]);
 
   const getData = (apiUrl) => {
     return fetch(apiUrl, {
@@ -114,7 +115,7 @@ const roomView = () => {
         return response.json();
       })
       .then((json) => {
-        setResult(json);
+        setRooms(json);
       })
       .catch((error) => {});
   };
@@ -192,16 +193,14 @@ const roomView = () => {
               justifyContent: "center",
             }}
           >
-            {/*Static Data Here */}
-
             <Grid
+              container
               direction="column"
               alignItems="center"
               justifyContent="center"
             >
-              {result.map((roomVal) => makeButton(roomVal))}
+              {rooms.map((roomVal) => makeButton(roomVal))}
             </Grid>
-            {/*Static Data Here */}
           </div>
         </Grid>
       </Grid>
@@ -210,12 +209,3 @@ const roomView = () => {
 };
 
 export default roomView;
-
-/*
-        style={{
-          width: 630,
-          height: 700,
-          display: "flex",
-          justifyContent: "center",
-        }}
-*/

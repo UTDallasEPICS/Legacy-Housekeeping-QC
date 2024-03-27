@@ -3,9 +3,7 @@ import { Button, CssBaseline, Grid } from "@mui/material";
 import Link from "next/link";
 
 //Button to click that allows a user to create a new room
-const addRoomButton = ({ buildingName,floorName,buildid }) => {
-  console.log(buildingName)
-  console.log(floorName)
+const addRoomButton = ({ buildingName, floorName, buildid }) => {
   return (
     <>
       <CssBaseline />

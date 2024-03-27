@@ -2,10 +2,10 @@ import { Button, Grid } from "@mui/material";
 import { setBuilding } from "../../../../slices/buildingSelectSlice";
 import { useDispatch } from "react-redux";
 import Link from "next/link";
-//import { alignProperty } from "@mui/material/styles/cssUtils";
 import React, { useState, useEffect } from "react";
+import theme from "../../../../pages/theme";
 
-//This will produce buttons for the user to select
+//This will produce room buttons for the user to select
 
 const makeCard = (number: string, name: string, buildid: string) => {
   const dispatch = useDispatch();
@@ -108,17 +108,6 @@ const makeEditCard = (bName: string, floors: string, id: string) => {
   );
 };
 
-/*const mfloorCards = (results) =>{
-  let number = Number(results["floors_amount"]);
-  let arr = []
-  for (let i = 1; i <= number; i++) {
-    //arr.push(makeCard(i+"",results["building_name"],results["id"]))
-    arr.push(i+"")
-  }
-  
-  return(arr)
-}*/
-
 const floorCards = () => {
   const [result, setResult] = useState([]);
   const getData = (apiUrl) => {
@@ -140,6 +129,10 @@ const floorCards = () => {
       .catch((error) => {});
   };
 
+  console.log("name", result["name"]);
+  console.log("floor count", result["floor_count"]);
+  console.log("id", result["id"]);
+
   let name;
   //When we click a button, we call a reducer to change the state of the building we select
 
@@ -150,9 +143,6 @@ const floorCards = () => {
     getData("http://localhost:3000/api/room/specificbuilding");
   }, []);
 
-  {
-    /* */
-  }
   let arr = [];
   for (let i = Number(result["floor_count"]); i >= 1; i--) {
     arr.push(i + "");
@@ -165,9 +155,7 @@ const floorCards = () => {
         id="cardgrid"
         columnSpacing={0}
         rowSpacing={4}
-        sx={{
-          justifyContent: "center",
-        }}
+        sx={{ justifyContent: "center" }}
       >
         <Grid
           id="scroll"
@@ -185,10 +173,10 @@ const floorCards = () => {
               width: "50vh",
               display: "justified",
               justifyContent: "center",
-              //marginLeft: "16px", // width of scrollbar
             }}
           >
             <Grid
+              container
               direction="column"
               alignItems="center"
               justifyContent="center"
@@ -199,10 +187,11 @@ const floorCards = () => {
             </Grid>
             <div
               style={{
-                marginTop: 2,
+                marginTop: 1,
                 width: "100%",
                 borderBottom: "4px solid",
-                borderColor: "primary.main",
+                borderColor: theme.palette.primary.main,
+                boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.4)",
               }}
             />
           </div>
@@ -215,10 +204,3 @@ const floorCards = () => {
 };
 
 export default floorCards;
-
-/*
-            onClick={(e) => {
-              e.preventDefault();
-              handleClick("A");
-            }}
-*/
