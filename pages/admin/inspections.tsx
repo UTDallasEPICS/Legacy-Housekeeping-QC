@@ -1,9 +1,21 @@
 import { Container } from "@mui/material";
 import { InspectionGrid, Navbar } from "../../src/components";
 import InspectionPlanner from "../../src/components/inspections/Planner/inspectionPlanner";
+import { useDispatch } from "react-redux";
+import { setInspectionsFetchData } from "../../slices/inspectionsFetchSlice";
+import { splitInspectionWithStatus } from "../../functions/splitInspectionWithStatus";
 
 const inspections = ({ inspections, members, buildings }) => {
-  console.log(members);
+  const { notInspected, inspected } = splitInspectionWithStatus(inspections);
+
+  const dispatch = useDispatch();
+  dispatch(
+    setInspectionsFetchData({
+      inspected: inspected,
+      notInspected: notInspected,
+    })
+  );
+
   return (
     <>
       <Navbar />
@@ -18,10 +30,11 @@ const inspections = ({ inspections, members, buildings }) => {
             justifyContent: "center",
             padding: "2",
             gap: "2",
+            height: "100%",
           }}
           maxWidth={false}
         >
-          <InspectionGrid inspections={inspections} />
+          <InspectionGrid />
           <InspectionPlanner members={members} buildings={buildings} />
         </Container>
       </main>

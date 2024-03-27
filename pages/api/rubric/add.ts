@@ -15,18 +15,11 @@ export default async function handler(
         data: { type: rubricType },
       });
 
-      const items = await prisma.item.findMany({
-        where: { is_default: true },
-      });
-
       if (rubricType == RubricType.QUANTITATIVE) {
         const addedQuantitativeRubric = await prisma.quantitativeRubric.create({
           data: {
             id: rubric.id,
             rubric_id: rubric.id,
-            items: {
-              connect: items.map((item) => ({ id: item.id })),
-            },
           },
         });
       } else if (rubricType == RubricType.HOLLISTIC) {

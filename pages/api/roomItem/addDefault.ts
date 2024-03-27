@@ -8,28 +8,23 @@ export default async function handler(
 ) {
   try {
     if (req.method === "POST") {
+      const { room_id, rubric_id } = req.body;
+
       // Filter out item that is already exist
       let promisedItems = defaultItems
         .map((category) => {
           return category.items.map((item) => {
-            const itemExists = checkItemExists(item, category.category);
-            return itemExists.then((itemExists) => {
-              if (!itemExists) {
-                return {
-                  is_default: true,
-                  category: category.category,
-                  item_name: item,
-                };
-              } else {
-                return null;
-              }
-            });
+            return {
+              category: category.category,
+              name: item,
+              is_checked: false,
+              room_id: Number(room_id),
+              quantitative_id: Number(rubric_id),
+            };
           });
         })
         .flat();
-      let addedItems = (await Promise.all(promisedItems)).filter(
-        (item) => item !== null
-      );
+      let addedItems = await Promise.all(promisedItems);
       await prisma.$transaction(async (prisma) => {
         await prisma.item.createMany({
           data: addedItems,
@@ -42,9 +37,3 @@ export default async function handler(
     res.status(500).json(error + " :Error adding default items");
   }
 }
-
-const checkItemExists = async (item: string, category: string) => {
-  return await prisma.item.findFirst({
-    where: { item_name: item, category: category },
-  });
-};

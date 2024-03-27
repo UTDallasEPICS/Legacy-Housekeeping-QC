@@ -4,11 +4,13 @@ import { RootState } from "../store";
 import { Inspection } from "../ts/types/db.interfaces";
 
 export interface InspectionFetchState {
-  inspections: Inspection[] | null;
+  inspected: Inspection[] | null;
+  notInspected: Inspection[] | null;
 }
 
 const initialState: InspectionFetchState = {
-  inspections: null,
+  inspected: null,
+  notInspected: null,
 };
 
 export const inspectionsFetchSlice = createSlice({
@@ -16,15 +18,19 @@ export const inspectionsFetchSlice = createSlice({
   initialState,
   reducers: {
     setInspectionsFetchData: (state, action: PayloadAction<any>) => {
-      const { inspections } = action.payload;
-      state.inspections = inspections;
+      const { inspected, notInspected } = action.payload;
+      state.inspected = inspected;
+      state.notInspected = notInspected;
     },
   },
 });
 
 export const { setInspectionsFetchData } = inspectionsFetchSlice.actions;
 
-export const getInspections = (state: RootState) =>
-  state.inspectionsFetchData.inspections;
+export const getInspectedReports = (state: RootState) =>
+  state.inspectionsFetchData.inspected;
+
+export const getNotInspectedReports = (state: RootState) =>
+  state.inspectionsFetchData.notInspected;
 
 export default inspectionsFetchSlice.reducer;
