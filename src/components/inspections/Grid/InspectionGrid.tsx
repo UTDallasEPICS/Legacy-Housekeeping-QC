@@ -8,11 +8,8 @@ import {
 import DashboardCardHeading from "../../dashboardComponents/dashboardCardHeading";
 import { useState } from "react";
 import { Inspect_Status } from "@prisma/client";
-import { Inspection } from "../../../../ts/types/db.interfaces";
 import InspectionCardGrid from "./inspectionCardGrid";
-
-const InspectionGrid = ({ inspections }: { inspections: Inspection[] }) => {
-  // INSPECTIONS STATUS FILTER TOGGLE BUTTON GROUP **************
+const InspectionGrid = () => {
   const [inspectionStatusFilter, setInspectionStatusFilter] =
     useState<Inspect_Status>(Inspect_Status.INSPECTED);
 
@@ -24,7 +21,6 @@ const InspectionGrid = ({ inspections }: { inspections: Inspection[] }) => {
       setInspectionStatusFilter(inspectionStatusFilter);
     }
   };
-  // ******************************************************
 
   return (
     <Card
@@ -56,10 +52,7 @@ const InspectionGrid = ({ inspections }: { inspections: Inspection[] }) => {
 
         <Divider variant="middle" />
 
-        <InspectionCardGrid
-          inspections={inspections}
-          status={inspectionStatusFilter}
-        />
+        <InspectionCardGrid status={inspectionStatusFilter} />
       </Box>
     </Card>
   );

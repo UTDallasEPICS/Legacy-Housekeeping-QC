@@ -9,13 +9,27 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { CompletedInspectionCardProps } from "../../../../ts/interfaces/roomReport.interfaces";
+import { UncompletedInspectionCardProps } from "../../../../ts/interfaces/roomReport.interfaces";
+import { useDispatch } from "react-redux";
+import { setInspectionSelectionData } from "../../../../slices/inspectionSelectionSlice";
 
 const UncompletedCard = ({
+  card_id,
   inspectionProps,
 }: {
-  inspectionProps: CompletedInspectionCardProps;
+  card_id: number;
+  inspectionProps: UncompletedInspectionCardProps;
 }) => {
+  const dispatch = useDispatch();
+  const handleClicked = () => {
+    dispatch(
+      setInspectionSelectionData({
+        card_id: card_id,
+        inspections: inspectionProps,
+      })
+    );
+  };
+
   return (
     <Card>
       <Box sx={{ display: "inline-flex", width: "fill", alignItems: "center" }}>
@@ -36,8 +50,10 @@ const UncompletedCard = ({
         </CardContent>
 
         <CardActions sx={{ ml: 0 }}>
-          <Link href={{ pathname: "../../report" }}>
-            <Button endIcon={<ArrowForwardIcon />}>Inspect</Button>
+          <Link href={{ pathname: "inspectionMaker" }}>
+            <Button endIcon={<ArrowForwardIcon />} onClick={handleClicked}>
+              Inspect
+            </Button>
           </Link>
         </CardActions>
       </Box>
