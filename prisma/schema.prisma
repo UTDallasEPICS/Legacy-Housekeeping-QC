@@ -93,6 +93,8 @@ model Room {
   floor_number Int
   schedule Schedule[]
   items Item[]
+
+  @@index([building_id, floor_number])
 }
 
 enum RoomType {
