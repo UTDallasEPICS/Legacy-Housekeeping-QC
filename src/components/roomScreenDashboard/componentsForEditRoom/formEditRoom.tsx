@@ -1,7 +1,4 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../../store";
+import React, { useEffect, useState } from "react";
 import formRoomValidation from "../componentsForAddRoom/formRoomValidation";
 import BackButton from "../../globalComponents/backButton";
 import {
@@ -15,42 +12,41 @@ import {
   TextField,
 } from "@mui/material";
 import Link from "next/link";
+import Navbar from "../../../../src/components/adminDashboard/navbar/navbar";
 
 const formEditRoom = () => {
   const [error, setError] = useState(null);
-  const [roomId, setRoomId] = useState("");
+  const [roomId, setRoomId] = useState(0);
   const [building, setBuilding] = useState("");
-  const [roomNum, setRoomNum] = useState("");
   const [type, setType] = useState("");
   const [roomName, setRoomName] = useState("");
-  const [floor, setFloor] = useState("");
-  const [buildId, setbuildId] = useState("");
+  const [floor, setFloor] = useState(0);
+  const [buildingId, setBuildingId] = useState(0);
   const [formErrors, setFormErrors] = useState<any>({});
 
-  let gobacklink = "/admin/roomPages/roomView?building="
-    .concat(building)
-    .concat("&floor=")
-    .concat(floor);
-  //validates what info they are submitting
+  let goBackLink = `/admin/roomPages/roomView?building=${building}&floor=${floor}&building_id=${buildingId}`;
+
+  // validates what info they are submitting
   const handleSubmit = async () => {
+    console.log("room name:", roomName);
+
     const resCheck = formRoomValidation(building, type, roomName, floor);
+
     setFormErrors(resCheck);
     if (resCheck != 0) {
       //setError(resCheck);
       return;
     }
 
-    //Sending data to the api
+    // Sending data to the api
     const res = await fetch("/api/room/edit", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        room_number: roomNum,
         room_id: roomId,
-        building_number: building,
-        building_id: buildId,
+        building_id: buildingId,
         room_name: roomName,
         floor_num: floor,
         is_clean: false,
@@ -65,20 +61,9 @@ const formEditRoom = () => {
       return;
     }
 
-    setBuilding(building);
-    setRoomNum("");
-    setType("");
-    setRoomName("");
-    setFloor("");
-    window.location.replace(
-      "/admin/roomPages/roomView?building="
-        .concat(building)
-        .concat("&floor=")
-        .concat(floor)
-        .concat("&building_id=")
-        .concat(buildId)
-    );
+    window.location.replace(goBackLink);
   };
+
   const handleDelete = async () => {
     if (confirm("Are you sure you would like to delete this room?") == true) {
       const res = await fetch("/api/room/deleteRoom", {
@@ -96,42 +81,85 @@ const formEditRoom = () => {
         setError(r.error);
         return;
       }
-      setRoomId("");
+
+      setRoomId(0);
       setBuilding(building);
-      setRoomNum("");
       setType("");
       setRoomName("");
-      setFloor("");
-      //window.location.href = "/admin/roomPages/roomView";
-      window.location.replace(
-        "/admin/roomPages/roomView?building="
-          .concat(building)
-          .concat("&floor=")
-          .concat(floor)
-          .concat("&building_id=")
-          .concat(buildId)
-      );
+      setFloor(0);
+      window.location.replace(goBackLink);
     }
   };
-  //Actual form
-  const build = useSelector(
-    (state: RootState) => state.buildingSelect.building
-  );
-  const room = useSelector((state: RootState) => state.roomSelect.room);
 
-  let buildingParam;
-  let floorParam;
-  let idParam;
   useEffect(() => {
+    // get url parameters and initialize state variables
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    setRoomName(room["name"]);
-    setRoomId(room["id"]);
-    setFloor(room["floor_num"]);
-    setType(room["type"]);
-    setbuildId(room["building_id"]);
-    var mySelect = document.getElementById("selector");
+    const buildingIdParam = urlParams.get("buildingId");
+    const floorParam = urlParams.get("floor");
+    const roomIdParam = urlParams.get("roomId");
+
+    setBuildingId(Number(buildingIdParam));
+    setFloor(Number(floorParam));
+    setRoomId(Number(roomIdParam));
   }, []);
+
+  useEffect(() => {
+    // get data when buildingId, floor, or roomId are updated after previous useEffect
+    if (buildingId && floor && roomId) {
+      getRoomData();
+      getBuildingData();
+    }
+  }, [buildingId, floor]);
+
+  const getRoomData = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/api/room/room", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          buildingId: buildingId,
+          floor: floor,
+          roomId: roomId,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch data");
+      }
+
+      const json = await response.json();
+
+      console.log("result:", json);
+      setRoomName(json["name"]);
+      setType(json["type"]);
+    } catch (error) {
+      console.error("Error fetching room data:", error);
+    }
+  };
+
+  const getBuildingData = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/api/room/building", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          buildingId: buildingId,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch data");
+      }
+
+      const json = await response.json();
+
+      console.log("result:", json);
+      setBuilding(json["name"]);
+    } catch (error) {
+      console.error("Error fetching building data:", error);
+    }
+  };
 
   const handleTypeChange = (event: SelectChangeEvent) => {
     setType(event.target.value);
@@ -139,15 +167,9 @@ const formEditRoom = () => {
 
   return (
     <>
+      <Navbar />
       <div>
-        <BackButton
-          pageToGoBack={"/admin/roomPages/roomView?building="
-            .concat(building)
-            .concat("&floor=")
-            .concat(floor)
-            .concat("&building_id=")
-            .concat(buildId)}
-        />
+        <BackButton pageToGoBack={goBackLink} />
       </div>
       <Grid container direction={"column"} alignItems={"center"}>
         <Grid style={{ display: "flex", justifyContent: "center" }}>
@@ -172,6 +194,7 @@ const formEditRoom = () => {
 
         {/*This area will be the section where admin fills out info*/}
         <Grid
+          container
           alignContent={"center"}
           direction={"column"}
           sx={{ textAlign: "center" }}
@@ -186,12 +209,8 @@ const formEditRoom = () => {
               value={type}
               autoWidth
             >
-              <MenuItem value="bathroom">Bathroom</MenuItem>
-              <MenuItem value="auxiliary">Auxiliary</MenuItem>
-              <MenuItem value="independent">Independent Living</MenuItem>
-              <MenuItem value="assisted">Assisted Living</MenuItem>
-              <MenuItem value="memory">Memory Care</MenuItem>
-              <MenuItem value="skilled">Skilled Nursing</MenuItem>
+              <MenuItem value="PERSONAL_ROOM">Personal Room</MenuItem>
+              <MenuItem value="COMMON_AREA">Common Area</MenuItem>
             </Select>
             {formErrors["type"] && (
               <Alert severity="error" sx={{ whiteSpace: "pre-line" }}>
@@ -227,8 +246,8 @@ const formEditRoom = () => {
             <TextField
               label="Room Number"
               variant="outlined"
-              onChange={(e) => setRoomNum(e.target.value)}
-              value={roomNum}
+              onChange={(e) => setRoomId(Number(e.target.value))}
+              value={roomId}
               name="RoomNumber"
               style={{
                 fontSize: "5vh",
@@ -254,10 +273,10 @@ const formEditRoom = () => {
           <Button
             variant="outlined"
             sx={{
-              border: 5,
+              border: 3,
               marginRight: "1vh",
               "&:hover": {
-                border: 5,
+                border: 3,
                 borderColor: "primary.main",
                 color: "white",
                 bgcolor: "primary.main",
@@ -270,9 +289,9 @@ const formEditRoom = () => {
           <Button
             variant="outlined"
             sx={{
-              border: 5,
+              border: 3,
               "&:hover": {
-                border: 5,
+                border: 3,
                 borderColor: "primary.main",
                 color: "white",
                 bgcolor: "primary.main",

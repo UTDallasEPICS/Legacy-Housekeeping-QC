@@ -71,7 +71,6 @@ const makeAddCard = () => {
       <Link href="/admin/roomPages/addBuildingForm" passHref>
         <Button
           variant="contained"
-          //color="secondary"
           sx={{
             fontweight: "bold",
             fontSize: "2vh",
@@ -112,7 +111,7 @@ const buildingCardsNew = () => {
         throw new Error("failed to fetch data");
       }
       const data = await response.json();
-      console.log("API Response:", data);
+      //console.log("API Response:", data);
       setBuilding(data);
     } catch (error) {
       console.error("Error fetching data:", error);
