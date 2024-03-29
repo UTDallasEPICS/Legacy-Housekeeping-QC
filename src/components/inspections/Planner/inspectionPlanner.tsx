@@ -161,7 +161,8 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
           xs: "center",
           md: "start",
         },
-        minWidth: "fit-content",
+        minWidth: "400px",
+        maxWidth: "500px",
         flexBasis: 0,
       }}
     >
@@ -174,7 +175,7 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
         <Typography
           variant="h4"
           sx={{
-            fontSize: { xs: 20, md: 30 },
+            fontSize: "30",
             fontWeight: "bold",
             fontFamily: montserrat.style.fontFamily,
           }}
