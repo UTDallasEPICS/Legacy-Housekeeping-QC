@@ -38,43 +38,19 @@ const formAddRoom = () => {
       //setError(resCheck);
       return;
     }
-
-    //Sending data to the api
-    const rubricRes = await fetch("/api/rubric/add", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ rubric_type: "Quantitative" }),
-    });
-    const rubric = await rubricRes.json();
-
     const res = await fetch("/api/room/add", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        room_number: roomNum,
-        building_number: building,
         building_id: buildId,
         room_name: roomName,
         floor_num: floor,
-        is_clean: false,
-        is_active: true,
         type_of_room: type,
-        rubric_id: rubric.id,
       }),
     });
-
-    const itemsRes = await fetch("/api/roomItem/addDefault", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        room_id: res.id,
-        rubric_id: rubric.id,
-      }),
-    });
+    //const roomData = await res.json();
 
     if (!res.ok) {
       const r = await res.json();

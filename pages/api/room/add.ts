@@ -8,8 +8,7 @@ export default async function handler(
 ) {
   try {
     if (req.method === "POST") {
-      const { building_id, room_name, floor_num, type_of_room, rubric_id } =
-        req.body;
+      const { building_id, room_name, floor_num, type_of_room } = req.body;
 
       let type: RoomType;
       if (type_of_room == "personal") {
@@ -26,7 +25,6 @@ export default async function handler(
           floor_number: Number(floor_num),
           building: { connect: { id: Number(building_id) } },
           type: type,
-          rubric: { connect: { id: Number(rubric_id) } },
         },
       });
 

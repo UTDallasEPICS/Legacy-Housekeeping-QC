@@ -7,19 +7,15 @@ export default async function handler(
 ) {
   try {
     if (req.method === "POST") {
-      const { schedule_id, room_id, inspector_id } = req.body;
+      const { schedule_id, rubric_id, inspector_id } = req.body;
 
       let inspection, room;
       await prisma.$transaction(async (prisma) => {
-        room = await prisma.room.findUnique({
-          where: { id: room_id },
-          select: { rubric_id: true },
-        });
         inspection = await prisma.inspection.create({
           data: {
             inspector: { connect: { person_id: Number(inspector_id) } },
             schedule: { connect: { id: Number(schedule_id) } },
-            rubric: { connect: { id: room.rubric_id } },
+            rubric: { connect: { id: rubric_id } },
             inspect_status: "NOT_INSPECTED",
           },
         });

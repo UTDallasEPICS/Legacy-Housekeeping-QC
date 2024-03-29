@@ -71,6 +71,24 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
   };
 
   const handleSubmission = async () => {
+    const rubricRes = await fetch("/api/rubric/add", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ rubric_type: "Quantitative" }),
+    });
+    const rubric = await rubricRes.json();
+
+    const itemsRes = await fetch("/api/roomItem/addDefault", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        room_id: selectedRoom.room_id,
+        rubric_id: rubric.id,
+      }),
+    });
+
     const scheduleRes = await fetch(
       "http://localhost:3000/api/scheduling/scheduleRoom",
       {
@@ -106,12 +124,13 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           schedule_id: scheduleData.id,
-          room_id: selectedRoom.room_id,
+          rubric_id: rubric.id,
           inspector_id: session?.user?.id,
         }),
       }
     );
     const inspectionData = await inspectionRes.json();
+    console.log(inspectionData);
 
     const inspectionFetchRes = await fetch(
       "http://localhost:3000/api/roomReport/report",
@@ -138,17 +157,24 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
         flexDirection: "column",
         gap: 2,
         padding: 2,
-        alignSelf: "start",
-        width: "min-content",
+        alignSelf: {
+          xs: "center",
+          md: "start",
+        },
+        minWidth: "fit-content",
+        flexBasis: 0,
       }}
     >
       <Box
-        sx={{ display: "flex", width: "max-content", justifyContent: "center" }}
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+        }}
       >
         <Typography
           variant="h4"
           sx={{
-            fontSize: { sm: 20, md: 30 },
+            fontSize: { xs: 20, md: 30 },
             fontWeight: "bold",
             fontFamily: montserrat.style.fontFamily,
           }}
