@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
-import formRoomValidation from "./formRoomValidation";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../store";
+import formRoomValidation from "./formRoomValidation";
 import BackButton from "../../globalComponents/backButton";
 import { Button, Alert, Select, SelectChangeEvent, InputLabel, MenuItem, Grid, TextField } from "@mui/material";
 import Link from "next/link";
@@ -11,12 +10,13 @@ import Navbar from "../../../../src/components/adminDashboard/navbar/navbar";
 const formAddRoom = () => {
   const [error, setError] = useState(null);
   const [building, setBuilding] = useState("");
-  const [roomNum, setRoomNum] = useState("");
+  const [roomNum, setRoomNum] = useState(0);
   const [type, setType] = useState("");
   const [roomName, setRoomName] = useState("");
   const [floor, setFloor] = useState("");
-  const [buildId, setBuildId] = useState("");
+  const [buildingId, setBuildingId] = useState("");
   const [formErrors, setFormErrors] = useState<any>({});
+
   let gobacklink = "/admin/roomPages/roomView?building=".concat(building).concat("&floor=").concat(floor);
   //validates what info they are submitting
   const handleSubmit = async () => {
@@ -26,6 +26,7 @@ const formAddRoom = () => {
       roomName,
       floor
     );
+
     setFormErrors(resCheck);
     if (resCheck!=0) {
       //setError(resCheck);
@@ -39,13 +40,9 @@ const formAddRoom = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        room_number: roomNum,
-        building_number: building,
-        building_id:buildId,
+        building_id: buildingId,
         room_name: roomName,
         floor_num: floor,
-        is_clean: false,
-        is_active: true,
         type_of_room: type,
       }),
     });
@@ -57,31 +54,42 @@ const formAddRoom = () => {
     }
 
     setBuilding(building);
-    setRoomNum("");
+    setRoomNum(0);
     setType("");
-    setRoomName("");
+    setRoomName(floor);
     setFloor("");
-    window.location.replace("/admin/roomPages/roomView?building=".concat(building).concat("&floor=").concat(floor).concat("&building_id=").concat(buildId));
+    window.location.replace("/admin/roomPages/roomView?building=".concat(building).concat("&floor=").concat(floor).concat("&building_id=").concat(buildingId));
   };
 
-  //Actual form
+  // Actual form
+
   const build = useSelector(
     (state: RootState) => state.buildingSelect.building
   );
+
   let buildingParam;
   let floorParam;
   let idParam;
+
   useEffect(() => {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
+    
     buildingParam = urlParams.get("building")
     floorParam = urlParams.get("floor")
     idParam = urlParams.get("building_id")
     
     setBuilding(buildingParam);
     setFloor(floorParam);
-    setBuildId(idParam);
-  },[]);
+    setBuildingId(idParam);
+
+    console.log("building: ", building);
+    console.log("floor:", floor);
+    console.log("building id: ", buildingId)
+    console.log("urlbuilding: ", buildingParam);
+    console.log("urlfloor:", floorParam);
+    console.log("urlbuilding id: ", idParam)
+  },[]); 
 
   const handleTypeChange = (event : SelectChangeEvent) => {
     setType(event.target.value)
@@ -91,7 +99,7 @@ const formAddRoom = () => {
     <>
       <Navbar/>
       <div>
-        <BackButton pageToGoBack={"/admin/roomPages/roomView?building=".concat(building).concat("&floor=").concat(floor).concat("&building_id=").concat(buildId)} />
+        <BackButton pageToGoBack={"/admin/roomPages/roomView?building=".concat(building).concat("&floor=").concat(floor).concat("&building_id=").concat(buildingId)} />
       </div>
       <Grid container
         direction={"column"}
@@ -110,7 +118,7 @@ const formAddRoom = () => {
         </Grid>
 
         {/*This area will be the section where admin fills out info*/}
-        <Grid 
+        <Grid container 
           direction={"column"} 
           alignContent={"center"} 
           sx={{textAlign:"center"}}
@@ -131,16 +139,12 @@ const formAddRoom = () => {
                 value={type}
                 autoWidth
               >
-                <MenuItem value="bathroom">Bathroom</MenuItem>
-                <MenuItem value="auxiliary">Auxiliary</MenuItem>
-                <MenuItem value="independent">Independent Living</MenuItem>
-                <MenuItem value="assisted">Assisted Living</MenuItem>
-                <MenuItem value="memory">Memory Care</MenuItem>
-                <MenuItem value="skilled">Skilled Nursing</MenuItem>
+                <MenuItem value="common">Common Area</MenuItem>
+                <MenuItem value="personal">Personal Room</MenuItem>
               </Select>
               {formErrors["type"] && (
                 <Alert severity="error" sx={{ whiteSpace: 'pre-line' }}>{formErrors["type"]}</Alert>
-            )}
+              )}
            </Grid>
            
             {/* Set the name of the room*/}
@@ -175,7 +179,7 @@ const formAddRoom = () => {
                 }}
                 label="Room Number" 
                 variant="outlined"
-                onChange={(e) => setRoomNum(e.target.value)}
+                onChange={(e) => setRoomNum(Number(e.target.value))}
                 value={roomNum}
                 name="RoomNumber"
               />
@@ -189,10 +193,10 @@ const formAddRoom = () => {
           <Button
             variant="outlined"
             sx={{ 
-              border: 5,
+              border: 3,
               marginRight: "1vh",
               "&:hover": {            
-                border: 5,
+                border: 3,
                 borderColor: "primary.main",
                 color: "white",
                 bgcolor: "primary.main", 

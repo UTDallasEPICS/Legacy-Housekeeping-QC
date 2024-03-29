@@ -1,9 +1,7 @@
 //This will be for looking at the rooms we have
 import React, {useState, useEffect} from "react";
 import BuildingRoomBanner from "../../../src/components/roomScreenDashboard/componentsForRoomView/buildingRoomBanner";
-import { BackButton, Scroll } from "../../../src/components";
 import AddRoomButton from "../../../src/components/roomScreenDashboard/componentsForRoomView/addRoomButton";
-import DeleteRoomButton from "../../../src/components/roomScreenDashboard/componentsForRoomView/deleteRoomButton";
 import RoomCards from "../../../src/components/roomScreenDashboard/componentsForRoomView/roomCards";
 import SortButton from "../../../src/components/roomScreenDashboard/componentsForRoomView/sortButton";
 import { useSelector } from "react-redux";
@@ -16,6 +14,17 @@ import { useSearchParams } from "react-router-dom";
 import Navbar from "../../../src/components/adminDashboard/navbar/navbar";
 import theme from "../../../pages/theme";
 
+const getTypeDisplayName = (type) => {
+  switch (type) {
+    case "COMMON_AREA":
+      return "Common Area";
+    case "PERSONAL_ROOM":
+      return "Personal Room";
+    default:
+      return type;
+  }
+};
+
 const makeButton = (roomJSON : JSON) => {
   const dispatch = useDispatch();
 
@@ -27,9 +36,9 @@ const makeButton = (roomJSON : JSON) => {
   let roomName = roomJSON["name"];
   let floorNumber = roomJSON["floor_number"];
   let typeOfRoom = roomJSON["type"];
-  let building = roomJSON["building_id"];
+  let buildingId = roomJSON["building_id"];
 
-  let newLink = "/admin/roomPages/editRoomForm?building=".concat(building).concat("&floor=").concat(floorNumber);
+  let newLink = `/admin/roomPages/editRoomForm?buildingId=${buildingId}&floor=${floorNumber}&roomId=${roomId}`;
 
   return(
     <Grid
@@ -44,10 +53,11 @@ const makeButton = (roomJSON : JSON) => {
       <Link href={newLink} passHref>
         <Button
           style={{
-            width: '30vh', 
-            height: '15vh', 
+            width: "30vh", 
+            height: "15vh", 
             fontSize: "2.5vh", 
             margin: 5, 
+            textTransform: "none",
           }}
           sx={{ 
             backgroundColor: "white",
@@ -73,7 +83,7 @@ const makeButton = (roomJSON : JSON) => {
                   marginRight: 5,
                 }}
               >
-                {typeOfRoom}
+                {getTypeDisplayName(typeOfRoom)}
               </p>
           </div>
         </Button>
@@ -87,30 +97,28 @@ const roomView = () => {
   let floorParam : string
   let buildid: string
   const [building, setBuilding] = useState("");
-  const [floor,setFloor] = useState("");
+  const [floor, setFloor] = useState("");
   const [buildingid, setBuildingid] = useState("");
   const [rooms, setRooms] = useState([]);
 
   const getData = (apiUrl) => {
-
     return fetch(apiUrl, {method: "POST",
-    headers: {"Content-Type": "application/json",},
-    body:JSON.stringify(
-      {
-        floor_num: floorParam,
-        building_id: buildid,
-      })})
-        .then((response) => {
-            if (!response.ok) {
-  
-            }
-            return response.json();
-        })
+    headers: {"Content-Type": "application/json",}, 
+    body:JSON.stringify({
+      floor_num: floorParam,
+      building_id: buildid,
+    })})
+      .then((response) => {
+        if (!response.ok) {
+
+        }
+        return response.json();
+      })
         .then(json => {setRooms(json)})
         .catch((error) => {
-  
-        })
-   }
+
+      })
+    }
   
   useEffect(() => {
     const queryString = window.location.search;

@@ -103,12 +103,7 @@ const floorCards = () => {
         
    }
 
-  console.log("name", result["name"]);
-  console.log("floor count", result["floor_count"]);
-  console.log("id", result["id"]);
-
   let name;
-  //When we click a button, we call a reducer to change the state of the building we select
 
   useEffect(() => {
     const queryString = window.location.search;
