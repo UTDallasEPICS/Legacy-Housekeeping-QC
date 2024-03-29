@@ -30,12 +30,22 @@ const InspectionGrid = () => {
         flexDirection: "column",
         flexBasis: 0,
         flexGrow: 1,
+        border: "1px solid red",
+        height: "auto",
+        minHeight: "100vh",
       }}
     >
       <DashboardCardHeading text="Inspections" />
 
-      <Box sx={{ display: "flex", flexDirection: "column", flex: 1, width: 1 }}>
-        <Box sx={{ p: 2, alignContent: "center", alignItems: "center" }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "stretch",
+          gap: 2,
+        }}
+      >
+        <Box sx={{ display: "flex", p: 2 }}>
           <ToggleButtonGroup
             value={inspectionStatusFilter}
             exclusive
@@ -50,7 +60,7 @@ const InspectionGrid = () => {
           </ToggleButtonGroup>
         </Box>
 
-        <Divider variant="middle" />
+        <Divider flexItem />
 
         <InspectionCardGrid status={inspectionStatusFilter} />
       </Box>

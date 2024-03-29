@@ -13,11 +13,13 @@ const CategoryCheckbox = ({
   category,
   setItem,
   setItems,
+  disabled,
 }: {
   items: Item[];
   category: string;
   setItem: any;
   setItems: any;
+  disabled?: boolean;
 }) => {
   return (
     <Container
@@ -39,6 +41,7 @@ const CategoryCheckbox = ({
         <FormControlLabel
           control={
             <Checkbox
+              disabled={disabled}
               checked={items.every((item) => item.is_checked === true)}
               indeterminate={
                 !items.every((item) => item.is_checked === false) &&
@@ -65,10 +68,11 @@ const CategoryCheckbox = ({
       </Box>
       <Grid container spacing={2} direction="row">
         {items.map((item, index) => (
-          <Grid item xs={6}>
+          <Grid item xs={6} lg={4}>
             <FormControlLabel
               control={
                 <Checkbox
+                  disabled={disabled}
                   checked={item.is_checked}
                   onChange={(event) => {
                     setItem({ ...item, is_checked: event.target.checked });

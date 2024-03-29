@@ -1,18 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
-import { UncompletedInspectionCardProps } from "../ts/interfaces/roomReport.interfaces";
+import { InspectionCardProps } from "../ts/interfaces/roomReport.interfaces";
 import { Clean_Status, Inspect_Status } from "@prisma/client";
 
 export interface InspectionSelectionState {
   card_id: number;
-  inspectionProps: UncompletedInspectionCardProps | null;
+  inspectionProps: InspectionCardProps;
 }
 
 const initialState: InspectionSelectionState = {
   card_id: 0,
   inspectionProps: {
     id: -1,
+    room_id: -1,
     rubric_id: -1,
     inspect_status: Inspect_Status.NOT_INSPECTED,
     clean_status: Clean_Status.NOT_CLEANED,
@@ -20,6 +21,9 @@ const initialState: InspectionSelectionState = {
     building_name: "",
     floor_number: 0,
     team_members: [],
+    score: 0,
+    comment: "",
+    extra_score: 0,
   },
 };
 
@@ -28,7 +32,7 @@ export const inspectionSelectionSlice = createSlice({
   initialState,
   reducers: {
     setInspectionSelectionData: (state, action: PayloadAction<any>) => {
-      const { card_id, inspect_status, inspections } = action.payload;
+      const { card_id, inspections } = action.payload;
       state.card_id = card_id;
       state.inspectionProps = inspections;
     },

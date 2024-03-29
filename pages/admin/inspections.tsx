@@ -27,10 +27,7 @@ const inspections = ({ inspections, members, buildings }) => {
               xs: "column",
               md: "row",
             },
-            justifyContent: "center",
-            padding: "2",
-            gap: "2",
-            height: "100%",
+            alignItems: "stretch",
           }}
           maxWidth={false}
         >
