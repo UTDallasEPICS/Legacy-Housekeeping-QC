@@ -15,6 +15,7 @@ import {
   RubricType,
   Item as ItemDB,
   Requirement as RequirementDB,
+  Score,
 } from "@prisma/client";
 import { BuildingWithRooms } from "../interfaces/room.interface";
 export type TeamMember = Omit<TeamMemberDB & PersonDB, "type" | "person_id">;
@@ -34,6 +35,7 @@ export type Inspection = {
   schedule: Schedule;
   rubric: Rubric;
   inspector: User;
+  score: Score;
 } & InspectionDB;
 
 export type Schedule = {
@@ -86,6 +88,7 @@ export const inspectionIncludeAll =
     inspector: {
       include: { person: true },
     },
+    score: true,
   });
 type InspectionIncludeAll = Prisma.InspectionGetPayload<{
   include: typeof inspectionIncludeAll;
@@ -111,6 +114,7 @@ export function toInspection(a: InspectionIncludeAll): Inspection {
     schedule_id: a.schedule_id,
     rubric_id: a.rubric_id,
     comment: a.comment,
+    extra_score: a.extra_score,
     score: a.score,
   };
 }
@@ -236,7 +240,6 @@ export function toCommonArea(a: RoomIncludeCommonArea): CommonArea {
     name: a.name,
     floor_number: a.floor_number,
     building_id: a.building_id,
-    rubric_id: a.rubric_id,
     type: a.type,
   };
 }
@@ -246,7 +249,6 @@ export function fromCommonArea(a: CommonAreaIncludeRoom): CommonArea {
     name: a.room.name,
     floor_number: a.room.floor_number,
     building_id: a.room.building_id,
-    rubric_id: a.room.rubric_id,
     type: a.room.type,
   };
 }
@@ -271,7 +273,6 @@ export function toPersonalRoom(a: RoomIncludePersonalRoom): PersonalRoom {
     floor_number: a.floor_number,
     building_id: a.building_id,
     is_occupied: a.personal_room.is_occupied,
-    rubric_id: a.rubric_id,
     type: a.type,
   };
 }
@@ -282,7 +283,6 @@ export function fromPersonalRoom(a: PersonalRoomIncludeRoom): PersonalRoom {
     floor_number: a.room.floor_number,
     building_id: a.room.building_id,
     is_occupied: a.is_occupied,
-    rubric_id: a.room.rubric_id,
     type: a.room.type,
   };
 }
