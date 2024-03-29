@@ -1,6 +1,6 @@
 import { Box, TextField, Typography } from "@mui/material";
 
-const CommentBox = ({ comment, setComment }) => {
+const CommentBox = ({ comment, setComment, disabled }) => {
   return (
     <Box
       sx={{
@@ -12,6 +12,7 @@ const CommentBox = ({ comment, setComment }) => {
         Comments:
       </Typography>
       <TextField
+        disabled={disabled}
         multiline
         rows={4}
         value={comment}

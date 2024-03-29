@@ -9,42 +9,61 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { CompletedInspectionCardProps } from "../../../../ts/interfaces/roomReport.interfaces";
+import { InspectionCardProps } from "../../../../ts/interfaces/roomReport.interfaces";
+import { useDispatch } from "react-redux";
+import { setInspectionSelectionData } from "../../../../slices/inspectionSelectionSlice";
+import { useRouter } from "next/router";
 
-const CompletedCard = ({
+const UncompletedCard = ({
+  card_id,
   inspectionProps,
 }: {
-  inspectionProps: CompletedInspectionCardProps;
+  card_id: number;
+  inspectionProps: InspectionCardProps;
 }) => {
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const handleClicked = () => {
+    dispatch(
+      setInspectionSelectionData({
+        card_id: card_id,
+        inspections: inspectionProps,
+      })
+    );
+    router.push("/admin/makeInspection");
+  };
+
   return (
-    <Card>
-      <Box sx={{ display: "inline-flex", width: "fill", alignItems: "center" }}>
-        <CardActionArea>
-          <CardContent sx={{ width: "180px", mr: 0 }}>
-            <Typography variant="h6">
-              <b>Room{" " + inspectionProps.room_name} </b>
-            </Typography>
-            <Typography variant="h6">
-              Floor {inspectionProps.floor_number}
-              in Building {inspectionProps.building_name}
-            </Typography>
-            <Typography>
-              Cleaned by{" "}
-              {inspectionProps.team_members
-                .map((member) => {
-                  member.first_name + " " + member.last_name;
-                })
-                .join(", ")}
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-        <CardActions sx={{ ml: 0 }}>
-          <Link href={{ pathname: "../../report" }}>
-            <Button endIcon={<ArrowForwardIcon />}>Inspect</Button>
-          </Link>
-        </CardActions>
-      </Box>
+    <Card sx={{ display: "flex", alignItems: "center" }}>
+      <CardContent
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          minWidth: 0,
+          flex: 1,
+        }}
+      >
+        <Typography variant="h6">
+          <b>Room{" " + inspectionProps.room_name} </b>
+        </Typography>
+        <Typography noWrap variant="h6">
+          Floor {inspectionProps.floor_number} in{" "}
+          {inspectionProps.building_name} Building
+        </Typography>
+        <Typography noWrap>
+          Cleaned by{" "}
+          {inspectionProps.team_members
+            .map((member) => member.first_name + " " + member.last_name)
+            .join(", ")}
+        </Typography>
+        <Typography>Score: {inspectionProps.score}%</Typography>
+      </CardContent>
+      <CardActions sx={{ ml: 0, minWidth: "fit-content" }}>
+        <Button endIcon={<ArrowForwardIcon />} onClick={handleClicked}>
+          Observe
+        </Button>
+      </CardActions>
     </Card>
   );
 };
-export default CompletedCard;
+export default UncompletedCard;
