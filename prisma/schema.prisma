@@ -56,8 +56,9 @@ model Score {
   // Fields
   amount Int
   // Relations
-  team_member_id Int
-  team_member TeamMember @relation(fields: [team_member_id], references: [person_id], onDelete: Cascade)
+  team_member TeamMember[]
+  inspection_id Int @unique
+  inspection Inspection @relation(fields: [inspection_id], references: [id])
 }
 
 model Schedule {
@@ -93,9 +94,6 @@ model Room {
   floor_number Int
   schedule Schedule[]
   items Item[]
-  rubric_id Int @unique
-  rubric Rubric @relation(fields: [rubric_id], references: [id])
-
   @@index([building_id, floor_number])
 }
 
@@ -142,7 +140,7 @@ model Inspection {
   comment String?
   inspect_status Inspect_Status
   clean_status Clean_Status?
-  score Int?
+  extra_score Int @default(0)
   // Relations
   inspector_id Int 
   inspector User @relation(fields: [inspector_id], references: [person_id])
@@ -150,6 +148,7 @@ model Inspection {
   schedule Schedule @relation(fields: [schedule_id], references: [id])
   rubric_id Int
   rubric Rubric @relation(fields: [rubric_id], references: [id])
+  score Score?
 }
 
 enum Inspect_Status {
@@ -173,7 +172,6 @@ model Rubric {
   hollistic_rubric HollisticRubric?
   // Relations
   inspection Inspection[]
-  room Room?
 }
 
 enum RubricType {
