@@ -56,9 +56,21 @@ const UncompletedCard = ({
             .map((member) => member.first_name + " " + member.last_name)
             .join(", ")}
         </Typography>
-        <Typography>Score: {inspectionProps.score}%</Typography>
       </CardContent>
-      <CardActions sx={{ ml: 0, minWidth: "fit-content" }}>
+      <CardActions
+        sx={{
+          ml: 0,
+          minWidth: "fit-content",
+          display: "flex",
+          flexDirection: "column",
+          alignSelf: "stretch",
+        }}
+      >
+        <Box flexGrow={1} display={"flex"} alignItems={"center"}>
+          <Typography fontSize={"24px"} fontWeight={"bold"}>
+            {inspectionProps.score}%
+          </Typography>
+        </Box>
         <Button endIcon={<ArrowForwardIcon />} onClick={handleClicked}>
           Observe
         </Button>

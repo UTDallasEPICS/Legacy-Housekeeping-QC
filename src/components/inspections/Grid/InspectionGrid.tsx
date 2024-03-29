@@ -30,7 +30,6 @@ const InspectionGrid = () => {
         flexDirection: "column",
         flexBasis: 0,
         flexGrow: 1,
-        border: "1px solid red",
         height: "auto",
         minHeight: "100vh",
       }}
