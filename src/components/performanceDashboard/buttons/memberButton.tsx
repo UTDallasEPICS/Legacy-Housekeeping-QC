@@ -12,6 +12,7 @@ const MemberButton = ({ member, onClick }) => {
         fontWeight: "bold",
         fontSize: "clamp(10px, calc(2vw + 10px), 40px)",
         textTransform: "none",
+        lineHeight: "1", 
         borderRadius: "10px",
         border: "2px solid",
         borderColor: "primary",
@@ -24,7 +25,7 @@ const MemberButton = ({ member, onClick }) => {
         },
       }}
     >
-      {member}
+      {`${member.first_name} ${member.last_name}`}
     </Button>
   );
 };

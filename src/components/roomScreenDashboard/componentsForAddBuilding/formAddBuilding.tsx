@@ -1,8 +1,6 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import formBuildingValidation from "./formBuildingValidation";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../../store";
 import BackButton from "../../globalComponents/backButton";
 import { Button, Alert, TextField, Grid } from "@mui/material";
 import Link from "next/link";
@@ -14,7 +12,7 @@ const formAddBuilding = () => {
   const [floorsAmount, setFloorsAmount] = useState(0);
   const [formErrors, setFormErrors] = useState<any>({});
 
-  //validates what info they are submitting
+  // validates what info they are submitting
   const handleSubmit = async () => {
     const resCheck = formBuildingValidation(
       buildingName,
@@ -27,7 +25,7 @@ const formAddBuilding = () => {
       return;
     }
 
-    //Sending data to the api
+    // Sending data to the api
     const res = await fetch("/api/room/addbuilding", {
       method: "POST",
       headers: {
@@ -47,8 +45,6 @@ const formAddBuilding = () => {
     window.location.replace("/admin/roomPages/buildingChoice");
     
   };
-
-  //Actual form
 
   return (
     <div>

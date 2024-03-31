@@ -15,8 +15,6 @@ export default function formBuildingValidation(
   let errorCount = 0;
 
   let invalidChar = false; // Name Contains invalid character(s)
-  let invalidFloorCount = false; // Floor count <=0
-  let returnstring = "";
 
   invalids.forEach(element => {
     if(buildingName.includes(element)){

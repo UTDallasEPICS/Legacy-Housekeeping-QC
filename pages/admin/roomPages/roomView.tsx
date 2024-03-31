@@ -2,15 +2,11 @@
 import React, { useState, useEffect } from "react";
 import BuildingRoomBanner from "../../../src/components/roomScreenDashboard/componentsForRoomView/buildingRoomBanner";
 import AddRoomButton from "../../../src/components/roomScreenDashboard/componentsForRoomView/addRoomButton";
-import RoomCards from "../../../src/components/roomScreenDashboard/componentsForRoomView/roomCards";
 import SortButton from "../../../src/components/roomScreenDashboard/componentsForRoomView/sortButton";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../store";
 import { Button, Grid } from "@mui/material";
 import { setRoom } from "../../../slices/roomSelectSlice";
 import { useDispatch } from "react-redux";
 import Link from "next/link";
-import { useSearchParams } from "react-router-dom";
 import Navbar from "../../../src/components/adminDashboard/navbar/navbar";
 import theme from "../../../pages/theme";
 
@@ -25,7 +21,7 @@ const getTypeDisplayName = (type) => {
   }
 };
 
-const makeButton = (roomJSON: JSON) => {
+const makeEditButton = (roomJSON: JSON) => {
   const dispatch = useDispatch();
 
   const handleClick = (roomJSON: JSON) => {
@@ -38,7 +34,7 @@ const makeButton = (roomJSON: JSON) => {
   let typeOfRoom = roomJSON["type"];
   let buildingId = roomJSON["building_id"];
 
-  let newLink = `/admin/roomPages/editRoomForm?buildingId=${buildingId}&floor=${floorNumber}&roomId=${roomId}`;
+  let editLink = `/admin/roomPages/editRoomForm?buildingId=${buildingId}&floor=${floorNumber}&roomId=${roomId}`;
 
   return (
     <Grid
@@ -54,16 +50,14 @@ const makeButton = (roomJSON: JSON) => {
       alignItems="center"
       justifyContent="center"
     >
-      <Link href={newLink} passHref>
+      <Link href={editLink} passHref>
         <Button
-          style={{
+          sx={{
             width: "30vh",
             height: "15vh",
             fontSize: "2.5vh",
-            margin: 5,
+            margin: "4px",
             textTransform: "none",
-          }}
-          sx={{
             backgroundColor: "white",
             border: 5,
             justifyContent: "center",
@@ -107,24 +101,29 @@ const roomView = () => {
   const [buildingid, setBuildingid] = useState("");
   const [rooms, setRooms] = useState([]);
 
-  const getData = (apiUrl) => {
-    return fetch(apiUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        floor_num: floorParam,
-        building_id: buildid,
-      }),
-    })
-      .then((response) => {
-        if (!response.ok) {
+  const getRooms = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:3000/api/room/roomsInBuildingOnFloor",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            floor_num: floorParam,
+            building_id: buildid,
+          }),
         }
-        return response.json();
-      })
-      .then((json) => {
-        setRooms(json);
-      })
-      .catch((error) => {});
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch rooms");
+      }
+
+      const data = await response.json();
+      setRooms(data);
+    } catch (error) {
+      console.error("Error fetching rooms:", error);
+    }
   };
 
   useEffect(() => {
@@ -136,7 +135,7 @@ const roomView = () => {
     setBuilding(buildingParam);
     setFloor(floorParam);
     setBuildingid(buildid);
-    getData("http://localhost:3000/api/room/roomsInBuildingOnFloor");
+    getRooms();
   }, []);
 
   return (
@@ -165,19 +164,12 @@ const roomView = () => {
             <SortButton /> {/* currently does nothing */}
           </Grid>
 
-          <Grid
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              marginBottom: 20,
-            }}
-          ></Grid>
-
           <AddRoomButton
             buildingName={building}
             floorName={floor}
             buildid={buildingid}
           />
+
           {/*<DeleteRoomButton /> */}
         </Grid>
         {/*This presents a area where user can scroll and look through the rooms */}
@@ -206,7 +198,7 @@ const roomView = () => {
               alignItems="center"
               justifyContent="center"
             >
-              {rooms.map((roomVal) => makeButton(roomVal))}
+              {rooms.map((roomVal) => makeEditButton(roomVal))}
             </Grid>
           </div>
         </Grid>
