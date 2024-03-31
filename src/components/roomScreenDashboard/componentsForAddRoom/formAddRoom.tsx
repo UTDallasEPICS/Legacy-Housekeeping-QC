@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../../store";
 import formRoomValidation from "./formRoomValidation";
 import BackButton from "../../globalComponents/backButton";
 import { Button, Alert, Select, SelectChangeEvent, InputLabel, MenuItem, Grid, TextField } from "@mui/material";
@@ -13,12 +11,12 @@ const formAddRoom = () => {
   const [roomNum, setRoomNum] = useState(0);
   const [type, setType] = useState("");
   const [roomName, setRoomName] = useState("");
-  const [floor, setFloor] = useState("");
+  const [floor, setFloor] = useState(0);
   const [buildingId, setBuildingId] = useState("");
   const [formErrors, setFormErrors] = useState<any>({});
 
-  let gobacklink = "/admin/roomPages/roomView?building=".concat(building).concat("&floor=").concat(floor);
-  //validates what info they are submitting
+  let goBackLink = `/admin/roomPages/roomView?building=${building}&floor=${floor}&building_id=${buildingId}`;
+  // validates what info they are submitting
   const handleSubmit = async () => {
     const resCheck = formRoomValidation(
       building,
@@ -33,7 +31,7 @@ const formAddRoom = () => {
       return;
     }
 
-    //Sending data to the api
+    // Sending data to the api
     const res = await fetch("/api/room/add", {
       method: "POST",
       headers: {
@@ -56,16 +54,9 @@ const formAddRoom = () => {
     setBuilding(building);
     setRoomNum(0);
     setType("");
-    setRoomName(floor);
-    setFloor("");
-    window.location.replace("/admin/roomPages/roomView?building=".concat(building).concat("&floor=").concat(floor).concat("&building_id=").concat(buildingId));
+    setFloor(floor);
+    window.location.replace(goBackLink);
   };
-
-  // Actual form
-
-  const build = useSelector(
-    (state: RootState) => state.buildingSelect.building
-  );
 
   let buildingParam;
   let floorParam;
@@ -99,7 +90,7 @@ const formAddRoom = () => {
     <>
       <Navbar/>
       <div>
-        <BackButton pageToGoBack={"/admin/roomPages/roomView?building=".concat(building).concat("&floor=").concat(floor).concat("&building_id=").concat(buildingId)} />
+        <BackButton pageToGoBack={goBackLink} />
       </div>
       <Grid container
         direction={"column"}

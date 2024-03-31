@@ -1,8 +1,7 @@
 import { Box, Typography } from "@mui/material";
 
-// uses placeholder data
 const ScoreHistory = ({ memberData }) => {
-  const sortedMemberData = [...memberData].sort((a, b) => b.Score - a.Score);
+  const sortedMemberData = [...memberData].sort((a, b) => b.amount - a.amount);
 
   return (
     <Box
@@ -36,14 +35,14 @@ const ScoreHistory = ({ memberData }) => {
       >
         Top 3 Scores:
       </Typography>
-      {sortedMemberData.slice(0,3).map((week, index) => (
+      {sortedMemberData.slice(0,3).map((id, index) => (
         <Typography
           key={index}
           variant="body1"
           sx={{ fontSize: { xs: 11, sm: 11, md: 13, lg: 16 } }}
           gutterBottom
         >
-          {`${week.name}: ${week.Score}`}
+          {`${id.id}: ${id.amount}`}
         </Typography>
       ))}
 
@@ -57,14 +56,14 @@ const ScoreHistory = ({ memberData }) => {
       >
         Lowest 3 Scores:
       </Typography>
-      {sortedMemberData.slice(-3).map((week, index) => (
+      {sortedMemberData.slice(-3).map((id, index) => (
         <Typography
           key={index}
           variant="body1"
           sx={{ fontSize: { xs: 11, sm: 11, md: 13, lg: 16 } }}
           gutterBottom
         >
-          {`${week.name}: ${week.Score}`}
+          {`${id.id}: ${id.amount}`}
         </Typography>
       ))}
     </Box>

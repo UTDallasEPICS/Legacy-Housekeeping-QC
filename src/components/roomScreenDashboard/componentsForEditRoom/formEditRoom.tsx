@@ -34,7 +34,7 @@ const formEditRoom = () => {
       return;
     }
 
-    // Sending data to the api
+    // sending data to the api
     const res = await fetch("/api/room/edit", {
       method: "POST",
       headers: {
@@ -102,11 +102,9 @@ const formEditRoom = () => {
   }, []);
 
   useEffect(() => {
-    // get data when buildingId, floor, or roomId are updated after previous useEffect
-    if (buildingId && floor && roomId) {
-      getRoomData();
-      getBuildingData();
-    }
+    // get data when buildingId and floor are updated after previous useEffect
+    getRoomData();
+    getBuildingData();
   }, [buildingId, floor]);
 
   const getRoomData = async () => {
@@ -130,8 +128,7 @@ const formEditRoom = () => {
       console.log("result:", json);
       setRoomName(json["name"]);
       setType(json["type"]);
-    } 
-    catch (error) {
+    } catch (error) {
       console.error("Error fetching room data:", error);
     }
   };
@@ -206,7 +203,6 @@ const formEditRoom = () => {
               )}
             </Grid>
             
-
             {/* Set the name of the room*/}
             <Grid style={{ marginTop: 20 }}>
               <TextField
@@ -227,7 +223,7 @@ const formEditRoom = () => {
             )}
             </Grid>
 
-            {/* Room Number Input */}
+            {/* Room Number Input CURRENTLY BUGGED*/}
             <Grid>
               <TextField
                 label="Room Number" 

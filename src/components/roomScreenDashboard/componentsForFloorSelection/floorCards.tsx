@@ -82,8 +82,8 @@ const makeEditCard = (bName : string, floors : string, id : string) => {
 const floorCards = () => {
   const [result, setResult] = useState([]);
 
-  const getData = (apiUrl) => {
-    return fetch(apiUrl, {
+  const getData = () => {
+    return fetch("http://localhost:3000/api/room/specificbuilding", {
       method: "POST",
       headers: {"Content-Type": "application/json",},
       body: JSON.stringify({
@@ -100,8 +100,7 @@ const floorCards = () => {
     .catch((error) => {
   
     })
-        
-   }
+  }
 
   let name;
 
@@ -109,10 +108,10 @@ const floorCards = () => {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     name = urlParams.get("building");
-    getData("http://localhost:3000/api/room/specificbuilding");
+    getData();
   },[]);
   
-  {/* */}
+  // first floor rendered is the top floor, so order floors from top floor first to bottom floor
   let arr = []
   for (let i = Number(result["floor_count"]); i >= 1; i--) {
     arr.push(i+"")

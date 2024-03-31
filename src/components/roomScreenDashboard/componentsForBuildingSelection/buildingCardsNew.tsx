@@ -5,7 +5,7 @@ import Link from "next/link";
 import React, {useState, useEffect} from "react";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 
-//This will produce building buttons for the user to select
+// This will produce building buttons for the user to select
 
 const makeCard = (buildingVal : JSON) => {
   const dispatch = useDispatch();
@@ -24,8 +24,7 @@ const makeCard = (buildingVal : JSON) => {
       <Link href={`/admin/roomPages/floorChoice?building=${name}`} passHref
         style={{ textDecoration: 'none' }}  
       >
-      <IconButton
-        onClick={() => handleClick("A")}
+      <IconButton onClick={() => handleClick("A")}
         sx={{
           display: "inline",
           alignItems: "center",
@@ -38,7 +37,7 @@ const makeCard = (buildingVal : JSON) => {
           },
         }}
       >
-        <ApartmentIcon sx={{ fontSize: "15vh"}} /> {/* Adjust the size of the icon */}
+        <ApartmentIcon sx={{ fontSize: "15vh"}} /> 
         <Typography 
           variant="body1" 
           sx={{ fontSize: "3vh" }}
@@ -84,8 +83,6 @@ const makeAddCard = () => {
 }
 
 const buildingCardsNew = () => {
-  //When we click a button, we call a reducer to change the state of the building we select
-  
   const [buildings, setBuilding] = useState([]);
   
   useEffect(() => {
@@ -99,7 +96,6 @@ const buildingCardsNew = () => {
         throw new Error("failed to fetch data");  
       }
       const data = await response.json();
-      //console.log("API Response:", data);
       setBuilding(data);
     } 
     catch (error) {

@@ -11,13 +11,13 @@ export default async function handler (
         buildingId,
       } = req.body;
       
-      const room = await prisma.building.findFirst({
+      const building = await prisma.building.findFirst({
         where: {
           id: buildingId,
         }
       });
 
-      res.status(200).json(room);
+      res.status(200).json(building);
     }
   } catch (error) {
     res.status(500).json(error + " :Error retrieving a room");
