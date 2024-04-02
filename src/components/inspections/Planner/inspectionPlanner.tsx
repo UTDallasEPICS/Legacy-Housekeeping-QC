@@ -1,19 +1,25 @@
 import {
+  Autocomplete,
   Box,
   Button,
   Chip,
+  Container,
   FormControl,
   FormControlLabel,
   FormLabel,
+  Grid,
   InputLabel,
+  ListItem,
   ListSubheader,
   MenuItem,
   Radio,
   RadioGroup,
   Select,
   SelectChangeEvent,
+  TextField,
   Typography,
 } from "@mui/material";
+import CheckIcon from "@mui/icons-material/Check";
 import { useState } from "react";
 import { TeamMember } from "../../../../ts/types/db.interfaces";
 import { CleanType } from "@prisma/client";
@@ -29,6 +35,11 @@ export interface InspectionPlannerProps {
   buildings: BuildingWithRooms[];
 }
 
+interface TeamMemberSelectionProps {
+  key: number;
+  name: string;
+}
+
 interface RoomSelectionProps {
   room_id: number;
   room_name: string;
@@ -38,7 +49,9 @@ interface RoomSelectionProps {
 const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
   const dispatch = useDispatch();
   const { data: session } = useSession();
-  const [selectedMembers, setSelectedMembers] = useState<string[]>([]);
+  const [selectedMembers, setSelectedMembers] = useState<
+    TeamMemberSelectionProps[]
+  >([]);
   const [selectedRoom, setSelectedRoom] = useState<RoomSelectionProps>({
     room_id: -1,
     room_name: "",
@@ -47,28 +60,6 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
   const [selectedCleanType, setSelectedCleanType] = useState<CleanType>(
     CleanType.NORMAL
   );
-
-  const handleMemberChange = (event) => {
-    setSelectedMembers(event.target.value);
-  };
-
-  const handleRoomChange = (event: SelectChangeEvent<RoomSelectionProps>) => {
-    const selectedRoom = event.target.value;
-    console.log(selectedRoom);
-    setSelectedRoom(
-      typeof selectedRoom === "string"
-        ? {
-            room_id: parseInt(selectedRoom.split(":")[0]) || 0,
-            room_name: selectedRoom.split(":")[1] || "",
-            building_name: selectedRoom.split(":")[2] || "",
-          }
-        : selectedRoom
-    );
-  };
-
-  const handleCleanTypeChange = (event: SelectChangeEvent<CleanType>) => {
-    setSelectedCleanType(event.target.value as CleanType);
-  };
 
   const handleSubmission = async () => {
     const rubricRes = await fetch("/api/rubric/add", {
@@ -105,7 +96,7 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
     const scheduleData = await scheduleRes.json();
 
     selectedMembers.forEach((member) => {
-      const person_id = parseInt(member.split(":")[0]);
+      const person_id = member.key;
       const schedule_id = scheduleData.id;
       fetch("http://localhost:3000/api/scheduling/addTeamMemberToSchedule", {
         method: "POST",
@@ -150,6 +141,24 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
     );
   };
 
+  const memberOptions: TeamMemberSelectionProps[] = members.map(
+    (option: TeamMember) => {
+      return {
+        key: option.id,
+        name: option.first_name + " " + option.last_name,
+      };
+    }
+  );
+  const roomOptions: RoomSelectionProps[] = buildings.flatMap((building) => {
+    return building.rooms.map((room) => {
+      return {
+        room_id: room.id,
+        room_name: room.name,
+        building_name: building.name,
+      };
+    });
+  });
+
   return (
     <Box
       sx={{
@@ -185,83 +194,98 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
       </Box>
 
       <FormControl fullWidth variant="standard">
-        <InputLabel>Select team members</InputLabel>
-        <Select
+        <Autocomplete
           multiple
-          value={selectedMembers}
-          onChange={handleMemberChange}
-          renderValue={(selected) => (
-            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-              {selected.map((member: string) => {
-                const memberName = member.split(":")[1];
-                return <Chip key={memberName} label={memberName} />;
-              })}
-            </Box>
-          )}
-        >
-          {members.map((option: TeamMember) => (
-            <MenuItem
-              key={option.id}
-              value={
-                option.id + ":" + option.first_name + " " + option.last_name
-              }
-            >
-              {option.first_name + " " + option.last_name}
+          disableCloseOnSelect
+          options={memberOptions}
+          getOptionLabel={(option) => option.name}
+          renderInput={(params) => {
+            return (
+              <TextField
+                {...params}
+                variant="standard"
+                placeholder="Type a name"
+                label="Select team members"
+              />
+            );
+          }}
+          renderOption={(props, option, { selected }) => (
+            <MenuItem {...props} key={option.key}>
+              {option.name}
+              {selected && <CheckIcon color="info" />}
             </MenuItem>
-          ))}
-        </Select>
+          )}
+          isOptionEqualToValue={(option, value) => option.key === value.key}
+          value={selectedMembers}
+          onChange={(event, value) => setSelectedMembers(value)}
+        />
       </FormControl>
 
       <FormControl variant="standard">
-        <InputLabel>Select a room</InputLabel>
-        <Select
-          value={selectedRoom}
-          onChange={handleRoomChange}
-          renderValue={(selected) =>
-            selected.room_id == -1
+        <Autocomplete
+          options={roomOptions}
+          getOptionLabel={(option) =>
+            option.room_id === -1
               ? ""
-              : "Room " + selected.room_name + " in " + selected.building_name
+              : "Room " + option.room_name + " in " + option.building_name
           }
-        >
-          <MenuItem key={-1} value={"-1:"}>
-            No room selected
-          </MenuItem>
-          {buildings.map((building) => {
-            return [
+          groupBy={(option) => option.building_name + " Building"}
+          renderInput={(params) => {
+            return (
+              <TextField
+                {...params}
+                variant="standard"
+                placeholder="Type a room name"
+                label="Select a room"
+              />
+            );
+          }}
+          renderOption={(props, option, { selected }) => (
+            <MenuItem {...props} key={option.room_id}>
+              {"Room " + option.room_name}
+              {selected && <CheckIcon color="info" />}
+            </MenuItem>
+          )}
+          renderGroup={(params) => (
+            <Container key={params.key} disableGutters>
               <ListSubheader
                 sx={{
                   backgroundColor: "lightgray",
                   fontWeight: "bold",
                 }}
               >
-                {"Building " + building.name}
-              </ListSubheader>,
-              building.rooms.map((room) => (
-                <MenuItem
-                  key={room.id}
-                  value={room.id + ":" + room.name + ":" + building.name}
-                >
-                  {"Room " + room.name}
-                </MenuItem>
-              )),
-            ];
-          })}
-        </Select>
+                {params.group}
+              </ListSubheader>
+              <Grid style={{ padding: 0 }}>{params.children}</Grid>
+            </Container>
+          )}
+          isOptionEqualToValue={(option, value) =>
+            option.room_id === value.room_id
+          }
+          value={selectedRoom}
+          onChange={(event, value) => setSelectedRoom(value)}
+        />
       </FormControl>
 
-      <FormControl>
-        <FormLabel>Rubric</FormLabel>
+      <FormControl sx={{ display: "flex", flexDirection: "row", gap: "2rem" }}>
+        <FormLabel
+          sx={{ display: "flex", alignItems: "center", fontWeight: "bold" }}
+        >
+          Clean Type
+        </FormLabel>
         <RadioGroup
           row
           value={selectedCleanType}
-          onChange={handleCleanTypeChange}
+          onChange={(event) =>
+            setSelectedCleanType(event.target.value as CleanType)
+          }
         >
-          {Object.values(CleanType).map((rubric) => (
+          {Object.values(CleanType).map((type) => (
             <FormControlLabel
-              key={rubric}
-              value={rubric}
+              key={type}
+              value={type}
               control={<Radio />}
-              label={rubric[0] + rubric.slice(1).toLowerCase()}
+              label={type[0] + type.slice(1).toLowerCase()}
             />
           ))}
         </RadioGroup>
