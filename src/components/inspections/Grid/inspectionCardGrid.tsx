@@ -3,10 +3,6 @@ import { Inspect_Status } from "@prisma/client";
 import { Inspection } from "../../../../ts/types/db.interfaces";
 import CompletedCard from "../Card/completedCard";
 import UncompletedCard from "../Card/uncompletedCard";
-import {
-  toCompletedInspectionCardProps,
-  toUncompletedInspectionCardProps,
-} from "../../../../ts/interfaces/roomReport.interfaces";
 import { useSelector } from "react-redux";
 import {
   getInspectedReports,
@@ -70,10 +66,7 @@ const CardCondition = ({
       return filterInspection(inspected, filter, filterBy).map(
         (inspection, index) => (
           <Grid item xs={12} md={6} xl={4} key={inspection.id}>
-            <CompletedCard
-              card_id={index}
-              inspectionProps={toCompletedInspectionCardProps(inspection)}
-            />
+            <CompletedCard card_id={index} inspection={inspection} />
           </Grid>
         )
       );
@@ -81,10 +74,7 @@ const CardCondition = ({
       return filterInspection(notInspected, filter, filterBy).map(
         (inspection, index) => (
           <Grid item xs={12} md={6} xl={4} key={inspection.id}>
-            <UncompletedCard
-              card_id={index}
-              inspectionProps={toUncompletedInspectionCardProps(inspection)}
-            />
+            <UncompletedCard card_id={index} inspection={inspection} />
           </Grid>
         )
       );
