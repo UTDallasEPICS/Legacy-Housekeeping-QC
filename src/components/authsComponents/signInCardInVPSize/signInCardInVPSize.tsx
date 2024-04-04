@@ -21,19 +21,13 @@ import { useState } from "react";
 const signInCardInVPSize = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [checked, setChecked] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleSubmit = async () => {
     let route: string;
-
-    if (checked) {
-      route = "/user/userDashboard";
-    } else {
-      route = "/admin/adminDashboard";
-    }
+    route = "/admin/adminDashboard";
 
     const result = await signIn("credentials", {
       email,
@@ -89,21 +83,6 @@ const signInCardInVPSize = () => {
                   </InputAdornment>
                 }
               />
-
-              <FormGroup>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="Admin"
-                  checked={!checked}
-                  onChange={() => setChecked(false)}
-                />
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="Leader"
-                  checked={checked}
-                  onChange={() => setChecked(true)}
-                />
-              </FormGroup>
 
               <Button
                 variant="contained"
