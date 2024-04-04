@@ -1,0 +1,15 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\pages\\admin",
+    "\\pages\\api",
+    "\\pages\\auths",
+    "\\prisma\\migrations",
+    "\\src",
+    "\\src\\components",
+    "\\src\\components\\adminDashboard",
+    "\\types"
+  ],
+  "SelectedNode": "\\src\\components\\adminDashboard\\navbar",
+  "PreviewInSolutionExplorer": false
+}
