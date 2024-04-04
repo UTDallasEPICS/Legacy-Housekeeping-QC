@@ -86,8 +86,8 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          start_time: new Date().toISOString(),
-          end_time: new Date().toISOString(),
+          start_time: dateFilter ? dateFilter : new Date().toISOString(),
+          end_time: dateFilter ? dateFilter : new Date().toISOString(),
           clean_type: selectedCleanType,
           room_id: selectedRoom.room_id,
         }),
