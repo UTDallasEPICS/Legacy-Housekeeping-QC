@@ -12,16 +12,20 @@ import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 
-//This will produce buttons for the user to select
+// This will produce building buttons for the user to select
 
 const makeCard = (buildingVal: JSON) => {
   const dispatch = useDispatch();
+
   let name = buildingVal["name"];
+  let id = buildingVal["id"];
+
   const handleClick = (building: string) => {
     dispatch(setBuilding(building));
   };
+
   return (
-    <Grid item xs={5} sm={4} md={3} lg={3} xl={2} textAlign="center">
+    <Grid item key={id} xs={5} sm={4} md={3} lg={3} xl={2} textAlign="center">
       <Link
         href={`/admin/roomPages/floorChoice?building=${name}`}
         passHref
@@ -41,8 +45,7 @@ const makeCard = (buildingVal: JSON) => {
             },
           }}
         >
-          <ApartmentIcon sx={{ fontSize: "15vh" }} />{" "}
-          {/* Adjust the size of the icon */}
+          <ApartmentIcon sx={{ fontSize: "15vh" }} />
           <Typography variant="body1" sx={{ fontSize: "3vh" }}>
             {name}
           </Typography>
@@ -51,6 +54,7 @@ const makeCard = (buildingVal: JSON) => {
     </Grid>
   );
 };
+
 const makeAddCard = () => {
   return (
     <Grid
@@ -66,7 +70,6 @@ const makeAddCard = () => {
       <Link href="/admin/roomPages/addBuildingForm" passHref>
         <Button
           variant="contained"
-          //color="secondary"
           sx={{
             fontweight: "bold",
             fontSize: "2vh",
@@ -92,31 +95,26 @@ const makeAddCard = () => {
 };
 
 const buildingCardsNew = () => {
-  //When we click a button, we call a reducer to change the state of the building we select
-
-  const [result, setResult] = useState([]);
+  const [buildings, setBuilding] = useState([]);
 
   useEffect(() => {
-    getData("http://localhost:3000/api/room/buildings");
+    getData();
   }, []);
 
-  const getData = (apiUrl) => {
-    return fetch(apiUrl, {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    })
-      .then((response) => {
-        if (!response.ok) {
-        }
-        return response.json();
-      })
-      .then((json) => {
-        setResult(json);
-      })
-      .catch((error) => {});
+  const getData = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/api/room/buildings");
+      if (!response.ok) {
+        throw new Error("failed to fetch data");
+      }
+      const data = await response.json();
+      setBuilding(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   };
 
-  //Each button represents a certain building
+  // Each button represents a certain building
   return (
     <div style={{ margin: "0px" }}>
       <Grid
@@ -127,7 +125,7 @@ const buildingCardsNew = () => {
           justifyContent: "center",
         }}
       >
-        {result.map((buildingVal) => makeCard(buildingVal))}
+        {buildings.map((building: any) => makeCard(building))}
         {makeAddCard()}
       </Grid>
     </div>
@@ -135,10 +133,3 @@ const buildingCardsNew = () => {
 };
 
 export default buildingCardsNew;
-
-/*
-            onClick={(e) => {
-              e.preventDefault();
-              handleClick("A");
-            }}
-*/

@@ -1,20 +1,18 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import formBuildingValidation from "./formBuildingValidation";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../../store";
 import BackButton from "../../globalComponents/backButton";
 import { Button, Alert, TextField, Grid } from "@mui/material";
 import Link from "next/link";
 import Navbar from "../../../../src/components/adminDashboard/navbar/navbar";
 
-const formAddRoom = () => {
+const formAddBuilding = () => {
   const [error, setError] = useState(null);
   const [buildingName, setBuildingName] = useState("");
   const [floorsAmount, setFloorsAmount] = useState(0);
   const [formErrors, setFormErrors] = useState<any>({});
 
-  //validates what info they are submitting
+  // validates what info they are submitting
   const handleSubmit = async () => {
     const resCheck = formBuildingValidation(
       buildingName,
@@ -27,29 +25,26 @@ const formAddRoom = () => {
       return;
     }
 
-    //Sending data to the api
-    if (confirm("Are you sure you would like to create this building?") == true) {
-      const res = await fetch("/api/room/addbuilding", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          building_name:buildingName,
-          floors_amount:floorsAmount
-        }),
-      });
+    // Sending data to the api
+    const res = await fetch("/api/room/addbuilding", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        building_name: buildingName,
+        floors_amount: floorsAmount
+      }),
+    });
 
-      if (!res.ok) {
-        const r = await res.json();
-        setError(r.error);
-        return;
-      }
-      window.location.replace("/admin/roomPages/buildingChoice");
+    if (!res.ok) {
+      const r = await res.json();
+      setError(r.error);
+      return;
     }
+    window.location.replace("/admin/roomPages/buildingChoice");
+    
   };
-
-  //Actual form
 
   return (
     <div>
@@ -64,7 +59,6 @@ const formAddRoom = () => {
       justifyContent="center"
       alignItems="center"
     >
-      
 
       <Grid item xs = {12} sm = {12} md = {12} lg = {12} xl = {12}
       sx={{textAlign:"center"}}>
@@ -107,9 +101,9 @@ const formAddRoom = () => {
         <Button
           variant="outlined"
           sx={{ 
-            border: 5,
+            border: 3,
             "&:hover": {            
-              border: 5,
+              border: 3,
               borderColor: "primary.main",
               color: "white",
               bgcolor: "primary.main", 
@@ -127,5 +121,5 @@ const formAddRoom = () => {
   );
 };
 
-export default formAddRoom;
+export default formAddBuilding;
 <Link href="/admin/roomPages/roomView" passHref></Link>;

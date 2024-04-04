@@ -10,7 +10,6 @@ export default async function handler(
     if (req.method === "POST") {
       const {
         room_id,
-        building_number,
         building_id,
         room_name,
         floor_num,
@@ -18,6 +17,16 @@ export default async function handler(
         is_active,
         type_of_room,
       } = req.body;
+
+      let type: RoomType;
+      if (type_of_room == "PERSONAL_ROOM") {
+        type = RoomType.PERSONAL_ROOM;
+      } else if (type_of_room == "COMMON_AREA") {
+        type = RoomType.COMMON_AREA;
+      }
+      else{
+        res.status(500).json("Invalid room type provided.");
+      }
 
       const room = await prisma.room.findUnique({
         where: {
@@ -32,7 +41,7 @@ export default async function handler(
         data: {
           id :room_id,
           name: room_name,
-          type: type_of_room,
+          type: type,
           building_id: building_id,
           floor_number: floor_num,
         },

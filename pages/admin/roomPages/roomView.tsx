@@ -1,35 +1,41 @@
 //This will be for looking at the rooms we have
 import React, { useState, useEffect } from "react";
 import BuildingRoomBanner from "../../../src/components/roomScreenDashboard/componentsForRoomView/buildingRoomBanner";
-import { BackButton, Scroll } from "../../../src/components";
 import AddRoomButton from "../../../src/components/roomScreenDashboard/componentsForRoomView/addRoomButton";
-import DeleteRoomButton from "../../../src/components/roomScreenDashboard/componentsForRoomView/deleteRoomButton";
-import RoomCards from "../../../src/components/roomScreenDashboard/componentsForRoomView/roomCards";
 import SortButton from "../../../src/components/roomScreenDashboard/componentsForRoomView/sortButton";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../store";
 import { Button, Grid } from "@mui/material";
 import { setRoom } from "../../../slices/roomSelectSlice";
 import { useDispatch } from "react-redux";
 import Link from "next/link";
-import { useSearchParams } from "react-router-dom";
 import Navbar from "../../../src/components/adminDashboard/navbar/navbar";
 import theme from "../../../pages/theme";
 
-const makeButton = (roomJSON: JSON) => {
+const getTypeDisplayName = (type) => {
+  switch (type) {
+    case "COMMON_AREA":
+      return "Common Area";
+    case "PERSONAL_ROOM":
+      return "Personal Room";
+    default:
+      return type;
+  }
+};
+
+const makeEditButton = (roomJSON: JSON) => {
   const dispatch = useDispatch();
+
   const handleClick = (roomJSON: JSON) => {
     dispatch(setRoom(roomJSON));
   };
+
+  let roomId = roomJSON["id"];
   let roomName = roomJSON["name"];
   let floorNumber = roomJSON["floor_number"];
   let typeOfRoom = roomJSON["type"];
-  let roomId = roomJSON["id"];
-  let building = roomJSON["building_id"];
-  let newLink = "/admin/roomPages/editRoomForm?building="
-    .concat(building)
-    .concat("&floor=")
-    .concat(floorNumber);
+  let buildingId = roomJSON["building_id"];
+
+  let editLink = `/admin/roomPages/editRoomForm?buildingId=${buildingId}&floor=${floorNumber}&roomId=${roomId}`;
+
   return (
     <Grid
       style={{
@@ -44,15 +50,14 @@ const makeButton = (roomJSON: JSON) => {
       alignItems="center"
       justifyContent="center"
     >
-      <Link href={newLink} passHref>
+      <Link href={editLink} passHref>
         <Button
-          style={{
+          sx={{
             width: "30vh",
             height: "15vh",
             fontSize: "2.5vh",
-            margin: 5,
-          }}
-          sx={{
+            margin: "4px",
+            textTransform: "none",
             backgroundColor: "white",
             border: 5,
             justifyContent: "center",
@@ -67,7 +72,9 @@ const makeButton = (roomJSON: JSON) => {
           onClick={() => handleClick(roomJSON)}
         >
           <div>
-            <h3 style={{ margin: 0 }}>{"Room " + roomName}</h3>
+            <h3 style={{ margin: 0 }}>
+              {roomName} #{roomId}{" "}
+            </h3>
             <p
               style={{
                 display: "block",
@@ -76,7 +83,7 @@ const makeButton = (roomJSON: JSON) => {
                 marginRight: 5,
               }}
             >
-              {typeOfRoom}
+              {getTypeDisplayName(typeOfRoom)}
             </p>
           </div>
         </Button>
@@ -92,31 +99,31 @@ const roomView = () => {
   const [building, setBuilding] = useState("");
   const [floor, setFloor] = useState("");
   const [buildingid, setBuildingid] = useState("");
-  const [result, setResult] = useState([]);
-  /*
-  const building = useSelector(
-    (state: RootState) => state.buildingSelect.building
-  );
-  */
+  const [rooms, setRooms] = useState([]);
 
-  const getData = (apiUrl) => {
-    return fetch(apiUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        floor_num: floorParam,
-        building_id: buildid,
-      }),
-    })
-      .then((response) => {
-        if (!response.ok) {
+  const getRooms = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:3000/api/room/roomsInBuildingOnFloor",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            floor_num: floorParam,
+            building_id: buildid,
+          }),
         }
-        return response.json();
-      })
-      .then((json) => {
-        setResult(json);
-      })
-      .catch((error) => {});
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch rooms");
+      }
+
+      const data = await response.json();
+      setRooms(data);
+    } catch (error) {
+      console.error("Error fetching rooms:", error);
+    }
   };
 
   useEffect(() => {
@@ -128,7 +135,7 @@ const roomView = () => {
     setBuilding(buildingParam);
     setFloor(floorParam);
     setBuildingid(buildid);
-    getData("http://localhost:3000/api/room/roomsInBuildingOnFloor");
+    getRooms();
   }, []);
 
   return (
@@ -157,19 +164,12 @@ const roomView = () => {
             <SortButton /> {/* currently does nothing */}
           </Grid>
 
-          <Grid
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              marginBottom: 20,
-            }}
-          ></Grid>
-
           <AddRoomButton
             buildingName={building}
             floorName={floor}
             buildid={buildingid}
           />
+
           {/*<DeleteRoomButton /> */}
         </Grid>
         {/*This presents a area where user can scroll and look through the rooms */}
@@ -192,16 +192,14 @@ const roomView = () => {
               justifyContent: "center",
             }}
           >
-            {/*Static Data Here */}
-
             <Grid
+              container
               direction="column"
               alignItems="center"
               justifyContent="center"
             >
-              {result.map((roomVal) => makeButton(roomVal))}
+              {rooms.map((roomVal) => makeEditButton(roomVal))}
             </Grid>
-            {/*Static Data Here */}
           </div>
         </Grid>
       </Grid>
@@ -210,12 +208,3 @@ const roomView = () => {
 };
 
 export default roomView;
-
-/*
-        style={{
-          width: 630,
-          height: 700,
-          display: "flex",
-          justifyContent: "center",
-        }}
-*/
