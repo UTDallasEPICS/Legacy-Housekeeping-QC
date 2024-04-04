@@ -7,29 +7,29 @@ export default async function handler(
   try {
     if (req.method === "POST") {
       const { items, rubric_id, room_id } = req.body;
-
-      console.log(items);
-
       const updatedItems = await prisma.$transaction(
-        items.map((item) =>
-          prisma.item.upsert({
-            where: { id: item.id },
-            update: {
-              name: item.name,
-              category: item.category,
-              weight: item.weight,
-              is_checked: item.is_checked,
-            },
-            create: {
-              name: item.name,
-              category: item.category,
-              weight: item.weight,
-              is_checked: item.is_checked,
-              quantitative_rubric: { connect: { id: Number(rubric_id) } },
-              room: { connect: { id: Number(room_id) } },
-            },
-          })
-        )
+        items.map((item) => {
+          if (item.is_deleted)
+            return prisma.item.delete({ where: { id: item.id } });
+          else
+            return prisma.item.upsert({
+              where: { id: item.id },
+              update: {
+                name: item.name,
+                category: item.category,
+                weight: item.weight,
+                is_checked: item.is_checked,
+              },
+              create: {
+                name: item.name,
+                category: item.category,
+                weight: item.weight,
+                is_checked: item.is_checked,
+                quantitative_rubric: { connect: { id: Number(rubric_id) } },
+                room: { connect: { id: Number(room_id) } },
+              },
+            });
+        })
       );
 
       res.status(200).json(updatedItems);

@@ -2,6 +2,9 @@ import {
   Box,
   Card,
   Divider,
+  MenuItem,
+  Select,
+  TextField,
   ToggleButton,
   ToggleButtonGroup,
 } from "@mui/material";
@@ -9,9 +12,13 @@ import DashboardCardHeading from "../../dashboardComponents/dashboardCardHeading
 import { useState } from "react";
 import { Inspect_Status } from "@prisma/client";
 import InspectionCardGrid from "./inspectionCardGrid";
+import { InspectionFilterBy } from "../../../../ts/const/inspection.constant";
+
 const InspectionGrid = () => {
   const [inspectionStatusFilter, setInspectionStatusFilter] =
     useState<Inspect_Status>(Inspect_Status.INSPECTED);
+  const [filter, setFilter] = useState("");
+  const [filterBy, setFilterBy] = useState(InspectionFilterBy.ROOM_NAME);
 
   const handleInspectionStatusFilter = (
     event: React.MouseEvent<HTMLElement>,
@@ -44,7 +51,7 @@ const InspectionGrid = () => {
           gap: 2,
         }}
       >
-        <Box sx={{ display: "flex", p: 2 }}>
+        <Box sx={{ display: "flex", p: 2, gap: 2 }}>
           <ToggleButtonGroup
             value={inspectionStatusFilter}
             exclusive
@@ -57,11 +64,36 @@ const InspectionGrid = () => {
               Remaining
             </ToggleButton>
           </ToggleButtonGroup>
+
+          <TextField
+            label="Search"
+            variant="standard"
+            onChange={(event) => setFilter(event.target.value)}
+            sx={{ flexGrow: 1 }}
+          />
+          <TextField
+            select
+            label="Filter By"
+            value={filterBy}
+            onChange={(event) =>
+              setFilterBy(event.target.value as InspectionFilterBy)
+            }
+          >
+            {Object.values(InspectionFilterBy).map((filterBy) => (
+              <MenuItem key={filterBy} value={filterBy}>
+                {filterBy}
+              </MenuItem>
+            ))}
+          </TextField>
         </Box>
 
         <Divider flexItem />
 
-        <InspectionCardGrid status={inspectionStatusFilter} />
+        <InspectionCardGrid
+          status={inspectionStatusFilter}
+          filter={filter}
+          filterBy={filterBy}
+        />
       </Box>
     </Card>
   );

@@ -15,6 +15,10 @@ import { getInspectionSelectionProps } from "../../../../slices/inspectionSelect
 import BackButton from "../../globalComponents/backButton";
 import CategoryCheckbox from "./categoryCheckbox";
 import CommentBox from "./commentBox";
+import {
+  InspectItemProps,
+  toInspectItemProps,
+} from "../../../../ts/interfaces/roomItem.interfaces";
 
 const InspectionMaker = () => {
   const router = useRouter();
@@ -32,8 +36,10 @@ const InspectionMaker = () => {
     setExtra(event.target.value);
   };
 
-  const convertCategoriesToItems = (categories: { [key: string]: Item[] }) => {
-    let items: Item[] = [];
+  const convertCategoriesToItems = (categories: {
+    [key: string]: InspectItemProps[];
+  }) => {
+    let items: InspectItemProps[] = [];
     Object.keys(categories).forEach((category) => {
       items = items.concat(categories[category]);
     });
@@ -72,7 +78,7 @@ const InspectionMaker = () => {
           clean_status: "CLEANED",
           comment: comment,
           extra_score: extra,
-          score: 0,
+          score: Math.floor(Math.random() * 100), // Random score for now, waiting for the score API
         }),
       }
     );
@@ -82,7 +88,7 @@ const InspectionMaker = () => {
     router.push("/admin/inspections");
   };
 
-  const setItemInCategory = (category: string, item: Item) => {
+  const setItemInCategory = (category: string, item: InspectItemProps) => {
     setItems({
       ...items,
       [category]: items[category].map((other) => {
@@ -91,8 +97,30 @@ const InspectionMaker = () => {
     });
   };
 
-  const setItemsInCategory = (category: string, modified_items: Item[]) => {
+  const setItemsInCategory = (
+    category: string,
+    modified_items: InspectItemProps[]
+  ) => {
     setItems({ ...items, [category]: modified_items });
+  };
+
+  const addItemInCategory = (category: string, name: string) => {
+    setItems({
+      ...items,
+      [category]: [
+        ...items[category],
+        {
+          id: -1,
+          name: name,
+          category: category,
+          weight: 1,
+          is_checked: true,
+          is_deleted: false,
+          room_id: inspectionProps.room_id,
+          quantitative_id: inspectionProps.rubric_id,
+        } as InspectItemProps,
+      ],
+    });
   };
 
   useEffect(() => {
@@ -105,7 +133,7 @@ const InspectionMaker = () => {
         if (categories[item.category] === undefined) {
           categories[item.category] = [];
         }
-        categories[item.category].push(item);
+        categories[item.category].push(toInspectItemProps(item));
       });
       setItems(categories);
     };
@@ -142,10 +170,13 @@ const InspectionMaker = () => {
               key={category}
               items={items[category]}
               category={category}
-              setItem={(item: Item) => setItemInCategory(category, item)}
-              setItems={(modified_items: Item[]) =>
+              setItem={(item: InspectItemProps) =>
+                setItemInCategory(category, item)
+              }
+              setItems={(modified_items: InspectItemProps[]) =>
                 setItemsInCategory(category, modified_items)
               }
+              addItem={(name: string) => addItemInCategory(category, name)}
               disabled={inspected}
             />
           ))}

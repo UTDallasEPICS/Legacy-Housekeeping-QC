@@ -35,7 +35,6 @@ model User {
   password String
   // Relations
   person Person @relation(fields: [person_id], references: [id], onDelete: Cascade)
-
   inspections Inspection[]
 }
 

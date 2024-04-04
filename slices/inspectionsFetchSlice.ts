@@ -6,11 +6,13 @@ import { Inspection } from "../ts/types/db.interfaces";
 export interface InspectionFetchState {
   inspected: Inspection[] | null;
   notInspected: Inspection[] | null;
+  dateFilter: string;
 }
 
 const initialState: InspectionFetchState = {
   inspected: null,
   notInspected: null,
+  dateFilter: "",
 };
 
 export const inspectionsFetchSlice = createSlice({
@@ -22,10 +24,17 @@ export const inspectionsFetchSlice = createSlice({
       state.inspected = inspected;
       state.notInspected = notInspected;
     },
+    setDateFilter: (state, action: PayloadAction<string>) => {
+      state.dateFilter = action.payload;
+    },
   },
 });
 
-export const { setInspectionsFetchData } = inspectionsFetchSlice.actions;
+export const { setInspectionsFetchData, setDateFilter } =
+  inspectionsFetchSlice.actions;
+
+export const getDateFilter = (state: RootState) =>
+  state.inspectionsFetchData.dateFilter;
 
 export const getInspectedReports = (state: RootState) =>
   state.inspectionsFetchData.inspected;
