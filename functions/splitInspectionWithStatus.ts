@@ -2,8 +2,8 @@ import { Inspect_Status } from "@prisma/client";
 import { Inspection } from "../ts/types/db.interfaces";
 
 export const splitInspectionWithStatus = (inspections: Inspection[]) => {
-  let notInspected = [];
-  let inspected = [];
+  let notInspected: Inspection[] = [];
+  let inspected: Inspection[] = [];
   inspections.forEach((inspection) => {
     switch (inspection.inspect_status) {
       case Inspect_Status.INSPECTED:
