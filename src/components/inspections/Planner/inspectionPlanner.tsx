@@ -26,8 +26,11 @@ import { CleanType } from "@prisma/client";
 import { BuildingWithRooms } from "../../../../ts/interfaces/room.interface";
 import { useSession } from "next-auth/react";
 import { montserrat } from "../../../../pages/theme";
-import { setInspectionsFetchData } from "../../../../slices/inspectionsFetchSlice";
-import { useDispatch } from "react-redux";
+import {
+  getDateFilter,
+  setInspectionsFetchData,
+} from "../../../../slices/inspectionsFetchSlice";
+import { useDispatch, useSelector } from "react-redux";
 import { splitInspectionWithStatus } from "../../../../functions/splitInspectionWithStatus";
 
 export interface InspectionPlannerProps {
@@ -48,15 +51,12 @@ interface RoomSelectionProps {
 
 const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
   const dispatch = useDispatch();
+  const dateFilter = useSelector(getDateFilter);
   const { data: session } = useSession();
   const [selectedMembers, setSelectedMembers] = useState<
     TeamMemberSelectionProps[]
   >([]);
-  const [selectedRoom, setSelectedRoom] = useState<RoomSelectionProps>({
-    room_id: -1,
-    room_name: "",
-    building_name: "",
-  });
+  const [selectedRoom, setSelectedRoom] = useState<RoomSelectionProps>(null);
   const [selectedCleanType, setSelectedCleanType] = useState<CleanType>(
     CleanType.NORMAL
   );
@@ -126,8 +126,11 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
     const inspectionFetchRes = await fetch(
       "http://localhost:3000/api/roomReport/report",
       {
-        method: "GET",
+        method: "POST",
         headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          date: dateFilter ? dateFilter : new Date().toISOString(),
+        }),
       }
     );
     const inspectionFetch = await inspectionFetchRes.json();
@@ -166,12 +169,8 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
         flexDirection: "column",
         gap: 2,
         padding: 2,
-        alignSelf: {
-          xs: "center",
-          md: "start",
-        },
         minWidth: "400px",
-        maxWidth: "500px",
+        maxWidth: "400px",
         flexBasis: 0,
       }}
     >
@@ -195,6 +194,7 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
 
       <FormControl fullWidth variant="standard">
         <Autocomplete
+          limitTags={2}
           multiple
           disableCloseOnSelect
           options={memberOptions}
@@ -204,7 +204,7 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
               <TextField
                 {...params}
                 variant="standard"
-                placeholder="Type a name"
+                placeholder="Name"
                 label="Select team members"
               />
             );
@@ -215,6 +215,14 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
               {selected && <CheckIcon color="info" />}
             </MenuItem>
           )}
+          renderTags={(tagValue, getTagProps) => {
+            return tagValue.map((option, index) => (
+              <Chip
+                {...getTagProps({ index })}
+                label={<EllipsisText width="60px">{option.name}</EllipsisText>}
+              />
+            ));
+          }}
           isOptionEqualToValue={(option, value) => option.key === value.key}
           value={selectedMembers}
           onChange={(event, value) => setSelectedMembers(value)}
@@ -295,6 +303,26 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
         CREATE
       </Button>
     </Box>
+  );
+};
+
+const CHIP_MAX_WIDTH = 200;
+
+const EllipsisText = (props) => {
+  const { children, width } = props;
+
+  return (
+    <div
+      style={{
+        whiteSpace: "nowrap",
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        width: width,
+        fontFamily: montserrat.style.fontFamily,
+      }}
+    >
+      {children}
+    </div>
   );
 };
 

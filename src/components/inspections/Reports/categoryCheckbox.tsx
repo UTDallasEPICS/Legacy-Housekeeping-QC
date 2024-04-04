@@ -6,19 +6,23 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import { Item } from "@prisma/client";
+import DeletableCheckbox from "./deletableCheckbox";
+import { InspectItemProps } from "../../../../ts/interfaces/roomItem.interfaces";
+import WritableCheckbox from "./writableCheckbox";
 
 const CategoryCheckbox = ({
   items,
   category,
   setItem,
   setItems,
+  addItem,
   disabled,
 }: {
-  items: Item[];
+  items: InspectItemProps[];
   category: string;
   setItem: any;
   setItems: any;
+  addItem: any;
   disabled?: boolean;
 }) => {
   return (
@@ -67,22 +71,26 @@ const CategoryCheckbox = ({
         <Typography fontWeight={"light"}>Check acceptable items</Typography>
       </Box>
       <Grid container spacing={2} direction="row">
-        {items.map((item, index) => (
-          <Grid item xs={6} lg={4}>
-            <FormControlLabel
-              control={
-                <Checkbox
+        {items.map(
+          (item, index) =>
+            !item.is_deleted && (
+              <Grid item xs={6} lg={4}>
+                <DeletableCheckbox
+                  item={item}
                   disabled={disabled}
-                  checked={item.is_checked}
                   onChange={(event) => {
                     setItem({ ...item, is_checked: event.target.checked });
                   }}
+                  onDelete={() => {
+                    setItem({ ...item, is_deleted: true });
+                  }}
                 />
-              }
-              label={<Typography>{item.name}</Typography>}
-            />
-          </Grid>
-        ))}
+              </Grid>
+            )
+        )}
+        <Grid item xs={6} lg={4}>
+          {!disabled && <WritableCheckbox onInsert={addItem} />}
+        </Grid>
       </Grid>
     </Container>
   );

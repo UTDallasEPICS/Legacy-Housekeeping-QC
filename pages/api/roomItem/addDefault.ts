@@ -17,7 +17,7 @@ export default async function handler(
             return {
               category: category.category,
               name: item,
-              is_checked: false,
+              is_checked: true,
               room_id: Number(room_id),
               quantitative_id: Number(rubric_id),
             };
