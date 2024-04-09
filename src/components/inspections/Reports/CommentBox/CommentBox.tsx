@@ -1,6 +1,14 @@
 import { Box, TextField, Typography } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { getComment, setComment } from "../InspectionMakerSlice";
 
-const CommentBox = ({ comment, setComment, disabled }) => {
+const CommentBox = ({ disabled }) => {
+  const dispatch = useDispatch();
+  const comment = useSelector(getComment);
+  const handleCommentChange = (event) => {
+    dispatch(setComment(event.target.value));
+  };
+
   return (
     <Box
       sx={{
@@ -16,7 +24,7 @@ const CommentBox = ({ comment, setComment, disabled }) => {
         multiline
         rows={4}
         value={comment}
-        onChange={setComment}
+        onChange={handleCommentChange}
         sx={{ flexGrow: 1 }}
       />
     </Box>
