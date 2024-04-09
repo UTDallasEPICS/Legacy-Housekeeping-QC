@@ -28,6 +28,7 @@ export default function MyApp(props) {
   const [loading, setLoading] = useState(false);
 
   Router.events.on("routeChangeStart", (url) => {
+    if (url === "/admin/makeInspection") return;
     console.log("Loading start");
     setLoading(true);
   });

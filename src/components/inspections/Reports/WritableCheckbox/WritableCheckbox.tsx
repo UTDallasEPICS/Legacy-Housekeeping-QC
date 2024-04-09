@@ -6,13 +6,14 @@ const WritableCheckbox = ({ onInsert }) => {
   const [newItem, setNewItem] = useState("");
   return (
     <Box display={"flex"} alignItems={"center"}>
-      <IconButton sx={{ cursor: "pointer" }}>
-        <AddTaskIcon
-          onClick={() => {
-            newItem ? onInsert(newItem) : null;
-            setNewItem("");
-          }}
-        />
+      <IconButton
+        sx={{ cursor: "pointer" }}
+        onClick={() => {
+          newItem ? onInsert(newItem) : null;
+          setNewItem("");
+        }}
+      >
+        <AddTaskIcon />
       </IconButton>
       <TextField
         variant="standard"
