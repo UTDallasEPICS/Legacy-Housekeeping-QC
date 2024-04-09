@@ -7,19 +7,19 @@ export default async function handler(
 ) {
   try {
     if (req.method === "POST") {
-      const {
-        id,
-      } = req.body;
+      const { id } = req.body;
+
       const deletedBuilding = await prisma.building.delete({
-        where:{
-          id: id,
+        where: {
+          id: Number(id),
         },
       });
       const deletedRooms = await prisma.room.deleteMany({
-        where:{
-          building_id: id,
-        }
-      })
+        where: {
+          building_id: Number(id),
+        },
+      });
+
       res.status(200).json(deletedBuilding);
     }
   } catch (error) {
