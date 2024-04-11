@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Typography, Button } from '@mui/material';
+import * as console from "node:console";
 
 interface SelectionBoxProps {
   day: string;
@@ -17,6 +18,35 @@ const SelectionBox: React.FC<SelectionBoxProps> = ({ day }) => {
   };
 
   const isTimeSelected = (time: string) => selectedTime === time;
+
+  const generateTimeButtons = () => {
+    const timez = []
+    for (let i = 0;i < 24;i++){
+      for (let j = 0;j < 60;j += 15){
+          let js = (j === 0) ? "00":String(j)
+          let time = String(i) + ":" + js
+          timez.push(
+              <Button
+                  onClick={() => handleButtonClick(time)}
+                  sx={{
+                    color: 'white',
+                    minWidth: '9.5vh',
+                    maxWidth: '9.5vh',
+                    height: '4vh',
+                    marginTop: 1,
+                    marginBottom: 1,
+                    backgroundColor: isTimeSelected(time) ? 'red' : 'gray',
+                    '&:hover': {
+                      backgroundColor: isTimeSelected(time) ? 'darkred' : 'darkgray',
+                    }}}
+              >
+                {time}
+              </Button>
+          )
+      }
+    }
+    return timez
+  }
 
   return (
     <Box sx={{
@@ -66,70 +96,11 @@ const SelectionBox: React.FC<SelectionBoxProps> = ({ day }) => {
         <Box sx={{
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'center',
+          justifyContent: 'start',
           alignItems: 'center',
+            overflow: 'auto',
           }}>
-          <Button 
-            onClick={() => handleButtonClick("9:00 AM")}
-            sx={{  
-            color: 'white',
-            minWidth: '9.5vh',
-            maxWidth: '9.5vh',
-            height: '4vh',
-            marginTop: 1,
-            marginBottom: 1,
-            backgroundColor: isTimeSelected("9:00 AM") ? 'red' : 'gray',
-            '&:hover': {        
-            backgroundColor: isTimeSelected("9:00 AM") ? 'darkred' : 'darkgray',
-            }}}
-          >
-            9:00 AM
-          </Button>
-          <Button 
-            onClick={() => handleButtonClick("10:30 AM")}
-            sx={{
-            color: 'white',
-            minWidth: '9.5vh',
-            maxWidth: '9.5vh',
-            marginBottom: 1,
-            height: '4vh',
-            backgroundColor: isTimeSelected("10:30 AM") ? 'red' : 'gray',
-            '&:hover': {        
-            backgroundColor: isTimeSelected("10:30 AM") ? 'darkred' : 'darkgray',
-            }}}
-          >
-            10:30 AM
-          </Button>
-          <Button 
-            onClick={() => handleButtonClick("1:00 PM")}
-            sx={{
-            color: 'white',
-            minWidth: '9.5vh',
-            maxWidth: '9.5vh',
-            height: '4vh',
-            marginBottom: 1,
-            backgroundColor: isTimeSelected("1:00 PM") ? 'red' : 'gray',
-            '&:hover': {        
-            backgroundColor: isTimeSelected("1:00 PM") ? 'darkred' : 'darkgray',
-            }}}
-          >
-            1:00 PM
-          </Button>
-          <Button 
-            onClick={() => handleButtonClick("2:30 PM")}
-            sx={{
-            color: 'white',
-            minWidth: '9.5vh',
-            maxWidth: '9.5vh',
-            height: '4vh',
-            marginBottom: 1,
-            backgroundColor: isTimeSelected("2:30 PM") ? 'red' : 'gray',
-            '&:hover': {        
-            backgroundColor: isTimeSelected("2:30 PM") ? 'darkred' : 'darkgray',
-            }}}
-          >
-            2:30 PM
-          </Button>
+          {generateTimeButtons()}
         </Box>
       </Box>
     </Box>
