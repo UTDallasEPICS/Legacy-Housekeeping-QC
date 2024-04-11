@@ -2,6 +2,9 @@ import { Box, Typography } from "@mui/material";
 
 const ScoreHistory = ({ memberData }) => {
   const sortedMemberData = [...memberData].sort((a, b) => b.amount - a.amount);
+  console.log("memberdata:", memberData);
+  const data = memberData[0] ? memberData[0].inspection.timestamp : [];
+  console.log("inspection?:", data);
 
   return (
     <Box
@@ -35,14 +38,14 @@ const ScoreHistory = ({ memberData }) => {
       >
         Top 3 Scores:
       </Typography>
-      {sortedMemberData.slice(0,3).map((id, index) => (
+      {sortedMemberData.slice(0,3).map((data) => (
         <Typography
-          key={index}
+          key={data.id}
           variant="body1"
           sx={{ fontSize: { xs: 11, sm: 11, md: 13, lg: 16 } }}
           gutterBottom
         >
-          {`${id.id}: ${id.amount}`}
+          {`${new Date(data.inspection.timestamp).toDateString()}: ${data.amount}`}
         </Typography>
       ))}
 
@@ -56,14 +59,14 @@ const ScoreHistory = ({ memberData }) => {
       >
         Lowest 3 Scores:
       </Typography>
-      {sortedMemberData.slice(-3).map((id, index) => (
+      {sortedMemberData.slice(-3).map((data) => (
         <Typography
-          key={index}
+          key={data.id}
           variant="body1"
           sx={{ fontSize: { xs: 11, sm: 11, md: 13, lg: 16 } }}
           gutterBottom
         >
-          {`${id.id}: ${id.amount}`}
+          {`${new Date(data.inspection.timestamp).toDateString()}: ${data.amount}`}
         </Typography>
       ))}
     </Box>

@@ -38,7 +38,11 @@ export default async function handler(
           },
         },
       });
-      res.status(200).json(scores);
+
+      // extracting only the scores array
+      const scoresArray = scores ? scores.scores : [];
+
+      res.status(200).json(scoresArray);
     }
   } catch (error) {
     res.status(500).json(error + ": Error retrieving reports");
