@@ -12,10 +12,6 @@ export default async function handler(
   try {
     if (req.method === "POST") {
       const buildingsData: BuildingData[] = await generateBuilding();
-
-      res.status(200).json(buildingsData);
-      /*
-
       // Create transactions for adding buildings
       let buildings;
       await prisma
@@ -86,7 +82,7 @@ export default async function handler(
         .status(200)
         .json(
           `Add ${rooms.length} rooms and ${buildings.length} buildings successfully`
-        );*/
+        );
     }
   } catch (error) {
     console.log(error);
