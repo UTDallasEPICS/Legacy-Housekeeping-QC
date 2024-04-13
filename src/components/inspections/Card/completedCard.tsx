@@ -49,7 +49,7 @@ const UncompletedCard = ({
           flex: 1,
         }}
       >
-        <Typography variant="h6">
+        <Typography noWrap variant="h6">
           <b>Room{" " + inspectionProps.room_name} </b>
         </Typography>
         <Typography noWrap variant="h6">
