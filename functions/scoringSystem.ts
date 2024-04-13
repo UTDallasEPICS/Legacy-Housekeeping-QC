@@ -1,64 +1,62 @@
-class scoringSystem {
-  roomNumber: string;  // Room number for which scores are being recorded
-  date: Date;          // Date for which scores are being recorded
-  scores: Map<string, number>;  // Map to store scores for each item
+import { Item } from "@prisma/client";
+import prisma from "../lib/prisma";
 
-  constructor(roomNumber: string, date: Date) {
-      this.roomNumber = roomNumber;
-      this.date = date;
-      this.scores = new Map<string, number>();  // Initialize scores map
-      this.initializeScores();  // Initialize scores for each item
+class ScoringSystem {
+  rubric_id: number; // Rubric for which scores are being recorded
+  items: Item[]; // Items in the rubric
+  extra_score: number; // Extra score to be added to the total score
+
+  constructor(rubric_id: number, extra_score: number) {
+    this.rubric_id = rubric_id;
+    this.extra_score = extra_score;
+    this.items = [];
   }
 
-  initializeScores() {
-      // Initialize scores for each item in the checklist
-      const items = [
-          // "check unacceptable items" section
-          "Telephone", "Overbed Table", "Bedside Table", "Call Button", "Bed",
-          "Trash Can", "Television", "Walls", "Corners & Edges", "Doors", "Floors",
-
-          // "Restroom" section
-          "Sink", "Walls", "Mirrors", "Dispensers", "Tub/Shower", "Toilet", "Floor",
-          
-          // "Dusting" section
-          "Low Dusting", "High Dusting"
-      ];
-      for (const item of items) {
-          this.scores.set(item, 0);  // Initialize each item's score to 0
-      }
+  async initializeScores() {
+    this.items = await prisma.item.findMany({
+      where: {
+        quantitative_id: this.rubric_id,
+      },
+    });
   }
 
-  updateScore(item: string, score: number) {
-      // Update score for a particular item
-      if (this.scores.has(item)) {
-          this.scores.set(item, score);  // Update the score for the specified item
-      } else {
-        console.warn(`Item "${item}" not found in the checklist.`); 
-      }
+  calculatePercentageScore(): number {
+    // Calculate percentage score by dividing total score by total possible score
+    return Math.round(
+      (this.calculateTotalScore() / this.calculatePossibleScore()) * 100
+    );
   }
 
   calculateTotalScore(): number {
+    // Calculate score by summing up all the individual scores for checked items
+    let score = 0;
+    this.items.forEach((item: Item) => {
+      score += item.is_checked ? item.weight : 0;
+    });
+    score += this.extra_score; // Add extra score
+    return score;
+  }
+
+  calculatePossibleScore(): number {
     // Calculate total score by summing up all the individual scores
     let totalScore = 0;
-    this.scores.forEach((score: number) => {
-        totalScore += score;
+    this.items.forEach((item: Item) => {
+      totalScore += item.weight;
     });
+    totalScore += this.extra_score; // Add extra score
     return totalScore;
+  }
+
+  printScores() {
+    // Print out scores for each item along with room number, date, and total score
+    console.log("Rubric ID: " + this.rubric_id);
+    console.log("Checklist Scores:");
+    this.items.forEach((item) => {
+      console.log(`${item.name}: ${item.weight}`); // Print each item's score
+    });
+    console.log("Total Score: " + this.calculateTotalScore()); // Print total score
+    console.log("Possible Score: " + this.calculatePossibleScore()); // Print total score
+  }
 }
 
-
-printScores() {
-  // Print out scores for each item along with room number, date, and total score
-  console.log("Room Number: " + this.roomNumber);
-  console.log("Date: " + this.date.toDateString());
-  console.log("Checklist Scores:");
-  this.scores.forEach((score, item) => {
-      console.log(`${item}: ${score}`);  // Print each item's score
-  });
-  console.log("Total Score: " + this.calculateTotalScore());  // Print total score
-}
-}
-
-
-
-
+export default ScoringSystem;
