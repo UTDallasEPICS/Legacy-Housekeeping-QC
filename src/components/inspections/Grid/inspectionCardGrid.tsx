@@ -1,81 +1,82 @@
-import { Card, Grid } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import { Inspect_Status } from "@prisma/client";
 import { Inspection } from "../../../../ts/types/db.interfaces";
 import CompletedCard from "../Card/completedCard";
 import UncompletedCard from "../Card/uncompletedCard";
-import { toCompletedInspectionCardProps } from "../../../../ts/interfaces/roomReport.interfaces";
+import { useSelector } from "react-redux";
+import {
+  getInspectedReports,
+  getNotInspectedReports,
+} from "../../../../slices/inspectionsFetchSlice";
+import { InspectionFilterBy } from "../../../../ts/const/inspection.constant";
+import { filterInspection } from "../../../../functions/filterInspection";
 
 const InspectionCardGrid = ({
-  inspections,
   status,
+  filter,
+  filterBy,
 }: {
-  inspections: Inspection[];
   status: Inspect_Status;
+  filter: string;
+  filterBy: InspectionFilterBy;
 }) => {
-  let notInspected = [];
-  let inspected = [];
-  inspections?.map((inspection) => {
-    switch (inspection.inspect_status) {
-      case Inspect_Status.INSPECTED:
-        inspected.push(inspection);
-        break;
-      case Inspect_Status.NOT_INSPECTED:
-        notInspected.push(inspection);
-        break;
-      default:
-        break;
-    }
-  });
+  const inspected = useSelector(getInspectedReports);
+  const notInspected = useSelector(getNotInspectedReports);
+
+  const isEmpty =
+    (inspected.length === 0 && status === Inspect_Status.INSPECTED) ||
+    (notInspected.length === 0 && status === Inspect_Status.NOT_INSPECTED);
 
   return (
-    <>
-      <Grid
-        container
-        item
-        direction="column"
-        xs={4}
-        rowSpacing={2}
-        sx={{ width: "max-content", overflow: "visible", p: 2 }}
-      >
-        <CardCondition
-          status={status}
-          inspected={inspected}
-          notInspected={notInspected}
-        />
-      </Grid>
-    </>
+    <Grid
+      container
+      direction="row"
+      spacing={2}
+      p={2}
+      maxHeight={"75vh"} // This is needed to allow the scrollbar to scroll to the bottom (basically 100vh - other stuff)
+      overflow={"auto"}
+    >
+      {isEmpty && (
+        <Grid item xs={12}>
+          <Typography variant="h6" align="center">
+            No inspections found
+          </Typography>
+        </Grid>
+      )}
+      {CardCondition({ status, inspected, notInspected, filter, filterBy })}
+    </Grid>
   );
 };
 
 const CardCondition = ({
   status,
+  filter,
+  filterBy,
   inspected,
   notInspected,
 }: {
   status: Inspect_Status;
+  filter: string;
+  filterBy: InspectionFilterBy;
   inspected: Inspection[];
   notInspected: Inspection[];
 }) => {
   switch (status) {
     case Inspect_Status.INSPECTED:
-      return (
-        <>
-          {inspected.map((inspection) => (
-            <CompletedCard
-              inspectionProps={toCompletedInspectionCardProps(inspection)}
-            />
-          ))}
-        </>
+      return filterInspection(inspected, filter, filterBy).map(
+        (inspection, index) => (
+          <Grid item xs={12} md={6} xl={4} key={inspection.id}>
+            <CompletedCard card_id={index} inspection={inspection} />
+          </Grid>
+        )
       );
     case Inspect_Status.NOT_INSPECTED:
-      return (
-        <>
-          {notInspected.map((inspection) => (
-            <UncompletedCard
-              inspectionProps={toCompletedInspectionCardProps(inspection)}
-            />
-          ))}
-        </>
+      return filterInspection(notInspected, filter, filterBy).map(
+        (inspection, index) => (
+          <Grid item xs={12} md={6} xl={4} key={inspection.id}>
+            <UncompletedCard card_id={index} inspection={inspection} />
+          </Grid>
+        )
       );
     default:
       return <></>;

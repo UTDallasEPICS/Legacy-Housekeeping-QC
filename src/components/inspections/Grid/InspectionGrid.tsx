@@ -2,19 +2,23 @@ import {
   Box,
   Card,
   Divider,
+  MenuItem,
+  Select,
+  TextField,
   ToggleButton,
   ToggleButtonGroup,
 } from "@mui/material";
 import DashboardCardHeading from "../../dashboardComponents/dashboardCardHeading";
 import { useState } from "react";
 import { Inspect_Status } from "@prisma/client";
-import { Inspection } from "../../../../ts/types/db.interfaces";
 import InspectionCardGrid from "./inspectionCardGrid";
+import { InspectionFilterBy } from "../../../../ts/const/inspection.constant";
 
-const InspectionGrid = ({ inspections }: { inspections: Inspection[] }) => {
-  // INSPECTIONS STATUS FILTER TOGGLE BUTTON GROUP **************
+const InspectionGrid = () => {
   const [inspectionStatusFilter, setInspectionStatusFilter] =
     useState<Inspect_Status>(Inspect_Status.INSPECTED);
+  const [filter, setFilter] = useState("");
+  const [filterBy, setFilterBy] = useState(InspectionFilterBy.ROOM_NAME);
 
   const handleInspectionStatusFilter = (
     event: React.MouseEvent<HTMLElement>,
@@ -24,7 +28,6 @@ const InspectionGrid = ({ inspections }: { inspections: Inspection[] }) => {
       setInspectionStatusFilter(inspectionStatusFilter);
     }
   };
-  // ******************************************************
 
   return (
     <Card
@@ -34,12 +37,21 @@ const InspectionGrid = ({ inspections }: { inspections: Inspection[] }) => {
         flexDirection: "column",
         flexBasis: 0,
         flexGrow: 1,
+        height: "auto",
+        minHeight: "100vh",
       }}
     >
       <DashboardCardHeading text="Inspections" />
 
-      <Box sx={{ display: "flex", flexDirection: "column", flex: 1, width: 1 }}>
-        <Box sx={{ p: 2, alignContent: "center", alignItems: "center" }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "stretch",
+          gap: 2,
+        }}
+      >
+        <Box sx={{ display: "flex", p: 2, gap: 2 }}>
           <ToggleButtonGroup
             value={inspectionStatusFilter}
             exclusive
@@ -52,13 +64,35 @@ const InspectionGrid = ({ inspections }: { inspections: Inspection[] }) => {
               Remaining
             </ToggleButton>
           </ToggleButtonGroup>
+
+          <TextField
+            label="Search"
+            variant="standard"
+            onChange={(event) => setFilter(event.target.value)}
+            sx={{ flexGrow: 1 }}
+          />
+          <TextField
+            select
+            label="Filter By"
+            value={filterBy}
+            onChange={(event) =>
+              setFilterBy(event.target.value as InspectionFilterBy)
+            }
+          >
+            {Object.values(InspectionFilterBy).map((filterBy) => (
+              <MenuItem key={filterBy} value={filterBy}>
+                {filterBy}
+              </MenuItem>
+            ))}
+          </TextField>
         </Box>
 
-        <Divider variant="middle" />
+        <Divider flexItem />
 
         <InspectionCardGrid
-          inspections={inspections}
           status={inspectionStatusFilter}
+          filter={filter}
+          filterBy={filterBy}
         />
       </Box>
     </Card>

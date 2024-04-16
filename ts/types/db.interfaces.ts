@@ -13,34 +13,29 @@ import {
   Schedule as ScheduleDB,
   Building as BuildingDB,
   RubricType,
+  Item as ItemDB,
+  Requirement as RequirementDB,
+  Score,
 } from "@prisma/client";
 import { BuildingWithRooms } from "../interfaces/room.interface";
 export type TeamMember = Omit<TeamMemberDB & PersonDB, "type" | "person_id">;
 export type User = Omit<UserDB & PersonDB, "type" | "person_id">;
 
-export type CommonArea = Omit<CommonAreaDB & RoomDB, "type" | "room_id">;
-export type PersonalRoom = Omit<PersonalRoomDB & RoomDB, "type" | "room_id">;
+export type CommonArea = Omit<CommonAreaDB & RoomDB, "room_id">;
+export type PersonalRoom = Omit<PersonalRoomDB & RoomDB, "room_id">;
 
 export type HollisticRubric = {
-  requirements: Requirement[];
-} & Omit<HollisticRubricDB & RubricDB, "type" | "rubric_id">;
+  requirements: RequirementDB[];
+} & Omit<HollisticRubricDB & RubricDB, "rubric_id">;
 export type QuantitativeRubric = {
-  items: Item[];
-} & Omit<QuantitativeRubricDB & RubricDB, "type" | "rubric_id">;
-
-export type Requirement = {
-  id: number;
-  description: string;
-};
-
-export type Item = {
-  item_name: string;
-};
+  items: ItemDB[];
+} & Omit<QuantitativeRubricDB & RubricDB, "rubric_id">;
 
 export type Inspection = {
   schedule: Schedule;
   rubric: Rubric;
   inspector: User;
+  score: Score;
 } & InspectionDB;
 
 export type Schedule = {
@@ -72,7 +67,7 @@ export function toBuildingWithRooms(
 
 export const inspectionIncludeAll =
   Prisma.validator<Prisma.InspectionInclude>()({
-    rubrics: {
+    rubric: {
       include: {
         hollistic_rubric: {
           include: { requirements: true },
@@ -93,17 +88,18 @@ export const inspectionIncludeAll =
     inspector: {
       include: { person: true },
     },
+    score: true,
   });
 type InspectionIncludeAll = Prisma.InspectionGetPayload<{
   include: typeof inspectionIncludeAll;
 }>;
 export function toInspection(a: InspectionIncludeAll): Inspection {
   let rubric;
-  switch (rubric.type) {
+  switch (a.rubric.type) {
     case RubricType.HOLLISTIC:
-      rubric = toHollisticRubric(a.rubrics[0]);
+      rubric = toHollisticRubric(a.rubric);
     case RubricType.QUANTITATIVE:
-      rubric = toQuantitativeRubric(a.rubrics[0]);
+      rubric = toQuantitativeRubric(a.rubric);
   }
   return {
     id: a.id,
@@ -116,7 +112,9 @@ export function toInspection(a: InspectionIncludeAll): Inspection {
     room_pics: a.room_pics,
     inspector_id: a.inspector_id,
     schedule_id: a.schedule_id,
+    rubric_id: a.rubric_id,
     comment: a.comment,
+    extra_score: a.extra_score,
     score: a.score,
   };
 }
@@ -242,6 +240,7 @@ export function toCommonArea(a: RoomIncludeCommonArea): CommonArea {
     name: a.name,
     floor_number: a.floor_number,
     building_id: a.building_id,
+    type: a.type,
   };
 }
 export function fromCommonArea(a: CommonAreaIncludeRoom): CommonArea {
@@ -250,6 +249,7 @@ export function fromCommonArea(a: CommonAreaIncludeRoom): CommonArea {
     name: a.room.name,
     floor_number: a.room.floor_number,
     building_id: a.room.building_id,
+    type: a.room.type,
   };
 }
 
@@ -273,6 +273,7 @@ export function toPersonalRoom(a: RoomIncludePersonalRoom): PersonalRoom {
     floor_number: a.floor_number,
     building_id: a.building_id,
     is_occupied: a.personal_room.is_occupied,
+    type: a.type,
   };
 }
 export function fromPersonalRoom(a: PersonalRoomIncludeRoom): PersonalRoom {
@@ -282,6 +283,7 @@ export function fromPersonalRoom(a: PersonalRoomIncludeRoom): PersonalRoom {
     floor_number: a.room.floor_number,
     building_id: a.room.building_id,
     is_occupied: a.is_occupied,
+    type: a.room.type,
   };
 }
 
@@ -306,6 +308,7 @@ export function toHollisticRubric(
   return {
     id: a.id,
     requirements: a.hollistic_rubric.requirements,
+    type: a.type,
   };
 }
 export function fromHollisticRubric(
@@ -314,6 +317,7 @@ export function fromHollisticRubric(
   return {
     id: a.rubric.id,
     requirements: a.requirements,
+    type: a.rubric.type,
   };
 }
 
@@ -338,6 +342,7 @@ export function toQuantitativeRubric(
   return {
     id: a.id,
     items: a.quantitative_rubric.items,
+    type: a.type,
   };
 }
 export function fromQuantitativeRubric(
@@ -346,5 +351,6 @@ export function fromQuantitativeRubric(
   return {
     id: a.rubric.id,
     items: a.items,
+    type: a.rubric.type,
   };
 }

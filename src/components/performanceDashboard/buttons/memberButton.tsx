@@ -6,22 +6,26 @@ const MemberButton = ({ member, onClick }) => {
       variant="outlined"
       onClick={() => onClick(member)}
       sx={{
-        fontWeight: "bold",
-        fontSize: "clamp(10px, calc(2vw + 10px), 50px)",
-        backgroundColor: "#FFFFFF",
+        backgroundColor: "white",
         width: "min(20vw, 275px)",
-        height: "min(20vh, 200px)",
-        //min(20vw, 400px) //400px
-       
+        height: "min(10vh, 200px)",
+        fontWeight: "bold",
+        fontSize: "clamp(10px, calc(2vw + 10px), 40px)",
+        textTransform: "none",
+        lineHeight: "1", 
         borderRadius: "10px",
-        border: "solid",
-        borderColor: "#141c3b",
-        marginBottom: "5px",
-        marginTop: "0px",
-        
+        border: "2px solid",
+        borderColor: "primary",
+        marginBottom: "10px",
+        "&:hover": {
+          backgroundColor: "primary.main", 
+          border: "solid",
+          borderColor: "primary.main",
+          color: "white",
+        },
       }}
     >
-      {member}
+      {`${member.first_name} ${member.last_name}`}
     </Button>
   );
 };

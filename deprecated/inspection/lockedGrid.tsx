@@ -1,7 +1,7 @@
 import { Grid, Typography } from "@mui/material";
-import { ReportComponent } from "../..";
+import { ReportComponent } from "../../src/components";
 
-const CompleteGrid = ({ reports }) => {
+const LockedGrid = ({ reports }) => {
   return (
     <>
       <Grid
@@ -10,7 +10,7 @@ const CompleteGrid = ({ reports }) => {
         direction="column"
         xs={4}
         rowSpacing={2}
-        sx={{ width: "max-content", overflow: "visible", p: 2 }}
+        sx={{ overflow: "auto", height: "40rem" }}
       >
         {reports?.map((report) => (
           <ReportComponent report={report} />
@@ -20,4 +20,4 @@ const CompleteGrid = ({ reports }) => {
   );
 };
 
-export default CompleteGrid;
+export default LockedGrid;
