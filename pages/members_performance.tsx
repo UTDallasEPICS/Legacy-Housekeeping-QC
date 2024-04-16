@@ -3,11 +3,11 @@ import {
   Container,
   Grid,
   Typography,
+  InputBase,
+  List,
   useMediaQuery,
-  AppBar,
-  Tabs,
-  Tab,
 } from "@mui/material";
+import { Search } from "@mui/icons-material";
 import { useTheme } from "@mui/material/styles";
 import MemberTable from "../src/components/performanceDashboard/table";
 import React, {useState, useEffect} from "react";
@@ -15,10 +15,9 @@ import { Navbar } from "../src/components";
 import MembersPerformanceChart from "../src/components/performanceDashboard/charts/members_performanceChart";
 import MemberButton from "../src/components/performanceDashboard/buttons/memberButton";
 import ScoreHistory from "../src/components/performanceDashboard/scoreHistory";
-import MemberTabs from "../src/components/performanceDashboard/memberTabs";
 
 const performance = () => { 
-  const theme = useTheme();
+  // const theme = useTheme();
   //const isSmScreen = useMediaQuery(theme.breakpoints.down("sm"));
   //const IsXsScreen = useMediaQuery(theme.breakpoints.up("sm"));
 
@@ -26,10 +25,24 @@ const performance = () => {
   const [selectedMember, setSelectedMember] = useState(members[0]);
   const [scores, setScores] = useState([]);
   const [averageScore, setAverageScore] = useState(0);
+  const [searchInput, setSearchInput] = useState("");
+
+  // Handler for search input changes
+  const handleSearchChange = (event) => {
+    setSearchInput(event.target.value.toLowerCase());
+  };
+
+  // Filter members based on search input
+  const filteredMembers = members.filter(
+    (member) =>
+      member.first_name.toLowerCase().includes(searchInput) ||
+      member.last_name.toLowerCase().includes(searchInput)
+  );
 
   const handleMemberClick = (member: JSON) => {
     setSelectedMember(member);
   };
+
 
   const getMembers = async () => {
     try {
@@ -72,6 +85,7 @@ const performance = () => {
     }
   }
 
+  // page first gets member data
   useEffect(() => {
     getMembers();
   }, []);
@@ -100,27 +114,52 @@ const performance = () => {
         <Grid container spacing={1}>
           {/* member list */}
           <Grid item xs={3} sm={3} md={3} lg={3}>
+            {/* search bar */}
+            <Box sx={{ marginTop: 2 }}>
               <Box
-                sx={{    
-                  overflowX: "hidden",
-                  overflowY: "scroll", 
-                  width: "min(21vw, 300px)",
-                  height: "70vh",
-                  display: "justified",
-                  flexDirection: "column",
-                  alignItems: "flex-start",
-                  justifyContent: "space-evenly",
-                  marginTop: 2,
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  border: "1px solid #ccc",
+                  borderRadius: "4px",
+                  mb: 2,
+                  ml: 1,
                 }}
               >
-                {members.map((member, index) => (
-                  <MemberButton
-                    key={index}
-                    member={member}
-                    onClick={handleMemberClick}
-                  />))
-                }
+                <Search sx={{ color: "secondary.main", ml: 2 }} />
+                <InputBase
+                  placeholder="Search Team Members"
+                  inputProps={{ "aria-label": "search" }}
+                  value={searchInput}
+                  onChange={handleSearchChange}
+                  sx={{ ml: 1, flex: 1 }}
+                />
               </Box>
+            </Box>
+            {/* member list buttons */}
+            <Box sx={{
+              width: "min(21vw, 300px)",
+              flex: 1,
+              overflowY: "auto",
+              position: "relative",
+              justifyContent: "center",
+            }}>
+              <List>
+                {filteredMembers.length > 0 ? (
+                  filteredMembers.map((member) => (
+                    <MemberButton
+                      key={member.id}
+                      member={member}
+                      onClick={handleMemberClick}
+                    />
+                  ))
+                ) : (
+                  <Typography variant="h5" sx={{ p: 2 }}>
+                    Empty list
+                  </Typography>
+                )}
+              </List>
+            </Box>
           </Grid>
 
           {/* name, chart, and score history */}
@@ -178,7 +217,7 @@ const performance = () => {
                 </Box>
               </Grid>
               
-              <Grid item xs={5} sm={5} md={6} lg={3.25}>
+              <Grid item xs={5} sm={5} md={7} lg={4}>
                 {/* highest and lowest scores table */}
                 <Box
                   sx={{

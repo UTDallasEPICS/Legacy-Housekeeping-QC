@@ -2,9 +2,6 @@ import { Box, Typography } from "@mui/material";
 
 const ScoreHistory = ({ memberData }) => {
   const sortedMemberData = [...memberData].sort((a, b) => b.amount - a.amount);
-  console.log("memberdata:", memberData);
-  const data = memberData[0] ? memberData[0].inspection.timestamp : [];
-  console.log("inspection?:", data);
 
   return (
     <Box
