@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../lib/prisma";
-import { useSession } from "next-auth/react";
 
 export default async function handler(
   req: NextApiRequest,
@@ -8,22 +7,15 @@ export default async function handler(
 ) {
   try {
     if (req.method === "POST") {
-      const { data: session } = useSession();
+      const { schedule_id, rubric_id, inspector_id } = req.body;
 
-      const { team_member_ids, room_id } = req.body;
-
-      let inspection;
+      let inspection, room;
       await prisma.$transaction(async (prisma) => {
-        const schedule = await prisma.schedule.create({
-          data: {
-            team_members: { connect: team_member_ids.map((id) => ({ id })) },
-            room: { connect: { id: room_id } },
-          },
-        });
         inspection = await prisma.inspection.create({
           data: {
-            inspector: { connect: { person_id: session?.user?.id } },
-            schedule: { connect: { id: schedule.id } },
+            inspector: { connect: { person_id: Number(inspector_id) } },
+            schedule: { connect: { id: Number(schedule_id) } },
+            rubric: { connect: { id: rubric_id } },
             inspect_status: "NOT_INSPECTED",
           },
         });

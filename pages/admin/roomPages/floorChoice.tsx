@@ -1,11 +1,11 @@
 import FloorSelection from "../../../src/components/roomScreenDashboard/componentsForFloorSelection/floorSelection";
 import FloorCards from "../../../src/components/roomScreenDashboard/componentsForFloorSelection/floorCards";
-import { BackButton } from "../../../src/components";
-import { Box } from "@mui/material";
 import Navbar from "../../../src/components/adminDashboard/navbar/navbar";
+import theme from "../../../pages/theme";
+
 const floorChoice = () => {
   return (
-    <div style={{background: 'linear-gradient(#141c3b,#ffffff)',height:"100vh"}}>
+    <div style={{background: theme.palette.background.default ,height:"100vh"}}>
       {/*Heading*/}
       <div>
         <Navbar />
@@ -14,8 +14,7 @@ const floorChoice = () => {
       </div>
 
       {/*Displays the buildings for the user to choose*/}
-      <div>
-        <BackButton pageToGoBack={"buildingChoice"} />
+      <div style={{ paddingTop: '24px' }}>
         <FloorCards />
       </div>
         

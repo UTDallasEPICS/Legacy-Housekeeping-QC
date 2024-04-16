@@ -7,7 +7,16 @@ export default async function handler(
 ) {
   try {
     if (req.method === "PUT") {
-      const { id, room_pics, clean_status, comment, score } = req.body;
+      const {
+        id,
+        members_ids,
+        room_pics,
+        clean_status,
+        comment,
+        extra_score,
+        score,
+      } = req.body;
+
       const updatedReport = await prisma.inspection.update({
         where: { id },
         data: {
@@ -16,7 +25,15 @@ export default async function handler(
           room_pics,
           clean_status,
           inspect_status: "INSPECTED",
-          score,
+          extra_score: Number(extra_score),
+          score: {
+            create: {
+              amount: score,
+              team_member: {
+                connect: members_ids.map((id) => ({ person_id: id })),
+              },
+            },
+          },
         },
       });
       res.status(200).json(updatedReport);

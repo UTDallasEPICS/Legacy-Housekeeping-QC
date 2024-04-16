@@ -1,7 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../lib/prisma";
-import { toTeamMember } from "../../../ts/types/db.interfaces";
-import { idText } from "typescript";
 
 export default async function handler(
   req: NextApiRequest,
@@ -9,10 +7,10 @@ export default async function handler(
 ) {
   try {
     if (req.method === "DELETE") {
-      const { memberId } = req.query;
+      const { id } = req.query;
 
       const person = await prisma.person.delete({
-        where: { id: parseInt(memberId.toString()) },
+        where: { id: parseInt(id[0]) },
       });
 
       res.status(200).json({ message: "Member deleted successfully" });
