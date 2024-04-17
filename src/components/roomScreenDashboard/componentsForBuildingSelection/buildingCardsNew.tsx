@@ -1,127 +1,135 @@
-import { Button, Typography, Container, Box, Grid } from "@mui/material";
+import {
+  Button,
+  Typography,
+  Container,
+  Box,
+  Grid,
+  IconButton,
+} from "@mui/material";
 import { setBuilding } from "../../../../slices/buildingSelectSlice";
 import { useDispatch } from "react-redux";
 import Link from "next/link";
-import { alignProperty } from "@mui/material/styles/cssUtils";
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
+import ApartmentIcon from "@mui/icons-material/Apartment";
 
-//This will produce buttons for the user to select
+// This will produce building buttons for the user to select
 
-const makeCard = (buildingVal : JSON) => {
+const makeCard = (buildingVal: JSON) => {
   const dispatch = useDispatch();
-  let name = buildingVal["name"]
+
+  let name = buildingVal["name"];
+  let id = buildingVal["id"];
+
   const handleClick = (building: string) => {
     dispatch(setBuilding(building));
   };
-  return(
-  <Grid item xs = {6} sm = {6} md = {3} lg = {3} xl = {1}
-        justifyContent="center"
-        textAlign="center">
-      <Link href={"/admin/roomPages/floorChoice?building=".concat(name)} passHref>
-          <Button
-            onClick={() => handleClick(name)}
-            variant="contained"
-            color="secondary"
-            sx={{
-              fontweight: "bold",
-              fontSize: "3vh",
-            }}
-            style={{
-              minHeight: "20vh",
-              minWidth: "20vh",
-              maxHeight: "20vh",
-              maxWidth: "20vh",
-              border: "5px solid",
 
-              //border: 5,
-              //backgroundImage:"url(https://d7hftxdivxxvm.cloudfront.net/?quality=80&resize_to=width&src=https%3A%2F%2Fartsy-media-uploads.s3.amazonaws.com%2F2RNK1P0BYVrSCZEy_Sd1Ew%252F3417757448_4a6bdf36ce_o.jpg&width=910)",
-              //backgroundSize:"100%"
-            }} 
-          >
+  return (
+    <Grid item key={id} xs={5} sm={4} md={3} lg={3} xl={2} textAlign="center">
+      <Link
+        href={`/admin/roomPages/floorChoice?building=${name}`}
+        passHref
+        style={{ textDecoration: "none" }}
+      >
+        <IconButton
+          onClick={() => handleClick("A")}
+          sx={{
+            display: "inline",
+            alignItems: "center",
+            minHeight: "20vh",
+            minWidth: "20vh",
+            maxHeight: "20vh",
+            maxWidth: "20vh",
+            "&:hover": {
+              color: "primary.main",
+            },
+          }}
+        >
+          <ApartmentIcon sx={{ fontSize: "15vh" }} />
+          <Typography variant="body1" sx={{ fontSize: "3vh" }}>
             {name}
-          </Button>
+          </Typography>
+        </IconButton>
       </Link>
     </Grid>
-  )
-}
+  );
+};
+
 const makeAddCard = () => {
-  return(
-  <Grid item xs = {12} sm = {12} md = {12} lg = {12} xl = {12}
-        justifyContent="center"
-        textAlign="center">
+  return (
+    <Grid
+      item
+      xs={12}
+      sm={12}
+      md={12}
+      lg={12}
+      xl={12}
+      justifyContent="center"
+      textAlign="center"
+    >
       <Link href="/admin/roomPages/addBuildingForm" passHref>
-          <Button
-            variant="contained"
-            color="success"
-            sx={{
-              fontweight: "bold",
-              fontSize: "3vh",
-              minHeight: "20vh",
-              minWidth: "20vh",
-              maxHeight: "20vh",
-              maxWidth: "20vh",
-              border: "5px solid",
-            }}
-          >
-            Add Building
-          </Button>
+        <Button
+          variant="contained"
+          sx={{
+            fontweight: "bold",
+            fontSize: "2vh",
+            color: "secondary.main",
+            minHeight: "10vh",
+            minWidth: "20vh",
+            maxHeight: "10vh",
+            maxWidth: "20vh",
+            border: "0.5vh solid",
+            borderColor: "secondary.main",
+            bgcolor: "transparent",
+            "&:hover": {
+              color: "white",
+              bgcolor: "secondary.main",
+            },
+          }}
+        >
+          Add Building
+        </Button>
       </Link>
     </Grid>
-  )
-}
+  );
+};
 
 const buildingCardsNew = () => {
-  
-
-  //When we click a button, we call a reducer to change the state of the building we select
-  
-  const [result, setResult] = useState([])
+  const [buildings, setBuilding] = useState([]);
 
   useEffect(() => {
-    getData("http://localhost:3000/api/room/buildings")
-  },[]);
+    getData();
+  }, []);
 
-  const getData = (apiUrl) => {
-    return fetch(apiUrl, {method: "GET",
-    headers: {"Content-Type": "application/json",},})
-        .then((response) => {
-            if (!response.ok) {
-  
-            }
-            return response.json();
-        })
-        .then(json => {setResult(json)})
-        .catch((error) => {
-  
-        })
-   }
-  
-  //Each button represents a certain building
+  const getData = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/api/room/buildings");
+      if (!response.ok) {
+        throw new Error("failed to fetch data");
+      }
+      const data = await response.json();
+      setBuilding(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  // Each button represents a certain building
   return (
-      <div style={{margin:"2px"}}>
-        <Grid container
+    <div style={{ margin: "0px" }}>
+      <Grid
+        container
         columnSpacing={0}
-        rowSpacing={2}
+        rowSpacing={10}
         sx={{
-          justifyContent:"center",
-          //backgroundColor:"red",
-          }}>
-        {result.map(buildingVal => (makeCard(buildingVal)))}
+          justifyContent: "center",
+        }}
+      >
+        {buildings.map((building: any) => makeCard(building))}
         {makeAddCard()}
-        
-        
-    </Grid>
-      </div>
-    
+      </Grid>
+    </div>
   );
-  
 };
 
 export default buildingCardsNew;
-
-/*
-            onClick={(e) => {
-              e.preventDefault();
-              handleClick("A");
-            }}
-*/

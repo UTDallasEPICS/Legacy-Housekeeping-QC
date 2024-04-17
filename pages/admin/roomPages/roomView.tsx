@@ -1,188 +1,206 @@
 //This will be for looking at the rooms we have
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import BuildingRoomBanner from "../../../src/components/roomScreenDashboard/componentsForRoomView/buildingRoomBanner";
-import { BackButton, Scroll } from "../../../src/components";
 import AddRoomButton from "../../../src/components/roomScreenDashboard/componentsForRoomView/addRoomButton";
-import DeleteRoomButton from "../../../src/components/roomScreenDashboard/componentsForRoomView/deleteRoomButton";
-import RoomCards from "../../../src/components/roomScreenDashboard/componentsForRoomView/roomCards";
 import SortButton from "../../../src/components/roomScreenDashboard/componentsForRoomView/sortButton";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../store";
 import { Button, Grid } from "@mui/material";
-import { Diversity3 } from "@mui/icons-material";
 import { setRoom } from "../../../slices/roomSelectSlice";
 import { useDispatch } from "react-redux";
 import Link from "next/link";
-import { useSearchParams } from "react-router-dom";
+import Navbar from "../../../src/components/adminDashboard/navbar/navbar";
+import theme from "../../../pages/theme";
 
+const getTypeDisplayName = (type) => {
+  switch (type) {
+    case "COMMON_AREA":
+      return "Common Area";
+    case "PERSONAL_ROOM":
+      return "Personal Room";
+    default:
+      return type;
+  }
+};
 
-
-const makeButton = (roomJSON : JSON) => {
+const makeEditButton = (roomJSON: JSON) => {
   const dispatch = useDispatch();
+
   const handleClick = (roomJSON: JSON) => {
     dispatch(setRoom(roomJSON));
-   };
+  };
+
+  let roomId = roomJSON["id"];
   let roomName = roomJSON["name"];
   let floorNumber = roomJSON["floor_number"];
   let typeOfRoom = roomJSON["type"];
-  let roomId = roomJSON["id"];
-  let building = roomJSON["building_id"];
-  let newLink = "/admin/roomPages/editRoomForm?building=".concat(building).concat("&floor=").concat(floorNumber)
-  return(
-      <Grid
-        style={{
-          display: "flex",
-          justifyContent: "center",
-        }}
-        item xs = {12} md = {6} lg = {3} xl = {1}
-        alignItems="center"
-        justifyContent="center"
-      >
-        <Link href={newLink} passHref>
-          <Button
-            style={{width: '30vh', height: '15vh', fontSize: "2.5vh" }}
-            sx={{ border: 5, justifyContent: "center", alignContent:"center"}}
-            onClick={() => handleClick(roomJSON)}
-          >
-            <div>
-                <h3 style={{ margin: 0 }}>{roomName} </h3>
-                <p
-                  style={{
-                    display: "block",
-                    margin: 2,
-                    marginLeft: 5,
-                    marginRight: 5,
-                  }}
-                >
-                  {typeOfRoom}
-                </p>
-            </div>
-          </Button>
-        </Link>
-      </Grid>
-  )
-}
+  let buildingId = roomJSON["building_id"];
 
+  let editLink = `/admin/roomPages/editRoomForm?buildingId=${buildingId}&floor=${floorNumber}&roomId=${roomId}`;
+
+  return (
+    <Grid
+      style={{
+        display: "flex",
+        justifyContent: "center",
+      }}
+      item
+      xs={12}
+      md={6}
+      lg={3}
+      xl={1}
+      alignItems="center"
+      justifyContent="center"
+    >
+      <Link href={editLink} passHref>
+        <Button
+          sx={{
+            width: "30vh",
+            height: "15vh",
+            fontSize: "2.5vh",
+            margin: "4px",
+            textTransform: "none",
+            backgroundColor: "white",
+            border: 5,
+            justifyContent: "center",
+            alignContent: "center",
+            "&:hover": {
+              border: 5,
+              borderColor: "primary.main",
+              color: "white",
+              backgroundColor: "primary.main",
+            },
+          }}
+          onClick={() => handleClick(roomJSON)}
+        >
+          <div>
+            <h3 style={{ margin: 0 }}>
+              {roomName} #{roomId}{" "}
+            </h3>
+            <p
+              style={{
+                display: "block",
+                margin: 2,
+                marginLeft: 5,
+                marginRight: 5,
+              }}
+            >
+              {getTypeDisplayName(typeOfRoom)}
+            </p>
+          </div>
+        </Button>
+      </Link>
+    </Grid>
+  );
+};
 
 const roomView = () => {
-  let buildingParam : string
-  let floorParam : string
-  let buildid: string
+  let buildingParam: string;
+  let floorParam: string;
+  let buildid: string;
   const [building, setBuilding] = useState("");
-  const [floor,setFloor] = useState("");
+  const [floor, setFloor] = useState("");
   const [buildingid, setBuildingid] = useState("");
-  const [result, setResult] = useState([])
-  /*
-  const building = useSelector(
-    (state: RootState) => state.buildingSelect.building
-  );
-  */
+  const [rooms, setRooms] = useState([]);
 
-  async function getData(apiUrl) {
+  const getRooms = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:3000/api/room/roomsInBuildingOnFloor",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            floor_num: floorParam,
+            building_id: buildid,
+          }),
+        }
+      );
 
-    return fetch(apiUrl, {method: "POST",
-    headers: {"Content-Type": "application/json",},
-    body:JSON.stringify(
-      {
-        floor_num: floorParam,
-        building_id: buildid,
-      })})
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(json => {
-            console.log(json)
-            setResult(json)
-        })
-        .catch((error) => {
-  
-        })
-   }
+      if (!response.ok) {
+        throw new Error("Failed to fetch rooms");
+      }
 
-  
+      const data = await response.json();
+      setRooms(data);
+    } catch (error) {
+      console.error("Error fetching rooms:", error);
+    }
+  };
+
   useEffect(() => {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    buildingParam = urlParams.get("building")
-    floorParam = urlParams.get("floor")
-    buildid = urlParams.get("building_id")
+    buildingParam = urlParams.get("building");
+    floorParam = urlParams.get("floor");
+    buildid = urlParams.get("building_id");
     setBuilding(buildingParam);
-    setFloor(floorParam)
-    setBuildingid(buildid)
-    getData("http://localhost:3000/api/room/roomsInBuildingOnFloor")
-  },[]);
+    setFloor(floorParam);
+    setBuildingid(buildid);
+    getRooms();
+  }, []);
 
   return (
-    <div style={{marginTop:10,background: 'linear-gradient(#141c3b,#ffffff)',height:"100vh"}}>
-      <Grid container spacing = {1}
-            direction="column"
-            justifyContent="center"
-            //alignItems="center"
-      >
-        
-        <Grid item>
-          <BuildingRoomBanner buildingVal={building}/>
-          <BackButton pageToGoBack={"/admin/roomPages/floorChoice?building=".concat(building)}/>
-        </Grid>
+    <div
+      style={{ background: theme.palette.background.default, height: "100vh" }}
+    >
+      <div>
+        <Navbar />
+        <BuildingRoomBanner buildingVal={building} />
+      </div>
+      <Grid container direction="column" justifyContent="center">
         <Grid
-          style={{
-            display: "flex",
-            justifyContent: "center",
-          }}
+          container
+          direction="row"
+          justifyContent="center"
+          marginTop={2}
+          marginBottom={2}
         >
-          <h2 style={{ paddingTop: 20, fontSize: 40 }}>Current Rooms:</h2>
-        </Grid>
+          <Grid
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              margin: 20,
+            }}
+          >
+            <SortButton /> {/* currently does nothing */}
+          </Grid>
 
-        <Grid
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            marginBottom: 20,
-          }}
-        >
-          <SortButton />
-        </Grid>
+          <AddRoomButton
+            buildingName={building}
+            floorName={floor}
+            buildid={buildingid}
+          />
 
-        <Grid
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            marginBottom: 20,
-          }}
-          item xs = {12}
-        >
-          <AddRoomButton buildingName={building} floorName={floor} buildid={buildingid}/>
           {/*<DeleteRoomButton /> */}
         </Grid>
         {/*This presents a area where user can scroll and look through the rooms */}
-        <Grid id="scroll" 
+        <Grid
+          id="scroll"
           style={{ display: "flex", justifyContent: "center" }}
-          alignItems="center"
           justifyContent="center"
-          item xs = {12} md = {12} lg = {12} xl = {12}
-          >
+          item
+          xs={12}
+          md={12}
+          lg={12}
+          xl={12}
+        >
           <div
             style={{
               overflowY: "scroll",
               width: "50vh",
-              height: "50vh",
-              display: "justfied",
+              height: "60vh",
+              display: "justified",
               justifyContent: "center",
             }}
           >
             <Grid
+              container
               direction="column"
               alignItems="center"
               justifyContent="center"
-
             >
-                {result.map(roomVal => (makeButton(roomVal)))}
+              {rooms.map((roomVal) => makeEditButton(roomVal))}
             </Grid>
           </div>
-          
         </Grid>
       </Grid>
     </div>
@@ -190,12 +208,3 @@ const roomView = () => {
 };
 
 export default roomView;
-
-/*
-        style={{
-          width: 630,
-          height: 700,
-          display: "flex",
-          justifyContent: "center",
-        }}
-*/

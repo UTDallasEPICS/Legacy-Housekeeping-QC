@@ -1,26 +1,36 @@
 import React from "react";
-import { Button, CssBaseline } from "@mui/material";
+import { Button, CssBaseline, Grid } from "@mui/material";
 import Link from "next/link";
 
 //Button to click that allows a user to create a new room
-const addRoomButton = ({ buildingName,floorName,buildid }) => {
-  console.log(buildingName)
-  console.log(floorName)
+const addRoomButton = ({ buildingName, floorName, buildid }) => {
   return (
     <>
       <CssBaseline />
-      <Link href={"/admin/roomPages/newRoomForm?building=".concat(buildingName).concat("&floor=").concat(floorName).concat("&building_id=").concat(buildid)} passHref>
+      <Link href={"/admin/roomPages/newRoomForm?building=".concat(buildingName).concat("&floor=").concat(floorName).concat("&building_id=").concat(buildid)} passHref
+        style={{ textDecoration: "none" }}
+      >
         <Button
-          style={{
+          variant="contained"
+          sx={{ 
             fontSize: 22,
+            fontweight: "bold", 
+            color: "secondary.main",
+            bgcolor: "transparent",
             justifyContent: "center",
-            height: 85,
-            width: 160,
-            margin: 10,
+            height: 80,
+            width: 170,
             display: "flex",
+            border: 5,
+            borderColor: "secondary.main",
+            textDecoration: "none",
+            "&:hover": {            
+              border: 5,
+              borderColor: "secondary.main",
+              color: "white",
+              bgcolor: "secondary.main", 
+            },
           }}
-          sx={{ border: 5 }}
-          variant="outlined"
         >
           Add Room
         </Button>

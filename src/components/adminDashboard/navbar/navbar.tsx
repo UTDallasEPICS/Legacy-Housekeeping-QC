@@ -14,6 +14,8 @@ import { NavbarButton } from "../..";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 
+import theme, { montserrat } from "../../../../pages/theme";
+
 export default function navbar() {
   // GET INITIAL FOR AVATAR ******************************************
   const { data: session } = useSession();
@@ -31,10 +33,10 @@ export default function navbar() {
       aria-label="nav bar"
       component="nav"
       position="sticky"
-      color="primary"
       sx={{
         width: 1,
         p: 2,
+        backgroundColor: "white",
       }}
     >
       <Container
@@ -44,10 +46,10 @@ export default function navbar() {
           href="/admin/adminDashboard"
           style={{
             textDecoration: "none",
-            color: "white",
+            color: theme.palette.primary.main,
           }}
         >
-          <Typography variant="h6" sx={{ mx: 1 }}>
+          <Typography variant="h6" sx={{ mx: 1, fontFamily: montserrat.style.fontFamily }}>
             <b>LegacyQC</b>
           </Typography>
         </Link>
@@ -77,7 +79,7 @@ export default function navbar() {
 
         <Box sx={{ display: "flex", flexDirection: "row" }}>
           <Button
-            sx={{ color: "primary.contrastText", mx: 1 }}
+            sx={{ color: "primary", mx: 1, fontFamily: montserrat.style.fontFamily }}
             onClick={() => signOut()}
           >
             Sign Out

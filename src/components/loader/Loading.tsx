@@ -1,4 +1,5 @@
 import { CardMedia, Stack } from "@mui/material";
+import theme from "../../../pages/theme";
 
 const Loading = () => {
   return (
@@ -9,6 +10,7 @@ const Loading = () => {
         width: "100%",
         justifyContent: "center",
         alignItems: "center",
+        bgcolor: theme.palette.background.default,
       }}
     >
       <CardMedia
@@ -16,8 +18,8 @@ const Loading = () => {
         alt="Loading..."
         image="../../../loading.svg"
         sx={{
-          height: { sm: "15rem", md: "20rem" },
-          width: { sm: "15rem", md: "20rem" },
+          height: { sm: "15rem", md: "15rem" },
+          width: { sm: "30rem", md: "30rem" },
         }}
       />
     </Stack>

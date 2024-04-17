@@ -5,6 +5,16 @@ import Link from "next/link";
 
 
 const individual_performance = () => {
+  // placeholder data
+  const performanceData = [
+    { date: "07/21/22", averageScore: 93 },
+    { date: "07/24/22", averageScore: 95 },
+    { date: "07/29/22", averageScore: 91 },
+    { date: "08/03/22", averageScore: 89 },
+    { date: "08/09/22", averageScore: 94 },
+    { date: "08/20/22", averageScore: 100 },
+  ];
+
   return (
     <div>
       <Navbar />
@@ -17,21 +27,27 @@ const individual_performance = () => {
         
         }}
       >
-        <Link href="/members_performance">
+        <Link href="/members_performance"
+          style={{ textDecoration: "none" }}
+        >
           <Button
             variant="outlined"
             sx={{
-              fontWeight: "bold",
-              backgroundColor: "#FFFFFF",
+              backgroundColor: "white",
               height: "50px",
               minWidth: "10vw",
-              borderRadius: "10px",
-              border: "solid",
-              borderColor: "#141c3b",
-              display: "flex",
               marginTop: "10px",
-              
-              
+              borderRadius: "10px",
+              border: "2px solid",
+              borderColor: "primary",
+              display: "flex",
+              fontWeight: "bold",
+              "&:hover": {            
+                border: "solid",
+                borderColor: "primary.main",
+                color: "white",
+                bgcolor: "primary.main", 
+              },
             }}
             startIcon={<ArrowBackIcon />}
           >
@@ -46,48 +62,17 @@ const individual_performance = () => {
       </div>
       <table style={{ border: "1px solid black", margin: "0 auto" }}>
         <tbody>
-          <tr>
-            <td style={{ textAlign: "center" }}>07/21/22</td>
-            <td style={{ textAlign: "center" }}>Avg: 93%</td>
-            <td style={{ textAlign: "center" }}>
-              <a href="/report_performance">View Report</a>
-            </td>
-          </tr>
-          <tr>
-            <td style={{ textAlign: "center" }}>07/24/22</td>
-            <td style={{ textAlign: "center" }}>Avg: 95%</td>
-            <td style={{ textAlign: "center" }}>
-              <a href="/report_performance">View Report</a>
-            </td>
-          </tr>
-          <tr>
-            <td style={{ textAlign: "center" }}>07/29/22</td>
-            <td style={{ textAlign: "center" }}>Avg: 91%</td>
-            <td style={{ textAlign: "center" }}>
-              <a href="/report_performance">View Report</a>
-            </td>
-          </tr>
-          <tr>
-            <td style={{ textAlign: "center" }}>08/03/22</td>
-            <td style={{ textAlign: "center" }}>Avg: 89%</td>
-            <td style={{ textAlign: "center" }}>
-              <a href="/report_performance">View Report</a>
-            </td>
-          </tr>
-          <tr>
-            <td style={{ textAlign: "center" }}>08/09/22</td>
-            <td style={{ textAlign: "center" }}>Avg: 94%</td>
-            <td style={{ textAlign: "center" }}>
-              <a href="/report_performance">View Report</a>
-            </td>
-          </tr>
-          <tr>
-            <td style={{ textAlign: "center" }}>08/20/22</td>
-            <td style={{ textAlign: "center" }}>Avg: 100%</td>
-            <td style={{ textAlign: "center" }}>
-              <a href="/report_performance">View Report</a>
-            </td>
-          </tr>
+        {performanceData.map((entry, index) => (
+            <tr key={index}>
+              <td style={{ textAlign: "center" }}>{entry.date}</td>
+              <td style={{ textAlign: "center" }}>Average: {entry.averageScore}%</td>
+              <td style={{ textAlign: "center" }}>
+                <Link href="/report_performance"> {/* should be dynamic link */}
+                  <a>View Report</a>
+                </Link>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
