@@ -25,6 +25,7 @@ const ScoreHistory = ({ memberData }) => {
         Score History
       </Typography>
 
+      {/* Top 3 scores table */}
       <Typography
         variant="subtitle1"
         sx={{
@@ -46,6 +47,7 @@ const ScoreHistory = ({ memberData }) => {
         </Typography>
       ))}
 
+      {/* Lowest 3 scores table */}
       <Typography
         variant="subtitle1"
         sx={{
