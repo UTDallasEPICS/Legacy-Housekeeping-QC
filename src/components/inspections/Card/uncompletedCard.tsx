@@ -8,18 +8,24 @@ import {
   Typography,
 } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { InspectionCardProps } from "../../../../ts/interfaces/roomReport.interfaces";
+import {
+  InspectionCardProps,
+  toUncompletedInspectionCardProps,
+} from "../../../../ts/interfaces/roomReport.interfaces";
 import { useDispatch } from "react-redux";
 import { setInspectionSelectionData } from "../../../../slices/inspectionSelectionSlice";
 import { useRouter } from "next/router";
+import { Inspection } from "../../../../ts/types/db.interfaces";
 
 const UncompletedCard = ({
   card_id,
-  inspectionProps,
+  inspection,
 }: {
   card_id: number;
-  inspectionProps: InspectionCardProps;
+  inspection: Inspection;
 }) => {
+  const inspectionProps: InspectionCardProps =
+    toUncompletedInspectionCardProps(inspection);
   const router = useRouter();
   const dispatch = useDispatch();
   const handleClicked = () => {
@@ -42,7 +48,7 @@ const UncompletedCard = ({
           flex: 1,
         }}
       >
-        <Typography variant="h6">
+        <Typography noWrap variant="h6">
           <b>Room{" " + inspectionProps.room_name} </b>
         </Typography>
         <Typography noWrap variant="h6">
