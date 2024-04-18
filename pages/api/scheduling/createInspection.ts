@@ -15,7 +15,7 @@ export default async function handler(
           data: {
             inspector: { connect: { person_id: Number(inspector_id) } },
             schedule: { connect: { id: Number(schedule_id) } },
-            rubric: { connect: { id: rubric_id } },
+            rubric: { connect: { id: Number(rubric_id) } },
             inspect_status: "NOT_INSPECTED",
           },
         });
