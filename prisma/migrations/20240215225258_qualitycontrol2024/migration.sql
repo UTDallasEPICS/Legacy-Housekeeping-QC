@@ -10,6 +10,8 @@ ALTER TABLE `RoomReport` MODIFY `date` DATETIME(3) NULL DEFAULT CURRENT_TIMESTAM
     MODIFY `score` INTEGER NOT NULL;
 
 -- DropTable
+ALTER TABLE `RoomReport` DROP CONSTRAINT `RoomReport_room_id_fkey`;
+ALTER TABLE `Restrooms` DROP CONSTRAINT `Restrooms_room_id_fkey`;
 DROP TABLE `room`;
 
 -- CreateTable
