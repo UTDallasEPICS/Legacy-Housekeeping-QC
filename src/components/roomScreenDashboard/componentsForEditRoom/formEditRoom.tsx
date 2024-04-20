@@ -267,7 +267,9 @@ const formEditRoom = () => {
             {error}
           </Alert>
         )}
-        <Grid style={{ display: "flex", justifyContent: "center" }}>
+        <Grid
+          style={{ display: "flex", justifyContent: "center", marginTop: 70 }}
+        >
           <Button
             variant="outlined"
             sx={{

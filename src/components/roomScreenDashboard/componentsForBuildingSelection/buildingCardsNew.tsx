@@ -31,26 +31,21 @@ const makeCard = (buildingVal: JSON) => {
         passHref
         style={{ textDecoration: "none" }}
       >
-      <IconButton onClick={() => handleClick("A")}
-        sx={{
-          display: "inline",
-          alignItems: "center",
-          minHeight: "20vh",
-          minWidth: "20vh",
-          maxHeight: "20vh",
-          maxWidth: "20vh",
-          "&:hover": {
-            color: "primary.main"
-          },
-        }}
-      >
-        <ApartmentIcon sx={{ fontSize: "15vh"}} /> 
-        <Typography 
-          variant="body1" 
-          sx={{ fontSize: "3vh" }}
+        <IconButton
+          onClick={() => handleClick("A")}
+          sx={{
+            display: "inline",
+            alignItems: "center",
+            minHeight: "20vh",
+            minWidth: "20vh",
+            maxHeight: "20vh",
+            maxWidth: "20vh",
+            "&:hover": {
+              color: "primary.main",
+            },
+          }}
         >
-          <ApartmentIcon sx={{ fontSize: "15vh" }} />{" "}
-          {/* Adjust the size of the icon */}
+          <ApartmentIcon sx={{ fontSize: "15vh" }} />
           <Typography variant="body1" sx={{ fontSize: "3vh" }}>
             {name}
           </Typography>
@@ -119,7 +114,7 @@ const buildingCardsNew = () => {
     }
   };
 
-  //Each button represents a certain building
+  // Each button represents a certain building
   return (
     <div style={{ margin: "0px" }}>
       <Grid
