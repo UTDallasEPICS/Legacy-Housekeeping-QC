@@ -11,7 +11,7 @@ export default async function handler(
       const addedBuilding = await prisma.building.create({
         data: {
           name: building_name,
-          floor_count: floors_amount,
+          floor_count: Number(floors_amount),
         },
       });
       res.status(200).json(addedBuilding);
