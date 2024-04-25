@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "../store";
-import { Inspection } from "../ts/types/db.interfaces";
+import { RootState } from "../../../../store";
+import { Inspection } from "../../../../ts/types/db.interfaces";
 
 export interface InspectionFetchState {
   inspected: Inspection[] | null;

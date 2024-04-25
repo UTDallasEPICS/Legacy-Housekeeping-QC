@@ -1,7 +1,7 @@
 import { CssBaseline } from "@mui/material";
-import InspectionMaker from "../../src/components/inspections/Reports/inspectionMaker";
+import InspectionMaker from "../../src/components/inspections/Reports/InspectionMaker";
 import { useDispatch, useSelector } from "react-redux";
-import { getInspectionSelectionProps } from "../../slices/inspectionSelectionSlice";
+import { getInspectionSelectionProps } from "../../src/components/inspections/inspectionSelectionSlice";
 import {
   ItemCategoryProps,
   setComment,
@@ -15,6 +15,7 @@ import {
   toInspectItemProps,
 } from "../../ts/interfaces/roomItem.interfaces";
 import Loading from "../../src/components/loader/Loading";
+import { Navbar } from "../../src/components";
 
 const makeInspection = () => {
   const dispatch = useDispatch();
@@ -39,12 +40,11 @@ const makeInspection = () => {
   }
 
   return (
-    <>
-      <main>
-        <CssBaseline />
-        <InspectionMaker inspectionProps={inspectionProps} />
-      </main>
-    </>
+    <main>
+      <CssBaseline />
+      <Navbar />
+      <InspectionMaker inspectionProps={inspectionProps} />
+    </main>
   );
 };
 

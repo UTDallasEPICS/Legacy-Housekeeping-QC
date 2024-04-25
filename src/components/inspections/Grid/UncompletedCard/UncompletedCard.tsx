@@ -7,16 +7,15 @@ import {
   CardContent,
   Typography,
 } from "@mui/material";
-import Link from "next/link";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import {
   InspectionCardProps,
-  toCompletedInspectionCardProps,
-} from "../../../../ts/interfaces/roomReport.interfaces";
+  toUncompletedInspectionCardProps,
+} from "../../../../../ts/interfaces/roomReport.interfaces";
 import { useDispatch } from "react-redux";
-import { setInspectionSelectionData } from "../../../../slices/inspectionSelectionSlice";
+import { setInspectionSelectionData } from "../../inspectionSelectionSlice";
 import { useRouter } from "next/router";
-import { Inspection } from "../../../../ts/types/db.interfaces";
+import { Inspection } from "../../../../../ts/types/db.interfaces";
 
 const UncompletedCard = ({
   card_id,
@@ -26,7 +25,7 @@ const UncompletedCard = ({
   inspection: Inspection;
 }) => {
   const inspectionProps: InspectionCardProps =
-    toCompletedInspectionCardProps(inspection);
+    toUncompletedInspectionCardProps(inspection);
   const router = useRouter();
   const dispatch = useDispatch();
   const handleClicked = () => {
@@ -63,22 +62,9 @@ const UncompletedCard = ({
             .join(", ")}
         </Typography>
       </CardContent>
-      <CardActions
-        sx={{
-          ml: 0,
-          minWidth: "fit-content",
-          display: "flex",
-          flexDirection: "column",
-          alignSelf: "stretch",
-        }}
-      >
-        <Box flexGrow={1} display={"flex"} alignItems={"center"}>
-          <Typography fontSize={"24px"} fontWeight={"bold"}>
-            {inspectionProps.score}%
-          </Typography>
-        </Box>
+      <CardActions sx={{ ml: 0, minWidth: "fit-content" }}>
         <Button endIcon={<ArrowForwardIcon />} onClick={handleClicked}>
-          Observe
+          Inspect
         </Button>
       </CardActions>
     </Card>

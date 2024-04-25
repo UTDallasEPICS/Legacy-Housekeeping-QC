@@ -2,7 +2,6 @@ import {
   Box,
   Button,
   Card,
-  CardActionArea,
   CardActions,
   CardContent,
   Typography,
@@ -10,14 +9,14 @@ import {
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import {
   InspectionCardProps,
-  toUncompletedInspectionCardProps,
-} from "../../../../ts/interfaces/roomReport.interfaces";
+  toCompletedInspectionCardProps,
+} from "../../../../../ts/interfaces/roomReport.interfaces";
 import { useDispatch } from "react-redux";
-import { setInspectionSelectionData } from "../../../../slices/inspectionSelectionSlice";
+import { setInspectionSelectionData } from "../../inspectionSelectionSlice";
 import { useRouter } from "next/router";
-import { Inspection } from "../../../../ts/types/db.interfaces";
+import { Inspection } from "../../../../../ts/types/db.interfaces";
 
-const UncompletedCard = ({
+const CompletedCard = ({
   card_id,
   inspection,
 }: {
@@ -25,7 +24,7 @@ const UncompletedCard = ({
   inspection: Inspection;
 }) => {
   const inspectionProps: InspectionCardProps =
-    toUncompletedInspectionCardProps(inspection);
+    toCompletedInspectionCardProps(inspection);
   const router = useRouter();
   const dispatch = useDispatch();
   const handleClicked = () => {
@@ -62,12 +61,25 @@ const UncompletedCard = ({
             .join(", ")}
         </Typography>
       </CardContent>
-      <CardActions sx={{ ml: 0, minWidth: "fit-content" }}>
+      <CardActions
+        sx={{
+          ml: 0,
+          minWidth: "fit-content",
+          display: "flex",
+          flexDirection: "column",
+          alignSelf: "stretch",
+        }}
+      >
+        <Box flexGrow={1} display={"flex"} alignItems={"center"}>
+          <Typography fontSize={"24px"} fontWeight={"bold"}>
+            {inspectionProps.score}%
+          </Typography>
+        </Box>
         <Button endIcon={<ArrowForwardIcon />} onClick={handleClicked}>
-          Inspect
+          Observe
         </Button>
       </CardActions>
     </Card>
   );
 };
-export default UncompletedCard;
+export default CompletedCard;

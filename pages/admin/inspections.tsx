@@ -1,10 +1,10 @@
 import { Box } from "@mui/material";
 import { Navbar } from "../../src/components";
-import InspectionPlanner from "../../src/components/inspections/Planner/inspectionPlanner";
+import InspectionPlanner from "../../src/components/inspections/Planner/InspectionPlanner";
 import { useDispatch } from "react-redux";
-import { setInspectionsFetchData } from "../../slices/inspectionsFetchSlice";
-import { splitInspectionWithStatus } from "../../functions/splitInspectionWithStatus";
-import InspectionDateSelector from "../../src/components/inspections/Date/InspectionDateSelector";
+import { setInspectionsFetchData } from "../../src/components/inspections/Grid/inspectionsFetchSlice";
+import { splitInspectionWithStatus } from "../../src/components/inspections/splitInspectionWithStatus";
+import InspectionDateSelector from "../../src/components/inspections/Grid/InspectionDateSelector";
 import InspectionGrid from "../../src/components/inspections/Grid/InspectionGrid";
 
 const inspections = ({ inspections, members, buildings }) => {

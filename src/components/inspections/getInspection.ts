@@ -7,7 +7,7 @@ export async function getInspection(date: string) {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        date: date ? date : new Date().toISOString(),
+        date: date || new Date().toISOString(),
       }),
     }
   );
