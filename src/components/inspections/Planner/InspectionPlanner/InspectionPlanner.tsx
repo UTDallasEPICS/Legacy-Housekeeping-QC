@@ -1,5 +1,5 @@
-import { Box, Button, Typography } from "@mui/material";
-import { useState } from "react";
+import { Alert, Box, Button, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 import { TeamMember } from "../../../../../ts/types/db.interfaces";
 import { CleanType } from "@prisma/client";
 import { BuildingWithRooms } from "../../../../../ts/interfaces/room.interface";
@@ -16,6 +16,7 @@ import RoomDropdownSelect from "../RoomDropdownSelect";
 import CleanTypeRadioGroup from "../CleanTypeRadioGroup";
 import { RoomOptionProps } from "../RoomDropdownSelect/props";
 import { TeamMemberOptionProps } from "../TeamMemberMultiSelect/props";
+import { verifyForm } from "./verifyForm";
 
 export interface InspectionPlannerProps {
   members: TeamMember[];
@@ -27,6 +28,7 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
   const dateFilter = useSelector(getDateFilter);
   const { data: session } = useSession();
 
+  const [errors, setErrors] = useState<string[]>([]);
   const [selectedMembers, setSelectedMembers] = useState<
     TeamMemberOptionProps[]
   >([]);
@@ -35,7 +37,23 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
     CleanType.NORMAL
   );
 
+  useEffect(
+    () => setErrors([]),
+    [selectedMembers, selectedRoom, selectedCleanType]
+  );
+
   const handleSubmission = async () => {
+    // Verify the form
+    const result = verifyForm({
+      selectedMembers,
+      selectedRoom,
+      selectedCleanType,
+    });
+    if (!result.isValid) {
+      setErrors(result.messages);
+      return;
+    }
+
     // Create a rubric for the inspection
     const rubricRes = await fetch("/api/rubric/add", {
       method: "POST",
@@ -163,6 +181,16 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
           Inspection Planner
         </Typography>
       </Box>
+
+      {errors.map((error) => (
+        <Alert
+          severity="error"
+          key={error}
+          sx={{ fontFamily: montserrat.style.fontFamily }}
+        >
+          {error}
+        </Alert>
+      ))}
 
       <TeamMemberMultiSelect
         options={memberOptions}
