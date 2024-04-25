@@ -1,6 +1,6 @@
 import { splitInspectionWithStatus } from "./splitInspectionWithStatus";
 
-export async function getInspection(date: string) {
+export async function getInspection(date: string = "") {
   const inspectionFetchRes = await fetch(
     "http://localhost:3000/api/roomReport/report",
     {

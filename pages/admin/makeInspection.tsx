@@ -35,9 +35,7 @@ const makeInspection = () => {
     }, 500);
   }, []);
 
-  if (loading) {
-    return <Loading />;
-  }
+  if (loading) return <Loading />;
 
   return (
     <main>
