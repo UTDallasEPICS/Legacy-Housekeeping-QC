@@ -10,8 +10,6 @@ import { getComment, getExtraScore, getItems } from "./InspectionMakerSlice";
 import InspectionHeader from "./InspectionHeader";
 import ExtraScoreInput from "./ExtraScoreInput";
 import ImageUpload from "./ImageUpload";
-import { Suspense } from "react";
-import Loading from "../../loader/Loading";
 
 const InspectionMaker = ({ inspectionProps }) => {
   const router = useRouter();

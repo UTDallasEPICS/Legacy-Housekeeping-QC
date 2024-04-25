@@ -1,10 +1,11 @@
-import { Box, Container } from "@mui/material";
-import { InspectionGrid, Navbar } from "../../src/components";
+import { Box } from "@mui/material";
+import { Navbar } from "../../src/components";
 import InspectionPlanner from "../../src/components/inspections/Planner/inspectionPlanner";
 import { useDispatch } from "react-redux";
 import { setInspectionsFetchData } from "../../slices/inspectionsFetchSlice";
 import { splitInspectionWithStatus } from "../../functions/splitInspectionWithStatus";
 import InspectionDateSelector from "../../src/components/inspections/Date/InspectionDateSelector";
+import InspectionGrid from "../../src/components/inspections/Grid/InspectionGrid";
 
 const inspections = ({ inspections, members, buildings }) => {
   const { notInspected, inspected } = splitInspectionWithStatus(inspections);
@@ -39,7 +40,7 @@ const inspections = ({ inspections, members, buildings }) => {
                 md: "column",
               },
               alignItems: "center",
-              justifyContent: "space-between",
+              justifyContent: "space-evenly",
               padding: 2,
             }}
           >

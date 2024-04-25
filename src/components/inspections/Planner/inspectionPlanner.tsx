@@ -10,10 +10,12 @@ import {
   Grid,
   ListSubheader,
   MenuItem,
+  Paper,
   Radio,
   RadioGroup,
   TextField,
   Typography,
+  createFilterOptions,
 } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 import { useState } from "react";
@@ -28,6 +30,7 @@ import {
 } from "../../../../slices/inspectionsFetchSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { splitInspectionWithStatus } from "../../../../functions/splitInspectionWithStatus";
+import { create } from "domain";
 
 export interface InspectionPlannerProps {
   members: TeamMember[];
@@ -45,10 +48,13 @@ interface RoomSelectionProps {
   building_name: string;
 }
 
+const ROOM_OPTIONS_LIMIT = 100;
+
 const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
   const dispatch = useDispatch();
   const dateFilter = useSelector(getDateFilter);
   const { data: session } = useSession();
+
   const [selectedMembers, setSelectedMembers] = useState<
     TeamMemberSelectionProps[]
   >([]);
@@ -58,6 +64,7 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
   );
 
   const handleSubmission = async () => {
+    // Create a rubric for the inspection
     const rubricRes = await fetch("/api/rubric/add", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -65,6 +72,7 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
     });
     const rubric = await rubricRes.json();
 
+    // Add default items to the rubric
     const itemsRes = await fetch("/api/roomItem/addDefault", {
       method: "POST",
       headers: {
@@ -76,25 +84,24 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
       }),
     });
 
-    const scheduleRes = await fetch(
-      "http://localhost:3000/api/scheduling/scheduleRoom",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          start_time: dateFilter ? dateFilter : new Date().toISOString(),
-          end_time: dateFilter ? dateFilter : new Date().toISOString(),
-          clean_type: selectedCleanType,
-          room_id: selectedRoom.room_id,
-        }),
-      }
-    );
+    // Schedule the room for cleaning
+    const scheduleRes = await fetch("/api/scheduling/scheduleRoom", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        start_time: dateFilter || new Date().toISOString(),
+        end_time: dateFilter || new Date().toISOString(),
+        clean_type: selectedCleanType,
+        room_id: selectedRoom.room_id,
+      }),
+    });
     const scheduleData = await scheduleRes.json();
 
+    // Add team members to the schedule
     selectedMembers.forEach((member) => {
       const person_id = member.key;
       const schedule_id = scheduleData.id;
-      fetch("http://localhost:3000/api/scheduling/addTeamMemberToSchedule", {
+      fetch("/api/scheduling/addTeamMemberToSchedule", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -104,32 +111,33 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
       });
     });
 
-    const inspectionRes = await fetch(
-      "http://localhost:3000/api/scheduling/createInspection",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          schedule_id: scheduleData.id,
-          rubric_id: rubric.id,
-          inspector_id: session?.user?.id,
-        }),
-      }
-    );
+    // Create an inspection for the room
+    const inspectionRes = await fetch("/api/scheduling/createInspection", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        schedule_id: scheduleData.id,
+        rubric_id: rubric.id,
+        inspector_id: session?.user?.id,
+      }),
+    });
     const inspectionData = await inspectionRes.json();
     console.log(inspectionData);
 
+    // Fetch the modified inspection data
     const inspectionFetchRes = await fetch(
       "http://localhost:3000/api/roomReport/report",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          date: dateFilter ? dateFilter : new Date().toISOString(),
+          date: dateFilter || new Date().toISOString(),
         }),
       }
     );
     const inspectionFetch = await inspectionFetchRes.json();
+
+    // Update the inspection data in the slice to reflect in grid
     const { inspected, notInspected } =
       splitInspectionWithStatus(inspectionFetch);
     dispatch(
@@ -161,21 +169,17 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
   return (
     <Box
       sx={{
+        padding: 2,
+        // Prevents the box from shrinking and growing by the content
+        minWidth: "400px",
+        maxWidth: "400px",
+
         display: "flex",
         flexDirection: "column",
         gap: 2,
-        padding: 2,
-        minWidth: "400px",
-        maxWidth: "400px",
-        flexBasis: 0,
       }}
     >
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
         <Typography
           variant="h4"
           sx={{
@@ -188,42 +192,11 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
         </Typography>
       </Box>
 
-      <FormControl fullWidth variant="standard">
-        <Autocomplete
-          limitTags={2}
-          multiple
-          disableCloseOnSelect
-          options={memberOptions}
-          getOptionLabel={(option) => option.name}
-          renderInput={(params) => {
-            return (
-              <TextField
-                {...params}
-                variant="standard"
-                placeholder="Name"
-                label="Select team members"
-              />
-            );
-          }}
-          renderOption={(props, option, { selected }) => (
-            <MenuItem {...props} key={option.key}>
-              {option.name}
-              {selected && <CheckIcon color="info" />}
-            </MenuItem>
-          )}
-          renderTags={(tagValue, getTagProps) => {
-            return tagValue.map((option, index) => (
-              <Chip
-                {...getTagProps({ index })}
-                label={<EllipsisText width="60px">{option.name}</EllipsisText>}
-              />
-            ));
-          }}
-          isOptionEqualToValue={(option, value) => option.key === value.key}
-          value={selectedMembers}
-          onChange={(event, value) => setSelectedMembers(value)}
-        />
-      </FormControl>
+      <TeamMemberMultiSelect
+        options={memberOptions}
+        selected={selectedMembers}
+        handleChange={setSelectedMembers}
+      />
 
       <FormControl variant="standard">
         <Autocomplete
@@ -251,23 +224,40 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
             </MenuItem>
           )}
           renderGroup={(params) => (
-            <Container key={params.key} disableGutters>
-              <ListSubheader
+            <li key={params.key}>
+              <Box
                 sx={{
                   backgroundColor: "lightgray",
                   fontWeight: "bold",
+                  padding: "0.5rem",
                 }}
               >
                 {params.group}
-              </ListSubheader>
-              <Grid style={{ padding: 0 }}>{params.children}</Grid>
-            </Container>
+              </Box>
+              <ul style={{ padding: 0 }}>{params.children}</ul>
+            </li>
           )}
           isOptionEqualToValue={(option, value) =>
             option.room_id === value.room_id
           }
           value={selectedRoom}
           onChange={(event, value) => setSelectedRoom(value)}
+          filterOptions={createFilterOptions({
+            limit: ROOM_OPTIONS_LIMIT,
+          })}
+          PaperComponent={({ children }) => {
+            return (
+              <Paper>
+                {children}
+                <Box sx={{ padding: "1rem", backgroundColor: "lightgray" }}>
+                  <Typography textAlign={"center"} fontStyle={"italic"}>
+                    ... {roomOptions.length - ROOM_OPTIONS_LIMIT} more rooms.
+                    Please type to search
+                  </Typography>
+                </Box>
+              </Paper>
+            );
+          }}
         />
       </FormControl>
 
@@ -302,9 +292,52 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
   );
 };
 
-const CHIP_MAX_WIDTH = 200;
+const TeamMemberMultiSelect = ({ options, selected, handleChange }) => (
+  <FormControl fullWidth variant="standard">
+    <Autocomplete
+      limitTags={2}
+      multiple
+      disableCloseOnSelect
+      options={options}
+      getOptionLabel={(option) => option.name}
+      renderInput={(params) => {
+        return (
+          <TextField
+            {...params}
+            variant="standard"
+            placeholder="Name"
+            label="Select team members"
+          />
+        );
+      }}
+      renderOption={(props, option, { selected }) => (
+        <MenuItem
+          {...props}
+          key={option.key}
+          sx={{ display: "flex", gap: "1rem" }}
+        >
+          {option.name}
+          {selected && <CheckIcon color="info" />}
+        </MenuItem>
+      )}
+      renderTags={(tagValue, getTagProps) => {
+        return tagValue.map((option, index) => (
+          <Chip
+            {...getTagProps({ index })}
+            label={
+              <EllipsisTextChip width="60px">{option.name}</EllipsisTextChip>
+            }
+          />
+        ));
+      }}
+      isOptionEqualToValue={(option, value) => option.key === value.key}
+      value={selected}
+      onChange={(event, value) => handleChange(value)}
+    />
+  </FormControl>
+);
 
-const EllipsisText = (props) => {
+const EllipsisTextChip = (props) => {
   const { children, width } = props;
 
   return (

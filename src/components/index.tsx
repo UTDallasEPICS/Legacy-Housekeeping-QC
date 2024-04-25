@@ -22,11 +22,6 @@ export { default as DashboardCardProgressListItemButton } from "./dashboardCompo
 export { default as PerformanceInsightsCard } from "./dashboardComponents/performanceInsightsCard";
 export { default as TodaysInspectionsCard } from "./dashboardComponents/todaysInspectionsCard";
 
-// inspections
-///export { default as ReportComponent } from "./inspections/Reports/reportComponent";
-export { default as InspectionGrid } from "./inspections/Grid/InspectionGrid";
-///export { default as InspectionCheckBox } from "./inspections/Reports/itemCheckBoxes";
-
 // teamMemberComponents
 export { default as MemberInfo } from "./teamMemberComponents/displayInfo/memberInfo";
 export { default as FormAddMember } from "./teamMemberComponents/addMember/form";
