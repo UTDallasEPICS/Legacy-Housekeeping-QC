@@ -11,7 +11,8 @@ import DashboardCardButton from "./dashboardCardButton";
 import DashboardCardHeading from "./dashboardCardHeading";
 import CompletedInspectionListItemCard from "../globalComponents/completedInspectionListItemCard";
 import RemainingInspectionListItemCard from "../globalComponents/remainingInspectionListItemCard";
-
+// import the data for inspection from Tan
+// import the data for performance from Waseef
 import { useState } from "react";
 
 const todaysInspectionsCard = () => {
@@ -59,18 +60,18 @@ const todaysInspectionsCard = () => {
           {todaysInspectionsType === "completed" && (
             <List>
               <CompletedInspectionListItemCard
-                roomId="212B"
+                /*roomId="212B"
                 memberName="John Smith"
                 timeCleaned="10:16 AM"
                 score={62}
-                type="fail"
+                type="fail"*/
               />
               <CompletedInspectionListItemCard
-                roomId="401A"
+                /*roomId="401A"
                 memberName="Some Guy"
                 timeCleaned="12:45 PM"
                 score={85}
-                type="pass"
+                type="pass"*/
               />
             </List>
           )}
@@ -78,10 +79,10 @@ const todaysInspectionsCard = () => {
           {todaysInspectionsType === "remaining" && (
             <List>
               <RemainingInspectionListItemCard
-                roomId="S. 2C Living Room"
+                /*roomId="S. 2C Living Room"
                 memberName="Jane Doe"
                 cleaningType="Detail"
-                timeCleaned="3:48 PM"
+                timeCleaned="3:48 PM"*/
               />
             </List>
           )}
