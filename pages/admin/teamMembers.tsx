@@ -124,19 +124,11 @@ const teamMembers = ({ members }: TeamMemberProperties) => {
 
 export default teamMembers;
 
-export async function getServerSideProps(context) {
-  const session = await getSession(context);
-
-  if (!session) {
-    return {
-      redirect: {
-        destination: "api/auth/signin",
-        permanent: false,
-      },
-    };
-  }
-
-  const res = await fetch("http://localhost:3000/api/member/members");
+export async function getServerSideProps() {
+  const res = await fetch(
+    (process.env.NEXTAUTH_URL || "http://localhost:3000") +
+      "/api/member/members"
+  );
   const data = await res.json();
   return {
     props: {

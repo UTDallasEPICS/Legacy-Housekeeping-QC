@@ -13,16 +13,13 @@ const InspectionDateSelector = () => {
 
   const handleDateChange = async (value: Dayjs) => {
     dispatch(setDateFilter(value.toISOString()));
-    const inspectionFetchRes = await fetch(
-      "http://localhost:3000/api/roomReport/report",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          date: value.toISOString(),
-        }),
-      }
-    );
+    const inspectionFetchRes = await fetch("/api/roomReport/report", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        date: value.toISOString(),
+      }),
+    });
     const inspectionFetch = await inspectionFetchRes.json();
     const { inspected, notInspected } =
       splitInspectionWithStatus(inspectionFetch);

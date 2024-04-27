@@ -115,16 +115,13 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
     console.log(inspectionData);
 
     // Fetch the modified inspection data
-    const inspectionFetchRes = await fetch(
-      "http://localhost:3000/api/roomReport/report",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          date: dateFilter || new Date().toISOString(),
-        }),
-      }
-    );
+    const inspectionFetchRes = await fetch("/api/roomReport/report", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        date: dateFilter || new Date().toISOString(),
+      }),
+    });
     const inspectionFetch = await inspectionFetchRes.json();
 
     // Update the inspection data in the slice to reflect in grid

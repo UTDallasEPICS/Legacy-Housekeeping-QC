@@ -2,7 +2,8 @@ import { splitInspectionWithStatus } from "./splitInspectionWithStatus";
 
 export async function getInspection(date: string = "") {
   const inspectionFetchRes = await fetch(
-    "http://localhost:3000/api/roomReport/report",
+    (process.env.NEXTAUTH_URL || "http://localhost:3000") +
+      "/api/roomReport/report",
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },

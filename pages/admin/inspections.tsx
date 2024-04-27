@@ -54,14 +54,19 @@ const inspections = ({ inspected, notInspected, members, buildings }) => {
 export async function getServerSideProps() {
   const { inspected, notInspected } = await getInspection();
 
-  const memberRes = await fetch("http://localhost:3000/api/member/members", {
-    method: "GET",
-    headers: { "Content-Type": "application/json" },
-  });
+  const memberRes = await fetch(
+    (process.env.NEXTAUTH_URL || "http://localhost:3000") +
+      "/api/member/members",
+    {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    }
+  );
   const memberData = await memberRes.json();
 
   const buildingsRes = await fetch(
-    "http://localhost:3000/api/building/buildingsWithRoom",
+    (process.env.NEXTAUTH_URL || "http://localhost:3000") +
+      "/api/building/buildingsWithRoom",
     {
       method: "GET",
       headers: { "Content-Type": "application/json" },
