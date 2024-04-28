@@ -25,7 +25,6 @@ const signUpCardInVPSize = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [checked, setChecked] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -34,13 +33,6 @@ const signUpCardInVPSize = () => {
 
   const handleSubmit = async () => {
     const phoneParts = phoneNumber.split(" ");
-    let role: string;
-
-    if (checked) {
-      role = "USER";
-    } else {
-      role = "ADMIN";
-    }
 
     const res = await fetch("/api/user/add", {
       method: "POST",
@@ -55,7 +47,6 @@ const signUpCardInVPSize = () => {
         state_code: phoneParts[1],
         phone_number: phoneParts[2] + phoneParts[3],
         password,
-        role,
       }),
     });
 
@@ -147,21 +138,6 @@ const signUpCardInVPSize = () => {
                 value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e)}
               />
-
-              <FormGroup>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="Admin"
-                  checked={!checked}
-                  onChange={() => setChecked(false)}
-                />
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="Leader"
-                  checked={checked}
-                  onChange={() => setChecked(true)}
-                />
-              </FormGroup>
 
               <Button variant="contained" onClick={() => handleSubmit()}>
                 Sign up

@@ -35,7 +35,6 @@ model User {
   password String
   // Relations
   person Person @relation(fields: [person_id], references: [id], onDelete: Cascade)
-
   inspections Inspection[]
 }
 
@@ -56,8 +55,9 @@ model Score {
   // Fields
   amount Int
   // Relations
-  team_member_id Int
-  team_member TeamMember @relation(fields: [team_member_id], references: [person_id], onDelete: Cascade)
+  team_member TeamMember[]
+  inspection_id Int @unique
+  inspection Inspection @relation(fields: [inspection_id], references: [id])
 }
 
 model Schedule {
@@ -93,7 +93,6 @@ model Room {
   floor_number Int
   schedule Schedule[]
   items Item[]
-
   @@index([building_id, floor_number])
 }
 
@@ -119,7 +118,6 @@ model PersonalRoom {
   // Relations
   room_id Int @unique
   room Room @relation(fields: [room_id], references: [id])
-  items Item[]
 }
 
 model Building {
@@ -141,13 +139,15 @@ model Inspection {
   comment String?
   inspect_status Inspect_Status
   clean_status Clean_Status?
-  score Int?
+  extra_score Int @default(0)
   // Relations
   inspector_id Int 
   inspector User @relation(fields: [inspector_id], references: [person_id])
   schedule_id Int 
   schedule Schedule @relation(fields: [schedule_id], references: [id])
-  rubrics Rubric[]
+  rubric_id Int
+  rubric Rubric @relation(fields: [rubric_id], references: [id])
+  score Score?
 }
 
 enum Inspect_Status {
@@ -202,22 +202,27 @@ model Requirement {
   // Indexes
   id Int @id @default(autoincrement())
   // Fields
+  is_default Boolean
+  category String
   description String
+  is_checked Boolean
   // Relations
   hollistic_id Int 
   hollistic_rubric HollisticRubric @relation(fields: [hollistic_id], references: [id])
 }
 
+
 model Item {
   // Indexes
-  @@id([room_id, item_name])
+  id Int @id @default(autoincrement())
   // Fields
-  item_name String
+  category String
+  name String
+  is_checked Boolean
+  weight Int @default(1)
   // Relations
   room_id Int
   room Room @relation(fields: [room_id], references: [id])
   quantitative_id Int
-  quantitative_rubrics QuantitativeRubric @relation(fields: [quantitative_id], references: [id])
-  personal_room_id Int
-  personal_room PersonalRoom @relation(fields: [personal_room_id], references: [id])
+  quantitative_rubric QuantitativeRubric @relation(fields: [quantitative_id], references: [id])
 }
