@@ -8,14 +8,13 @@ import {
   setExtraScore,
   setItems,
 } from "../../src/components/inspections/Reports/InspectionMakerSlice";
-import { Inspect_Status } from "@prisma/client";
 import { useEffect, useState } from "react";
+import Loading from "../../src/components/loader/Loading";
+import { Navbar } from "../../src/components";
 import {
   InspectItemProps,
   toInspectItemProps,
-} from "../../ts/interfaces/roomItem.interfaces";
-import Loading from "../../src/components/loader/Loading";
-import { Navbar } from "../../src/components";
+} from "../../src/components/inspections/Reports/ItemChecklist/props";
 
 const makeInspection = () => {
   const dispatch = useDispatch();
@@ -27,6 +26,10 @@ const makeInspection = () => {
 
   useEffect(() => {
     getItemsInRubric(inspectionProps.rubric_id).then((items) => {
+      // If the inspection is not inspected, add an empty "Others" category
+      if (inspectionProps.inspect_status === "NOT_INSPECTED")
+        items["Others"] = [];
+
       dispatch(setItems(items));
     });
     // Artificial loading time so the checklists can be loaded

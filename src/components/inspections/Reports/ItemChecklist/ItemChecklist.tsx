@@ -1,21 +1,9 @@
 import { Box } from "@mui/material";
 import CategoryCheckbox from "../CategoryCheckbox";
-import {
-  InspectItemProps,
-  toInspectItemProps,
-} from "../../../../../ts/interfaces/roomItem.interfaces";
-import { Suspense, useEffect, useState } from "react";
-import { Item } from "@prisma/client";
 import { useDispatch, useSelector } from "react-redux";
-import { ItemCategoryProps, getItems, setItems } from "../InspectionMakerSlice";
+import { getItems, setItems } from "../InspectionMakerSlice";
 import CategoryHeader from "../CategoryHeader";
-import Loading from "../../../loader/Loading";
-
-export interface ItemChecklistProps {
-  rubric_id: number;
-  room_id: number;
-  disabled: boolean;
-}
+import { InspectItemProps, ItemChecklistProps, generateNewItem } from "./props";
 
 export default function ItemChecklist(props: ItemChecklistProps) {
   const { rubric_id, room_id, disabled } = props;
@@ -87,6 +75,7 @@ export default function ItemChecklist(props: ItemChecklistProps) {
     <Box sx={{ flexGrow: 1, flexBasis: 0 }}>
       {Object.keys(items).map((category) => (
         <Box
+          key={category}
           sx={{
             display: "flex",
             flexDirection: "column",
@@ -111,24 +100,4 @@ export default function ItemChecklist(props: ItemChecklistProps) {
       ))}
     </Box>
   );
-}
-interface newItemProps {
-  key: number;
-  name: string;
-  category: string;
-  room_id: number;
-  rubric_id: number;
-}
-function generateNewItem(newItem: newItemProps): InspectItemProps {
-  return {
-    id: -1,
-    key: newItem.key,
-    name: newItem.name,
-    category: newItem.category,
-    weight: 1,
-    is_checked: true,
-    is_deleted: false,
-    room_id: newItem.room_id,
-    quantitative_id: newItem.rubric_id,
-  };
 }

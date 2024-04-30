@@ -4,12 +4,12 @@ import { Inspect_Status } from "@prisma/client";
 import { useRouter } from "next/router";
 import BackButton from "../../../globalComponents/backButton";
 import CommentBox from "../CommentBox";
-import { InspectItemProps } from "../../../../../ts/interfaces/roomItem.interfaces";
 import ItemChecklist from "../ItemChecklist";
 import { getComment, getExtraScore, getItems } from "../InspectionMakerSlice";
 import InspectionHeader from "../InspectionHeader";
 import ExtraScoreInput from "../ExtraScoreInput";
 import ImageUpload from "../ImageUpload";
+import { InspectItemProps } from "../ItemChecklist/props";
 
 const InspectionMaker = ({ inspectionProps }) => {
   const router = useRouter();

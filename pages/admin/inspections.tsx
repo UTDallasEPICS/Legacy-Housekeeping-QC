@@ -34,7 +34,8 @@ const inspections = ({ inspected, notInspected, members, buildings }) => {
             sx={{
               display: "flex",
               flexDirection: {
-                xs: "row",
+                xs: "column",
+                sm: "row",
                 md: "column",
               },
               alignItems: "center",
