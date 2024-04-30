@@ -36,12 +36,12 @@ const Performance = () => {
   // Fetch scores for selected member from API
   const getScores = async (member) => {
     try {
-      const response = await fetch("http://localhost:3000/api/member/getScore", {
+      const response = await fetch("/api/member/getScore", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           from_date: "2023-04-01T00:00:00.000Z",
-          to_date: "2024-04-11T00:00:00.000Z",
+          to_date: new Date().toISOString(),
           member_id: member.id,
         }),
       });
@@ -96,6 +96,7 @@ const Performance = () => {
     const memberScores = scores.map((data) => data.amount);
     const averageScore = memberScores.reduce((total, score) => total + score, 0) / memberScores.length;
     setAverageScore(Math.round(averageScore));
+    console.log("Scores:", scores);
   }, [scores]);
 
   return (
@@ -105,6 +106,7 @@ const Performance = () => {
         <Grid container spacing={1}>
           {/* Member List */}
           <Grid item xs={3} sm={3} md={3} lg={3}>
+            
             {/* Search Bar */}
             <Box sx={{ marginTop: 2 }}>
               <Box
@@ -127,6 +129,7 @@ const Performance = () => {
                 />
               </Box>
             </Box>
+
             {/* Member List Buttons */}
             <Box
               sx={{

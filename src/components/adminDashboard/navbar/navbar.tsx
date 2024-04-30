@@ -55,6 +55,7 @@ export default function navbar() {
           </Typography>
         </Link>
 
+        {/* Rest of the navigation bar buttons */}
         <Box sx={{ flex: 1 }}>
           <NavbarButton
             linkTo="/members_performance"

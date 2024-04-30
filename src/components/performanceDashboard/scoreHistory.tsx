@@ -43,7 +43,7 @@ const ScoreHistory = ({ memberData }) => {
           sx={{ fontSize: { xs: 11, sm: 11, md: 13, lg: 16 } }}
           gutterBottom
         >
-          {`${new Date(data.inspection.timestamp).toDateString()}: ${data.amount}`}
+          {`${new Date(data.timestamp).toDateString()}: ${data.amount}`}
         </Typography>
       ))}
 
@@ -65,7 +65,7 @@ const ScoreHistory = ({ memberData }) => {
           sx={{ fontSize: { xs: 11, sm: 11, md: 13, lg: 16 } }}
           gutterBottom
         >
-          {`${new Date(data.inspection.timestamp).toDateString()}: ${data.amount}`}
+          {`${new Date(data.timestamp).toDateString()}: ${data.amount}`}
         </Typography>
       ))}
     </Box>

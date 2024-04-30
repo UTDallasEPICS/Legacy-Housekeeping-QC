@@ -39,8 +39,11 @@ export default async function handler(
         },
       });
 
-      // extracting only the scores array
-      const scoresArray = scores ? scores.scores : [];
+      // Flatten the scores array and extract amount and timestamp
+      const scoresArray = scores ? scores.scores.map(score => ({
+        amount: score.amount,
+        timestamp: score.inspection.timestamp,
+      })) : [];
 
       res.status(200).json(scoresArray);
     }
