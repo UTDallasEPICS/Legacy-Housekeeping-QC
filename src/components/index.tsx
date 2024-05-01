@@ -8,9 +8,6 @@ export { default as RemainingInspectionListItemCard } from "./globalComponents/r
 export { default as SignInCardInVPSize } from "./authsComponents/signInCardInVPSize/signInCardInVPSize";
 export { default as SignUpCardInVPSize } from "./authsComponents/signUpCardInVPSize/signUpCardInVPSize";
 
-// navbarComponents
-export { default as NavbarButton } from "./navbarComponents/navbarButton";
-
 // adminDashboard
 export { default as Navbar } from "./adminDashboard/navbar/navbar";
 export { default as Dashboard } from "./adminDashboard/dashboard/dashboard";

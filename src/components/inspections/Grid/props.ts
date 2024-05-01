@@ -1,5 +1,5 @@
 import { Clean_Status, Inspect_Status } from "@prisma/client";
-import { Inspection, TeamMember } from "../types/db.interfaces";
+import { Inspection, TeamMember } from "../../../../ts/types/db.interfaces";
 
 export interface InspectionCardProps {
   id: number;

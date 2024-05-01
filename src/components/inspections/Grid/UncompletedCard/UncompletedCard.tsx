@@ -11,7 +11,7 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import {
   InspectionCardProps,
   toUncompletedInspectionCardProps,
-} from "../../../../../ts/interfaces/roomReport.interfaces";
+} from "../props";
 import { useDispatch } from "react-redux";
 import { setInspectionSelectionData } from "../../inspectionSelectionSlice";
 import { useRouter } from "next/router";
