@@ -34,32 +34,30 @@ export default function navbar() {
         width: 1,
         p: 2,
         backgroundColor: "white",
+        display: "flex",
+        flexDirection: "row",
       }}
     >
-      <Container sx={{ display: "flex" }}>
-        <Box sx={{ display: "flex", alignItems: "center", flexGrow: 1 }}>
-          <Link
-            href="/admin/adminDashboard"
-            style={{
-              textDecoration: "none",
-              color: theme.palette.primary.main,
-            }}
+      <Box sx={{ display: "flex", alignItems: "center", flexGrow: 1 }}>
+        <Link
+          href="/admin/adminDashboard"
+          style={{
+            textDecoration: "none",
+            color: theme.palette.primary.main,
+          }}
+        >
+          <Typography
+            variant="h6"
+            sx={{ mx: 1, fontFamily: montserrat.style.fontFamily }}
           >
-            <Typography
-              variant="h6"
-              sx={{ mx: 1, fontFamily: montserrat.style.fontFamily }}
-            >
-              <b>LegacyQC</b>
-            </Typography>
-          </Link>
-          {burgerBreakpoint && <NavbarBurger />}
-          {footlongBreakpoint && <NavbarFootlong />}
-        </Box>
+            <b>LegacyQC</b>
+          </Typography>
+        </Link>
+        {burgerBreakpoint && <NavbarBurger />}
+        {footlongBreakpoint && <NavbarFootlong />}
+      </Box>
 
-        <Box>
-          <UserBurger />
-        </Box>
-      </Container>
+      <UserBurger />
     </AppBar>
   );
 }
