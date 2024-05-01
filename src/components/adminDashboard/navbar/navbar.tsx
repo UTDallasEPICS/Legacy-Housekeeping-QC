@@ -21,17 +21,6 @@ import { useSession } from "next-auth/react";
 import { montserrat } from "../../../../pages/theme";
 
 export default function navbar() {
-  // GET INITIAL FOR AVATAR ******************************************
-  const { data: session } = useSession();
-  const [signedInUserInitial, setSignedInUserInitial] = useState("U");
-  useEffect(() => {
-    setSignedInUserInitial(session?.user?.first_name?.charAt(0));
-
-    // For debugging only:
-    // console.log(signedInUserInitial);
-  }, [session?.user?.first_name]);
-  // *****************************************************************
-
   const theme = useTheme();
   const burgerBreakpoint = useMediaQuery(theme.breakpoints.down("md"));
   const footlongBreakpoint = useMediaQuery(theme.breakpoints.up("md"));
@@ -67,21 +56,8 @@ export default function navbar() {
           {footlongBreakpoint && <NavbarFootlong />}
         </Box>
 
-        <Box sx={{ display: "flex" }}>
-          <Button
-            sx={{
-              color: "primary",
-              mx: 1,
-              fontFamily: montserrat.style.fontFamily,
-            }}
-            variant="outlined"
-            onClick={() => signOut()}
-          >
-            Sign Out
-          </Button>
-          <Avatar sx={{ bgcolor: "secondary.main", mx: 1 }}>
-            {signedInUserInitial}
-          </Avatar>
+        <Box>
+          <UserBurger />
         </Box>
       </Container>
     </AppBar>
@@ -149,5 +125,53 @@ const NavbarFootlong = () => {
         </Button>
       ))}
     </Box>
+  );
+};
+
+const UserBurger = () => {
+  // GET INITIAL FOR AVATAR ******************************************
+  const { data: session } = useSession();
+  const [signedInUserInitial, setSignedInUserInitial] = useState("U");
+  useEffect(() => {
+    setSignedInUserInitial(session?.user?.first_name?.charAt(0));
+
+    // For debugging only:
+    // console.log(signedInUserInitial);
+  }, [session?.user?.first_name]);
+  // *****************************************************************
+  const [anchor, setAnchor] = useState<null | HTMLElement>(null);
+
+  return (
+    <>
+      <Button onClick={(e) => setAnchor(e.currentTarget)}>
+        <Avatar sx={{ bgcolor: "secondary.main", mx: 1 }}>
+          {signedInUserInitial}
+        </Avatar>
+      </Button>
+      <Menu
+        anchorEl={anchor}
+        open={Boolean(anchor)}
+        onClose={() => setAnchor(null)}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+      >
+        <MenuItem onClick={() => signOut()}>
+          <Typography
+            fontSize={14}
+            fontFamily={montserrat.style.fontFamily}
+            textTransform={"uppercase"}
+            color={"primary"}
+          >
+            Sign Out
+          </Typography>
+        </MenuItem>
+      </Menu>
+    </>
   );
 };
