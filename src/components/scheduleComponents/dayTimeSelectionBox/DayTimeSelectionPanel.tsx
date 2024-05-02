@@ -20,12 +20,12 @@ const SelectionBox: React.FC<SelectionBoxProps> = ({ day }) => {
   const isTimeSelected = (time: string) => selectedTime === time;
 
   const generateTimeButtons = () => {
-    const timez = []
+    const times = []
     for (let i = 0;i < 24;i++){
       for (let j = 0;j < 60;j += 15){
           let js = (j === 0) ? "00":String(j)
           let time = String(i) + ":" + js
-          timez.push(
+          times.push(
               <Button
                   onClick={() => handleButtonClick(time)}
                   sx={{
@@ -45,7 +45,7 @@ const SelectionBox: React.FC<SelectionBoxProps> = ({ day }) => {
           )
       }
     }
-    return timez
+    return times
   }
 
   return (
