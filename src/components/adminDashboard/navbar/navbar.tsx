@@ -42,6 +42,7 @@ export default function navbar() {
       <Container
         sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
       >
+        {/* LegacyQC button that goes to main dashboard */}
         <Link
           href="/admin/adminDashboard"
           style={{
@@ -54,6 +55,7 @@ export default function navbar() {
           </Typography>
         </Link>
 
+        {/* Rest of the navigation bar buttons */}
         <Box sx={{ flex: 1 }}>
           <NavbarButton
             linkTo="/members_performance"
@@ -77,6 +79,7 @@ export default function navbar() {
           ></NavbarButton>
         </Box>
 
+        {/* sign out and user avatar buttons */}
         <Box sx={{ display: "flex", flexDirection: "row" }}>
           <Button
             sx={{ color: "primary", mx: 1, fontFamily: montserrat.style.fontFamily }}

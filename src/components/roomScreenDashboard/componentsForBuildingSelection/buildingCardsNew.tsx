@@ -1,8 +1,6 @@
 import {
   Button,
   Typography,
-  Container,
-  Box,
   Grid,
   IconButton,
 } from "@mui/material";
@@ -13,7 +11,6 @@ import React, { useState, useEffect } from "react";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 
 // This will produce building buttons for the user to select
-
 const makeCard = (buildingVal: JSON) => {
   const dispatch = useDispatch();
 
@@ -55,6 +52,7 @@ const makeCard = (buildingVal: JSON) => {
   );
 };
 
+// add building button 
 const makeAddCard = () => {
   return (
     <Grid
@@ -94,6 +92,7 @@ const makeAddCard = () => {
   );
 };
 
+// makes all the building buttons and the add button
 const buildingCardsNew = () => {
   const [buildings, setBuilding] = useState([]);
 
