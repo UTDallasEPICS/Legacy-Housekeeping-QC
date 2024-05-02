@@ -39,6 +39,21 @@ const InspectionMaker = ({ inspectionProps }) => {
     //const itemUpdateData = await itemUpdateRes.json();
     //console.log(itemUpdateData);
 
+    const scoreUpdateRes = await fetch(
+      "http://localhost:3000/api/roomReport/calculate",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          rubric_id: inspectionProps.rubric_id,
+          extra_score: extra_score,
+        }),
+      }
+    );
+    const scoreUpdateData = await scoreUpdateRes.json();
+
     const rubricUpdateRes = await fetch(
       "http://localhost:3000/api/roomReport/update",
       {
@@ -53,7 +68,7 @@ const InspectionMaker = ({ inspectionProps }) => {
           clean_status: "CLEANED",
           comment: comment,
           extra_score: extra_score,
-          score: Math.floor(Math.random() * 100), // Random score for now, waiting for the score API
+          score: scoreUpdateData.score,
         }),
       }
     );
