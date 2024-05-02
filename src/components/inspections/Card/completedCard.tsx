@@ -18,7 +18,7 @@ import { setInspectionSelectionData } from "../../../../slices/inspectionSelecti
 import { useRouter } from "next/router";
 import { Inspection } from "../../../../ts/types/db.interfaces";
 
-const UncompletedCard = ({
+const completedCard = ({
   card_id,
   inspection,
 }: {
@@ -84,4 +84,4 @@ const UncompletedCard = ({
     </Card>
   );
 };
-export default UncompletedCard;
+export default completedCard;
