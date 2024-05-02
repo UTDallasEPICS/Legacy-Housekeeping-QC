@@ -21,7 +21,7 @@ import { TeamMember } from "../../../../ts/types/db.interfaces";
 import { CleanType } from "@prisma/client";
 import { BuildingWithRooms } from "../../../../ts/interfaces/room.interface";
 import { useSession } from "next-auth/react";
-import { montserrat } from "../../../../pages/theme";
+import { montserrat } from "../../../theme";
 import {
   getDateFilter,
   setInspectionsFetchData,

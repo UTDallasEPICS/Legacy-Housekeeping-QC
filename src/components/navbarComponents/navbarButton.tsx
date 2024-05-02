@@ -1,7 +1,7 @@
 import Button from "@mui/material/Button";
 import Link from "next/link";
 
-import { montserrat } from "../../../pages/theme";
+import { montserrat } from "../../theme";
 
 interface navbarButtonProps {
   linkTo: string;

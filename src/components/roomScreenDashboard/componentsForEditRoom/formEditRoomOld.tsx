@@ -24,7 +24,7 @@ const formEditRoom = () => {
   const [roomNum, setRoomNum] = useState("");
   const [type, setType] = useState("");
   const [roomName, setRoomName] = useState("");
-  const [floor, setFloor] = useState("");
+  const [floor, setFloor] = useState(0);
   const [buildId, setbuildId] = useState("");
 
   //validates what info they are submitting
@@ -33,7 +33,6 @@ const formEditRoom = () => {
       building,
       type,
       roomNum,
-      roomName,
       floor
     );
 
@@ -70,8 +69,8 @@ const formEditRoom = () => {
       setRoomNum("");
       setType("");
       setRoomName("");
-      setFloor("");
-      window.location.replace("/admin/roomPages/roomView?building=".concat(building).concat("&floor=").concat(floor).concat("&building_id=").concat(buildId));
+      setFloor(0);
+      window.location.replace("/admin/roomPages/roomView?building=".concat(building).concat("&floor=").concat(String(floor)).concat("&building_id=").concat(buildId));
     };
   };
   const handleDelete = async () => {
@@ -96,9 +95,9 @@ const formEditRoom = () => {
       setRoomNum("");
       setType("");
       setRoomName("");
-      setFloor("");
+      setFloor(0);
       //window.location.href = "/admin/roomPages/roomView";
-      window.location.replace("/admin/roomPages/roomView?building=".concat(building).concat("&floor=").concat(floor).concat("&building_id=").concat(buildId));
+      window.location.replace("/admin/roomPages/roomView?building=".concat(building).concat("&floor=").concat(String(floor)).concat("&building_id=").concat(buildId));
     }
 
   };
@@ -137,7 +136,7 @@ const formEditRoom = () => {
   return (
     <>
     <div>
-        <BackButton pageToGoBack={"/admin/roomPages/roomView?building=".concat(building).concat("&floor=").concat(floor).concat("&building_id=").concat(buildId)} />
+        <BackButton pageToGoBack={"/admin/roomPages/roomView?building=".concat(building).concat("&floor=").concat(String(floor)).concat("&building_id=").concat(buildId)} />
     </div>
     <Grid container spacing = {1}
           direction = "column"
@@ -283,7 +282,7 @@ const formEditRoom = () => {
 
               {/**/}
               <input
-                onChange={(e) => setFloor(e.target.value)}
+                onChange={(e) => setFloor(Number(e.target.value))}
                 value={floor}
                 name="floor"
                 style={{ fontSize: 25, width: 50, height: 32, textAlign:"center" }}

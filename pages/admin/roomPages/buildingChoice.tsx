@@ -3,7 +3,7 @@ import BuildingCardsNew from "../../../src/components/roomScreenDashboard/compon
 import { BackButton } from "../../../src/components";
 import { Box } from "@mui/material";
 import Navbar from "../../../src/components/adminDashboard/navbar/navbar";
-import theme from "../../../pages/theme";
+import {theme} from "../../../src/theme";
 
 const buildingChoice = () => {
   return (

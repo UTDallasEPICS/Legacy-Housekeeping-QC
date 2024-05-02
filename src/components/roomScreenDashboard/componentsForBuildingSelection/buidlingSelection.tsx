@@ -1,6 +1,6 @@
 import { AppBar, CssBaseline, Typography } from "@mui/material";
 import React from "react";
-import { montserrat } from "../../../../pages/theme";
+import { montserrat } from "../../../theme";
 
 const buildingSelection = () => {
   return (

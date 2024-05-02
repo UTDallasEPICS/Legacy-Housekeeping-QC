@@ -2,7 +2,7 @@ import { AppBar, CssBaseline, Typography } from "@mui/material";
 import React from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../store";
-import { montserrat } from "../../../../pages/theme";
+import { montserrat } from "../../../theme";
 import { BackButton } from "../../../../src/components";
 
 //Hopefull this can be updated with the actual room data

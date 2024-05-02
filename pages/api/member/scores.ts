@@ -8,10 +8,10 @@ export default async function handler(
   try {
     if (req.method === "POST") {
       const { memberID } = req.body;
-      
+
       const scores = await prisma.score.findMany({
         where: {
-            team_member_id: memberID,
+            id: memberID,
         }
       });
 

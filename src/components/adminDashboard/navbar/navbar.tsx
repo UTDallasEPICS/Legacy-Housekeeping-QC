@@ -14,7 +14,7 @@ import { NavbarButton } from "../..";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 
-import theme, { montserrat } from "../../../../pages/theme";
+import { theme, montserrat } from "../../../theme";
 
 export default function navbar() {
   // GET INITIAL FOR AVATAR ******************************************

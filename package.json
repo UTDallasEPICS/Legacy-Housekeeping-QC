@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "start:migrate": "prisma migrate deploy && next start"
   },
   "dependencies": {
     "@emotion/cache": "^11.10.5",
