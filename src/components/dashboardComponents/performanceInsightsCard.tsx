@@ -3,27 +3,64 @@ import { Box, Card, Divider, List, Typography } from "@mui/material";
 import DashboardCardButton from "./dashboardCardButton";
 import DashboardCardHeading from "./dashboardCardHeading";
 import DashboardCardProgressListItemButton from "./dashboardCardProgressListItemButton";
-
 import { useEffect, useState } from "react";
 
 const performanceInsightsCard = () => {
+
   // GET TEAM MEMBER POINTS DATA TO CALCULATE AND DISPLAY AVERAGE CLEANING SCORE
   // ***************************************************************************
   const [averageCleaningScoreString, setAverageCleaningScoreString] =
     useState("N/A");
+    const [members, setMembers] = useState([]);
+    const [selectedMember, setSelectedMember] = useState(null);
+    const [scores, setScores] = useState([]);
+    const [averageScore, setAverageScore] = useState(0);
+    const [searchInput, setSearchInput] = useState("");
+  
+    // Fetch members from API
+    const getMembers = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/api/member/members", {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        });
+  
+        if (!response.ok) {
+          throw new Error("Failed to fetch members");
+        }
+  
+        const data = await response.json();
+        setMembers(data);
+      } catch (error) {
+        console.error("Error fetching members:", error);
+      }
+    };
 
-  // calculateAverageCleaningScore: Implicitly returns a Promise<number>.
-  const calculateAverageCleaningScore = async () => {
     // Get team member data for all team members.
-    const res = await fetch("http://localhost:3000/api/member/members", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const getScores = async (member) => {
+    try {
+      const response = await fetch("/api/member/getScore", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          from_date: "2023-04-01T00:00:00.000Z",
+          to_date: new Date().toISOString(),
+          member_id: member.id,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch scores");
+      }
+
+      const data = await response.json();
+      setScores(data);
+    } catch (error) {
+      console.error("Error fetching scores:", error);
+    }
 
     // Convert the response to JSON.
-    const resJson = await res.json();
+    const resJson = await Response.json();
 
     // Get the number of members in the database.
     let resLength = Object.keys(resJson).length;
@@ -43,18 +80,6 @@ const performanceInsightsCard = () => {
     // This is done by taking the ratio of the total number of points all members did earn to the total possible number of points members could have earned.
     return (totalNumPoints / (totalNumPointsRecords * 100.0)) * 100;
   };
-
-  useEffect(() => {
-    calculateAverageCleaningScore().then(
-      (result) => {
-        setAverageCleaningScoreString(`${result.toFixed(2)}`);
-      },
-      (error) => {
-        setAverageCleaningScoreString("N/A");
-        console.log(error);
-      }
-    );
-  });
   // ***************************************************************************
 
   return (
@@ -88,16 +113,16 @@ const performanceInsightsCard = () => {
           <Typography variant="h5">On the Rise</Typography>
           <List>
             <DashboardCardProgressListItemButton
-              memberName="John Smith"
-              scoreChange={6.8}
+              memberName="John Cena"
+              scoreChange={100}
             />
             <DashboardCardProgressListItemButton
-              memberName="Ima Good"
-              scoreChange={5.7}
+              memberName="Lionel Messi"
+              scoreChange={100}
             />
             <DashboardCardProgressListItemButton
-              memberName="Foofoo Doe"
-              scoreChange={2.9}
+              memberName="Sachin Tendulkar"
+              scoreChange={100}
             />
           </List>
         </Box>
@@ -106,16 +131,16 @@ const performanceInsightsCard = () => {
           <Typography variant="h5">Declining</Typography>
           <List>
             <DashboardCardProgressListItemButton
-              memberName="Jane Doe"
-              scoreChange={-3.5}
+              memberName="Cristiano Ronaldo"
+              scoreChange={-30}
             />
             <DashboardCardProgressListItemButton
-              memberName="Some Guy"
-              scoreChange={-2.5}
+              memberName="Glenn Maxwell"
+              scoreChange={-45}
             />
             <DashboardCardProgressListItemButton
-              memberName="Imnoto Good"
-              scoreChange={-1.4}
+              memberName="Neyman Jr"
+              scoreChange={-50}
             />
           </List>
         </Box>

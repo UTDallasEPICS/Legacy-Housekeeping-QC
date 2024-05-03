@@ -18,7 +18,7 @@ import { setInspectionSelectionData } from "../../../../slices/inspectionSelecti
 import { useRouter } from "next/router";
 import { Inspection } from "../../../../ts/types/db.interfaces";
 
-const completedCard = ({
+const CompletedCard = ({
   card_id,
   inspection,
 }: {
@@ -49,7 +49,7 @@ const completedCard = ({
           flex: 1,
         }}
       >
-        <Typography noWrap variant="h6">
+        <Typography variant="h6">
           <b>Room{" " + inspectionProps.room_name} </b>
         </Typography>
         <Typography noWrap variant="h6">
@@ -84,4 +84,4 @@ const completedCard = ({
     </Card>
   );
 };
-export default completedCard;
+export default CompletedCard;

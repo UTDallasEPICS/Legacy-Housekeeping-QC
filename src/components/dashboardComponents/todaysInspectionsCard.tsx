@@ -11,9 +11,8 @@ import DashboardCardButton from "./dashboardCardButton";
 import DashboardCardHeading from "./dashboardCardHeading";
 import CompletedInspectionListItemCard from "../globalComponents/completedInspectionListItemCard";
 import RemainingInspectionListItemCard from "../globalComponents/remainingInspectionListItemCard";
-// import the data for inspection from Tan
-// import the data for performance from Waseef
 import { useState } from "react";
+import { getInspection } from "../../../functions/getInspection";
 
 const todaysInspectionsCard = () => {
   // TODAY'S INSPECTIONS TOGGLE BUTTON GROUP **************
@@ -29,7 +28,7 @@ const todaysInspectionsCard = () => {
     }
   };
   // ******************************************************
-
+getInspection;
   return (
     <Card
       sx={{
