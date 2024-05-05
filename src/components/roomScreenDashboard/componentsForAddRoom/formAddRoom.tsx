@@ -25,13 +25,14 @@ const formAddRoom = () => {
   const [formErrors, setFormErrors] = useState<any>({});
 
   let goBackLink = `/admin/roomPages/roomView?building=${building}&floor=${floor}&building_id=${buildingId}`;
+
   // validates what info they are submitting
   const handleSubmit = async () => {
     const resCheck = formRoomValidation(building, type, roomName, floor);
 
     setFormErrors(resCheck);
     if (resCheck != 0) {
-      //setError(resCheck);
+      setError(resCheck);
       return;
     }
 
@@ -48,7 +49,6 @@ const formAddRoom = () => {
         type_of_room: type,
       }),
     });
-    //const roomData = await res.json();
 
     if (!res.ok) {
       const r = await res.json();
@@ -63,10 +63,12 @@ const formAddRoom = () => {
     window.location.replace(goBackLink);
   };
 
+  // holds floor data from url to pass into the states
   let buildingParam;
   let floorParam;
   let idParam;
 
+  // get floor data from url
   useEffect(() => {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
@@ -78,13 +80,6 @@ const formAddRoom = () => {
     setBuilding(buildingParam);
     setFloor(floorParam);
     setBuildingId(idParam);
-
-    console.log("building: ", building);
-    console.log("floor:", floor);
-    console.log("building id: ", buildingId);
-    console.log("urlbuilding: ", buildingParam);
-    console.log("urlfloor:", floorParam);
-    console.log("urlbuilding id: ", idParam);
   }, []);
 
   const handleTypeChange = (event: SelectChangeEvent) => {
@@ -118,7 +113,7 @@ const formAddRoom = () => {
           <h2>Please fill out the information of the room:</h2>
         </Grid>
 
-        {/*This area will be the section where admin fills out info*/}
+        {/* This area will be the section where user fills out info */}
         <Grid
           container
           direction={"column"}
@@ -126,7 +121,6 @@ const formAddRoom = () => {
           sx={{ textAlign: "center" }}
         >
           {/* Room type */}
-
           <Grid>
             <InputLabel id="demo-simple-select-label">Room Type</InputLabel>
             <Select
@@ -150,8 +144,7 @@ const formAddRoom = () => {
             )}
           </Grid>
 
-          {/* Set the name of the room*/}
-
+          {/* Set the name of the room */}
           <Grid style={{ marginTop: 20 }}>
             <TextField
               style={{
@@ -173,6 +166,7 @@ const formAddRoom = () => {
             )}
           </Grid>
 
+          {/* set the room number */}
           <Grid>
             <TextField
               style={{
@@ -195,6 +189,8 @@ const formAddRoom = () => {
             )}
           </Grid>
         </Grid>
+
+        {/* submit button */}
         <Grid
           style={{ display: "flex", justifyContent: "center", marginTop: 70 }}
         >

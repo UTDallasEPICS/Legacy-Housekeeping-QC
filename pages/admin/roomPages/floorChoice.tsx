@@ -6,18 +6,16 @@ import theme from "../../../pages/theme";
 const floorChoice = () => {
   return (
     <div style={{background: theme.palette.background.default ,height:"100vh"}}>
-      {/*Heading*/}
+      {/* Heading */}
       <div>
         <Navbar />
         <FloorSelection />
-        
       </div>
 
-      {/*Displays the buildings for the user to choose*/}
+      {/* Displays the buildings for the user to choose */}
       <div style={{ paddingTop: '24px' }}>
         <FloorCards />
-      </div>
-        
+      </div>   
     </div>
   );
 };
