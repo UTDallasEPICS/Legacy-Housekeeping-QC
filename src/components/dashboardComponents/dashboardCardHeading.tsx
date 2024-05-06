@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { montserrat } from "../../../pages/theme";
+import { montserrat } from "../../theme";
 
 const dashboardCardHeading = (props: { text: string }) => {
   return (
