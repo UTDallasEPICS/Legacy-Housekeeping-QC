@@ -38,7 +38,14 @@ export default async function handler(
           },
         },
       });
-      res.status(200).json(scores);
+
+      // Flatten the scores array and extract amount and timestamp
+      const scoresArray = scores ? scores.scores.map(score => ({
+        amount: score.amount,
+        timestamp: score.inspection.timestamp,
+      })) : [];
+
+      res.status(200).json(scoresArray);
     }
   } catch (error) {
     res.status(500).json(error + ": Error retrieving reports");

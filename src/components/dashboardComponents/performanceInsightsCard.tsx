@@ -15,7 +15,7 @@ const performanceInsightsCard = () => {
   // calculateAverageCleaningScore: Implicitly returns a Promise<number>.
   const calculateAverageCleaningScore = async () => {
     // Get team member data for all team members.
-    const res = await fetch("http://localhost:3000/api/member/members", {
+    const res = await fetch("/api/member/members", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

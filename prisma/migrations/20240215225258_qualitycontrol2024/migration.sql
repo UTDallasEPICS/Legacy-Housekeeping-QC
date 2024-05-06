@@ -10,11 +10,9 @@ ALTER TABLE `RoomReport` MODIFY `date` DATETIME(3) NULL DEFAULT CURRENT_TIMESTAM
     MODIFY `score` INTEGER NOT NULL;
 
 -- DropForeignKey
-ALTER TABLE `RoomReport` DROP FOREIGN KEY `RoomReport_room_id_fkey`;
-
--- DropForeignKey
 ALTER TABLE `Restrooms` DROP FOREIGN KEY `Restrooms_room_id_fkey`;
-
+-- DropForeignKey
+ALTER TABLE `RoomReport` DROP FOREIGN KEY `RoomReport_room_id_fkey`;
 -- DropTable
 DROP TABLE `room`;
 

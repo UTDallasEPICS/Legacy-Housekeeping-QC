@@ -1,20 +1,20 @@
 import { CssBaseline } from "@mui/material";
-import InspectionMaker from "../../src/components/inspections/Reports/inspectionMaker";
+import InspectionMaker from "../../src/components/inspections/Reports/InspectionMaker";
 import { useDispatch, useSelector } from "react-redux";
-import { getInspectionSelectionProps } from "../../slices/inspectionSelectionSlice";
+import { getInspectionSelectionProps } from "../../src/components/inspections/inspectionSelectionSlice";
 import {
   ItemCategoryProps,
   setComment,
   setExtraScore,
   setItems,
 } from "../../src/components/inspections/Reports/InspectionMakerSlice";
-import { Inspect_Status } from "@prisma/client";
 import { useEffect, useState } from "react";
+import Loading from "../../src/components/loader/Loading";
+import { Navbar } from "../../src/components";
 import {
   InspectItemProps,
   toInspectItemProps,
-} from "../../ts/interfaces/roomItem.interfaces";
-import Loading from "../../src/components/loader/Loading";
+} from "../../src/components/inspections/Reports/ItemChecklist/props";
 
 const makeInspection = () => {
   const dispatch = useDispatch();
@@ -26,6 +26,10 @@ const makeInspection = () => {
 
   useEffect(() => {
     getItemsInRubric(inspectionProps.rubric_id).then((items) => {
+      // If the inspection is not inspected, add an empty "Others" category
+      if (inspectionProps.inspect_status === "NOT_INSPECTED")
+        items["Others"] = [];
+
       dispatch(setItems(items));
     });
     // Artificial loading time so the checklists can be loaded
@@ -34,17 +38,14 @@ const makeInspection = () => {
     }, 500);
   }, []);
 
-  if (loading) {
-    return <Loading />;
-  }
+  if (loading) return <Loading />;
 
   return (
-    <>
-      <main>
-        <CssBaseline />
-        <InspectionMaker inspectionProps={inspectionProps} />
-      </main>
-    </>
+    <main>
+      <CssBaseline />
+      <Navbar />
+      <InspectionMaker inspectionProps={inspectionProps} />
+    </main>
   );
 };
 

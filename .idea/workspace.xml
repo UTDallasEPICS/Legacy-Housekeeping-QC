@@ -5,8 +5,80 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eb2f4285-15a8-43d5-8afa-cf2247c7a704" name="Changes" comment="Added the temporary navBar back to check if Links work and just did more work on the room section">
-      <change beforePath="$PROJECT_DIR$/pages/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/teamMembers.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/teamMembers.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/figma/Legacy Quality Control App.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/local-dev.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/inspections/Grid/CompletedCard/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/inspections/Grid/InspectionCardGrid/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/inspections/Grid/InspectionDateSelector/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/inspections/Grid/InspectionGrid/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/inspections/Grid/UncompletedCard/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/inspections/Planner/CleanTypeRadioGroup/CleanTypeRadioGroup.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/inspections/Planner/CleanTypeRadioGroup/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/inspections/Planner/CleanTypeRadioGroup/props.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/inspections/Planner/EllipsisTextChip/EllipsisTextChip.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/inspections/Planner/EllipsisTextChip/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/inspections/Planner/EllipsisTextChip/props.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/inspections/Planner/InspectionPlanner/InspectionPlanner.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/inspections/Planner/InspectionPlanner/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/inspections/Planner/InspectionPlanner/verifyForm.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/inspections/Planner/RoomDropdownSelect/RoomDropdownSelect.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/inspections/Planner/RoomDropdownSelect/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/inspections/Planner/RoomDropdownSelect/props.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/inspections/Planner/TeamMemberMultiSelect/TeamMemberMultiSelect.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/inspections/Planner/TeamMemberMultiSelect/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/inspections/Planner/TeamMemberMultiSelect/props.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/inspections/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/inspections/Reports/InspectionMaker/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/inspections/Reports/ItemChecklist/props.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/filterInspection.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/inspections/Grid/InspectionCardGrid/filterInspection.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/generateBuilding.ts" beforeDir="false" afterPath="$PROJECT_DIR$/functions/generateBuilding.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/getInspection.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/inspections/getInspection.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/splitInspectionWithStatus.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/inspections/splitInspectionWithStatus.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/middleware.ts" beforeDir="false" afterPath="$PROJECT_DIR$/middleware.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/admin/inspections.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/admin/inspections.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/admin/makeInspection.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/admin/makeInspection.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/admin/roomPages/buildingChoice.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/admin/roomPages/buildingChoice.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/admin/roomPages/floorChoice.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/admin/roomPages/floorChoice.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/admin/roomPages/roomView.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/admin/roomPages/roomView.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/admin/teamMembers.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/admin/teamMembers.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/api/auth/[...nextauth].ts" beforeDir="false" afterPath="$PROJECT_DIR$/pages/api/auth/[...nextauth].ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/api/member/getScore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/pages/api/member/getScore.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/api/member/scores.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/auths/signin.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/auths/signin.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/members_performance.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/members_performance.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/prisma/migrations/20240215225258_qualitycontrol2024/migration.sql" beforeDir="false" afterPath="$PROJECT_DIR$/prisma/migrations/20240215225258_qualitycontrol2024/migration.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/slices/inspectionSelectionSlice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/inspections/inspectionSelectionSlice.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/slices/inspectionSlice.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/slices/inspectionsFetchSlice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/inspections/Grid/inspectionsFetchSlice.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/adminDashboard/navbar/navbar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/adminDashboard/navbar/navbar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/authsComponents/signInCardInVPSize/signInCardInVPSize.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/authsComponents/signInCardInVPSize/signInCardInVPSize.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/dashboardComponents/dashboardCardHeading.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/dashboardComponents/dashboardCardHeading.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/dashboardComponents/performanceInsightsCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/dashboardComponents/performanceInsightsCard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/inspections/Card/completedCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/inspections/Grid/CompletedCard/CompletedCard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/inspections/Card/uncompletedCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/inspections/Grid/UncompletedCard/UncompletedCard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/inspections/Date/InspectionDateSelector.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/inspections/Grid/InspectionDateSelector/InspectionDateSelector.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/inspections/Grid/InspectionGrid.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/inspections/Grid/InspectionGrid/InspectionGrid.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/inspections/Grid/inspectionCardGrid.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/inspections/Grid/InspectionCardGrid/InspectionCardGrid.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/inspections/Planner/inspectionPlanner.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/inspections/Reports/ItemChecklist/ItemChecklist.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/inspections/Reports/ItemChecklist/ItemChecklist.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/inspections/Reports/inspectionMaker.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/inspections/Reports/InspectionMaker/InspectionMaker.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/navbarComponents/navbarButton.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/performanceDashboard/buttons/memberButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/performanceDashboard/buttons/memberButton.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/performanceDashboard/charts/members_performanceChart.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/performanceDashboard/charts/members_performanceChart.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/performanceDashboard/scoreHistory.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/performanceDashboard/scoreHistory.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/roomScreenDashboard/componentsForAddBuilding/formAddBuilding.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/roomScreenDashboard/componentsForAddBuilding/formAddBuilding.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/roomScreenDashboard/componentsForAddRoom/formAddRoom.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/roomScreenDashboard/componentsForAddRoom/formAddRoom.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/roomScreenDashboard/componentsForBuildingSelection/buildingCardsNew.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/roomScreenDashboard/componentsForBuildingSelection/buildingCardsNew.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/roomScreenDashboard/componentsForEditRoom/formEditRoom.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/roomScreenDashboard/componentsForEditRoom/formEditRoom.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/roomScreenDashboard/componentsForFloorSelection/floorCards.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/roomScreenDashboard/componentsForFloorSelection/floorCards.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/roomScreenDashboard/componentsForRoomView/addRoomButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/roomScreenDashboard/componentsForRoomView/addRoomButton.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/store.ts" beforeDir="false" afterPath="$PROJECT_DIR$/store.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ts/const/inspection.constant.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ts/interfaces/roomItem.interfaces.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ts/interfaces/roomReport.interfaces.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/inspections/Grid/props.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,21 +111,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Steven/WebstormProjects/untitled1&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\Steven\\Desktop\\EPICS Stuff\\Github\\Legacy-Housekeeping-QC\\node_modules\\typescript\\lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "#46 on Merging develop/docker",
+    "last_opened_file_path": "C:/Users/Steven/WebstormProjects/untitled1",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "ts.external.directory.path": "C:\\Users\\scien\\WebstormProjects\\Legacy-Housekeeping-QC\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Steven\Desktop\EPICS Stuff\Github\Legacy-Housekeeping-QC\pages\roomPages" />

@@ -10,6 +10,7 @@ import Link from "next/link";
 import Navbar from "../../../src/components/adminDashboard/navbar/navbar";
 import {theme} from "../../../src/theme";
 
+// Function to get the display name of a room type
 const getTypeDisplayName = (type) => {
   switch (type) {
     case "COMMON_AREA":
@@ -98,22 +99,19 @@ const roomView = () => {
   let buildid: string;
   const [building, setBuilding] = useState("");
   const [floor, setFloor] = useState("");
-  const [buildingid, setBuildingid] = useState("");
+  const [buildingId, setBuildingId] = useState("");
   const [rooms, setRooms] = useState([]);
 
   const getRooms = async () => {
     try {
-      const response = await fetch(
-        "http://localhost:3000/api/room/roomsInBuildingOnFloor",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            floor_num: floorParam,
-            building_id: buildid,
-          }),
-        }
-      );
+      const response = await fetch("/api/room/roomsInBuildingOnFloor", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          floor_num: floorParam,
+          building_id: buildid,
+        }),
+      });
 
       if (!response.ok) {
         throw new Error("Failed to fetch rooms");
@@ -126,6 +124,7 @@ const roomView = () => {
     }
   };
 
+  // Fetch rooms data from url
   useEffect(() => {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
@@ -134,19 +133,22 @@ const roomView = () => {
     buildid = urlParams.get("building_id");
     setBuilding(buildingParam);
     setFloor(floorParam);
-    setBuildingid(buildid);
+    setBuildingId(buildid);
     getRooms();
   }, []);
 
+  // Render the roomview component
   return (
     <div
       style={{ background: theme.palette.background.default, height: "100vh" }}
     >
-      <div>
-        <Navbar />
-        <BuildingRoomBanner buildingVal={building} />
-      </div>
+      {/* heading */}
+      <Navbar />
+      <BuildingRoomBanner buildingVal={building} />
+
+      {/* main content of page */}
       <Grid container direction="column" justifyContent="center">
+        {/* sort and add button */}
         <Grid
           container
           direction="row"
@@ -167,12 +169,13 @@ const roomView = () => {
           <AddRoomButton
             buildingName={building}
             floorName={floor}
-            buildid={buildingid}
+            buildid={buildingId}
           />
 
-          {/*<DeleteRoomButton /> */}
+        {/* <DeleteRoomButton /> */}
         </Grid>
-        {/*This presents a area where user can scroll and look through the rooms */}
+        
+        {/* area where user can scroll and look through the rooms */}
         <Grid
           id="scroll"
           style={{ display: "flex", justifyContent: "center" }}
@@ -183,15 +186,13 @@ const roomView = () => {
           lg={12}
           xl={12}
         >
-          <div
-            style={{
-              overflowY: "scroll",
-              width: "50vh",
-              height: "60vh",
-              display: "justified",
-              justifyContent: "center",
-            }}
-          >
+          <div style={{
+            overflowY: "scroll",
+            width: "50vh",
+            height: "60vh",
+            display: "justified",
+            justifyContent: "center",
+          }}>
             <Grid
               container
               direction="column"

@@ -1,14 +1,13 @@
-import { Box, Container } from "@mui/material";
-import { InspectionGrid, Navbar } from "../../src/components";
-import InspectionPlanner from "../../src/components/inspections/Planner/inspectionPlanner";
+import { Box } from "@mui/material";
+import { Navbar } from "../../src/components";
+import InspectionPlanner from "../../src/components/inspections/Planner/InspectionPlanner";
 import { useDispatch } from "react-redux";
-import { setInspectionsFetchData } from "../../slices/inspectionsFetchSlice";
-import { splitInspectionWithStatus } from "../../functions/splitInspectionWithStatus";
-import InspectionDateSelector from "../../src/components/inspections/Date/InspectionDateSelector";
+import { setInspectionsFetchData } from "../../src/components/inspections/Grid/inspectionsFetchSlice";
+import InspectionDateSelector from "../../src/components/inspections/Grid/InspectionDateSelector";
+import InspectionGrid from "../../src/components/inspections/Grid/InspectionGrid";
+import { getInspection } from "../../src/components/inspections/getInspection";
 
-const inspections = ({ inspections, members, buildings }) => {
-  const { notInspected, inspected } = splitInspectionWithStatus(inspections);
-
+const inspections = ({ inspected, notInspected, members, buildings }) => {
   const dispatch = useDispatch();
   dispatch(
     setInspectionsFetchData({
@@ -35,11 +34,12 @@ const inspections = ({ inspections, members, buildings }) => {
             sx={{
               display: "flex",
               flexDirection: {
-                xs: "row",
+                xs: "column",
+                sm: "row",
                 md: "column",
               },
               alignItems: "center",
-              justifyContent: "space-between",
+              justifyContent: "space-evenly",
               padding: 2,
             }}
           >
@@ -53,26 +53,21 @@ const inspections = ({ inspections, members, buildings }) => {
 };
 
 export async function getServerSideProps() {
-  const inspectionRes = await fetch(
-    "http://localhost:3000/api/roomReport/report",
+  const { inspected, notInspected } = await getInspection();
+
+  const memberRes = await fetch(
+    (process.env.NEXTAUTH_URL || "http://localhost:3000") +
+      "/api/member/members",
     {
-      method: "POST",
+      method: "GET",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        date: new Date().toISOString(),
-      }),
     }
   );
-  const inspectionData = await inspectionRes.json();
-
-  const memberRes = await fetch("http://localhost:3000/api/member/members", {
-    method: "GET",
-    headers: { "Content-Type": "application/json" },
-  });
   const memberData = await memberRes.json();
 
   const buildingsRes = await fetch(
-    "http://localhost:3000/api/building/buildingsWithRoom",
+    (process.env.NEXTAUTH_URL || "http://localhost:3000") +
+      "/api/building/buildingsWithRoom",
     {
       method: "GET",
       headers: { "Content-Type": "application/json" },
@@ -82,7 +77,8 @@ export async function getServerSideProps() {
 
   return {
     props: {
-      inspections: inspectionData,
+      inspected: inspected,
+      notInspected: notInspected,
       members: memberData,
       buildings: buildingsData,
     },

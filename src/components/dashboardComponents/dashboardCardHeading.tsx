@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+import { montserrat } from "../../../pages/theme";
 
 const dashboardCardHeading = (props: { text: string }) => {
   return (
@@ -11,8 +12,9 @@ const dashboardCardHeading = (props: { text: string }) => {
       <Typography
         variant="h5"
         sx={{
-          color: "primary.contrastText",
+          color: "white",
           fontWeight: "bold",
+          fontFamily: montserrat.style.fontFamily,
         }}
       >
         {props.text}
