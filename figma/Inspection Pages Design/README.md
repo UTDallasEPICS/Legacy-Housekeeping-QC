@@ -6,4 +6,4 @@ The design of (1) will allow you to search inspections by team member name, buil
 
 # Notes
 
-This design had not been updated for the current design, which also contain a date picker and adjustable checklist.
+This design had not been updated for the current design, which also contain a date picker.
