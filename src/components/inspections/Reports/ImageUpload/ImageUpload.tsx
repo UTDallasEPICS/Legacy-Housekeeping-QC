@@ -78,7 +78,7 @@ const ImageGrid = ({ roomPics }) => {
   );
 };
 
-const ImageUpload = ({ disabled }) => {
+const ImageUpload = ({ disabled }: { disabled: boolean }) => {
   const dispatch = useDispatch();
   const roomPics = useSelector(getRoomPics);
   const handleFileUpload = (event) => {

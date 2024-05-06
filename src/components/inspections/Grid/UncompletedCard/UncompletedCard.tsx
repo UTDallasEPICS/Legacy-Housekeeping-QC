@@ -1,8 +1,6 @@
 import {
-  Box,
   Button,
   Card,
-  CardActionArea,
   CardActions,
   CardContent,
   Typography,
@@ -15,15 +13,9 @@ import {
 import { useDispatch } from "react-redux";
 import { setInspectionSelectionData } from "../../inspectionSelectionSlice";
 import { useRouter } from "next/router";
-import { Inspection } from "../../../../../ts/types/db.interfaces";
+import { UncompletedCardProps } from "./props";
 
-const UncompletedCard = ({
-  card_id,
-  inspection,
-}: {
-  card_id: number;
-  inspection: Inspection;
-}) => {
+const UncompletedCard = ({ card_id, inspection }: UncompletedCardProps) => {
   const inspectionProps: InspectionCardProps =
     toUncompletedInspectionCardProps(inspection);
   const router = useRouter();

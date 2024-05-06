@@ -1,21 +1,7 @@
-import {
-  Box,
-  Checkbox,
-  FormControlLabel,
-  Grid,
-  Typography,
-} from "@mui/material";
+import { Grid } from "@mui/material";
 import DeletableCheckbox from "../DeletableCheckbox";
 import WritableCheckbox from "../WritableCheckbox";
-import { InspectItemProps } from "../../../../../ts/interfaces/roomItem.interfaces";
-
-export interface CategoryCheckboxProps {
-  items: InspectItemProps[];
-  onCheck: any;
-  onDelete: any;
-  onAdd: any;
-  disabled: boolean;
-}
+import { CategoryCheckboxProps } from "./props";
 
 const CategoryCheckbox = (props: CategoryCheckboxProps) => {
   const { items, onCheck, onDelete, onAdd, disabled } = props;
@@ -25,7 +11,7 @@ const CategoryCheckbox = (props: CategoryCheckboxProps) => {
       {items.map(
         (item, index) =>
           !item.is_deleted && (
-            <Grid item xs={6} lg={4}>
+            <Grid item xs={6} lg={4} key={item.name + index}>
               <DeletableCheckbox
                 name={item.name}
                 checked={item.is_checked}

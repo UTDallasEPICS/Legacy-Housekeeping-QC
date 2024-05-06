@@ -1,5 +1,5 @@
 import AddTaskIcon from "@mui/icons-material/AddTask";
-import { Box, FormControlLabel, IconButton, TextField } from "@mui/material";
+import { Box, IconButton, TextField } from "@mui/material";
 import { useState } from "react";
 
 const WritableCheckbox = ({ onInsert }) => {

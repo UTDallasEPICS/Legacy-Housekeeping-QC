@@ -2,7 +2,6 @@ import { Alert, Box, Button, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { TeamMember } from "../../../../../ts/types/db.interfaces";
 import { CleanType } from "@prisma/client";
-import { BuildingWithRooms } from "../../../../../ts/interfaces/room.interface";
 import { useSession } from "next-auth/react";
 import { montserrat } from "../../../../theme";
 import {
@@ -17,11 +16,7 @@ import CleanTypeRadioGroup from "../CleanTypeRadioGroup";
 import { RoomOptionProps } from "../RoomDropdownSelect/props";
 import { TeamMemberOptionProps } from "../TeamMemberMultiSelect/props";
 import { verifyForm } from "./verifyForm";
-
-export interface InspectionPlannerProps {
-  members: TeamMember[];
-  buildings: BuildingWithRooms[];
-}
+import { InspectionPlannerProps } from "./props";
 
 const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
   const dispatch = useDispatch();
@@ -63,7 +58,7 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
     const rubric = await rubricRes.json();
 
     // Add default items to the rubric
-    const itemsRes = await fetch("/api/roomItem/addDefault", {
+    await fetch("/api/roomItem/addDefault", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -89,7 +84,7 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
 
     // Add team members to the schedule
     selectedMembers.forEach((member) => {
-      const person_id = member.key;
+      const person_id = member.id;
       const schedule_id = scheduleData.id;
       fetch("/api/scheduling/addTeamMemberToSchedule", {
         method: "POST",
@@ -138,7 +133,7 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
   const memberOptions: TeamMemberOptionProps[] = members.map(
     (option: TeamMember) => {
       return {
-        key: option.id,
+        id: option.id,
         name: option.first_name + " " + option.last_name,
       };
     }

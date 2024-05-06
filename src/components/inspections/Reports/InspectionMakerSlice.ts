@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { InspectItemProps } from "../../../../ts/interfaces/roomItem.interfaces";
 import { RootState } from "../../../../store";
+import { InspectItemProps } from "./ItemChecklist/props";
 
 export interface ImageUploadProps {
   name: string;
