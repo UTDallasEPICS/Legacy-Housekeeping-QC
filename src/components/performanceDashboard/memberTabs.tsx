@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Box, Tab, Tabs } from "@mui/material";
-import { memberData } from "../../../pages/members_performance";
+import memberData from "../../../pages/members_performance";
 
 interface MemberTabsProps {
   onMemberClick: (member: string) => void;

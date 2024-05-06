@@ -1,7 +1,7 @@
 import BuildingSelection from "../../../src/components/roomScreenDashboard/componentsForBuildingSelection/buidlingSelection";
 import BuildingCardsNew from "../../../src/components/roomScreenDashboard/componentsForBuildingSelection/buildingCardsNew";
 import Navbar from "../../../src/components/adminDashboard/navbar/navbar";
-import theme from "../../../pages/theme";
+import {theme} from "../../../src/theme";
 
 const buildingChoice = () => {
   return (

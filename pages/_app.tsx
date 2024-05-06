@@ -4,7 +4,7 @@ import Head from "next/head";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { CacheProvider } from "@emotion/react";
-import theme from "./theme";
+import { theme } from "../src/theme";
 import createEmotionCache from "./createEmotionCache";
 import { SessionProvider } from "next-auth/react";
 import { store } from "../store";

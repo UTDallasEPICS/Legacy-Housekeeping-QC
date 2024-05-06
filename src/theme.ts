@@ -10,7 +10,7 @@ export const montserrat = Montserrat({
 });
 
 // Create a theme instance.
-const theme = createTheme({
+export const theme = createTheme({
   palette: {
     primary: {
       main: "#141c3b",
@@ -39,4 +39,3 @@ const theme = createTheme({
   },
 });
 
-export default theme;

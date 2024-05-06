@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "local-dev": "node --env-file=.env local-dev.js"
+    "local-dev": "node --env-file=.env local-dev.js",
+    "start:migrate": "prisma migrate deploy && next start"
   },
   "dependencies": {
     "@emotion/cache": "^11.10.5",

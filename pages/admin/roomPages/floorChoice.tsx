@@ -1,7 +1,7 @@
 import FloorSelection from "../../../src/components/roomScreenDashboard/componentsForFloorSelection/floorSelection";
 import FloorCards from "../../../src/components/roomScreenDashboard/componentsForFloorSelection/floorCards";
 import Navbar from "../../../src/components/adminDashboard/navbar/navbar";
-import theme from "../../../pages/theme";
+import {theme} from "../../../src/theme";
 
 const floorChoice = () => {
   return (
