@@ -102,7 +102,7 @@ const buildingCardsNew = () => {
 
   const getData = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/room/buildings");
+      const response = await fetch("/api/room/buildings");
       if (!response.ok) {
         throw new Error("failed to fetch data");
       }

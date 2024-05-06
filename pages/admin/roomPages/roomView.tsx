@@ -8,7 +8,7 @@ import { setRoom } from "../../../slices/roomSelectSlice";
 import { useDispatch } from "react-redux";
 import Link from "next/link";
 import Navbar from "../../../src/components/adminDashboard/navbar/navbar";
-import theme from "../../../pages/theme";
+import {theme} from "../../../src/theme";
 
 // Function to get the display name of a room type
 const getTypeDisplayName = (type) => {
@@ -104,17 +104,14 @@ const roomView = () => {
 
   const getRooms = async () => {
     try {
-      const response = await fetch(
-        "http://localhost:3000/api/room/roomsInBuildingOnFloor",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            floor_num: floorParam,
-            building_id: buildid,
-          }),
-        }
-      );
+      const response = await fetch("/api/room/roomsInBuildingOnFloor", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          floor_num: floorParam,
+          building_id: buildid,
+        }),
+      });
 
       if (!response.ok) {
         throw new Error("Failed to fetch rooms");

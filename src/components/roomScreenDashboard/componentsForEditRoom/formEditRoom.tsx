@@ -112,7 +112,7 @@ const formEditRoom = () => {
 
   const getRoomData = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/room/room", {
+      const response = await fetch("/api/room/room", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -138,7 +138,7 @@ const formEditRoom = () => {
 
   const getBuildingData = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/room/building", {
+      const response = await fetch("/api/room/building", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

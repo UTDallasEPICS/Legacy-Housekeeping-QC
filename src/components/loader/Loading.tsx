@@ -1,5 +1,5 @@
 import { CardMedia, Stack } from "@mui/material";
-import theme from "../../../pages/theme";
+import {theme} from "../../theme";
 
 const Loading = () => {
   return (

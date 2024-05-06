@@ -1,7 +1,7 @@
 import { RoomType } from "@prisma/client";
 import readCSV from "./readCSV";
 
-const buildingCSV = "./ts/const/Sq_Ft_LMP.csv";
+const buildingCSV = process.env.BUILDING_DEFAULT_FILE;
 
 export interface RoomData {
   room_name: string;

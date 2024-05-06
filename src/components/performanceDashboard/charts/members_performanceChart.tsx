@@ -1,6 +1,6 @@
 import React from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import theme from "../../../../pages/theme";
+import {theme} from "../../../theme";
 
 interface MembersPerformanceChartProps {
   memberData: { timestamp: Date, amount: number }[];

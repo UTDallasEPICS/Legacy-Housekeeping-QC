@@ -3,7 +3,7 @@ import { setBuilding } from "../../../../slices/buildingSelectSlice";
 import { useDispatch } from "react-redux";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
-import theme from "../../../../pages/theme";
+import {theme} from "../../../theme";
 
 // This will produce floor buttons for the user to select
 const makeCard = (number: string, name: string, buildid: string) => {
@@ -101,7 +101,7 @@ const floorCards = () => {
   const [result, setResult] = useState([]);
 
   const getData = () => {
-    return fetch("http://localhost:3000/api/room/specificbuilding", {
+    return fetch("/api/room/specificbuilding", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
