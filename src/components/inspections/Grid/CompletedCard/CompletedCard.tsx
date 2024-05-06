@@ -2,23 +2,18 @@ import {
   Box,
   Button,
   Card,
-  CardActionArea,
   CardActions,
   CardContent,
   Typography,
 } from "@mui/material";
-import Link from "next/link";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import {
-  InspectionCardProps,
-  toCompletedInspectionCardProps,
-} from "../../../../ts/interfaces/roomReport.interfaces";
+import { InspectionCardProps, toCompletedInspectionCardProps } from "../props";
 import { useDispatch } from "react-redux";
-import { setInspectionSelectionData } from "../../../../slices/inspectionSelectionSlice";
+import { setInspectionSelectionData } from "../../inspectionSelectionSlice";
 import { useRouter } from "next/router";
-import { Inspection } from "../../../../ts/types/db.interfaces";
+import { Inspection } from "../../../../../ts/types/db.interfaces";
 
-const UncompletedCard = ({
+const CompletedCard = ({
   card_id,
   inspection,
 }: {
@@ -84,4 +79,4 @@ const UncompletedCard = ({
     </Card>
   );
 };
-export default UncompletedCard;
+export default CompletedCard;

@@ -3,16 +3,15 @@ import {
   Card,
   Divider,
   MenuItem,
-  Select,
   TextField,
   ToggleButton,
   ToggleButtonGroup,
 } from "@mui/material";
-import DashboardCardHeading from "../../dashboardComponents/dashboardCardHeading";
+import DashboardCardHeading from "../../../dashboardComponents/dashboardCardHeading";
 import { useState } from "react";
 import { Inspect_Status } from "@prisma/client";
-import InspectionCardGrid from "./inspectionCardGrid";
-import { InspectionFilterBy } from "../../../../ts/const/inspection.constant";
+import InspectionCardGrid from "../InspectionCardGrid";
+import { InspectionFilterBy } from "../InspectionCardGrid/filterInspection";
 
 const InspectionGrid = () => {
   const [inspectionStatusFilter, setInspectionStatusFilter] =

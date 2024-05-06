@@ -2,16 +2,14 @@ import { Button, Container, Stack } from "@mui/material";
 import { useSelector } from "react-redux";
 import { Inspect_Status } from "@prisma/client";
 import { useRouter } from "next/router";
-import BackButton from "../../globalComponents/backButton";
-import CommentBox from "./CommentBox";
-import { InspectItemProps } from "../../../../ts/interfaces/roomItem.interfaces";
-import ItemChecklist from "./ItemChecklist";
-import { getComment, getExtraScore, getItems } from "./InspectionMakerSlice";
-import InspectionHeader from "./InspectionHeader";
-import ExtraScoreInput from "./ExtraScoreInput";
-import ImageUpload from "./ImageUpload";
-import { Suspense } from "react";
-import Loading from "../../loader/Loading";
+import BackButton from "../../../globalComponents/backButton";
+import CommentBox from "../CommentBox";
+import ItemChecklist from "../ItemChecklist";
+import { getComment, getExtraScore, getItems } from "../InspectionMakerSlice";
+import InspectionHeader from "../InspectionHeader";
+import ExtraScoreInput from "../ExtraScoreInput";
+import ImageUpload from "../ImageUpload";
+import { InspectItemProps } from "../ItemChecklist/props";
 
 const InspectionMaker = ({ inspectionProps }) => {
   const router = useRouter();
@@ -22,58 +20,45 @@ const InspectionMaker = ({ inspectionProps }) => {
   const extra_score = useSelector(getExtraScore);
 
   const handleSubmission = async () => {
-    const itemUpdateRes = await fetch(
-      "http://localhost:3000/api/rubric/updateOnRubric",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          items: items,
-          rubric_id: inspectionProps.rubric_id,
-          room_id: inspectionProps.room_id,
-        }),
-      }
-    );
-    //const itemUpdateData = await itemUpdateRes.json();
-    //console.log(itemUpdateData);
+    const itemUpdateRes = await fetch("/api/rubric/updateOnRubric", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        items: items,
+        rubric_id: inspectionProps.rubric_id,
+        room_id: inspectionProps.room_id,
+      }),
+    });
 
-    const scoreUpdateRes = await fetch(
-      "http://localhost:3000/api/roomReport/calculate",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          rubric_id: inspectionProps.rubric_id,
-          extra_score: extra_score,
-        }),
-      }
-    );
+    const scoreUpdateRes = await fetch("/api/roomReport/calculate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        rubric_id: inspectionProps.rubric_id,
+        extra_score: extra_score,
+      }),
+    });
     const scoreUpdateData = await scoreUpdateRes.json();
 
-    const rubricUpdateRes = await fetch(
-      "http://localhost:3000/api/roomReport/update",
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          id: inspectionProps.id,
-          members_ids: inspectionProps.team_members.map((member) => member.id),
-          room_pics: null,
-          clean_status: "CLEANED",
-          comment: comment,
-          extra_score: extra_score,
-          score: scoreUpdateData.score,
-        }),
-      }
-    );
-    //const rubricUpdateData = await rubricUpdateRes.json();
-    //console.log(rubricUpdateData);
+    const rubricUpdateRes = await fetch("/api/roomReport/update", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: inspectionProps.id,
+        members_ids: inspectionProps.team_members.map((member) => member.id),
+        room_pics: null,
+        clean_status: "CLEANED",
+        comment: comment,
+        extra_score: extra_score,
+        score: scoreUpdateData.score,
+      }),
+    });
 
     router.push("/admin/inspections");
   };
@@ -90,7 +75,9 @@ const InspectionMaker = ({ inspectionProps }) => {
       disableGutters
       maxWidth={false}
     >
-      <BackButton pageToGoBack={"inspections"} />
+      <Container sx={{ justifyContent: "flex-start", margin: 0 }}>
+        <BackButton pageToGoBack={"inspections"} />
+      </Container>
       <InspectionHeader
         inspected={inspected}
         room_name={inspectionProps.room_name}

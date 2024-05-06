@@ -31,7 +31,7 @@ const ReportForm = () => {
     event.preventDefault();
 
     // Send a POST request to the API to add the new report
-    const response = await fetch("http://localhost:3000/api/roomReport/add", {
+    const response = await fetch("/api/roomReport/add", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

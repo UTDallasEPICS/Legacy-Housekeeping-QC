@@ -11,11 +11,11 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import {
   InspectionCardProps,
   toUncompletedInspectionCardProps,
-} from "../../../../ts/interfaces/roomReport.interfaces";
+} from "../props";
 import { useDispatch } from "react-redux";
-import { setInspectionSelectionData } from "../../../../slices/inspectionSelectionSlice";
+import { setInspectionSelectionData } from "../../inspectionSelectionSlice";
 import { useRouter } from "next/router";
-import { Inspection } from "../../../../ts/types/db.interfaces";
+import { Inspection } from "../../../../../ts/types/db.interfaces";
 
 const UncompletedCard = ({
   card_id,

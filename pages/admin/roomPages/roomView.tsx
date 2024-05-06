@@ -104,17 +104,14 @@ const roomView = () => {
 
   const getRooms = async () => {
     try {
-      const response = await fetch(
-        "http://localhost:3000/api/room/roomsInBuildingOnFloor",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            floor_num: floorParam,
-            building_id: buildid,
-          }),
-        }
-      );
+      const response = await fetch("/api/room/roomsInBuildingOnFloor", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          floor_num: floorParam,
+          building_id: buildid,
+        }),
+      });
 
       if (!response.ok) {
         throw new Error("Failed to fetch rooms");

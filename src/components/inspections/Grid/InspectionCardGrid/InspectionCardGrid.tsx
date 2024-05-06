@@ -1,15 +1,14 @@
 import { Grid, Typography } from "@mui/material";
 import { Inspect_Status } from "@prisma/client";
-import { Inspection } from "../../../../ts/types/db.interfaces";
-import CompletedCard from "../Card/completedCard";
-import UncompletedCard from "../Card/uncompletedCard";
+import { Inspection } from "../../../../../ts/types/db.interfaces";
+import CompletedCard from "../CompletedCard";
+import UncompletedCard from "../UncompletedCard";
 import { useSelector } from "react-redux";
 import {
   getInspectedReports,
   getNotInspectedReports,
-} from "../../../../slices/inspectionsFetchSlice";
-import { InspectionFilterBy } from "../../../../ts/const/inspection.constant";
-import { filterInspection } from "../../../../functions/filterInspection";
+} from "../inspectionsFetchSlice";
+import { InspectionFilterBy, filterInspection } from "./filterInspection";
 
 const InspectionCardGrid = ({
   status,
@@ -33,7 +32,9 @@ const InspectionCardGrid = ({
       direction="row"
       spacing={2}
       p={2}
-      maxHeight={"75vh"} // This is needed to allow the scrollbar to scroll to the bottom (basically 100vh - other stuff)
+      // maxHeight is needed to allow the scrollbar to scroll to the bottom (basically 100vh - other stuff)
+      // Need to make this dynamic in the future
+      maxHeight={"75vh"}
       overflow={"auto"}
     >
       {isEmpty && (
@@ -48,6 +49,10 @@ const InspectionCardGrid = ({
   );
 };
 
+/*
+ * Filter the inspections based on the filter and filterBy
+ * Then map the inspections to the appropriate card based on the status
+ */
 const CardCondition = ({
   status,
   filter,

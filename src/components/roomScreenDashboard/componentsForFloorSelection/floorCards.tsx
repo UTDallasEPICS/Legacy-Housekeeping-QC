@@ -101,7 +101,7 @@ const floorCards = () => {
   const [result, setResult] = useState([]);
 
   const getData = () => {
-    return fetch("http://localhost:3000/api/room/specificbuilding", {
+    return fetch("/api/room/specificbuilding", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

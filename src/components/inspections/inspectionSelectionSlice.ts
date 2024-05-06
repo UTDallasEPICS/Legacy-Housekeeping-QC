@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "../store";
-import { InspectionCardProps } from "../ts/interfaces/roomReport.interfaces";
+import { RootState } from "../../../store";
+import { InspectionCardProps } from "./Grid/props";
 import { Clean_Status, Inspect_Status } from "@prisma/client";
 
 export interface InspectionSelectionState {

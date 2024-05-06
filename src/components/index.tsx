@@ -8,9 +8,6 @@ export { default as RemainingInspectionListItemCard } from "./globalComponents/r
 export { default as SignInCardInVPSize } from "./authsComponents/signInCardInVPSize/signInCardInVPSize";
 export { default as SignUpCardInVPSize } from "./authsComponents/signUpCardInVPSize/signUpCardInVPSize";
 
-// navbarComponents
-export { default as NavbarButton } from "./navbarComponents/navbarButton";
-
 // adminDashboard
 export { default as Navbar } from "./adminDashboard/navbar/navbar";
 export { default as Dashboard } from "./adminDashboard/dashboard/dashboard";
@@ -21,11 +18,6 @@ export { default as DashboardCardHeading } from "./dashboardComponents/dashboard
 export { default as DashboardCardProgressListItemButton } from "./dashboardComponents/dashboardCardProgressListItemButton";
 export { default as PerformanceInsightsCard } from "./dashboardComponents/performanceInsightsCard";
 export { default as TodaysInspectionsCard } from "./dashboardComponents/todaysInspectionsCard";
-
-// inspections
-///export { default as ReportComponent } from "./inspections/Reports/reportComponent";
-export { default as InspectionGrid } from "./inspections/Grid/InspectionGrid";
-///export { default as InspectionCheckBox } from "./inspections/Reports/itemCheckBoxes";
 
 // teamMemberComponents
 export { default as MemberInfo } from "./teamMemberComponents/displayInfo/memberInfo";
