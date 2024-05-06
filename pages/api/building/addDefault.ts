@@ -3,7 +3,7 @@ import prisma from "../../../lib/prisma";
 import generateBuilding, {
   BuildingData,
   RoomData,
-} from "../../../functions/generateBuilding";
+} from "../../../scripts/populateBuilding/generateBuilding";
 
 export default async function handler(
   req: NextApiRequest,
