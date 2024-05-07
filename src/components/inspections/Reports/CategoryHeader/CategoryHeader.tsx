@@ -1,12 +1,5 @@
 import { Box, Checkbox, FormControlLabel, Typography } from "@mui/material";
-import { InspectItemProps } from "../../../../../ts/interfaces/roomItem.interfaces";
-
-export interface CategoryHeaderProps {
-  items: InspectItemProps[];
-  category: string;
-  onCheck: any;
-  disabled: boolean;
-}
+import { CategoryHeaderProps } from "./props";
 
 const CategoryHeader = (props: CategoryHeaderProps) => {
   const { items, category, onCheck, disabled } = props;

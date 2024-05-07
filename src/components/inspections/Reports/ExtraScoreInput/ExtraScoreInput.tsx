@@ -2,7 +2,7 @@ import { Box, TextField, Typography } from "@mui/material";
 import { getExtraScore, setExtraScore } from "../InspectionMakerSlice";
 import { useDispatch, useSelector } from "react-redux";
 
-const ExtraScoreInput = ({ disabled }) => {
+const ExtraScoreInput = ({ disabled }: { disabled: boolean }) => {
   const dispatch = useDispatch();
   const extra_score = useSelector(getExtraScore);
   const handleExtraScoreChange = (event) => {

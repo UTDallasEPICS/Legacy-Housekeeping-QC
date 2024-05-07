@@ -3,7 +3,6 @@ import {
   Avatar,
   Box,
   Button,
-  Container,
   IconButton,
   Menu,
   MenuItem,
@@ -11,14 +10,11 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import MenuIcon from "@mui/icons-material/Menu";
-
 import { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
-
-import { montserrat } from "../../../../pages/theme";
+import { montserrat } from "../../../theme";
 
 export default function navbar() {
   const theme = useTheme();

@@ -1,4 +1,4 @@
-import { montserrat } from "../../../../../pages/theme";
+import { montserrat } from "../../../../theme";
 import { EllipsisTextChipProps } from "./props";
 
 const EllipsisTextChip = (props: EllipsisTextChipProps) => {

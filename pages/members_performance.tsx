@@ -17,7 +17,7 @@ const Performance = () => {
   // Fetch members from API
   const getMembers = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/member/members", {
+      const response = await fetch("/api/member/members", {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });

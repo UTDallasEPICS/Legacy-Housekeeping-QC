@@ -1,3 +1,7 @@
+/*
+ * This file contains the interfaces for the database models.
+ * Common function to convert Prisma generated types to the interfaces are also included.
+ */
 import {
   Prisma,
   User as UserDB,
@@ -18,12 +22,13 @@ import {
   Score,
 } from "@prisma/client";
 import { BuildingWithRooms } from "../interfaces/room.interface";
+
+// Interfaces
+
 export type TeamMember = Omit<TeamMemberDB & PersonDB, "type" | "person_id">;
 export type User = Omit<UserDB & PersonDB, "type" | "person_id">;
-
 export type CommonArea = Omit<CommonAreaDB & RoomDB, "room_id">;
 export type PersonalRoom = Omit<PersonalRoomDB & RoomDB, "room_id">;
-
 export type HollisticRubric = {
   requirements: RequirementDB[];
 } & Omit<HollisticRubricDB & RubricDB, "rubric_id">;
@@ -43,10 +48,11 @@ export type Schedule = {
   building: Building;
   team_members: TeamMember[];
 } & ScheduleDB;
-
 export type Rubric = HollisticRubric | QuantitativeRubric;
 export type Room = CommonArea | PersonalRoom;
 export type Building = BuildingDB;
+
+// Prisma generated types
 
 export const buildingIncludeRooms = Prisma.validator<Prisma.BuildingInclude>()({
   rooms: true,

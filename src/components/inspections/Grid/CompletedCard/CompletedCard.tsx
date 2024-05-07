@@ -11,15 +11,9 @@ import { InspectionCardProps, toCompletedInspectionCardProps } from "../props";
 import { useDispatch } from "react-redux";
 import { setInspectionSelectionData } from "../../inspectionSelectionSlice";
 import { useRouter } from "next/router";
-import { Inspection } from "../../../../../ts/types/db.interfaces";
+import { CompletedCardProps } from "./props";
 
-const CompletedCard = ({
-  card_id,
-  inspection,
-}: {
-  card_id: number;
-  inspection: Inspection;
-}) => {
+const CompletedCard = ({ card_id, inspection }: CompletedCardProps) => {
   const inspectionProps: InspectionCardProps =
     toCompletedInspectionCardProps(inspection);
   const router = useRouter();

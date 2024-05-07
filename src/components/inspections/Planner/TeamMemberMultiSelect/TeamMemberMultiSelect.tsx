@@ -32,7 +32,7 @@ const TeamMemberMultiSelect = (props: TeamMemberMultiSelectProps) => {
         renderOption={(props, option, { selected }) => (
           <MenuItem
             {...props}
-            key={option.key}
+            key={option.name}
             sx={{ display: "flex", gap: "1rem" }}
           >
             {option.name}
@@ -42,6 +42,7 @@ const TeamMemberMultiSelect = (props: TeamMemberMultiSelectProps) => {
         renderTags={(tagValue, getTagProps) => {
           return tagValue.map((option, index) => (
             <Chip
+              key={option.name}
               {...getTagProps({ index })}
               label={
                 <EllipsisTextChip width="60px">{option.name}</EllipsisTextChip>
@@ -49,7 +50,7 @@ const TeamMemberMultiSelect = (props: TeamMemberMultiSelectProps) => {
             />
           ));
         }}
-        isOptionEqualToValue={(option, value) => option.key === value.key}
+        isOptionEqualToValue={(option, value) => option.name === value.name}
         value={selected}
         onChange={(event, value) => handleChange(value)}
       />
