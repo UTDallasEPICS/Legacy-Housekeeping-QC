@@ -1,17 +1,15 @@
 import { CssBaseline } from "@mui/material";
-import InspectionMaker from "../../src/components/inspections/Reports/InspectionMaker";
 import { useDispatch, useSelector } from "react-redux";
-import { getInspectionSelectionProps } from "../../src/components/inspections/inspectionSelectionSlice";
+import { getInspectionSelectionProps } from "../../slices/inspectionSelectionSlice";
 import {
   ItemCategoryProps,
   setComment,
   setExtraScore,
   setItems,
   setRoomPics,
-} from "../../src/components/inspections/Reports/InspectionMakerSlice";
+} from "../../slices/InspectionMakerSlice";
 import { useEffect, useState } from "react";
-import Loading from "../../src/components/loader/Loading";
-import { Navbar } from "../../src/components";
+import { InspectionMaker, Loader, Navbar } from "../../src/components";
 import {
   InspectItemProps,
   toInspectItemProps,
@@ -41,7 +39,7 @@ const makeInspection = () => {
     }, 500);
   }, []);
 
-  if (loading) return <Loading />;
+  if (loading) return <Loader />;
 
   return (
     <main>

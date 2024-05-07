@@ -1,5 +1,5 @@
 import { Inspect_Status } from "@prisma/client";
-import { Inspection } from "../../../ts/types/db.interfaces";
+import { Inspection } from "../ts/types/db.interfaces";
 
 export const splitInspectionWithStatus = (inspections: Inspection[]) => {
   let notInspected: Inspection[] = [];

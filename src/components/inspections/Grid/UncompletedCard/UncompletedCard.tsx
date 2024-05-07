@@ -11,7 +11,7 @@ import {
   toUncompletedInspectionCardProps,
 } from "../props";
 import { useDispatch } from "react-redux";
-import { setInspectionSelectionData } from "../../inspectionSelectionSlice";
+import { setInspectionSelectionData } from "../../../../../slices/inspectionSelectionSlice";
 import { useRouter } from "next/router";
 import { UncompletedCardProps } from "./props";
 

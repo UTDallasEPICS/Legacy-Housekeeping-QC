@@ -35,3 +35,9 @@ export { default as ScheduleRoomPanel } from "./scheduleComponents/ScheduleRoomP
 export { default as ScheduleWeekPanel } from "./scheduleComponents/scheduleWeekPanel/scheduleWeekPanel";
 export { default as SelectionBox } from "./scheduleComponents/selectionBox/selectionBox";
 export { default as DayTimeSelectionPanel } from "./scheduleComponents/dayTimeSelectionBox/DayTimeSelectionPanel";
+
+// Inspections
+export { default as InspectionPlanner } from "./inspections/Planner/InspectionPlanner";
+export { default as InspectionGrid } from "./inspections/Grid/InspectionGrid";
+export { default as InspectionDateSelector } from "./inspections/Grid/InspectionDateSelector";
+export { default as InspectionMaker } from "./inspections/Reports/InspectionMaker";

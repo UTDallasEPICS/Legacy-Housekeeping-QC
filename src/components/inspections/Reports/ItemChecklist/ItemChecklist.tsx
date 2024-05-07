@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import CategoryCheckbox from "../CategoryCheckbox";
 import { useDispatch, useSelector } from "react-redux";
-import { getItems, setItems } from "../InspectionMakerSlice";
+import { getItems, setItems } from "../../../../../slices/InspectionMakerSlice";
 import CategoryHeader from "../CategoryHeader";
 import { InspectItemProps, ItemChecklistProps, generateNewItem } from "./props";
 

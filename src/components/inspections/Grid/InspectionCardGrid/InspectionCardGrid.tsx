@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import {
   getInspectedReports,
   getNotInspectedReports,
-} from "../inspectionsFetchSlice";
+} from "../../../../../slices/inspectionsFetchSlice";
 import { InspectionFilterBy, filterInspection } from "./filterInspection";
 import { InspectionSortBy, sortInspection } from "./sortInspection";
 

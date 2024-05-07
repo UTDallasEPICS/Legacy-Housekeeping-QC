@@ -1,6 +1,6 @@
 import { splitInspectionWithStatus } from "./splitInspectionWithStatus";
 
-export async function getInspection(date: string = "") {
+async function getInspection(date: string = "") {
   const inspectionFetchRes = await fetch(
     (process.env.NEXTAUTH_URL || "http://localhost:3000") +
       "/api/roomReport/report",
@@ -17,3 +17,5 @@ export async function getInspection(date: string = "") {
     splitInspectionWithStatus(inspectionFetch);
   return { inspected, notInspected };
 }
+
+export default getInspection;

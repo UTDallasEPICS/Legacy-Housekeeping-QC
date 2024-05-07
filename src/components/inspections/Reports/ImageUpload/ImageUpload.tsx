@@ -7,7 +7,10 @@ import {
   Typography,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { getRoomPics, setRoomPics } from "../InspectionMakerSlice";
+import {
+  getRoomPics,
+  setRoomPics,
+} from "../../../../../slices/InspectionMakerSlice";
 import CloudIcon from "@mui/icons-material/Cloud";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 

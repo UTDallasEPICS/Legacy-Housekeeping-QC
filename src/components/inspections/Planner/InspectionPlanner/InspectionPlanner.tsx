@@ -7,9 +7,9 @@ import { montserrat } from "../../../../theme";
 import {
   getDateFilter,
   setInspectionsFetchData,
-} from "../../Grid/inspectionsFetchSlice";
+} from "../../../../../slices/inspectionsFetchSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { splitInspectionWithStatus } from "../../splitInspectionWithStatus";
+import { splitInspectionWithStatus } from "../../../../../functions/splitInspectionWithStatus";
 import TeamMemberMultiSelect from "../TeamMemberMultiSelect";
 import RoomDropdownSelect from "../RoomDropdownSelect";
 import CleanTypeRadioGroup from "../CleanTypeRadioGroup";

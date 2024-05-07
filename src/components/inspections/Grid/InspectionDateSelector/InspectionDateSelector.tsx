@@ -5,8 +5,8 @@ import { useDispatch } from "react-redux";
 import {
   setDateFilter,
   setInspectionsFetchData,
-} from "../inspectionsFetchSlice";
-import { splitInspectionWithStatus } from "../../splitInspectionWithStatus";
+} from "../../../../../slices/inspectionsFetchSlice";
+import { splitInspectionWithStatus } from "../../../../../functions/splitInspectionWithStatus";
 
 const InspectionDateSelector = () => {
   const dispatch = useDispatch();
