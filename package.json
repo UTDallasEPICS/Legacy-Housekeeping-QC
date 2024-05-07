@@ -3,11 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "node --env-file=.env local-dev.js",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "local-dev": "node --env-file=.env local-dev.js",
     "start:migrate": "prisma migrate deploy && next start"
   },
   "dependencies": {

@@ -1,6 +1,6 @@
 # Description
 
-Add default building and room to database through API call
+Add default building and room to database through API call. Note that negative floor number is converted to positive instead as a temporary solution. Please fix the frontend design of Room Pages to account for negative floor.
 
 # Instructions
 
