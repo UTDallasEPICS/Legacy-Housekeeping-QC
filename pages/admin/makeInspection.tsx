@@ -7,6 +7,7 @@ import {
   setComment,
   setExtraScore,
   setItems,
+  setRoomPics,
 } from "../../src/components/inspections/Reports/InspectionMakerSlice";
 import { useEffect, useState } from "react";
 import Loading from "../../src/components/loader/Loading";
@@ -21,6 +22,8 @@ const makeInspection = () => {
   const inspectionProps = useSelector(getInspectionSelectionProps);
   dispatch(setComment(inspectionProps.comment ?? ""));
   dispatch(setExtraScore(inspectionProps.extra_score ?? 0));
+  // Get the room pics from database after image upload and storage is implemented
+  dispatch(setRoomPics([]));
 
   const [loading, setLoading] = useState(true);
 
