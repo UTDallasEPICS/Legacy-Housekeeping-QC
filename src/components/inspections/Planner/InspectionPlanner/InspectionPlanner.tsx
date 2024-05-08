@@ -7,9 +7,9 @@ import { montserrat } from "../../../../theme";
 import {
   getDateFilter,
   setInspectionsFetchData,
-} from "../../Grid/inspectionsFetchSlice";
+} from "../../../../../slices/inspectionsFetchSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { splitInspectionWithStatus } from "../../splitInspectionWithStatus";
+import { splitInspectionWithStatus } from "../../../../../functions/splitInspectionWithStatus";
 import TeamMemberMultiSelect from "../TeamMemberMultiSelect";
 import RoomDropdownSelect from "../RoomDropdownSelect";
 import CleanTypeRadioGroup from "../CleanTypeRadioGroup";
@@ -49,7 +49,7 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
       return;
     }
 
-    // Create a rubric for the inspection
+    // Create a rubric for the inspection - default to Quantitative
     const rubricRes = await fetch("/api/rubric/add", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -57,7 +57,7 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
     });
     const rubric = await rubricRes.json();
 
-    // Add default items to the rubric
+    // Add default items to the rubric - which is specific to a quantitave rubric
     await fetch("/api/roomItem/addDefault", {
       method: "POST",
       headers: {

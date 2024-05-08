@@ -2,9 +2,9 @@ import { configureStore } from "@reduxjs/toolkit";
 import memberFirstNameSlice from "./slices/memberProfileSlice";
 import buildingSelectSlice from "./slices/buildingSelectSlice";
 import roomSelectSlice from "./slices/roomSelectSlice";
-import inspectionsFetchSlice from "./src/components/inspections/Grid/inspectionsFetchSlice";
-import inspectionSelectionSlice from "./src/components/inspections/inspectionSelectionSlice";
-import inspectionMakerSlice from "./src/components/inspections/Reports/InspectionMakerSlice";
+import inspectionsFetchSlice from "./slices/inspectionsFetchSlice";
+import inspectionSelectionSlice from "./slices/inspectionSelectionSlice";
+import inspectionMakerSlice from "./slices/InspectionMakerSlice";
 
 //Importing our reducers
 export const store = configureStore({

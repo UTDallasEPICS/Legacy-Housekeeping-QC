@@ -7,17 +7,20 @@ import { useSelector } from "react-redux";
 import {
   getInspectedReports,
   getNotInspectedReports,
-} from "../inspectionsFetchSlice";
+} from "../../../../../slices/inspectionsFetchSlice";
 import { InspectionFilterBy, filterInspection } from "./filterInspection";
+import { InspectionSortBy, sortInspection } from "./sortInspection";
 
 const InspectionCardGrid = ({
   status,
   filter,
   filterBy,
+  sortBy,
 }: {
   status: Inspect_Status;
   filter: string;
   filterBy: InspectionFilterBy;
+  sortBy: InspectionSortBy;
 }) => {
   const inspected = useSelector(getInspectedReports);
   const notInspected = useSelector(getNotInspectedReports);
@@ -44,7 +47,14 @@ const InspectionCardGrid = ({
           </Typography>
         </Grid>
       )}
-      {CardCondition({ status, inspected, notInspected, filter, filterBy })}
+      {CardCondition({
+        status,
+        inspected,
+        notInspected,
+        filter,
+        filterBy,
+        sortBy,
+      })}
     </Grid>
   );
 };
@@ -57,35 +67,43 @@ const CardCondition = ({
   status,
   filter,
   filterBy,
+  sortBy,
   inspected,
   notInspected,
 }: {
   status: Inspect_Status;
   filter: string;
   filterBy: InspectionFilterBy;
+  sortBy: InspectionSortBy;
   inspected: Inspection[];
   notInspected: Inspection[];
 }) => {
+  let inspection = [];
   switch (status) {
     case Inspect_Status.INSPECTED:
-      return filterInspection(inspected, filter, filterBy).map(
-        (inspection, index) => (
-          <Grid item xs={12} md={6} xl={4} key={inspection.id}>
-            <CompletedCard card_id={index} inspection={inspection} />
-          </Grid>
-        )
-      );
+      inspection = inspected;
+      break;
     case Inspect_Status.NOT_INSPECTED:
-      return filterInspection(notInspected, filter, filterBy).map(
-        (inspection, index) => (
-          <Grid item xs={12} md={6} xl={4} key={inspection.id}>
-            <UncompletedCard card_id={index} inspection={inspection} />
-          </Grid>
-        )
-      );
+      inspection = notInspected;
+      break;
     default:
       return <></>;
   }
+
+  inspection = filterInspection(inspection, filter, filterBy);
+  inspection = sortInspection(inspection, sortBy);
+
+  return inspection.map((inspection, index) => {
+    return (
+      <Grid item xs={12} md={6} xl={4} key={inspection.id}>
+        {status === Inspect_Status.INSPECTED ? (
+          <CompletedCard card_id={index} inspection={inspection} />
+        ) : (
+          <UncompletedCard card_id={index} inspection={inspection} />
+        )}
+      </Grid>
+    );
+  });
 };
 
 export default InspectionCardGrid;

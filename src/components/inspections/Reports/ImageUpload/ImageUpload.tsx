@@ -7,7 +7,10 @@ import {
   Typography,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { getRoomPics, setRoomPics } from "../InspectionMakerSlice";
+import {
+  getRoomPics,
+  setRoomPics,
+} from "../../../../../slices/InspectionMakerSlice";
 import CloudIcon from "@mui/icons-material/Cloud";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
@@ -51,6 +54,7 @@ const ImageUploadHeader = ({ disabled, onUpload }) => {
 };
 
 const ImageGrid = ({ roomPics }) => {
+  const dispatch = useDispatch();
   return (
     <Box
       sx={{
@@ -66,7 +70,14 @@ const ImageGrid = ({ roomPics }) => {
             <ImageListItemBar
               title={pic.name}
               actionIcon={
-                <IconButton sx={{ color: "rgba(255, 255, 255, 0.54)" }}>
+                <IconButton
+                  sx={{ color: "rgba(255, 255, 255, 0.54)" }}
+                  onClick={() => {
+                    dispatch(
+                      setRoomPics(roomPics.filter((_, i) => i !== index))
+                    );
+                  }}
+                >
                   <DeleteForeverIcon />
                 </IconButton>
               }
@@ -96,7 +107,7 @@ const ImageUpload = ({ disabled }: { disabled: boolean }) => {
     );
   };
   return (
-    <Box>
+    <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
       <ImageUploadHeader disabled={disabled} onUpload={handleFileUpload} />
       <ImageGrid roomPics={roomPics} />
     </Box>

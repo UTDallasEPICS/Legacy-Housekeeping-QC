@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { RootState } from "../../../../store";
-import { InspectItemProps } from "./ItemChecklist/props";
+import { RootState } from "../store";
+import { InspectItemProps } from "../src/components/inspections/Reports/ItemChecklist/props";
 
 export interface ImageUploadProps {
   name: string;

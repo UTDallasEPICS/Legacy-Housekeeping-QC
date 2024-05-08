@@ -1,6 +1,9 @@
 import { Box, TextField, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { getComment, setComment } from "../InspectionMakerSlice";
+import {
+  getComment,
+  setComment,
+} from "../../../../../slices/InspectionMakerSlice";
 
 const CommentBox = ({ disabled }: { disabled: boolean }) => {
   const dispatch = useDispatch();

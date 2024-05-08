@@ -1,11 +1,13 @@
 import { Box } from "@mui/material";
-import { Navbar } from "../../src/components";
-import InspectionPlanner from "../../src/components/inspections/Planner/InspectionPlanner";
+import {
+  InspectionDateSelector,
+  InspectionGrid,
+  InspectionPlanner,
+  Navbar,
+} from "../../src/components";
 import { useDispatch } from "react-redux";
-import { setInspectionsFetchData } from "../../src/components/inspections/Grid/inspectionsFetchSlice";
-import InspectionDateSelector from "../../src/components/inspections/Grid/InspectionDateSelector";
-import InspectionGrid from "../../src/components/inspections/Grid/InspectionGrid";
-import { getInspection } from "../../src/components/inspections/getInspection";
+import { setInspectionsFetchData } from "../../slices/inspectionsFetchSlice";
+import getInspection from "../../functions/getInspection";
 
 const inspections = ({ inspected, notInspected, members, buildings }) => {
   const dispatch = useDispatch();

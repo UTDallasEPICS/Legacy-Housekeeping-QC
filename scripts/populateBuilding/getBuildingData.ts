@@ -16,7 +16,7 @@ export interface BuildingData {
   max_floor?: number;
 }
 
-const generateBuilding = async () => {
+export const getBuildingData = async () => {
   const parsedData = ((await readCSV(buildingCSV)) as any[]).filter(
     (data) => data["Room ID"]
   );
@@ -73,4 +73,4 @@ const generateBuilding = async () => {
   return buildingData;
 };
 
-export default generateBuilding;
+export default getBuildingData;

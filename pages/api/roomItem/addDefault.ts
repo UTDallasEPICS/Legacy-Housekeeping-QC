@@ -9,8 +9,6 @@ export default async function handler(
   try {
     if (req.method === "POST") {
       const { room_id, rubric_id } = req.body;
-
-      // Filter out item that is already exist
       let promisedItems = defaultItems
         .map((category) => {
           return category.items.map((item) => {

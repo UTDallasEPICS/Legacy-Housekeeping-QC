@@ -25,4 +25,4 @@ The Inspection Maker allows users to check and uncheck various items inside a ro
 
 - `Grid`: Contains functionalities related to the Inspection Grid.
 - `Planner`: Contains functionalities related to the Inspection Planner.
-- `Reports`: Contains functionalities related to generating reports.
+- `Reports`: Contains functionalities related to Inspection Maker.

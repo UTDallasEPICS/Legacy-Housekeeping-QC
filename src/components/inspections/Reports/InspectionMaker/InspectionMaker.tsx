@@ -5,7 +5,11 @@ import { useRouter } from "next/router";
 import BackButton from "../../../globalComponents/backButton";
 import CommentBox from "../CommentBox";
 import ItemChecklist from "../ItemChecklist";
-import { getComment, getExtraScore, getItems } from "../InspectionMakerSlice";
+import {
+  getComment,
+  getExtraScore,
+  getItems,
+} from "../../../../../slices/InspectionMakerSlice";
 import InspectionHeader from "../InspectionHeader";
 import ExtraScoreInput from "../ExtraScoreInput";
 import ImageUpload from "../ImageUpload";

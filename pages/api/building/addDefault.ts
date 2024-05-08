@@ -1,9 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../lib/prisma";
-import generateBuilding, {
+import {
+  getBuildingData,
   BuildingData,
   RoomData,
-} from "../../../scripts/populateBuilding/generateBuilding";
+} from "../../../scripts/populateBuilding/getBuildingData";
 
 export default async function handler(
   req: NextApiRequest,
@@ -11,7 +12,7 @@ export default async function handler(
 ) {
   try {
     if (req.method === "POST") {
-      const buildingsData: BuildingData[] = await generateBuilding();
+      const buildingsData: BuildingData[] = await getBuildingData();
       // Create transactions for adding buildings
       let buildings;
       await prisma

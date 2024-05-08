@@ -9,7 +9,7 @@ import {
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { InspectionCardProps, toCompletedInspectionCardProps } from "../props";
 import { useDispatch } from "react-redux";
-import { setInspectionSelectionData } from "../../inspectionSelectionSlice";
+import { setInspectionSelectionData } from "../../../../../slices/inspectionSelectionSlice";
 import { useRouter } from "next/router";
 import { CompletedCardProps } from "./props";
 
