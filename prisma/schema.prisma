@@ -17,9 +17,9 @@ model Person {
   state_code   String?
   phone_number String?
   type  PersonType
+  // Relations
   user User?
   teamMember TeamMember?
-  // Relations
 }
 
 enum PersonType {
@@ -202,10 +202,10 @@ model Requirement {
   // Indexes
   id Int @id @default(autoincrement())
   // Fields
-  is_default Boolean
   category String
   description String
   is_checked Boolean
+  weight Int @default(1)
   // Relations
   hollistic_id Int 
   hollistic_rubric HollisticRubric @relation(fields: [hollistic_id], references: [id])
