@@ -1,36 +1,3 @@
-<style>
-
-    ul {
-
-        color: red;
-
-    }
-
-    p, ol {
-
-        color: rgb(200, 250, 250);
-
-    }
-
-    h1 { 
-
-        color: white;
-
-    }
-
-    ol {
-
-        background: rgba(0, 0, 0, 0.35);
-        padding: 30px;
-        border-radius: 10px;
-
-    }
-
-</style>
-
-
-![DID NOT LOAD](./embed.svg)
-
 # **Legacy QC Management System**
 
 
