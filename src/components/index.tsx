@@ -1,3 +1,4 @@
+
 // globalComponents
 export { default as BackButton } from "./globalComponents/backButton";
 export { default as CompletedInspectionListItemCard } from "./globalComponents/completedInspectionListItemCard";
