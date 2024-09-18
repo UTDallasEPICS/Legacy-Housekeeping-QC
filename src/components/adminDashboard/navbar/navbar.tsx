@@ -46,7 +46,7 @@ export default function navbar() {
             variant="h6"
             sx={{ mx: 1, fontFamily: montserrat.style.fontFamily }}
           >
-            <b>LegacyQC</b>
+            <b>The Legacy</b>
           </Typography>
         </Link>
         {burgerBreakpoint && <NavbarBurger />}
