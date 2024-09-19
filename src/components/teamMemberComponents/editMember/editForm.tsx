@@ -1,6 +1,8 @@
 import { Alert, Box, Button, TextField } from "@mui/material";
 import { MuiTelInput } from "mui-tel-input";
 import { makeStyles } from "tss-react/mui";
+import { useDispatch } from "react-redux";
+import { setMemberProfile } from "../../../../slices/memberProfileSlice";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { format } from "path";
@@ -25,6 +27,7 @@ const useStyles = makeStyles()(() => {
 
 const editForm = ({ memberId }: MemberId) => {
   console.log(memberId);
+  const dispatch = useDispatch();
 
   const emailRegEx = new RegExp(
     "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$"
@@ -66,6 +69,14 @@ const editForm = ({ memberId }: MemberId) => {
     }
   }, [memberId]);
 
+  const clearMemberSelection = () => {
+    dispatch(
+      setMemberProfile({
+        firstName
+      })
+    );
+  }
+
   const handleSubmit = async () => {
     if (email != "" && !emailRegEx.test(email)) {
       return setError("Enter a valid email.");
@@ -95,20 +106,17 @@ const editForm = ({ memberId }: MemberId) => {
       return;
     }
 
-    setFirstName("");
-    setLastName("");
-    setEmail("");
-    setPhoneNumber("");
-
+    clearMemberSelection();
     router.push("/admin/teamMembers");
   };
+
   const handleRemoveMember = async () => {
     try {
       const res = await fetch(`/api/member/delete?id=${memberId}`, {
         method: "DELETE",
       });
-
       if (res.ok) {
+        clearMemberSelection();
         router.push("/admin/teamMembers");
       } else {
         const data = await res.json();

@@ -1,47 +1,49 @@
 import React from "react";
 import { useState, useEffect } from "react";
-//import formRoomValidation from "./formRoomValidation";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../store";
 import BackButton from "../../globalComponents/backButton";
 import formBuildingValidation from "../componentsForAddBuilding/formBuildingValidation";
 import { Button, Alert, TextField, Grid } from "@mui/material";
-import Link from "next/link";
 import Navbar from "../../../../src/components/adminDashboard/navbar/navbar";
+import { useRouter } from 'next/router';
+import Link from "next/link";
 
 const formEditBuilding = () => {
   const [error, setError] = useState(null);
   const [buildingName, setBuildingName] = useState("");
-  const [floorsAmount, setFloorsAmount] = useState(0); 
+  const [floorsAmount, setFloorsAmount] = useState(0);
   const [building_id, setBuildingId] = useState("");
-  const [result,setResult] = useState([]);
+  const [result, setResult] = useState([]);
   const [formErrors, setFormErrors] = useState<any>({});
+  const router = useRouter();
+
   const getData = (apiUrl) => {
-    return fetch(apiUrl, 
-    {
-      method: "POST",
-      headers: {"Content-Type": "application/json",},
-      body: JSON.stringify({
-        building_name : buildingParam,
-      }),
-    })
-    .then((response) => {
+    return fetch(apiUrl,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json", },
+        body: JSON.stringify({
+          building_name: buildingParam,
+        }),
+      })
+      .then((response) => {
         if (!response.ok) {
-  
+
         }
         return response.json();
-    })
-    .then(json => {setResult(json)})
-    .catch((error) => {
-  
-    })
-        
+      })
+      .then(json => { setResult(json) })
+      .catch((error) => {
+
+      })
+
   }
-  
+
   let buildingParam;
   let floorsParam;
   let buildingId;
-  
+
 
   useEffect(() => {
     const queryString = window.location.search;
@@ -53,9 +55,9 @@ const formEditBuilding = () => {
     setBuildingName(buildingParam);
     setFloorsAmount(Number(floorsParam));
     setBuildingId(buildingId);
-  },[]);
+  }, []);
 
-  
+
 
   //validates what info they are submitting
   const handleSubmit = async () => {
@@ -65,7 +67,7 @@ const formEditBuilding = () => {
     );
 
     setFormErrors(resCheck);
-    if (resCheck!=0) {
+    if (resCheck != 0) {
       //setError(resCheck);
       return;
     }
@@ -78,9 +80,9 @@ const formEditBuilding = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          id:building_id,
-          building_name:buildingName,
-          floors_amount:floorsAmount
+          id: building_id,
+          building_name: buildingName,
+          floors_amount: floorsAmount
         }),
       });
 
@@ -89,7 +91,7 @@ const formEditBuilding = () => {
         setError(r.error);
         return;
       }
-      window.location.replace("/admin/roomPages/buildingChoice");
+      router.push("/admin/roomPages/buildingChoice");
     }
   };
 
@@ -101,8 +103,8 @@ const formEditBuilding = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          id:building_id,
-          building_name:buildingName,
+          id: building_id,
+          building_name: buildingName,
         }),
       });
 
@@ -111,7 +113,7 @@ const formEditBuilding = () => {
         setError(r.error);
         return;
       }
-      window.location.replace("/admin/roomPages/buildingChoice");
+      router.push("/admin/roomPages/buildingChoice");
     }
   };
 
@@ -119,119 +121,118 @@ const formEditBuilding = () => {
 
   return (
     <>
-      <Navbar/>
+      <Navbar />
       <div>
-          <BackButton pageToGoBack={"/admin/roomPages/buildingChoice"} />
+        <BackButton pageToGoBack={"/admin/roomPages/buildingChoice"} />
       </div>
 
-      <Grid container spacing = {1}
-          direction="column"
-          justifyContent="center"
-          alignItems="center">
-      
+      <Grid container spacing={1}
+        direction="column"
+        justifyContent="center"
+        alignItems="center">
 
-      <Grid item xs = {12} sm = {12} md = {12} lg = {12} xl = {12}
-      sx={{textAlign:"center"}}>
-        <h1>Edit Building - {buildingName}</h1>
-      </Grid>
 
-      <Grid item xs = {12} sm = {12} md = {12} lg = {12} xl = {12} 
-      sx={{textAlign:"center"}}>
-        <h2>Please fill out the information of the building:</h2>
-      </Grid>
+        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}
+          sx={{ textAlign: "center" }}>
+          <h1>Edit Building - {buildingName}</h1>
+        </Grid>
 
-      {/*This area will be the section where admin fills out info*/}
-          {/* Set the name of the room*/}
-          <Grid item xs={12} sm={12} md={12} lg={12} xl={12}  alignItems={"center"}>
-            <label
-              style={{
-                fontSize: "3vh",
-                marginRight: 10,
-                textAlign: "center",
-              }}
-            >
-              Building Name:
-            </label>
-          </Grid>  
+        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}
+          sx={{ textAlign: "center" }}>
+          <h2>Please fill out the information of the building:</h2>
+        </Grid>
 
-          <Grid item xs={12} sm={12} md={12} lg={12} xl={12}  alignItems={"center"}>
-            <TextField
-              label="Building Name" 
+        {/*This area will be the section where admin fills out info*/}
+        {/* Set the name of the room*/}
+        <Grid item xs={12} sm={12} md={12} lg={12} xl={12} alignItems={"center"}>
+          <label
+            style={{
+              fontSize: "3vh",
+              marginRight: 10,
+              textAlign: "center",
+            }}
+          >
+            Building Name:
+          </label>
+        </Grid>
+
+        <Grid item xs={12} sm={12} md={12} lg={12} xl={12} alignItems={"center"}>
+          <TextField
+            label="Building Name"
+            variant="outlined"
+            onChange={(e) => setBuildingName(e.target.value)}
+            value={buildingName}
+            name="roomName"
+            style={{ fontSize: "25vh", width: "30vh", height: "10vh", justifyContent: "center", }}
+          />
+        </Grid>
+        {(formErrors["name"] || formErrors["invalid"]) && <Alert severity="error" sx={{ whiteSpace: 'pre-line' }}>{formErrors["name"].concat(formErrors["invalid"])}</Alert>}
+
+        {/* Room Number Input */}
+        <Grid style={{}} item xs={12} sm={12} md={12} lg={12} xl={12}>
+          <label
+            style={{
+              fontSize: "3vh",
+              marginRight: 10,
+              textAlign: "center",
+            }}
+          >
+            Amount of Floors:
+          </label>
+        </Grid>
+        <Grid style={{}} item xs={12} sm={12} md={12} lg={12} xl={12}>
+          <TextField
+            onChange={(e) => setFloorsAmount(Number(e.target.value))}
+            label="# of Floors"
+            value={floorsAmount}
+            name="RoomNumber"
+            style={{ fontSize: "25vh", width: "30vh", height: "10vh", justifyContent: "center", }}
+          />
+        </Grid>
+        {formErrors["flooramount"] && <Alert severity="error" sx={{ whiteSpace: 'pre-line' }}>{formErrors["flooramount"]}</Alert>}
+        <Grid style={{ display: "flex", justifyContent: "center", marginTop: 70 }} spacing={3}>
+          <Grid item>
+            <Button
               variant="outlined"
-              onChange={(e) => setBuildingName(e.target.value)}
-              value={buildingName}
-              name="roomName"
-              style={{ fontSize: "25vh", width: "30vh", height: "10vh", justifyContent:"center", }}
-            />
-          </Grid>
-          {(formErrors["name"] || formErrors["invalid"]) && <Alert severity="error" sx={{ whiteSpace: 'pre-line' }}>{formErrors["name"].concat(formErrors["invalid"])}</Alert>}
-
-          {/* Room Number Input */}
-          <Grid style={{ }} item xs={12} sm={12} md={12} lg={12} xl={12}>
-            <label
-              style={{
-                fontSize: "3vh",
-                marginRight: 10,
-                textAlign: "center",
+              sx={{
+                border: 5,
+                marginRight: "1vh",
+                "&:hover": {
+                  border: 5,
+                  borderColor: "primary.main",
+                  color: "white",
+                  bgcolor: "primary.main",
+                },
               }}
+              onClick={() => handleSubmit()}
             >
-              Amount of Floors:
-            </label>
+              Submit
+            </Button>
           </Grid>
-          <Grid style={{ }} item xs={12} sm={12} md={12} lg={12} xl={12}>
-            <TextField
-              onChange={(e) => setFloorsAmount(Number(e.target.value))}
-              label="# of Floors"
-              value={floorsAmount}
-              name="RoomNumber"
-              style={{ fontSize: "25vh", width: "30vh", height: "10vh", justifyContent:"center", }}
-            />
-          </Grid>
-          {formErrors["flooramount"] && <Alert severity="error" sx={{ whiteSpace: 'pre-line' }}>{formErrors["flooramount"]}</Alert>}
-      <Grid style={{ display: "flex", justifyContent: "center", marginTop: 70 }} spacing={3}>
-        <Grid item>
-          <Button
-            variant="outlined"
-            sx={{ 
-              border: 5, 
-              marginRight: "1vh", 
-              "&:hover": {            
+
+          <Grid item>
+            <Button
+              variant="outlined"
+              sx={{
                 border: 5,
-                borderColor: "primary.main",
-                color: "white",
-                bgcolor: "primary.main", 
-              }, 
-            }}
-            onClick={() => handleSubmit()}
-          >
-            Submit
-          </Button>
+                "&:hover": {
+                  border: 5,
+                  borderColor: "primary.main",
+                  color: "white",
+                  bgcolor: "primary.main",
+                },
+              }}
+              onClick={() => handleDelete()}>
+              Delete Building
+            </Button>
+          </Grid>
+
         </Grid>
 
-        <Grid item>
-          <Button
-            variant="outlined"
-            sx={{ 
-              border: 5,
-              "&:hover": {            
-                border: 5,
-                borderColor: "primary.main",
-                color: "white",
-                bgcolor: "primary.main", 
-              },
-            }}
-            onClick={() => handleDelete()}
-          >
-            Delete Building
-          </Button>
-        </Grid>
-        
+
       </Grid>
-
-      
-    </Grid>
     </>
-    
+
   );
 };
 

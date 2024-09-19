@@ -1,14 +1,20 @@
 import { ProfileInfo } from "../..";
 import { TeamMemberProfile } from "../../../../ts/interfaces/teamMember.interfaces";
 
-const memberProfile = ({
-  first_name,
-  last_name,
-  email,
-  country_code,
-  state_code,
-  phone_number,
-}: TeamMemberProfile) => {
+interface MemberProfileProps {
+  memberData: TeamMemberProfile;
+}
+
+const MemberProfile = ({ memberData }: MemberProfileProps) => {
+  const {
+    first_name,
+    last_name,
+    email,
+    country_code,
+    state_code,
+    phone_number,
+  } = memberData;
+
   return (
     <ProfileInfo
       first_name={first_name}
@@ -21,4 +27,4 @@ const memberProfile = ({
   );
 };
 
-export default memberProfile;
+export default MemberProfile;
