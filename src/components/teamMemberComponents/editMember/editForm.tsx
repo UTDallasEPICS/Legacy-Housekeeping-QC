@@ -104,7 +104,7 @@ const editForm = ({ memberId }: MemberId) => {
   };
   const handleRemoveMember = async () => {
     try {
-      const res = await fetch(`/api/member/delete?memberId=${memberId}`, {
+      const res = await fetch(`/api/member/delete?id=${memberId}`, {
         method: "DELETE",
       });
 
