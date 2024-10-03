@@ -11,7 +11,7 @@ import {
 import CheckIcon from "@mui/icons-material/Check";
 import { RoomDropdownSelectProps } from "./props";
 
-const ROOM_OPTIONS_LIMIT = 100;
+const OPTION_LIMIT = 100;
 
 const RoomDropdownSelect = (props: RoomDropdownSelectProps) => {
   const { options, selected, handleChange } = props;
@@ -24,7 +24,7 @@ const RoomDropdownSelect = (props: RoomDropdownSelectProps) => {
             ? ""
             : "Room " + option.room_name + " in " + option.building_name
         }
-        groupBy={(option) => option.building_name + " Building"}
+        //groupBy={(option) => option.building_name + " Building"}
         renderInput={(params) => {
           return (
             <TextField
@@ -36,7 +36,8 @@ const RoomDropdownSelect = (props: RoomDropdownSelectProps) => {
           );
         }}
         renderOption={(props, option, { selected }) => (
-          <MenuItem {...props} key={option.room_id}>
+          <MenuItem key={option.room_id} {...props}
+          }>
             {"Room " + option.room_name}
             {selected && <CheckIcon color="info" />}
           </MenuItem>
@@ -61,7 +62,7 @@ const RoomDropdownSelect = (props: RoomDropdownSelectProps) => {
         value={selected}
         onChange={(event, value) => handleChange(value)}
         filterOptions={createFilterOptions({
-          limit: ROOM_OPTIONS_LIMIT,
+          limit: OPTION_LIMIT,
         })}
         PaperComponent={({ children }) => {
           return (
@@ -69,7 +70,7 @@ const RoomDropdownSelect = (props: RoomDropdownSelectProps) => {
               {children}
               <Box sx={{ padding: "1rem", backgroundColor: "lightgray" }}>
                 <Typography textAlign={"center"} fontStyle={"italic"}>
-                  ... {options.length - ROOM_OPTIONS_LIMIT} more rooms. Please
+                  ... {options.length - OPTION_LIMIT} more rooms. Please
                   type to search
                 </Typography>
               </Box>
