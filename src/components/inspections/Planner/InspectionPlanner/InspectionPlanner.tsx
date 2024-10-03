@@ -143,6 +143,7 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
       return {
         room_id: room.id,
         room_name: room.name,
+        floor_number: room.floor_number,
         building_name: building.name,
       };
     });
