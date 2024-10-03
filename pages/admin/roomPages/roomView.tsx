@@ -111,7 +111,7 @@ const roomView = () => {
         body: JSON.stringify({
           floor_num: floorParam,
           building_id: buildid,
-          type: sortOption
+          room_type: sortOption
         }),
       });
 
@@ -139,7 +139,7 @@ const roomView = () => {
     setFloor(floorParam);
     setBuildingId(buildid);
     getRooms(sortOption);
-  }, [sortOption, buildingParam, floorParam, buildid]);
+  }, [sortOption]);
 
   // Render the roomview component
   return (

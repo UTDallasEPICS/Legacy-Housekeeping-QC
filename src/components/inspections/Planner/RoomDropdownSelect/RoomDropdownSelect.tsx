@@ -36,8 +36,7 @@ const RoomDropdownSelect = (props: RoomDropdownSelectProps) => {
           );
         }}
         renderOption={(props, option, { selected }) => (
-          <MenuItem key={option.room_id} {...props}
-          }>
+          <MenuItem key={option.room_id} {...props}>
             {"Room " + option.room_name}
             {selected && <CheckIcon color="info" />}
           </MenuItem>
