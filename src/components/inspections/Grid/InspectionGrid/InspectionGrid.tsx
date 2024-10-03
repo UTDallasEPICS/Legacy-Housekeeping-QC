@@ -17,7 +17,7 @@ import { InspectionFilterBy } from "../InspectionCardGrid/filterInspection";
 import SortIcon from "@mui/icons-material/Sort";
 import { InspectionSortBy } from "../InspectionCardGrid/sortInspection";
 
-const InspectionGrid = () => {
+const inspectionGrid = () => {
   const [inspectionStatusFilter, setInspectionStatusFilter] =
     useState<Inspect_Status>(Inspect_Status.NOT_INSPECTED);
   const [filter, setFilter] = useState("");
@@ -72,7 +72,7 @@ const InspectionGrid = () => {
             value={inspectionStatusFilter}
             exclusive
             onChange={handleInspectionStatusFilter}
-          >  
+          >
             <ToggleButton value={Inspect_Status.NOT_INSPECTED}>
               Remaining
             </ToggleButton>
@@ -153,4 +153,4 @@ const InspectionGrid = () => {
   );
 };
 
-export default InspectionGrid;
+export default inspectionGrid;

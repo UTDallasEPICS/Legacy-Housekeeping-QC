@@ -103,7 +103,7 @@ const roomView = () => {
   const [rooms, setRooms] = useState([]);
   const [sortOption, setSortOption] = useState("default");
 
-  const getRooms = async (sortOption: String) => {
+  const getRooms = async (sortOption: string) => {
     try {
       const response = await fetch("/api/room/roomsInBuildingOnFloor", {
         method: "POST",
@@ -111,7 +111,7 @@ const roomView = () => {
         body: JSON.stringify({
           floor_num: floorParam,
           building_id: buildid,
-          room_type: sortOption
+          type: sortOption
         }),
       });
 
@@ -139,7 +139,7 @@ const roomView = () => {
     setFloor(floorParam);
     setBuildingId(buildid);
     getRooms(sortOption);
-  }, [sortOption]);
+  }, [sortOption, buildingParam, floorParam, buildid]);
 
   // Render the roomview component
   return (
