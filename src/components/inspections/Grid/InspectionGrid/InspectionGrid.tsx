@@ -19,7 +19,7 @@ import { InspectionSortBy } from "../InspectionCardGrid/sortInspection";
 
 const InspectionGrid = () => {
   const [inspectionStatusFilter, setInspectionStatusFilter] =
-    useState<Inspect_Status>(Inspect_Status.INSPECTED);
+    useState<Inspect_Status>(Inspect_Status.NOT_INSPECTED);
   const [filter, setFilter] = useState("");
   const [filterBy, setFilterBy] = useState(InspectionFilterBy.ROOM_NAME);
   const [sortBy, setSortBy] = useState(InspectionSortBy.ROOM_NAME);
@@ -72,12 +72,12 @@ const InspectionGrid = () => {
             value={inspectionStatusFilter}
             exclusive
             onChange={handleInspectionStatusFilter}
-          >
-            <ToggleButton value={Inspect_Status.INSPECTED}>
-              Completed
-            </ToggleButton>
+          >  
             <ToggleButton value={Inspect_Status.NOT_INSPECTED}>
               Remaining
+            </ToggleButton>
+            <ToggleButton value={Inspect_Status.INSPECTED}>
+              Completed
             </ToggleButton>
           </ToggleButtonGroup>
 
