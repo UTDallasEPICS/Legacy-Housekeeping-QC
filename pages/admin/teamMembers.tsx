@@ -1,36 +1,17 @@
-import {
-  Box,
-  Button,
-  Container,
-  Divider,
-  Typography,
-  Grid,
-  InputBase,
-} from "@mui/material";
-import { Add } from "@mui/icons-material";
-import { Search } from "@mui/icons-material";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { Box, Button, Container, Divider, Typography, Grid, InputBase } from "@mui/material";
+import { Add, Search } from "@mui/icons-material";
 import Link from "next/link";
 import { getSession } from "next-auth/react";
-import { useState } from "react";
 import { useSelector } from "react-redux";
-import {
-  MemberProfile,
-  Navbar,
-  PageHeading,
-  Scroll,
-} from "../../src/components";
-import {
-  selectFirstName,
-  selectLastName,
-  selectEmail,
-  selectCountryCode,
-  selectStateCode,
-  selectPhoneNumber,
-} from "../../slices/memberProfileSlice";
+import { MemberProfile, Navbar, PageHeading, Scroll } from "../../src/components";
+import { selectFirstName, selectLastName, selectEmail, selectCountryCode, selectStateCode, selectPhoneNumber } from "../../slices/memberProfileSlice";
 import { TeamMemberProperties } from "../../ts/interfaces/teamMember.interfaces";
 
 const teamMembers = ({ members }: TeamMemberProperties) => {
-  // Use Redux selectors to get member profile data
+  const router = useRouter();
+  const [memberData, setMemberData] = useState(members);
   const first_name = useSelector(selectFirstName);
   const last_name = useSelector(selectLastName);
   const email = useSelector(selectEmail);
@@ -39,13 +20,24 @@ const teamMembers = ({ members }: TeamMemberProperties) => {
   const phone_number = useSelector(selectPhoneNumber);
   const [searchInput, setSearchInput] = useState("");
 
-  // Handler for search input changes
+  useEffect(() => {
+    const fetchMembers = async () => {
+      const res = await fetch(
+        (process.env.NEXTAUTH_URL || "http://localhost:3000") + "/api/member/members"
+      );
+      const data = await res.json();
+      setMemberData(data);
+    };
+
+    fetchMembers();
+    console.log(router.asPath);
+  }, [router.asPath]);
+
   const handleSearchChange = (event) => {
     setSearchInput(event.target.value.toLowerCase());
   };
 
-  // Filter members based on search input
-  const filteredMembers = members.filter(
+  const filteredMembers = memberData.filter(
     (member) =>
       member.first_name.toLowerCase().includes(searchInput) ||
       member.last_name.toLowerCase().includes(searchInput)
@@ -95,21 +87,20 @@ const teamMembers = ({ members }: TeamMemberProperties) => {
             </Box>
           </Grid>
 
-          {/* Grid for the MemberProfile component */}
           <Grid item xs={12} md={8}>
-            <Box
-              sx={{ py: 4, pl: 4, display: "flex", justifyContent: "center" }}
-            >
-              {first_name.length > 0 ? (
+            <Box sx={{ py: 4, pl: 4, display: "flex", justifyContent: "center" }}>
+              {first_name ? (
                 <MemberProfile
-                  first_name={first_name}
-                  last_name={last_name}
-                  email={email}
-                  country_code={country_code}
-                  state_code={state_code}
-                  phone_number={phone_number}
+                  memberData={{
+                    first_name,
+                    last_name,
+                    email,
+                    country_code,
+                    state_code,
+                    phone_number,
+                  }}
                 />
-              ) : members.length > 0 ? (
+              ) : memberData.length > 0 ? (
                 <Typography variant="h5">Select a Team Member.</Typography>
               ) : (
                 <Typography variant="h5">There are no Team Members.</Typography>
@@ -126,8 +117,7 @@ export default teamMembers;
 
 export async function getServerSideProps() {
   const res = await fetch(
-    (process.env.NEXTAUTH_URL || "http://localhost:3000") +
-      "/api/member/members"
+    (process.env.NEXTAUTH_URL || "http://localhost:3000") + "/api/member/members"
   );
   const data = await res.json();
   return {
