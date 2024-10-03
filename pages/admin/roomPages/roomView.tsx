@@ -1,8 +1,8 @@
 //This will be for looking at the rooms we have
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import BuildingRoomBanner from "../../../src/components/roomScreenDashboard/componentsForRoomView/buildingRoomBanner";
 import AddRoomButton from "../../../src/components/roomScreenDashboard/componentsForRoomView/addRoomButton";
-import SortButton from "../../../src/components/roomScreenDashboard/componentsForRoomView/sortButton";
+import SortDropdown from "../../../src/components/roomScreenDashboard/componentsForRoomView/sortDropdown";
 import { Button, Grid } from "@mui/material";
 import { setRoom } from "../../../slices/roomSelectSlice";
 import { useDispatch } from "react-redux";
@@ -101,8 +101,9 @@ const roomView = () => {
   const [floor, setFloor] = useState("");
   const [buildingId, setBuildingId] = useState("");
   const [rooms, setRooms] = useState([]);
+  const [sortOption, setSortOption] = useState("default");
 
-  const getRooms = async () => {
+  const getRooms = async (sortOption: String) => {
     try {
       const response = await fetch("/api/room/roomsInBuildingOnFloor", {
         method: "POST",
@@ -110,6 +111,7 @@ const roomView = () => {
         body: JSON.stringify({
           floor_num: floorParam,
           building_id: buildid,
+          room_type: sortOption
         }),
       });
 
@@ -126,16 +128,18 @@ const roomView = () => {
 
   // Fetch rooms data from url
   useEffect(() => {
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
+    const urlParams = new URLSearchParams(window.location.search);
     buildingParam = urlParams.get("building");
     floorParam = urlParams.get("floor");
     buildid = urlParams.get("building_id");
+    console.log("building: ", buildingParam);
+    console.log("floor: ", floorParam);
+    
     setBuilding(buildingParam);
     setFloor(floorParam);
     setBuildingId(buildid);
-    getRooms();
-  }, []);
+    getRooms(sortOption);
+  }, [sortOption]);
 
   // Render the roomview component
   return (
@@ -163,9 +167,9 @@ const roomView = () => {
               margin: 20,
             }}
           >
-            <SortButton /> {/* currently does nothing */}
+            <SortDropdown onSortChange={setSortOption} /> {/* Sort Dropdown and the value that it passes */}
           </Grid>
-
+          
           <AddRoomButton
             buildingName={building}
             floorName={floor}
