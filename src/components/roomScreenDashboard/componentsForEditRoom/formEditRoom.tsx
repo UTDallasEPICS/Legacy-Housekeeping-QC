@@ -13,6 +13,9 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 import Navbar from "../../../../src/components/adminDashboard/navbar/navbar";
+import RoomViewBanner from "../../adminDashboard/Banner/Banner";
+import router from "next/router";
+import Banner from "../../adminDashboard/Banner/Banner";
 
 const formEditRoom = () => {
   const [error, setError] = useState(null);
@@ -61,7 +64,7 @@ const formEditRoom = () => {
       return;
     }
 
-    window.location.replace(goBackLink);
+    router.push(goBackLink);
   };
 
   const handleDelete = async () => {
@@ -87,13 +90,14 @@ const formEditRoom = () => {
       setType("");
       setRoomName("");
       setFloor(0);
-      window.location.replace(goBackLink);
+
+      router.push(goBackLink);
     }
   };
 
   useEffect(() => {
     // get url parameters and initialize state variables
-    const queryString = window.location.search;
+    const queryString = router.asPath.split(/\?/)[1];
     const urlParams = new URLSearchParams(queryString);
     const buildingIdParam = urlParams.get("buildingId");
     const floorParam = urlParams.get("floor");
@@ -166,110 +170,95 @@ const formEditRoom = () => {
   return (
     <>
       <Navbar />
+
       <div>
-        <BackButton pageToGoBack={goBackLink} />
+        <Banner relativePath={goBackLink} function={"Edit Room"} />
       </div>
-      <Grid container direction={"column"} alignItems={"center"}>
-        <Grid style={{ display: "flex", justifyContent: "center" }}>
-          <h1>Edit Room</h1>
-        </Grid>
 
-        <Grid style={{ display: "flex", justifyContent: "center" }}>
-          <h2 style={{ textAlign: "center" }}>
-            Building: {building} <br></br>Floor {floor}
-          </h2>
-        </Grid>
+      <Grid container
+        direction={"column"}
+        alignItems={"center"}
+        justifyContent={"center"}
+        spacing={3}
+      >
 
-        <Grid
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            textAlign: "center",
-          }}
-        >
-          <h2>Please fill out the information of the room:</h2>
+        <Grid item xs={12} sx={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
+          <h2> Building: {building} </h2>
+          <h2> Floor: {floor} </h2>
+          <h2> Please fill out the information of the room: </h2>
         </Grid>
 
         {/*This area will be the section where admin fills out info*/}
-        <Grid
-          container
-          alignContent={"center"}
-          direction={"column"}
-          sx={{ textAlign: "center" }}
-        >
-          {/* Room type */}
-          <Grid>
-            <InputLabel id="demo-simple-select-label">Room Type</InputLabel>
-            <Select
-              id="selector"
-              style={{ fontSize: "2.5vh", width: "30vh", height: "8vh" }}
-              onChange={handleTypeChange}
-              value={type}
-              autoWidth
-            >
-              <MenuItem value="PERSONAL_ROOM">Personal Room</MenuItem>
-              <MenuItem value="COMMON_AREA">Common Area</MenuItem>
-            </Select>
-            {formErrors["type"] && (
-              <Alert severity="error" sx={{ whiteSpace: "pre-line" }}>
-                {formErrors["type"]}
-              </Alert>
-            )}
-          </Grid>
-
-          {/* Set the name of the room*/}
-          <Grid style={{ marginTop: 20 }}>
-            <TextField
-              label="Room Name"
-              variant="outlined"
-              onChange={(e) => setRoomName(e.target.value)}
-              value={roomName}
-              name="roomName"
-              style={{
-                fontSize: "5vh",
-                width: "30vh",
-                height: "8vh",
-                textAlign: "center",
-              }}
-            />
-            {formErrors["name"] && (
-              <Alert severity="error" sx={{ whiteSpace: "pre-line" }}>
-                {formErrors["name"]}
-              </Alert>
-            )}
-          </Grid>
-
-          {/* Room Number Input CURRENTLY BUGGED*/}
-          <Grid>
-            <TextField
-              label="Room Number"
-              variant="outlined"
-              onChange={(e) => setRoomId(Number(e.target.value))}
-              value={roomId}
-              name="RoomNumber"
-              style={{
-                fontSize: "5vh",
-                width: "30vh",
-                height: "8vh",
-                textAlign: "center",
-              }}
-            />
-            {formErrors["number"] && (
-              <Alert severity="error" sx={{ whiteSpace: "pre-line" }}>
-                {formErrors["number"]}
-              </Alert>
-            )}
-          </Grid>
+        {/* Room type */}
+        <Grid item>
+          <InputLabel id="demo-simple-select-label" style={{ color: 'black', paddingLeft: 10 }}>Room Type</InputLabel>
+          <Select
+            id="selector"
+            style={{
+              fontSize: "2.5vh",
+              width: "30vh",
+              height: "8vh",
+              textAlign: "center",
+              backgroundColor: "white",
+            }}
+            onChange={handleTypeChange}
+            value={type}
+            autoWidth
+          >
+            <MenuItem value="PERSONAL_ROOM">Personal Room</MenuItem>
+            <MenuItem value="COMMON_AREA">Common Area</MenuItem>
+          </Select>
+          {formErrors["type"] && (
+            <Alert severity="error" sx={{ whiteSpace: "pre-line" }}>
+              {formErrors["type"]}
+            </Alert>
+          )}
         </Grid>
 
-        {error && (
-          <Alert severity="error" sx={{ whiteSpace: "pre-line" }}>
-            {error}
-          </Alert>
-        )}
-        <Grid
-          style={{ display: "flex", justifyContent: "center", marginTop: 70 }}
-        >
+        {/* Set the name of the room*/}
+        <Grid item>
+          <TextField
+            label="Room Name"
+            variant="outlined"
+            onChange={(e) => setRoomName(e.target.value)}
+            value={roomName}
+            name="roomName"
+            InputLabelProps={{
+              style: { color: 'black' },
+            }}
+            sx={{ width: "30vh", bgcolor: "white", color: "text.primary" }}
+            color="secondary"
+          />
+          {formErrors["name"] && (
+            <Alert severity="error" sx={{ whiteSpace: "pre-line" }}>
+              {formErrors["name"]}
+            </Alert>
+          )}
+        </Grid>
+
+        {/* Room Number Input*/}
+        <Grid item>
+          <TextField
+            label="Room Number"
+            variant="outlined"
+            onChange={(e) => setRoomId(Number(e.target.value))}
+            value={roomId}
+            type="number"
+            name="RoomNumber"
+            InputLabelProps={{
+              style: { color: 'black' },
+            }}
+            sx={{ width: "30vh", bgcolor: "white", color: "text.primary" }}
+            color="secondary"
+          />
+          {formErrors["number"] && (
+            <Alert severity="error" sx={{ whiteSpace: "pre-line" }}>
+              {formErrors["number"]}
+            </Alert>
+          )}
+        </Grid>
+
+        <Grid item>
           <Button
             variant="outlined"
             sx={{

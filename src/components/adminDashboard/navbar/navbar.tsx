@@ -29,7 +29,7 @@ export default function navbar() {
       sx={{
         width: 1,
         p: 2,
-        backgroundColor: "white",
+        backgroundColor: theme.palette.navbar.background,
         display: "flex",
         flexDirection: "row",
       }}
@@ -39,14 +39,14 @@ export default function navbar() {
           href="/admin/adminDashboard"
           style={{
             textDecoration: "none",
-            color: theme.palette.primary.main,
+            color: theme.palette.text.secondary,
           }}
         >
           <Typography
             variant="h6"
             sx={{ mx: 1, fontFamily: montserrat.style.fontFamily }}
           >
-            <b>LegacyQC</b>
+            <b>The Legacy</b>
           </Typography>
         </Link>
         {burgerBreakpoint && <NavbarBurger />}
@@ -92,8 +92,9 @@ const NavbarBurger = () => {
             <Typography
               fontFamily={montserrat.style.fontFamily}
               textTransform={"uppercase"}
+              fontWeight="bold"
               fontSize={14}
-              color={"primary"}
+              color={"text.secondary"}
             >
               {item.text}
             </Typography>
@@ -112,7 +113,7 @@ const NavbarFootlong = () => {
             fontSize={14}
             fontFamily={montserrat.style.fontFamily}
             textTransform={"uppercase"}
-            color={"primary"}
+            color={"text.secondary"}
           >
             {item.text}
           </Typography>
@@ -138,7 +139,7 @@ const UserBurger = () => {
   return (
     <>
       <Button onClick={(e) => setAnchor(e.currentTarget)}>
-        <Avatar sx={{ bgcolor: "secondary.main", mx: 1 }}>
+        <Avatar sx={{ bgcolor: "secondary.main", mx: 1, color: "white" }}>
           {signedInUserInitial}
         </Avatar>
       </Button>

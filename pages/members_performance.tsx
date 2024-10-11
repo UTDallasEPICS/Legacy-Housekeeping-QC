@@ -6,6 +6,7 @@ import MembersPerformanceChart from "../src/components/performanceDashboard/char
 import MemberButton from "../src/components/performanceDashboard/buttons/memberButton";
 import ScoreHistory from "../src/components/performanceDashboard/scoreHistory";
 
+//*********************STATIC PAGE****************************/
 const Performance = () => {
   // State variables
   const [members, setMembers] = useState([]);
@@ -119,7 +120,7 @@ const Performance = () => {
                   ml: 1,
                 }}
               >
-                <Search sx={{ color: "secondary.main", ml: 2 }} />
+                <Search sx={{ color: "primary.main", ml: 2 }} />
                 <InputBase
                   placeholder="Search Team Members"
                   inputProps={{ "aria-label": "search" }}
