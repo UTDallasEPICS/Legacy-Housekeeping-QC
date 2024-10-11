@@ -3,12 +3,16 @@ import React from "react";
 import { montserrat } from "../../../theme";
 import { BackButton } from "../..";
 
+
 interface BannerProps {
-    relativePath: string;
+    relativePath?: string;
     function: string;
+    room?: string;
+    building?: string;
+
 }
 
-const Banner: React.FC<BannerProps> = ({ relativePath, function: functionName }) => {
+const Banner: React.FC<BannerProps> = ({ relativePath, function: functionName, room, building }) => {
     return (
         <>
             <CssBaseline />
@@ -31,7 +35,7 @@ const Banner: React.FC<BannerProps> = ({ relativePath, function: functionName })
                         color="primary"
                         sx={{ fontFamily: montserrat.style.fontFamily, flex: 1, whiteSpace: "nowrap" }}
                     >
-                        {functionName}
+                        {functionName} {room && `${room}`} {building && `${building}`}
                     </Typography>
                 </Grid>
             </AppBar>

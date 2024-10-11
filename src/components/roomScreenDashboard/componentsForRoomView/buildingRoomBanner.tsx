@@ -5,7 +5,11 @@ import { RootState } from "../../../../store";
 import { montserrat } from "../../../theme";
 import { BackButton } from "../../../../src/components";
 
-const buildingRoomBanner = ({ buildingVal = "" }) => {
+interface BuildingRoomBannerProps {
+  buildingVal: string;
+  greeting?: string;
+}
+  const buildingRoomBanner = ({ buildingVal = "", greeting }: BuildingRoomBannerProps) => {
   //Gets the state that stores what building we selected
 
   const building = useSelector(
@@ -38,7 +42,7 @@ const buildingRoomBanner = ({ buildingVal = "" }) => {
             color="primary"
             sx={{ flex: 1, fontFamily: montserrat.style.fontFamily }}
           >
-            Welcome to Building - {finalval}
+            {greeting} - {finalval}
           </Typography>
         </Grid>
       </AppBar>

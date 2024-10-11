@@ -1,13 +1,11 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../../store";
-import BackButton from "../../globalComponents/backButton";
 import formBuildingValidation from "../componentsForAddBuilding/formBuildingValidation";
-import { Button, Alert, TextField, Grid } from "@mui/material";
+import { Button, Alert, TextField, Grid, InputLabel } from "@mui/material";
 import Navbar from "../../../../src/components/adminDashboard/navbar/navbar";
 import { useRouter } from 'next/router';
 import Link from "next/link";
+import BuildingRoomBanner from "../componentsForRoomView/buildingRoomBanner";
 
 const formEditBuilding = () => {
   const [error, setError] = useState(null);
@@ -18,6 +16,9 @@ const formEditBuilding = () => {
   const [formErrors, setFormErrors] = useState<any>({});
   const router = useRouter();
 
+  let goBackLink = "/admin/roomPages/buildingChoice";
+
+  {/*Unused?*/}
   const getData = (apiUrl) => {
     return fetch(apiUrl,
       {
@@ -91,7 +92,7 @@ const formEditBuilding = () => {
         setError(r.error);
         return;
       }
-      router.push("/admin/roomPages/buildingChoice");
+      router.push(goBackLink);
     }
   };
 
@@ -113,7 +114,7 @@ const formEditBuilding = () => {
         setError(r.error);
         return;
       }
-      router.push("/admin/roomPages/buildingChoice");
+      router.push(goBackLink);
     }
   };
 
@@ -123,19 +124,14 @@ const formEditBuilding = () => {
     <>
       <Navbar />
       <div>
-        <BackButton pageToGoBack={"/admin/roomPages/buildingChoice"} />
+        <BuildingRoomBanner greeting="Edit Building" buildingVal={buildingName} />
       </div>
 
-      <Grid container spacing={1}
+      <Grid container
+        spacing={3}
         direction="column"
         justifyContent="center"
         alignItems="center">
-
-
-        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}
-          sx={{ textAlign: "center" }}>
-          <h1>Edit Building - {buildingName}</h1>
-        </Grid>
 
         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}
           sx={{ textAlign: "center" }}>
@@ -145,87 +141,69 @@ const formEditBuilding = () => {
         {/*This area will be the section where admin fills out info*/}
         {/* Set the name of the room*/}
         <Grid item xs={12} sm={12} md={12} lg={12} xl={12} alignItems={"center"}>
-          <label
-            style={{
-              fontSize: "3vh",
-              marginRight: 10,
-              textAlign: "center",
-            }}
-          >
-            Building Name:
-          </label>
-        </Grid>
-
-        <Grid item xs={12} sm={12} md={12} lg={12} xl={12} alignItems={"center"}>
           <TextField
             label="Building Name"
             variant="outlined"
             onChange={(e) => setBuildingName(e.target.value)}
             value={buildingName}
             name="roomName"
-            style={{ fontSize: "25vh", width: "30vh", height: "10vh", justifyContent: "center", }}
-          />
+            InputLabelProps={{
+              style: { color: 'black' },
+            }}
+            sx={{ width: "30vh", bgcolor: "white", color: "text.primary" }}
+            color="secondary" />
         </Grid>
         {(formErrors["name"] || formErrors["invalid"]) && <Alert severity="error" sx={{ whiteSpace: 'pre-line' }}>{formErrors["name"].concat(formErrors["invalid"])}</Alert>}
 
         {/* Room Number Input */}
-        <Grid style={{}} item xs={12} sm={12} md={12} lg={12} xl={12}>
-          <label
-            style={{
-              fontSize: "3vh",
-              marginRight: 10,
-              textAlign: "center",
-            }}
-          >
-            Amount of Floors:
-          </label>
-        </Grid>
-        <Grid style={{}} item xs={12} sm={12} md={12} lg={12} xl={12}>
+
+        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
           <TextField
             onChange={(e) => setFloorsAmount(Number(e.target.value))}
             label="# of Floors"
             value={floorsAmount}
             name="RoomNumber"
-            style={{ fontSize: "25vh", width: "30vh", height: "10vh", justifyContent: "center", }}
-          />
+            InputLabelProps={{
+              style: { color: 'black' },
+            }}
+            sx={{ width: "30vh", bgcolor: "white", color: "text.primary" }}
+            color="secondary" />
         </Grid>
-        {formErrors["flooramount"] && <Alert severity="error" sx={{ whiteSpace: 'pre-line' }}>{formErrors["flooramount"]}</Alert>}
-        <Grid style={{ display: "flex", justifyContent: "center", marginTop: 70 }} spacing={3}>
-          <Grid item>
-            <Button
-              variant="outlined"
-              sx={{
-                border: 5,
-                marginRight: "1vh",
-                "&:hover": {
-                  border: 5,
-                  borderColor: "primary.main",
-                  color: "white",
-                  bgcolor: "primary.main",
-                },
-              }}
-              onClick={() => handleSubmit()}
-            >
-              Submit
-            </Button>
-          </Grid>
 
-          <Grid item>
-            <Button
-              variant="outlined"
-              sx={{
-                border: 5,
-                "&:hover": {
-                  border: 5,
-                  borderColor: "primary.main",
-                  color: "white",
-                  bgcolor: "primary.main",
-                },
-              }}
-              onClick={() => handleDelete()}>
-              Delete Building
-            </Button>
-          </Grid>
+        {formErrors["flooramount"] && <Alert severity="error" sx={{ whiteSpace: 'pre-line' }}>{formErrors["flooramount"]}</Alert>}
+
+        <Grid item>
+          <Button
+            variant="outlined"
+            sx={{
+              border: 3,
+              marginRight: "1vh",
+              "&:hover": {
+                border: 3,
+                borderColor: "primary.main",
+                color: "white",
+                bgcolor: "primary.main",
+              },
+            }}
+            onClick={() => handleSubmit()}
+          >
+            Submit
+          </Button>
+
+          <Button
+            variant="outlined"
+            sx={{
+              border: 3,
+              "&:hover": {
+                border: 3,
+                borderColor: "primary.main",
+                color: "white",
+                bgcolor: "primary.main",
+              },
+            }}
+            onClick={() => handleDelete()}>
+            Delete Building
+          </Button>
 
         </Grid>
 

@@ -14,7 +14,6 @@ import {
 import Link from "next/link";
 import Navbar from "../../../../src/components/adminDashboard/navbar/navbar";
 import { useRouter } from 'next/router';
-import RoomViewBanner from "../../adminDashboard/Banner/Banner";
 import Banner from "../../adminDashboard/Banner/Banner";
 
 const formAddRoom = () => {

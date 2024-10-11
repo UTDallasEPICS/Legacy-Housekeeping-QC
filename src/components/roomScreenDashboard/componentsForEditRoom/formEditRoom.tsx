@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import formRoomValidation from "../componentsForAddRoom/formRoomValidation";
-import BackButton from "../../globalComponents/backButton";
 import {
   Button,
   Alert,
@@ -13,7 +12,6 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 import Navbar from "../../../../src/components/adminDashboard/navbar/navbar";
-import RoomViewBanner from "../../adminDashboard/Banner/Banner";
 import router from "next/router";
 import Banner from "../../adminDashboard/Banner/Banner";
 
