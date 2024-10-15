@@ -1,4 +1,4 @@
-import { Alert, Box, Button, Typography } from "@mui/material";
+import { Alert, Box, Button, Card, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { TeamMember } from "../../../../../ts/types/db.interfaces";
 import { CleanType } from "@prisma/client";
@@ -17,6 +17,7 @@ import { RoomOptionProps } from "../RoomDropdownSelect/props";
 import { TeamMemberOptionProps } from "../TeamMemberMultiSelect/props";
 import { verifyForm } from "./verifyForm";
 import { InspectionPlannerProps } from "./props";
+import { DashboardCardHeading } from "../../..";
 
 const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
   const dispatch = useDispatch();
@@ -150,29 +151,13 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
   });
 
   return (
-    <Box
+    <Card
       sx={{
-        padding: 2,
         // Prevents the box from shrinking and growing by the content
-        minWidth: "400px",
-        maxWidth: "400px",
-
-        display: "flex",
-        flexDirection: "column",
-        gap: 2,
       }}
     >
-      <Box sx={{ display: "flex", justifyContent: "center" }}>
-        <Typography
-          variant="h4"
-          sx={{
-            fontSize: "30",
-            fontWeight: "bold",
-            fontFamily: montserrat.style.fontFamily,
-          }}
-        >
-          Inspection Planner
-        </Typography>
+      <Box>
+        <DashboardCardHeading text="Inspection Planner" />
       </Box>
 
       {errors.map((error) => (
@@ -185,6 +170,18 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
         </Alert>
       ))}
 
+      <Box
+        sx={{
+          padding: 2,
+          borderBottom: "1px solid #E0E0E0",
+          minWidth: "400px",
+          maxWidth: "400px",
+  
+          display: "flex",
+          flexDirection: "column",
+          gap: 2,
+        }}
+      >
       <TeamMemberMultiSelect
         options={memberOptions}
         selected={selectedMembers}
@@ -205,7 +202,8 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
       <Button variant="outlined" onClick={handleSubmission}>
         CREATE
       </Button>
-    </Box>
+      </Box>
+    </Card>
   );
 };
 

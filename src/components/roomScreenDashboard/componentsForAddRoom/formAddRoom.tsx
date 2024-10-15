@@ -117,7 +117,8 @@ const formAddRoom = () => {
         {/* This area will be the section where user fills out info */}
         <Grid item>
           {/* Room type */}
-          <InputLabel id="demo-simple-select-label" style={{ color: 'black', paddingLeft: 10 }}>Room Type</InputLabel>
+          <InputLabel id="demo-simple-select-label" style={{ color: '#6A172E', paddingLeft: 10 }}>Room Type</InputLabel>
+
           <Select
             style={{
               fontSize: "2.5vh",
@@ -125,6 +126,7 @@ const formAddRoom = () => {
               height: "8vh",
               textAlign: "center",
               backgroundColor: "white",
+
             }}
             displayEmpty
             renderValue={(selected) => {
@@ -156,11 +158,8 @@ const formAddRoom = () => {
             value={roomName}
             name="roomName"
             placeholder="Room Name"
-            InputLabelProps={{
-              style: { color: 'black' },
-            }}
+            InputLabelProps={{ style: { color: "#6A172E" } }}
             sx={{ width: "30vh", bgcolor: "white", color: "text.primary" }}
-            color="secondary"
           />
           {formErrors["name"] && (
             <Alert severity="error" sx={{ whiteSpace: "pre-line" }}>
@@ -172,11 +171,8 @@ const formAddRoom = () => {
         <Grid item>
           {/* set the room number */}
           <TextField
-            InputLabelProps={{
-              style: { color: 'black' },
-            }}
+            InputLabelProps={{ style: { color: "#6A172E" } }}
             sx={{ width: "30vh", bgcolor: "white", color: "text.primary" }}
-            color="secondary"
             type="number"
             label="Room Number"
             variant="outlined"

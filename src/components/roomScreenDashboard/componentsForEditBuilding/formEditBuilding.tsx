@@ -18,7 +18,7 @@ const formEditBuilding = () => {
 
   let goBackLink = "/admin/roomPages/buildingChoice";
 
-  {/*Unused?*/}
+  {/*Unused?*/ }
   const getData = (apiUrl) => {
     return fetch(apiUrl,
       {
@@ -146,12 +146,9 @@ const formEditBuilding = () => {
             variant="outlined"
             onChange={(e) => setBuildingName(e.target.value)}
             value={buildingName}
-            name="roomName"
-            InputLabelProps={{
-              style: { color: 'black' },
-            }}
+            InputLabelProps={{ style: { color: "#6A172E" } }}
             sx={{ width: "30vh", bgcolor: "white", color: "text.primary" }}
-            color="secondary" />
+          />
         </Grid>
         {(formErrors["name"] || formErrors["invalid"]) && <Alert severity="error" sx={{ whiteSpace: 'pre-line' }}>{formErrors["name"].concat(formErrors["invalid"])}</Alert>}
 
@@ -163,11 +160,9 @@ const formEditBuilding = () => {
             label="# of Floors"
             value={floorsAmount}
             name="RoomNumber"
-            InputLabelProps={{
-              style: { color: 'black' },
-            }}
+            InputLabelProps={{ style: { color: "#6A172E" } }}
             sx={{ width: "30vh", bgcolor: "white", color: "text.primary" }}
-            color="secondary" />
+          />
         </Grid>
 
         {formErrors["flooramount"] && <Alert severity="error" sx={{ whiteSpace: 'pre-line' }}>{formErrors["flooramount"]}</Alert>}

@@ -89,9 +89,7 @@ const FormAddBuilding = () => {
           <TextField
             onChange={(e) => setFloorsAmount(Number(e.target.value))}
             label="Number of Floors"
-            InputLabelProps={{
-              style: { color: 'black' },
-            }}
+            InputLabelProps={{ style: { color: "#6A172E" } }}
             color="secondary"
             value={floorsAmount}
             name="RoomNumber"

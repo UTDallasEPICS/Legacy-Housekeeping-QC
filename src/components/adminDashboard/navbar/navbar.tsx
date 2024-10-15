@@ -28,7 +28,7 @@ export default function navbar() {
       position="sticky"
       sx={{
         width: 1,
-        p: 2,
+        p: 1,
         backgroundColor: theme.palette.navbar.background,
         display: "flex",
         flexDirection: "row",
@@ -46,7 +46,13 @@ export default function navbar() {
             variant="h6"
             sx={{ mx: 1, fontFamily: montserrat.style.fontFamily }}
           >
-            <b>The Legacy</b>
+            <Box
+              component="img"
+              src="../../../logo.png"
+              alt="The Legacy"
+              sx={{ height: 75 }}
+              border={2}
+            />
           </Typography>
         </Link>
         {burgerBreakpoint && <NavbarBurger />}

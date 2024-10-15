@@ -189,7 +189,8 @@ const formEditRoom = () => {
         {/*This area will be the section where admin fills out info*/}
         {/* Room type */}
         <Grid item>
-          <InputLabel id="demo-simple-select-label" style={{ color: 'black', paddingLeft: 10 }}>Room Type</InputLabel>
+          <InputLabel id="demo-simple-select-label" style={{ color: '#6A172E', paddingLeft: 10 }}>Room Type</InputLabel>
+
           <Select
             id="selector"
             style={{
@@ -221,11 +222,8 @@ const formEditRoom = () => {
             onChange={(e) => setRoomName(e.target.value)}
             value={roomName}
             name="roomName"
-            InputLabelProps={{
-              style: { color: 'black' },
-            }}
+            InputLabelProps={{ style: { color: "#6A172E" } }}
             sx={{ width: "30vh", bgcolor: "white", color: "text.primary" }}
-            color="secondary"
           />
           {formErrors["name"] && (
             <Alert severity="error" sx={{ whiteSpace: "pre-line" }}>
@@ -242,12 +240,8 @@ const formEditRoom = () => {
             onChange={(e) => setRoomId(Number(e.target.value))}
             value={roomId}
             type="number"
-            name="RoomNumber"
-            InputLabelProps={{
-              style: { color: 'black' },
-            }}
+            InputLabelProps={{ style: { color: "#6A172E" } }}
             sx={{ width: "30vh", bgcolor: "white", color: "text.primary" }}
-            color="secondary"
           />
           {formErrors["number"] && (
             <Alert severity="error" sx={{ whiteSpace: "pre-line" }}>
