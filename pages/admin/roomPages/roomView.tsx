@@ -148,9 +148,7 @@ const roomView = () => {
     >
       {/* heading */}
       <Navbar />
-      <div >
-        <BuildingRoomBanner greeting="Welcome to Building" buildingVal={building} />
-      </div>
+      <BuildingRoomBanner greeting="Welcome to Building" buildingVal={building} />
 
       {/* main content of page */}
       <Grid container direction="column" justifyContent="center">

@@ -218,6 +218,7 @@ const formEditRoom = () => {
         <Grid item>
           <TextField
             label="Room Name"
+            placeholder="Ex: Room 101"
             variant="outlined"
             onChange={(e) => setRoomName(e.target.value)}
             value={roomName}
@@ -236,6 +237,7 @@ const formEditRoom = () => {
         <Grid item>
           <TextField
             label="Room Number"
+            placeholder="Ex: 101"
             variant="outlined"
             onChange={(e) => setRoomId(Number(e.target.value))}
             value={roomId}
@@ -255,6 +257,9 @@ const formEditRoom = () => {
             variant="outlined"
             sx={{
               border: 3,
+              borderColor: "primary.main",
+              color: "primary.main",
+              bgcolor: "white",
               marginRight: "1vh",
               "&:hover": {
                 border: 3,
@@ -271,11 +276,14 @@ const formEditRoom = () => {
             variant="outlined"
             sx={{
               border: 3,
+              borderColor: "secondary.main",
+              color: "secondary.main",
+              bgcolor: "white",
               "&:hover": {
                 border: 3,
-                borderColor: "primary.main",
+                borderColor: "secondary.main",
                 color: "white",
-                bgcolor: "primary.main",
+                bgcolor: "secondary.main",
               },
             }}
             onClick={() => handleDelete()}

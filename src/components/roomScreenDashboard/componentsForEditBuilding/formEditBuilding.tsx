@@ -172,6 +172,9 @@ const formEditBuilding = () => {
             variant="outlined"
             sx={{
               border: 3,
+              borderColor: "primary.main",
+              color: "primary.main",
+              bgcolor: "white",
               marginRight: "1vh",
               "&:hover": {
                 border: 3,
@@ -189,11 +192,14 @@ const formEditBuilding = () => {
             variant="outlined"
             sx={{
               border: 3,
+              borderColor: "secondary.main",
+              color: "secondary.main",
+              bgcolor: "white",   
               "&:hover": {
                 border: 3,
-                borderColor: "primary.main",
+                borderColor: "secondary.main",
                 color: "white",
-                bgcolor: "primary.main",
+                bgcolor: "secondary.main",
               },
             }}
             onClick={() => handleDelete()}>

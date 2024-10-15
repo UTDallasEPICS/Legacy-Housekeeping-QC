@@ -9,7 +9,7 @@ interface BuildingRoomBannerProps {
   buildingVal: string;
   greeting?: string;
 }
-  const buildingRoomBanner = ({ buildingVal = "", greeting }: BuildingRoomBannerProps) => {
+const buildingRoomBanner = ({ buildingVal = "", greeting }: BuildingRoomBannerProps) => {
   //Gets the state that stores what building we selected
 
   const building = useSelector(
@@ -26,16 +26,15 @@ interface BuildingRoomBannerProps {
       <AppBar
         position="relative"
         sx={{
-          p: 3,
+          p: 2,
           backgroundColor: "white",
           display: "flex",
           flexDirection: "row",
-          justifyContent: "space-between",
           alignItems: "center"
         }}
       >
         <BackButton pageToGoBack={`/admin/roomPages/floorChoice?building=${finalval}`} />
-        <Grid item style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)' }}>
+        <Grid item style={{ position: 'sticky', left: '50%', transform: 'translateX(-50%)' }}>
           <Typography
             variant="h3"
             align="center"
