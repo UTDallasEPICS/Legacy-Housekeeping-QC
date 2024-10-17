@@ -3,25 +3,32 @@ import { setBuilding } from "../../../../slices/buildingSelectSlice";
 import { useDispatch } from "react-redux";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
-import {theme} from "../../../theme";
+import { theme } from "../../../theme";
 
 // This will produce floor buttons for the user to select
 const makeCard = (number: string, name: string, buildid: string) => {
   const dispatch = useDispatch();
 
   return (
-    <Grid item xs={5} sm={4} md={3} lg={3} xl={2}
+    <Grid
+      item
+      xs={5}
+      sm={4}
+      md={3}
+      lg={3}
+      xl={2}
       justifyContent="center"
       textAlign="center"
     >
-      <Link href={
-        "/admin/roomPages/roomView?building="
-        .concat(name)
-        .concat("&floor=")
-        .concat(number)
-        .concat("&building_id=")
-        .concat(buildid)
-      } passHref >
+      <Link
+        href={"/admin/roomPages/roomView?building="
+          .concat(name)
+          .concat("&floor=")
+          .concat(number)
+          .concat("&building_id=")
+          .concat(buildid)}
+        passHref
+      >
         <Button
           variant="contained"
           sx={{
@@ -61,15 +68,15 @@ const makeEditCard = (bName: string, floors: string, id: string) => {
       justifyContent="center"
       textAlign="center"
     >
-      <Link href={
-        "/admin/roomPages/editBuildingForm?building="
-        .concat(bName)
-        .concat("&floors_amount=")
-        .concat(floors)
-        .concat("&building_id=")
-        .concat(id)
-      } passHref >
-
+      <Link
+        href={"/admin/roomPages/editBuildingForm?building="
+          .concat(bName)
+          .concat("&floors_amount=")
+          .concat(floors)
+          .concat("&building_id=")
+          .concat(id)}
+        passHref
+      >
         <Button
           variant="contained"
           sx={{
@@ -129,7 +136,7 @@ const floorCards = () => {
     getData();
   }, []);
 
-  // first floor rendered is the top floor (top to bottom), 
+  // first floor rendered is the top floor (top to bottom),
   // so order floors from top floor first to bottom floor (floor #1) last
   let arr = [];
   for (let i = Number(result["floor_count"]); i >= 1; i--) {
@@ -145,10 +152,11 @@ const floorCards = () => {
         rowSpacing={4}
         sx={{ justifyContent: "center" }}
       >
-        <Grid item 
-          xs={12} 
-          md={12} 
-          lg={12} 
+        <Grid
+          item
+          xs={12}
+          md={12}
+          lg={12}
           xl={12}
           id="scroll"
           style={{ display: "flex", justifyContent: "center" }}
@@ -172,15 +180,17 @@ const floorCards = () => {
                 makeCard(floorNum, result["name"], result["id"])
               )}
             </Grid>
-            
+
             {/* ground level line */}
-            <div style={{
-              marginTop: 1,
-              width: "100%",
-              borderBottom: "4px solid",
-              borderColor: theme.palette.primary.main,
-              boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.4)",
-            }} />
+            <div
+              style={{
+                marginTop: 1,
+                width: "100%",
+                borderBottom: "4px solid",
+                borderColor: theme.palette.primary.main,
+                boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.4)",
+              }}
+            />
           </div>
         </Grid>
 

@@ -11,14 +11,22 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { splitInspectionWithStatus } from "../../../../../functions/splitInspectionWithStatus";
 import TeamMemberMultiSelect from "../TeamMemberMultiSelect";
-import RoomDropdownSelect from "../RoomDropdownSelect";
 import CleanTypeRadioGroup from "../CleanTypeRadioGroup";
-import { RoomOptionProps } from "../RoomDropdownSelect/props";
+import {
+  RoomOptionProps,
+  BuildingOptionProps,
+} from "../RoomDropdownSelect/props";
+//import BuildingDropdownSelect from "../RoomDropdownSelect";
 import { TeamMemberOptionProps } from "../TeamMemberMultiSelect/props";
 import { verifyForm } from "./verifyForm";
 import { InspectionPlannerProps } from "./props";
+import BuildingDropdownSelect from "../RoomDropdownSelect";
 
-const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
+const InspectionPlanner = ({
+  members,
+  buildingsWithRooms,
+  buildings,
+}: InspectionPlannerProps) => {
   const dispatch = useDispatch();
   const dateFilter = useSelector(getDateFilter);
   const { data: session } = useSession();
@@ -27,6 +35,8 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
   const [selectedMembers, setSelectedMembers] = useState<
     TeamMemberOptionProps[]
   >([]);
+  const [selectedBuilding, setSelectedBuilding] =
+    useState<BuildingOptionProps>(null);
   const [selectedRoom, setSelectedRoom] = useState<RoomOptionProps>(null);
   const [selectedCleanType, setSelectedCleanType] = useState<CleanType>(
     CleanType.NORMAL
@@ -34,7 +44,7 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
 
   useEffect(
     () => setErrors([]),
-    [selectedMembers, selectedRoom, selectedCleanType]
+    [selectedMembers, selectedBuilding, selectedRoom, selectedCleanType]
   );
 
   const handleSubmission = async () => {
@@ -138,16 +148,28 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
       };
     }
   );
-  const roomOptions: RoomOptionProps[] = buildings.flatMap((building) => {
-    return building.rooms.map((room) => {
+
+  const buildingOptions: BuildingOptionProps[] = buildings.flatMap(
+    (building) => {
       return {
-        room_id: room.id,
-        room_name: room.name,
-        floor_number: room.floor_number,
+        building_id: building.id,
         building_name: building.name,
+        floor_number: building.floor_count,
       };
-    });
-  });
+    }
+  );
+
+  const roomOptions: RoomOptionProps[] =
+    buildingsWithRooms?.flatMap((building) => {
+      return building.rooms.map((room) => {
+        return {
+          room_id: room.id,
+          room_name: room.name,
+          floor_number: room.floor_number,
+          building_name: building.name,
+        };
+      });
+    }) || [];
 
   return (
     <Box
@@ -191,10 +213,10 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
         handleChange={setSelectedMembers}
       />
 
-      <RoomDropdownSelect
-        options={roomOptions}
-        selected={selectedRoom}
-        handleChange={setSelectedRoom}
+      <BuildingDropdownSelect
+        options={buildingOptions}
+        selected={selectedBuilding}
+        handleChange={setSelectedBuilding}
       />
 
       <CleanTypeRadioGroup
