@@ -1,5 +1,5 @@
 import { Montserrat } from "next/font/google";
-import { createTheme } from "@mui/material/styles";
+import { createTheme, PaletteOptions } from "@mui/material/styles";
 import { red } from "@mui/material/colors";
 
 export const montserrat = Montserrat({
@@ -9,21 +9,42 @@ export const montserrat = Montserrat({
   fallback: ["Helvetica", "Arial", "sans-serif"],
 });
 
+declare module '@mui/material/styles' {
+  interface Palette {
+    navbar: {
+      background: string;
+    };
+  }
+  interface PaletteOptions {
+    navbar?: {
+      background?: string;
+    };
+  }
+}
+
 // Create a theme instance.
 export const theme = createTheme({
   palette: {
     primary: {
-      main: "#141c3b",
+      main: "#6A172E",
     },
     secondary: {
-      main: "#d34727",
+      main: "#324A5F",
     },
     error: {
       main: red.A400,
     },
     background: {
-      default: "#eaeaea",
-    }
+      default: "#fdf3f3",
+    },
+    text: {
+      primary: "#0C1821",
+      secondary: "#FEFEFE",
+      disabled: "#D3D3D3", // Light grey hex code
+    },
+    navbar: {
+      background: "#6A172E",
+    },
   },
   typography: {
     fontFamily: "Arial",
