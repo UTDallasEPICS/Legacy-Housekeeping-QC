@@ -15,25 +15,25 @@ const BuildingDropdownSelect = (props: BuildingDropdownSelectProps) => {
     );
   }
 
+  console.log(props.options.length);
+
   return (
     <div>
-      {floorArray.map((floor, index) => {
-        return (
-          <div key={index}>
-            <h1>{props.options[index].building_name}</h1>
-            <select onChange={(e) => setFloor(parseInt(e.target.value))}>
-              <option value={-1}>Select a floor</option>
-              {floor.map((f) => {
+      <select>
+        {floorArray.map((floor, index) => {
+          return (
+            <optgroup key={index} label={props.options[index].building_name}>
+              {floor.map((floor) => {
                 return (
-                  <option key={f} value={f}>
-                    Floor {f}
+                  <option key={floor} value={floor}>
+                    {floor}
                   </option>
                 );
               })}
-            </select>
-          </div>
-        );
-      })}
+            </optgroup>
+          );
+        })}
+      </select>
     </div>
   );
 };
