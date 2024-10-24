@@ -61,7 +61,6 @@ export default function navbar() {
 const menuItems = [
   { link: "/members_performance", text: "Performance" },
   { link: "/admin/inspections", text: "Inspections" },
-  { link: "/admin/schedules", text: "Schedules" },
   { link: "/admin/teamMembers", text: "Team Members" },
   { link: "/admin/roomPages/buildingChoice", text: "Rooms" },
 ];
