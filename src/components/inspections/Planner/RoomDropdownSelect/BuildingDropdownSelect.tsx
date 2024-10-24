@@ -27,8 +27,6 @@ const BuildingDropdownSelect = (props) => {
   };
 
   useEffect(() => {
-    console.log(props.roomOptions);
-    console.log(selectedFloor);
     if (selectedFloor) {
       const filteredRooms = props.roomOptions.filter(
         (option) =>
@@ -37,7 +35,6 @@ const BuildingDropdownSelect = (props) => {
       );
       setRoomOptions(filteredRooms);
     }
-    console.log(roomOptions);
   }, [selectedFloor]);
 
   return (

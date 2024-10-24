@@ -118,7 +118,6 @@ const InspectionPlanner = ({
       }),
     });
     const inspectionData = await inspectionRes.json();
-    console.log(inspectionData);
 
     // Fetch the modified inspection data
     const inspectionFetchRes = await fetch("/api/roomReport/report", {
@@ -218,7 +217,7 @@ const InspectionPlanner = ({
         options={buildingOptions}
         roomOptions={roomOptions}
         selected={selectedBuilding}
-        handleChange={setSelectedBuilding}
+        handleChange={setSelectedRoom}
       />
 
       <CleanTypeRadioGroup
