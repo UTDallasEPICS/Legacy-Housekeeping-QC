@@ -1,39 +1,76 @@
 import React, { useState, useEffect } from "react";
-import { BuildingDropdownSelectProps, RoomOptionProps } from "./props";
+import { Autocomplete, TextField, Box, FormControl } from "@mui/material";
+import RoomDropdownSelect from "./RoomDropdownSelect";
 
-const BuildingDropdownSelect = (props: BuildingDropdownSelectProps) => {
-  const [building, setBuilding] = useState(props.selected);
-  const [floor, setFloor] = useState(-1);
+const BuildingDropdownSelect = (props) => {
+  const [selectedFloor, setSelectedFloor] = useState(null);
+  const [roomOptions, setRoomOptions] = useState([]);
 
-  // Props passes the number of floors in each building. Converts to an array that represents each individual floor
-  let floorArray: number[][] = [];
-  for (let i = 0; i < props.options.length; i++) {
-    console.log(props.options);
-    floorArray[i] = Array.from(
-      { length: props.options[i].floor_number },
-      (_, j) => j + 1
-    );
-  }
+  const floorOptions = props.options.flatMap((option) =>
+    Array.from({ length: option.floor_number }, (_, j) => ({
+      name: option.building_name,
+      buildingId: option.building_id,
+      floor: j + 1,
+    }))
+  );
 
-  console.log(props.options.length);
+  const rendRoom = () => {
+    if (selectedFloor !== null) {
+      return (
+        <RoomDropdownSelect
+          options={roomOptions}
+          selected={props.selected}
+          handleChange={props.handleChange}
+        />
+      );
+    }
+  };
+
+  useEffect(() => {
+    console.log(props.roomOptions);
+    console.log(selectedFloor);
+    if (selectedFloor) {
+      const filteredRooms = props.roomOptions.filter(
+        (option) =>
+          option.floor_number === selectedFloor.floor &&
+          option.building_name === selectedFloor.name
+      );
+      setRoomOptions(filteredRooms);
+    }
+    console.log(roomOptions);
+  }, [selectedFloor]);
 
   return (
     <div>
-      <select>
-        {floorArray.map((floor, index) => {
-          return (
-            <optgroup key={index} label={props.options[index].building_name}>
-              {floor.map((floor) => {
-                return (
-                  <option key={floor} value={floor}>
-                    {floor}
-                  </option>
-                );
-              })}
-            </optgroup>
-          );
-        })}
-      </select>
+      <FormControl fullWidth>
+        <Autocomplete
+          options={floorOptions}
+          getOptionLabel={(option) =>
+            option.floor === -1 ? "" : "Floor " + option.floor
+          }
+          groupBy={(option) => option.name}
+          isOptionEqualToValue={(option, value) =>
+            option.buildingId === value.buildingId &&
+            option.floor === value.floor
+          }
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              variant="standard"
+              placeholder="Select a floor"
+              label="Select a floor"
+            />
+          )}
+          renderOption={(props, option) => (
+            <Box component="li" {...props}>
+              {`Floor ${option.floor}`}
+            </Box>
+          )}
+          value={selectedFloor}
+          onChange={(event, value) => setSelectedFloor(value)}
+        />
+      </FormControl>
+      {rendRoom()}
     </div>
   );
 };

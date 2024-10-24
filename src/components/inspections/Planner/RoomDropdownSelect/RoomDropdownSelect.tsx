@@ -16,7 +16,7 @@ const OPTION_LIMIT = 100;
 const RoomDropdownSelect = (props: RoomDropdownSelectProps) => {
   const { options, selected, handleChange } = props;
   return (
-    <FormControl variant="standard">
+    <FormControl fullWidth>
       <Autocomplete
         options={options}
         getOptionLabel={(option) =>

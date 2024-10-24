@@ -20,7 +20,8 @@ import {
 import { TeamMemberOptionProps } from "../TeamMemberMultiSelect/props";
 import { verifyForm } from "./verifyForm";
 import { InspectionPlannerProps } from "./props";
-import BuildingDropdownSelect from "../RoomDropdownSelect";
+import BuildingDropdownSelect from "../RoomDropdownSelect/BuildingDropdownSelect";
+import RoomDropdownSelect from "../RoomDropdownSelect/RoomDropdownSelect";
 
 const InspectionPlanner = ({
   members,
@@ -152,9 +153,9 @@ const InspectionPlanner = ({
   const buildingOptions: BuildingOptionProps[] = buildings.flatMap(
     (building) => {
       return {
-        building_id: building.id,
-        building_name: building.name,
         floor_number: building.floor_count,
+        building_name: building.name,
+        building_id: building.id,
       };
     }
   );
@@ -215,6 +216,7 @@ const InspectionPlanner = ({
 
       <BuildingDropdownSelect
         options={buildingOptions}
+        roomOptions={roomOptions}
         selected={selectedBuilding}
         handleChange={setSelectedBuilding}
       />

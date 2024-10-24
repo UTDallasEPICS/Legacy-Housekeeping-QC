@@ -45,7 +45,11 @@ const inspections = ({ inspected, notInspected, members, buildings }) => {
               padding: 2,
             }}
           >
-            <InspectionPlanner members={members} buildings={buildings} />
+            <InspectionPlanner
+              members={members}
+              buildings={buildings}
+              buildingsWithRooms={buildings}
+            />
             <InspectionDateSelector />
           </Box>
         </Box>
