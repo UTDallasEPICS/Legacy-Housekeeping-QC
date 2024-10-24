@@ -67,6 +67,7 @@ export function toBuildingWithRooms(
   return {
     id: a.id,
     name: a.name,
+    floor_count : a.floor_count,
     rooms: a.rooms,
   };
 }
@@ -360,3 +361,4 @@ export function fromQuantitativeRubric(
     type: a.rubric.type,
   };
 }
+

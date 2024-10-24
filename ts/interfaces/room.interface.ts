@@ -11,5 +11,6 @@ export interface RoomWithBuilding {
 export interface BuildingWithRooms {
   id: number;
   name: string;
+  floor_count: number;
   rooms: Room[];
 }

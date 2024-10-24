@@ -46,7 +46,11 @@ const inspections = ({ inspected, notInspected, members, buildings }) => {
               //justifyContent: "space-evenly",
             }}
           >
-            <InspectionPlanner members={members} buildings={buildings} />
+            <InspectionPlanner
+              members={members}
+              buildings={buildings}
+              buildingsWithRooms={buildings}
+            />
             <InspectionDateSelector />
           </Box>
         </Box>

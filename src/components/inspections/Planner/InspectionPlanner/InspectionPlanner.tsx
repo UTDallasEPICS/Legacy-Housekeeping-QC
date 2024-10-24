@@ -11,15 +11,24 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { splitInspectionWithStatus } from "../../../../../functions/splitInspectionWithStatus";
 import TeamMemberMultiSelect from "../TeamMemberMultiSelect";
-import RoomDropdownSelect from "../RoomDropdownSelect";
 import CleanTypeRadioGroup from "../CleanTypeRadioGroup";
-import { RoomOptionProps } from "../RoomDropdownSelect/props";
+import {
+  RoomOptionProps,
+  BuildingOptionProps,
+} from "../RoomDropdownSelect/props";
+//import BuildingDropdownSelect from "../RoomDropdownSelect";
 import { TeamMemberOptionProps } from "../TeamMemberMultiSelect/props";
 import { verifyForm } from "./verifyForm";
 import { InspectionPlannerProps } from "./props";
+import BuildingDropdownSelect from "../RoomDropdownSelect/BuildingDropdownSelect";
+import RoomDropdownSelect from "../RoomDropdownSelect/RoomDropdownSelect";
 import { DashboardCardHeading } from "../../..";
 
-const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
+const InspectionPlanner = ({
+  members,
+  buildingsWithRooms,
+  buildings,
+}: InspectionPlannerProps) => {
   const dispatch = useDispatch();
   const dateFilter = useSelector(getDateFilter);
   const { data: session } = useSession();
@@ -28,6 +37,8 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
   const [selectedMembers, setSelectedMembers] = useState<
     TeamMemberOptionProps[]
   >([]);
+  const [selectedBuilding, setSelectedBuilding] =
+    useState<BuildingOptionProps>(null);
   const [selectedRoom, setSelectedRoom] = useState<RoomOptionProps>(null);
   const [selectedCleanType, setSelectedCleanType] = useState<CleanType>(
     CleanType.NORMAL
@@ -35,7 +46,7 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
 
   useEffect(
     () => setErrors([]),
-    [selectedMembers, selectedRoom, selectedCleanType]
+    [selectedMembers, selectedBuilding, selectedRoom, selectedCleanType]
   );
 
   const handleSubmission = async () => {
@@ -108,7 +119,6 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
       }),
     });
     const inspectionData = await inspectionRes.json();
-    console.log(inspectionData);
 
     // Fetch the modified inspection data
     const inspectionFetchRes = await fetch("/api/roomReport/report", {
@@ -139,22 +149,36 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
       };
     }
   );
-  const roomOptions: RoomOptionProps[] = buildings.flatMap((building) => {
-    return building.rooms.map((room) => {
+
+  const buildingOptions: BuildingOptionProps[] = buildings.flatMap(
+    (building) => {
       return {
-        room_id: room.id,
-        room_name: room.name,
-        floor_number: room.floor_number,
+        floor_number: building.floor_count,
         building_name: building.name,
+        building_id: building.id,
       };
-    });
-  });
+    }
+  );
+
+  const roomOptions: RoomOptionProps[] =
+    buildingsWithRooms?.flatMap((building) => {
+      return building.rooms.map((room) => {
+        return {
+          room_id: room.id,
+          room_name: room.name,
+          floor_number: room.floor_number,
+          building_name: building.name,
+        };
+      });
+    }) || [];
 
   return (
     <Card
-      sx={{
-        // Prevents the box from shrinking and growing by the content
-      }}
+      sx={
+        {
+          // Prevents the box from shrinking and growing by the content
+        }
+      }
     >
       <Box>
         <DashboardCardHeading text="Inspection Planner" />
@@ -176,32 +200,33 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
           borderBottom: "1px solid #E0E0E0",
           minWidth: "400px",
           maxWidth: "400px",
-  
+
           display: "flex",
           flexDirection: "column",
           gap: 2,
         }}
       >
-      <TeamMemberMultiSelect
-        options={memberOptions}
-        selected={selectedMembers}
-        handleChange={setSelectedMembers}
-      />
+        <TeamMemberMultiSelect
+          options={memberOptions}
+          selected={selectedMembers}
+          handleChange={setSelectedMembers}
+        />
 
-      <RoomDropdownSelect
-        options={roomOptions}
-        selected={selectedRoom}
-        handleChange={setSelectedRoom}
-      />
+        <BuildingDropdownSelect
+          options={buildingOptions}
+          roomOptions={roomOptions}
+          selected={selectedBuilding}
+          handleChange={setSelectedRoom}
+        />
 
-      <CleanTypeRadioGroup
-        selected={selectedCleanType}
-        handleChange={setSelectedCleanType}
-      />
+        <CleanTypeRadioGroup
+          selected={selectedCleanType}
+          handleChange={setSelectedCleanType}
+        />
 
-      <Button variant="outlined" onClick={handleSubmission}>
-        CREATE
-      </Button>
+        <Button variant="outlined" onClick={handleSubmission}>
+          CREATE
+        </Button>
       </Box>
     </Card>
   );
