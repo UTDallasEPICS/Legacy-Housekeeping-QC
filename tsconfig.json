@@ -1,6 +1,10 @@
 {
   "compilerOptions": {
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
@@ -12,14 +16,18 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "target": "ES2017"
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
-, "src/components/scheduleComponents/ScheduleRoomPanel/scheduleRoomPanel.tsx"    // "src/components/authsComponents/signUpCardInVPSize"
-  ,"pages/members_performanceChart.tsx"
+    "**/*.tsx",
+    "src/components/scheduleComponents/ScheduleRoomPanel/scheduleRoomPanel.tsx" // "src/components/authsComponents/signUpCardInVPSize"
+    ,
+    "pages/members_performanceChart.tsx"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules"
+  ]
 }
