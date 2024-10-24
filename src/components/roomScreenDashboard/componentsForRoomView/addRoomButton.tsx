@@ -15,20 +15,20 @@ const addRoomButton = ({ buildingName, floorName, buildid }) => {
           sx={{ 
             fontSize: 22,
             fontweight: "bold", 
-            color: "secondary.main",
-            bgcolor: "transparent",
             justifyContent: "center",
             height: 80,
             width: 170,
             display: "flex",
-            border: 5,
-            borderColor: "secondary.main",
             textDecoration: "none",
-            "&:hover": {            
-              border: 5,
+            border: 3,
+            borderColor: "secondary.main",
+            color: "secondary.main",
+            bgcolor: "white",
+            "&:hover": {
+              border: 3,
               borderColor: "secondary.main",
               color: "white",
-              bgcolor: "secondary.main", 
+              bgcolor: "secondary.main",
             },
           }}
         >

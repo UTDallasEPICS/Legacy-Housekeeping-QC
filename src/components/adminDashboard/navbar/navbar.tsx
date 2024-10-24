@@ -28,8 +28,8 @@ export default function navbar() {
       position="sticky"
       sx={{
         width: 1,
-        p: 2,
-        backgroundColor: "white",
+        p: 1,
+        backgroundColor: theme.palette.navbar.background,
         display: "flex",
         flexDirection: "row",
       }}
@@ -39,14 +39,20 @@ export default function navbar() {
           href="/admin/adminDashboard"
           style={{
             textDecoration: "none",
-            color: theme.palette.primary.main,
+            color: theme.palette.text.secondary,
           }}
         >
           <Typography
             variant="h6"
             sx={{ mx: 1, fontFamily: montserrat.style.fontFamily }}
           >
-            <b>LegacyQC</b>
+            <Box
+              component="img"
+              src="../../../logo.png"
+              alt="The Legacy"
+              sx={{ height: 75 }}
+              border={2}
+            />
           </Typography>
         </Link>
         {burgerBreakpoint && <NavbarBurger />}
@@ -59,9 +65,8 @@ export default function navbar() {
 }
 
 const menuItems = [
-  { link: "/members_performance", text: "Performance" },
+  { link: "/admin/members_performance", text: "Performance" },
   { link: "/admin/inspections", text: "Inspections" },
-  { link: "/admin/schedules", text: "Schedules" },
   { link: "/admin/teamMembers", text: "Team Members" },
   { link: "/admin/roomPages/buildingChoice", text: "Rooms" },
 ];
@@ -92,8 +97,9 @@ const NavbarBurger = () => {
             <Typography
               fontFamily={montserrat.style.fontFamily}
               textTransform={"uppercase"}
+              fontWeight="bold"
               fontSize={14}
-              color={"primary"}
+              color={"text.secondary"}
             >
               {item.text}
             </Typography>
@@ -112,7 +118,7 @@ const NavbarFootlong = () => {
             fontSize={14}
             fontFamily={montserrat.style.fontFamily}
             textTransform={"uppercase"}
-            color={"primary"}
+            color={"text.secondary"}
           >
             {item.text}
           </Typography>
@@ -138,7 +144,7 @@ const UserBurger = () => {
   return (
     <>
       <Button onClick={(e) => setAnchor(e.currentTarget)}>
-        <Avatar sx={{ bgcolor: "secondary.main", mx: 1 }}>
+        <Avatar sx={{ bgcolor: "secondary.main", mx: 1, color: "white" }}>
           {signedInUserInitial}
         </Avatar>
       </Button>

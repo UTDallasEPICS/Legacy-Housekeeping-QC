@@ -86,6 +86,7 @@ const inspectionGrid = () => {
           >
             <TextField
               label="Search"
+              InputLabelProps={{ style: { color: "#6A172E" } }}
               variant="standard"
               onChange={(event) => setFilter(event.target.value)}
               sx={{ flexGrow: 1 }}
@@ -93,6 +94,7 @@ const inspectionGrid = () => {
             <TextField
               select
               label="Filter By"
+              InputLabelProps={{ style: { color: "#6A172E" } }}
               value={filterBy}
               onChange={(event) =>
                 setFilterBy(event.target.value as InspectionFilterBy)

@@ -32,6 +32,7 @@ const RoomDropdownSelect = (props: RoomDropdownSelectProps) => {
               variant="standard"
               placeholder="Type a room name"
               label="Select a room"
+              InputLabelProps={{ style: { color: "#6A172E" } }}
             />
           );
         }}

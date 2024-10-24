@@ -31,11 +31,7 @@ export { default as EditForm } from "./teamMemberComponents/editMember/editForm"
 // Loader
 export { default as Loader } from "./loader/Loading";
 
-//schedules
-export { default as ScheduleRoomPanel } from "./scheduleComponents/ScheduleRoomPanel/scheduleRoomPanel";
-export { default as ScheduleWeekPanel } from "./scheduleComponents/scheduleWeekPanel/scheduleWeekPanel";
-export { default as SelectionBox } from "./scheduleComponents/selectionBox/selectionBox";
-export { default as DayTimeSelectionPanel } from "./scheduleComponents/dayTimeSelectionBox/DayTimeSelectionPanel";
+
 
 // Inspections
 export { default as InspectionPlanner } from "./inspections/Planner/InspectionPlanner";

@@ -41,8 +41,9 @@ const inspections = ({ inspected, notInspected, members, buildings }) => {
                 md: "column",
               },
               alignItems: "center",
-              justifyContent: "space-evenly",
+              gap: 5,
               padding: 2,
+              //justifyContent: "space-evenly",
             }}
           >
             <InspectionPlanner
@@ -63,7 +64,7 @@ export async function getServerSideProps() {
 
   const memberRes = await fetch(
     (process.env.NEXTAUTH_URL || "http://localhost:3000") +
-      "/api/member/members",
+    "/api/member/members",
     {
       method: "GET",
       headers: { "Content-Type": "application/json" },
@@ -73,7 +74,7 @@ export async function getServerSideProps() {
 
   const buildingsRes = await fetch(
     (process.env.NEXTAUTH_URL || "http://localhost:3000") +
-      "/api/building/buildingsWithRoom",
+    "/api/building/buildingsWithRoom",
     {
       method: "GET",
       headers: { "Content-Type": "application/json" },
