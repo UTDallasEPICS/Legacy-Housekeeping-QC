@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   Box,
   Button,
@@ -13,6 +14,8 @@ import {
 } from "../../../../../slices/InspectionMakerSlice";
 import CloudIcon from "@mui/icons-material/Cloud";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import axios from "axios"; // Add axios for API calls
+import  Imageupload  from "./AWSUpload"
 
 const ImageUploadHeader = ({ disabled, onUpload }) => {
   return (
@@ -92,23 +95,52 @@ const ImageGrid = ({ roomPics }) => {
 const ImageUpload = ({ disabled }: { disabled: boolean }) => {
   const dispatch = useDispatch();
   const roomPics = useSelector(getRoomPics);
-  const handleFileUpload = (event) => {
+  const [uploading, setUploading] = useState(false);
+
+  const handleFileUpload = async (event) => {
     const files = [...event.target.files];
-    dispatch(
-      setRoomPics([
-        ...roomPics,
-        ...files.map((file) => {
-          return {
-            name: file.name,
-            url: URL.createObjectURL(file),
-          };
-        }),
-      ])
-    );
+    
+    // If no files selected, return
+    if (files.length === 0) return;
+
+    setUploading(true); // Set uploading state to true
+    for (let file of files) {
+      const formData = new FormData();
+      formData.append("image", file);
+
+      try {
+        const response = await axios.post("/api/upload", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+
+        if (response.data.success) {
+          const { fileUrl } = response.data;
+
+          // Add the uploaded image's URL to Redux state
+          dispatch(
+            setRoomPics([
+              ...roomPics,
+              {
+                name: file.name,
+                url: fileUrl, // Use the S3 URL returned from the API
+              },
+            ])
+          );
+        }
+      } catch (error) {
+        console.error("Upload error:", error);
+        alert("Error uploading file");
+      }
+    }
+    setUploading(false); // Set uploading state to false
   };
+
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
       <ImageUploadHeader disabled={disabled} onUpload={handleFileUpload} />
+      {uploading && <Typography>Uploading...</Typography>}
       <ImageGrid roomPics={roomPics} />
     </Box>
   );
