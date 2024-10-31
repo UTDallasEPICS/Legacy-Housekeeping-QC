@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Button, Alert, TextField, Grid } from "@mui/material";
+import { Button, Alert, TextField, Grid, AppBar } from "@mui/material";
 import Navbar from "../../../../src/components/adminDashboard/navbar/navbar";
-import BackButton from "../../globalComponents/backButton";
 import formBuildingValidation from "./formBuildingValidation";
+import Banner from "../../adminDashboard/Banner/Banner";
 
 const FormAddBuilding = () => {
   // State
@@ -11,11 +11,12 @@ const FormAddBuilding = () => {
   const [floorsAmount, setFloorsAmount] = useState(0);
   const [formErrors, setFormErrors] = useState({});
 
+  let goBackLink = "/admin/roomPages/buildingChoice";
+
   // Form submission
   const handleSubmit = async () => {
     const resCheck = formBuildingValidation(buildingName, floorsAmount);
     setFormErrors(resCheck);
-
     if (resCheck !== 0) {
       return;
     }
@@ -38,7 +39,7 @@ const FormAddBuilding = () => {
         return;
       }
 
-      window.location.replace("/admin/roomPages/buildingChoice");
+      window.location.replace(goBackLink);
     } catch (error) {
       console.error("Error submitting form:", error);
     }
@@ -49,19 +50,16 @@ const FormAddBuilding = () => {
       <Navbar />
 
       <div>
-        <BackButton pageToGoBack={"/admin/roomPages/buildingChoice"} />
+        <Banner relativePath={goBackLink} function={"Add a New Building"} />
       </div>
 
+
       <Grid container
-        spacing={1}
+        spacing={3}
         direction="column"
         justifyContent="center"
         alignItems="center"
       >
-        <Grid item xs={12} sx={{ textAlign: "center" }}>
-          <h1>Add a new building</h1>
-        </Grid>
-
         <Grid item xs={12} sx={{ textAlign: "center" }}>
           <h2>Please fill out the information of the building:</h2>
         </Grid>
@@ -70,11 +68,15 @@ const FormAddBuilding = () => {
         <Grid item>
           <TextField
             label="Building Name"
-            variant="outlined"
+            InputLabelProps={{
+              style: { color: 'black' },
+            }}
+            color="secondary"
+            placeholder="Building Name"
             onChange={(e) => setBuildingName(e.target.value)}
             value={buildingName}
             name="buildingName"
-            style={{ fontSize: "5vh", width: "30vh", height: "10vh" }}
+            sx={{ width: "30vh", bgcolor: "white", color: "text.primary" }}
           />
           {(formErrors["name"] || formErrors["invalid"]) && (
             <Alert severity="error" sx={{ whiteSpace: "pre-line" }}>
@@ -87,10 +89,14 @@ const FormAddBuilding = () => {
           <TextField
             onChange={(e) => setFloorsAmount(Number(e.target.value))}
             label="Number of Floors"
+            InputLabelProps={{ style: { color: "#6A172E" } }}
+            color="secondary"
             value={floorsAmount}
             name="RoomNumber"
-            style={{ fontSize: "25vh", width: "30vh", height: "10vh" }}
+            type="number"
+            sx={{ width: "30vh", bgcolor: "white", color: "text.primary" }}
           />
+
           {formErrors["flooramount"] && (
             <Alert severity="error" sx={{ whiteSpace: "pre-line" }}>
               {formErrors["flooramount"]}
@@ -99,13 +105,14 @@ const FormAddBuilding = () => {
         </Grid>
 
         {/* submit button */}
-        <div style={{ display: "flex", justifyContent: "center" }}>
+        <Grid item>
           <Button
             variant="outlined"
             sx={{
-              border: 3,
+              border: 2,
+              bgcolor: "white",
               "&:hover": {
-                border: 3,
+                border: 4,
                 borderColor: "primary.main",
                 color: "white",
                 bgcolor: "primary.main",
@@ -115,7 +122,7 @@ const FormAddBuilding = () => {
           >
             Submit
           </Button>
-        </div>
+        </Grid>
       </Grid>
     </div>
   );

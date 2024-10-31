@@ -141,8 +141,10 @@ const editForm = ({ memberId }: MemberId) => {
         className={classes.spaceBtwnCol}
         id="firstName"
         label="First Name"
-        variant="standard"
+        variant="outlined"
         value={firstName}
+        InputLabelProps={{ style: { color: "#6A172E" } }}
+        sx={{ width: "30vh", bgcolor: "white", color: "text.primary" }}
         onChange={(e) => setFirstName(e.target.value)}
       />
 
@@ -150,8 +152,10 @@ const editForm = ({ memberId }: MemberId) => {
         className={classes.spaceBtwnCol}
         id="lastName"
         label="Last Name"
-        variant="standard"
+        variant="outlined"
         value={lastName}
+        InputLabelProps={{ style: { color: "#6A172E" } }}
+        sx={{ width: "30vh", bgcolor: "white", color: "text.primary" }}
         onChange={(e) => setLastName(e.target.value)}
       />
 
@@ -159,19 +163,23 @@ const editForm = ({ memberId }: MemberId) => {
         className={classes.spaceBtwnCol}
         id="email"
         label="Email"
-        variant="standard"
+        variant="outlined"
         value={email}
+        InputLabelProps={{ style: { color: "#6A172E" } }}
+        sx={{ width: "30vh", bgcolor: "white", color: "text.primary" }}
         onChange={(e) => setEmail(e.target.value)}
       />
 
       <MuiTelInput
         className={classes.spaceBtwnCol}
         id="phoneNumber"
-        variant="standard"
+        variant="outlined"
         label="Phone Number"
         onlyCountries={["US", "MX", "CA"]}
         inputProps={{ maxLength: 15 }}
         value={phoneNumber}
+        InputLabelProps={{ style: { color: "#6A172E" } }}
+        sx={{ width: "30vh", bgcolor: "white", color: "text.primary" }}
         onChange={(e) => setPhoneNumber(e)}
       />
 
@@ -179,8 +187,16 @@ const editForm = ({ memberId }: MemberId) => {
         className={classes.spaceBtwnCol}
         variant="contained"
         sx={{
-          color: "white",
-          backgroundColor: "primary.main",
+          border: 3,
+          borderColor: "primary.main",
+          color: "primary.main",
+          bgcolor: "white",
+          "&:hover": {
+            border: 3,
+            borderColor: "primary.main",
+            color: "white",
+            bgcolor: "primary.main",
+          },
         }}
         onClick={() => handleSubmit()}
       >
@@ -191,9 +207,18 @@ const editForm = ({ memberId }: MemberId) => {
         className={classes.spaceBtwnCol}
         variant="contained"
         sx={{
-          color: "primary.main",
-          backgroundColor: "white",
+          border: 3,
+          borderColor: "secondary.main",
+          color: "secondary.main",
+          bgcolor: "white",
+          "&:hover": {
+            border: 3,
+            borderColor: "secondary.main",
+            color: "white",
+            bgcolor: "secondary.main",
+          },
         }}
+
         onClick={() => handleRemoveMember()}
       >
         Remove Member

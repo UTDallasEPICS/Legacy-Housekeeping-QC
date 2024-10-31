@@ -45,7 +45,6 @@ model TeamMember {
   email String?
   // Relations
   person Person @relation(fields: [person_id], references: [id], onDelete: Cascade)
-  schedules Schedule[]
   scores Score[]
 }
 
@@ -60,19 +59,7 @@ model Score {
   inspection Inspection @relation(fields: [inspection_id], references: [id])
 }
 
-model Schedule {
-  // Indexes
-  id Int @id @default(autoincrement())
-  // Fields
-  start_time DateTime?
-  end_time   DateTime?
-  clean_type CleanType @default(NORMAL)
-  // Relations
-  room_id Int
-  room Room @relation(fields: [room_id], references: [id])
-  team_members TeamMember[]
-  inspections Inspection[]
-}
+
 
 enum CleanType {
   NORMAL
@@ -91,7 +78,6 @@ model Room {
   building_id Int
   building Building @relation(fields: [building_id], references: [id])
   floor_number Int
-  schedule Schedule[]
   items Item[]
   @@index([building_id, floor_number])
 }
@@ -144,7 +130,6 @@ model Inspection {
   inspector_id Int 
   inspector User @relation(fields: [inspector_id], references: [person_id])
   schedule_id Int 
-  schedule Schedule @relation(fields: [schedule_id], references: [id])
   rubric_id Int
   rubric Rubric @relation(fields: [rubric_id], references: [id])
   score Score?

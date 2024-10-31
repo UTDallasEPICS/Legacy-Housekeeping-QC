@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Box, Container, Grid, Typography, InputBase, List } from "@mui/material";
 import { Search } from "@mui/icons-material";
-import { Navbar } from "../src/components";
-import MembersPerformanceChart from "../src/components/performanceDashboard/charts/members_performanceChart";
-import MemberButton from "../src/components/performanceDashboard/buttons/memberButton";
-import ScoreHistory from "../src/components/performanceDashboard/scoreHistory";
+import { Navbar } from "../../src/components";
+import MembersPerformanceChart from "../../src/components/performanceDashboard/charts/members_performanceChart";
+import MemberButton from "../../src/components/performanceDashboard/buttons/memberButton";
+import ScoreHistory from "../../src/components/performanceDashboard/scoreHistory";
+import MainBanner from "../../src/components/adminDashboard/Banner/MainBanner";
 
+//*********************STATIC PAGE****************************/
 const Performance = () => {
   // State variables
   const [members, setMembers] = useState([]);
@@ -102,6 +104,7 @@ const Performance = () => {
   return (
     <Box>
       <Navbar />
+      <MainBanner text="Performance Dashboard" />
       <Container maxWidth="lg">
         <Grid container spacing={1}>
           {/* Member List */}
@@ -119,7 +122,7 @@ const Performance = () => {
                   ml: 1,
                 }}
               >
-                <Search sx={{ color: "secondary.main", ml: 2 }} />
+                <Search sx={{ color: "primary.main", ml: 2 }} />
                 <InputBase
                   placeholder="Search Team Members"
                   inputProps={{ "aria-label": "search" }}

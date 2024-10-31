@@ -1,7 +1,7 @@
-import BuildingSelection from "../../../src/components/roomScreenDashboard/componentsForBuildingSelection/buidlingSelection";
 import BuildingCardsNew from "../../../src/components/roomScreenDashboard/componentsForBuildingSelection/buildingCardsNew";
 import Navbar from "../../../src/components/adminDashboard/navbar/navbar";
 import {theme} from "../../../src/theme";
+import MainBanner from "../../../src/components/adminDashboard/Banner/MainBanner";
 
 const buildingChoice = () => {
   return (
@@ -9,7 +9,7 @@ const buildingChoice = () => {
       {/* Heading */}
       <div>
         <Navbar />
-        <BuildingSelection />
+        <MainBanner text="Building Selection"/>
       </div>
 
       {/* Displays the buildings for the user to choose */}

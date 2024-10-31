@@ -26,6 +26,7 @@ const TeamMemberMultiSelect = (props: TeamMemberMultiSelectProps) => {
               variant="standard"
               placeholder="Name"
               label="Select team members"
+              InputLabelProps={{ style: { color: "#6A172E" } }}
             />
           );
         }}

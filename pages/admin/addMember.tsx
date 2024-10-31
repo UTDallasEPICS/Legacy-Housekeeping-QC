@@ -1,26 +1,21 @@
 import { Box, Container, Divider, Typography } from "@mui/material";
-import { BackButton, FormAddMember } from "../../src/components";
+import { BackButton, FormAddMember, Navbar } from "../../src/components";
+import navbar from "../../src/components/adminDashboard/navbar/navbar";
+import Banner from "../../src/components/adminDashboard/Banner/Banner";
+
+const goBackLink = "/admin/teamMembers";
 
 const addMember = () => {
   return (
     <Box>
-      <Box sx={{ p: 2, bgcolor: "#FAFAFA" }}>
-        <Container>
-          <BackButton pageToGoBack="/admin/teamMembers" />
+      <Navbar />
+      <Banner relativePath={goBackLink} function={"Add Team Member"} />
 
-          <Typography variant="h5">
-            <b>Add Team Member</b>
-          </Typography>
-        </Container>
-      </Box>
-
-      <Divider />
-
-      <Container>
+      <Box>
         <Box sx={{ p: 2 }}>
           <FormAddMember />
         </Box>
-      </Container>
+      </Box>
     </Box>
   );
 };

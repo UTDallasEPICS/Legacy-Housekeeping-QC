@@ -1,4 +1,4 @@
-import { Alert, Box, Button, Typography } from "@mui/material";
+import { Alert, Box, Button, Card, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { TeamMember } from "../../../../../ts/types/db.interfaces";
 import { CleanType } from "@prisma/client";
@@ -22,6 +22,7 @@ import { verifyForm } from "./verifyForm";
 import { InspectionPlannerProps } from "./props";
 import BuildingDropdownSelect from "../RoomDropdownSelect/BuildingDropdownSelect";
 import RoomDropdownSelect from "../RoomDropdownSelect/RoomDropdownSelect";
+import { DashboardCardHeading } from "../../..";
 
 const InspectionPlanner = ({
   members,
@@ -172,29 +173,15 @@ const InspectionPlanner = ({
     }) || [];
 
   return (
-    <Box
-      sx={{
-        padding: 2,
-        // Prevents the box from shrinking and growing by the content
-        minWidth: "400px",
-        maxWidth: "400px",
-
-        display: "flex",
-        flexDirection: "column",
-        gap: 2,
-      }}
+    <Card
+      sx={
+        {
+          // Prevents the box from shrinking and growing by the content
+        }
+      }
     >
-      <Box sx={{ display: "flex", justifyContent: "center" }}>
-        <Typography
-          variant="h4"
-          sx={{
-            fontSize: "30",
-            fontWeight: "bold",
-            fontFamily: montserrat.style.fontFamily,
-          }}
-        >
-          Inspection Planner
-        </Typography>
+      <Box>
+        <DashboardCardHeading text="Inspection Planner" />
       </Box>
 
       {errors.map((error) => (
@@ -207,28 +194,41 @@ const InspectionPlanner = ({
         </Alert>
       ))}
 
-      <TeamMemberMultiSelect
-        options={memberOptions}
-        selected={selectedMembers}
-        handleChange={setSelectedMembers}
-      />
+      <Box
+        sx={{
+          padding: 2,
+          borderBottom: "1px solid #E0E0E0",
+          minWidth: "400px",
+          maxWidth: "400px",
 
-      <BuildingDropdownSelect
-        options={buildingOptions}
-        roomOptions={roomOptions}
-        selected={selectedBuilding}
-        handleChange={setSelectedRoom}
-      />
+          display: "flex",
+          flexDirection: "column",
+          gap: 2,
+        }}
+      >
+        <TeamMemberMultiSelect
+          options={memberOptions}
+          selected={selectedMembers}
+          handleChange={setSelectedMembers}
+        />
 
-      <CleanTypeRadioGroup
-        selected={selectedCleanType}
-        handleChange={setSelectedCleanType}
-      />
+        <BuildingDropdownSelect
+          options={buildingOptions}
+          roomOptions={roomOptions}
+          selected={selectedBuilding}
+          handleChange={setSelectedRoom}
+        />
 
-      <Button variant="outlined" onClick={handleSubmission}>
-        CREATE
-      </Button>
-    </Box>
+        <CleanTypeRadioGroup
+          selected={selectedCleanType}
+          handleChange={setSelectedCleanType}
+        />
+
+        <Button variant="outlined" onClick={handleSubmission}>
+          CREATE
+        </Button>
+      </Box>
+    </Card>
   );
 };
 

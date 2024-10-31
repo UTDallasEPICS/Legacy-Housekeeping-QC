@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { Box, Button, Container, Divider, Typography, Grid, InputBase } from "@mui/material";
+import { Box, Button, Container, Divider, Typography, Grid, InputBase, Card } from "@mui/material";
 import { Add, Search } from "@mui/icons-material";
 import Link from "next/link";
 import { getSession } from "next-auth/react";
@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { MemberProfile, Navbar, PageHeading, Scroll } from "../../src/components";
 import { selectFirstName, selectLastName, selectEmail, selectCountryCode, selectStateCode, selectPhoneNumber } from "../../slices/memberProfileSlice";
 import { TeamMemberProperties } from "../../ts/interfaces/teamMember.interfaces";
+import MainBanner from "../../src/components/adminDashboard/Banner/MainBanner";
 
 const teamMembers = ({ members }: TeamMemberProperties) => {
   const router = useRouter();
@@ -46,49 +47,56 @@ const teamMembers = ({ members }: TeamMemberProperties) => {
   return (
     <Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
       <Navbar />
-      <PageHeading text="Team Members" />
-      <Divider />
+      <MainBanner text="Team Members" />
 
       <Container>
         <Grid container spacing={2}>
           <Grid item xs={12} md={4}>
-            <Box sx={{ pt: 2, pb: 2, justifyContent: "center" }}>
-              <Box sx={{ display: "flex", justifyContent: "left" }}>
+            <Card sx={{ pt: 2, pb: 2, justifyContent: "center", marginTop: 4 }}>
+              <Box sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                flexDirection: "row",
+                mx: 2
+              }}>
+
+                <Box sx={{ marginBottom: 2 }}>
+
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      border: "1px solid #ccc",
+                      borderRadius: "4px",
+                      mb: 2,
+                    }}
+                  >
+                    <Search sx={{ color: "secondary.main", ml: 1 }} />
+                    <InputBase
+                      placeholder="Search Team Members"
+                      inputProps={{ "aria-label": "search" }}
+                      value={searchInput}
+                      onChange={handleSearchChange}
+                      sx={{ ml: 1, flex: 1 }}
+                    />
+                  </Box>
+                </Box>
+
                 <Link href="/admin/addMember">
                   <Button variant="text" sx={{ color: "secondary.main" }}>
                     <Add />
                   </Button>
                 </Link>
-              </Box>
 
-              <Box sx={{ marginBottom: 2 }}>
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    border: "1px solid #ccc",
-                    borderRadius: "4px",
-                    mb: 2,
-                    ml: 1,
-                  }}
-                >
-                  <Search sx={{ color: "secondary.main", ml: 2 }} />
-                  <InputBase
-                    placeholder="Search Team Members"
-                    inputProps={{ "aria-label": "search" }}
-                    value={searchInput}
-                    onChange={handleSearchChange}
-                    sx={{ ml: 1, flex: 1 }}
-                  />
-                </Box>
               </Box>
 
               <Scroll members={filteredMembers} />
-            </Box>
+            </Card>
           </Grid>
 
           <Grid item xs={12} md={8}>
-            <Box sx={{ py: 4, pl: 4, display: "flex", justifyContent: "center" }}>
+            <Card sx={{ py: 4, pl: 4, display: "flex", justifyContent: "center", marginTop: 4 }}>
               {first_name ? (
                 <MemberProfile
                   memberData={{
@@ -105,7 +113,7 @@ const teamMembers = ({ members }: TeamMemberProperties) => {
               ) : (
                 <Typography variant="h5">There are no Team Members.</Typography>
               )}
-            </Box>
+            </Card>
           </Grid>
         </Grid>
       </Container>

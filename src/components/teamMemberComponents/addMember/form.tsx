@@ -87,47 +87,67 @@ const form = () => {
       <TextField
         className={classes.spaceBtwnCol}
         id="firstName"
+        placeholder="John"
         label="First Name"
-        variant="standard"
+        variant="outlined"
         value={firstName}
         onChange={(e) => setFirstName(e.target.value)}
+        InputLabelProps={{ style: { color: "#6A172E" } }}
+        sx={{ width: "30vh", bgcolor: "white", color: "text.primary" }}
       />
 
       <TextField
         className={classes.spaceBtwnCol}
         id="lastName"
+        placeholder="Doe"
         label="Last Name"
-        variant="standard"
+        variant="outlined"
         value={lastName}
         onChange={(e) => setLastName(e.target.value)}
+        InputLabelProps={{ style: { color: "#6A172E" } }}
+        sx={{ width: "30vh", bgcolor: "white", color: "text.primary" }}
       />
 
       <TextField
         className={classes.spaceBtwnCol}
         id="email"
+        placeholder="jdoe@gmail.com"
         label="Email"
-        variant="standard"
+        variant="outlined"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
+        InputLabelProps={{ style: { color: "#6A172E" } }}
+        sx={{ width: "30vh", bgcolor: "white", color: "text.primary" }}
       />
 
       <MuiTelInput
         className={classes.spaceBtwnCol}
         id="phoneNumber"
-        variant="standard"
+        placeholder="123 456 7890"
+        variant="outlined"
         label="Phone Number"
         onlyCountries={["US", "MX", "CA"]}
         inputProps={{ maxLength: 15 }}
         value={phoneNumber}
         onChange={(e) => setPhoneNumber(e)}
+        InputLabelProps={{ style: { color: "#6A172E" } }}
+        sx={{ width: "30vh", bgcolor: "white", color: "text.primary" }}
       />
 
       <Button
         className={classes.spaceBtwnCol}
         variant="contained"
         sx={{
-          color: "white",
-          backgroundColor: "primary.main",
+          border: 3,
+          borderColor: "primary.main",
+          color: "primary.main",
+          bgcolor: "white",
+          "&:hover": {
+            border: 3,
+            borderColor: "primary.main",
+            color: "white",
+            bgcolor: "primary.main",
+          },
         }}
         onClick={() => handleSubmit()}
       >

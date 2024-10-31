@@ -8,7 +8,7 @@ import { setRoom } from "../../../slices/roomSelectSlice";
 import { useDispatch } from "react-redux";
 import Link from "next/link";
 import Navbar from "../../../src/components/adminDashboard/navbar/navbar";
-import {theme} from "../../../src/theme";
+import { theme } from "../../../src/theme";
 
 // Function to get the display name of a room type
 const getTypeDisplayName = (type) => {
@@ -134,7 +134,7 @@ const roomView = () => {
     buildid = urlParams.get("building_id");
     console.log("building: ", buildingParam);
     console.log("floor: ", floorParam);
-    
+
     setBuilding(buildingParam);
     setFloor(floorParam);
     setBuildingId(buildid);
@@ -148,7 +148,7 @@ const roomView = () => {
     >
       {/* heading */}
       <Navbar />
-      <BuildingRoomBanner buildingVal={building} />
+      <BuildingRoomBanner greeting="Welcome to Building" buildingVal={building} />
 
       {/* main content of page */}
       <Grid container direction="column" justifyContent="center">
@@ -169,16 +169,16 @@ const roomView = () => {
           >
             <SortDropdown onSortChange={setSortOption} /> {/* Sort Dropdown and the value that it passes */}
           </Grid>
-          
+
           <AddRoomButton
             buildingName={building}
             floorName={floor}
             buildid={buildingId}
           />
 
-        {/* <DeleteRoomButton /> */}
+          {/* <DeleteRoomButton /> */}
         </Grid>
-        
+
         {/* area where user can scroll and look through the rooms */}
         <Grid
           id="scroll"

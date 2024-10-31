@@ -13,7 +13,7 @@ const CleanTypeRadioGroup = (props: CleanTypeRadioGroupProps) => {
   return (
     <FormControl sx={{ display: "flex", flexDirection: "row", gap: "2rem" }}>
       <FormLabel
-        sx={{ display: "flex", alignItems: "center", fontWeight: "bold" }}
+        sx={{ display: "flex", alignItems: "center", fontWeight: "bold", color: "#6A172E" }}
       >
         Clean Type
       </FormLabel>
@@ -28,6 +28,7 @@ const CleanTypeRadioGroup = (props: CleanTypeRadioGroupProps) => {
             value={type}
             control={<Radio />}
             label={type[0] + type.slice(1).toLowerCase()}
+
           />
         ))}
       </RadioGroup>
