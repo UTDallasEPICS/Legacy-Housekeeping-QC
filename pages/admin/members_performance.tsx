@@ -1,11 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Box, Container, Grid, Typography, InputBase, List, Button } from "@mui/material";
 import { Search } from "@mui/icons-material";
-import { Navbar } from "../src/components";
-import MembersPerformanceChart from "../src/components/performanceDashboard/charts/members_performanceChart";
-import MemberButton from "../src/components/performanceDashboard/buttons/memberButton";
-import ScoreHistory from "../src/components/performanceDashboard/scoreHistory";
-
 import { Navbar } from "../../src/components";
 import MembersPerformanceChart from "../../src/components/performanceDashboard/charts/members_performanceChart";
 import MemberButton from "../../src/components/performanceDashboard/buttons/memberButton";
@@ -104,7 +99,7 @@ const Performance = () => {
   const generatePDF = () => {
     const input = pdfRef.current; // Refers to the area you want to print
     const logoUrl = 'https://i.postimg.cc/ZRH6ydCT/9489522-logo.png';
-  
+
     html2canvas(input).then((canvas) => {
       const imgData = canvas.toDataURL("image/png");
       const pdf = new jsPDF();
@@ -113,37 +108,37 @@ const Performance = () => {
       const imgProps = pdf.getImageProperties(imgData);
       const contentWidth = pdfWidth - 20; // Reduced margins for the content
       const contentHeight = (imgProps.height * contentWidth) / imgProps.width;
-  
+
       // Define the company's color for the margins (adjust as per the company’s branding)
       const marginColor = theme.palette.primary.main; // Example color, replace with the actual color code
-  
+
       // Add a top margin with the company's color
       pdf.setFillColor(marginColor);
       pdf.rect(0, 0, pdfWidth, 20, 'F'); // Top margin height is 20 units
-  
+
       // Add a bottom margin with the company's color
       pdf.rect(0, pdfHeight - 20, pdfWidth, 20, 'F'); // Bottom margin height is 20 units
-  
+
       // Add the logo at the top left
       const logoWidth = 69; // Adjust size to fit within the layout
       const logoHeight = 40; // Maintain aspect ratio
       pdf.addImage(logoUrl, "PNG", 65, 14, logoWidth, logoHeight); // Position logo at the top left corner
-  
+
       // Center the main content image (captured area) within the PDF
       const xOffset = (pdfWidth - contentWidth) / 2 + 14; // Center horizontally
       pdf.addImage(imgData, "PNG", xOffset, 60, contentWidth, contentHeight);
-  
+
       // Add the footer text at the bottom of the PDF within the colored margin
       pdf.setFontSize(7);
       pdf.setTextColor(255, 255, 255); // White text color for contrast against the dark margin
       const footerText = "© 2024 The Legacy Senior Communities";
       pdf.text(footerText, 10, pdfHeight - 10);
-  
+
       pdf.save("member_performance.pdf");
     });
 
   };
-  
+
 
   return (
     <Box>
