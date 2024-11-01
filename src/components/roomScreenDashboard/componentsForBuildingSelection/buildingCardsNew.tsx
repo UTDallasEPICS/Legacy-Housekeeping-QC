@@ -3,6 +3,7 @@ import {
   Typography,
   Grid,
   IconButton,
+  Card,
 } from "@mui/material";
 import { setBuilding } from "../../../../slices/buildingSelectSlice";
 import { useDispatch } from "react-redux";
@@ -22,33 +23,40 @@ const makeCard = (buildingVal: JSON) => {
   };
 
   return (
-    <Grid item key={id} xs={5} sm={4} md={3} lg={3} xl={2} textAlign="center">
-      <Link
-        href={`/admin/roomPages/floorChoice?building=${name}`}
-        passHref
-        style={{ textDecoration: "none" }}
-      >
-        <IconButton
-          onClick={() => handleClick("A")}
-          sx={{
-            display: "inline",
-            alignItems: "center",
-            minHeight: "20vh",
-            minWidth: "20vh",
-            maxHeight: "20vh",
-            maxWidth: "20vh",
-            "&:hover": {
-              color: "primary.main",
-            },
-          }}
+    <Grid item key={id} xs={5} sm={4} md={3} lg={3} xl={2} textAlign="center" >
+      <Card sx={{
+        border: "1px solid grey",
+        borderRadius: 1,
+      }}>
+        <Link
+          href={`/admin/roomPages/floorChoice?building=${name}`}
+          passHref
+          style={{ textDecoration: "none" }}
         >
-          <ApartmentIcon sx={{ fontSize: "15vh" }} />
-          <Typography variant="body1" sx={{ fontSize: "3vh" }}>
-            {name}
-          </Typography>
-        </IconButton>
-      </Link>
-    </Grid>
+          <IconButton
+            onClick={() => handleClick("A")}
+            sx={{
+              display: "inline",
+              alignItems: "center",
+              "&:hover": {
+                color: "primary.main",
+                bgcolor: "transparent",
+              },
+            }}
+          >
+            <ApartmentIcon sx={{ fontSize: "15vh" }} />
+            <Typography variant="body1" sx={{
+              fontSize: "3vh",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}>
+              {name}
+            </Typography>
+          </IconButton>
+        </Link>
+      </Card>
+    </Grid >
   );
 };
 
@@ -120,6 +128,7 @@ const buildingCardsNew = () => {
         container
         columnSpacing={0}
         rowSpacing={10}
+        spacing={2}
         sx={{
           justifyContent: "center",
         }}
