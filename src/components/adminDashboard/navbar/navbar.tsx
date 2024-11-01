@@ -67,6 +67,7 @@ export default function navbar() {
 const menuItems = [
   { link: "/admin/members_performance", text: "Performance" },
   { link: "/admin/inspections", text: "Inspections" },
+  //{ link: "/admin/schedules", text: "Schedules" },
   { link: "/admin/teamMembers", text: "Team Members" },
   { link: "/admin/roomPages/buildingChoice", text: "Rooms" },
 ];
@@ -76,7 +77,10 @@ const NavbarBurger = () => {
 
   return (
     <>
-      <IconButton onClick={(e) => setAnchor(e.currentTarget)}>
+      <IconButton 
+      onClick={(e) => setAnchor(e.currentTarget)}
+      sx={{ color: "white" }}
+      >
         <MenuIcon />
       </IconButton>
       <Menu
@@ -99,7 +103,7 @@ const NavbarBurger = () => {
               textTransform={"uppercase"}
               fontWeight="bold"
               fontSize={14}
-              color={"text.secondary"}
+              color={"primary"}
             >
               {item.text}
             </Typography>
@@ -165,6 +169,7 @@ const UserBurger = () => {
           <Typography
             fontSize={14}
             fontFamily={montserrat.style.fontFamily}
+            fontWeight="bold" 
             textTransform={"uppercase"}
             color={"primary"}
           >

@@ -30,6 +30,7 @@ export const memberInfo = ({
 
   return (
     <Box sx={{ width: 1 }}>
+      <Divider />
       <ListItemButton onClick={() => handle()} sx={{ width: 1 }}>
         {first_name} {last_name}
       </ListItemButton>

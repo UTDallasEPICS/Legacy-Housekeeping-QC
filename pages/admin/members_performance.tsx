@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Box, Container, Grid, Typography, InputBase, List, Button } from "@mui/material";
+import { Box, Container, Grid, Typography, InputBase, List, Button, Card } from "@mui/material";
 import { Search } from "@mui/icons-material";
 import { Navbar } from "../../src/components";
 import MembersPerformanceChart from "../../src/components/performanceDashboard/charts/members_performanceChart";
@@ -8,6 +8,7 @@ import ScoreHistory from "../../src/components/performanceDashboard/scoreHistory
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import { useTheme } from "@mui/material";
+import MainBanner from "../../src/components/adminDashboard/Banner/MainBanner";
 
 //*********************DYNAMIC PAGE****************************/
 const Performance = ({ initialMembers }) => {
@@ -20,24 +21,6 @@ const Performance = ({ initialMembers }) => {
 
   const theme = useTheme();
   const pdfRef = useRef(null); // Reference for the area to capture
-
-  const getMembers = async () => {
-    try {
-      const response = await fetch("/api/member/members", {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch members");
-      }
-
-      const data = await response.json();
-      setMembers(data);
-    } catch (error) {
-      console.error("Error fetching members:", error);
-    }
-  };
 
   const getScores = async (member) => {
     try {
@@ -119,11 +102,11 @@ const Performance = ({ initialMembers }) => {
       pdf.addImage(logoUrl, "PNG", 65, 14, logoWidth, logoHeight); // Position logo at the top left corner
 
       // Center the main content image (captured area) within the PDF
-      const xOffset = (pdfWidth - contentWidth) / 2 + 14; // Center horizontally
-      pdf.addImage(imgData, "PNG", xOffset, 60, contentWidth, contentHeight);
+      const xOffset = (pdfWidth - contentWidth) / 2 + 16; // Center horizontally
+      pdf.addImage(imgData, "PNG", xOffset, 60, contentWidth-20, contentHeight-15);
 
       // Add the footer text at the bottom of the PDF within the colored margin
-      pdf.setFontSize(7);
+      pdf.setFontSize(10);
       pdf.setTextColor(255, 255, 255); // White text color for contrast against the dark margin
       const footerText = "© 2024 The Legacy Senior Communities";
       pdf.text(footerText, 10, pdfHeight - 10);
@@ -135,109 +118,122 @@ const Performance = ({ initialMembers }) => {
 
 
   return (
-    <Box>
+    <Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
       <Navbar />
-      <Container maxWidth="lg">
-        <Grid container spacing={1}>
-          <Grid item xs={3} sm={3} md={3} lg={3}>
-            <Box sx={{ marginTop: 2 }}>
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  border: "1px solid #ccc",
-                  borderRadius: "4px",
-                  mb: 2,
-                  ml: 1,
-                }}
-              >
-                <Search sx={{ color: "secondary.main", ml: 2 }} />
-                <InputBase
-                  placeholder="Search Team Members"
-                  inputProps={{ "aria-label": "search" }}
-                  value={searchInput}
-                  onChange={handleSearchChange}
-                  sx={{ ml: 1, flex: 1 }}
-                />
-              </Box>
-            </Box>
+      <MainBanner text="Performance"></MainBanner>
 
-            <Box
-              sx={{
-                width: "min(21vw, 300px)",
-                flex: 1,
-                overflowY: "auto",
-                position: "relative",
-                justifyContent: "center",
-              }}
-            >
-              <List>
-                {filteredMembers.length > 0 ? (
-                  filteredMembers.map((member) => (
-                    <MemberButton key={member.id} member={member} onClick={handleMemberClick} />
-                  ))
-                ) : (
-                  <Typography variant="h5" sx={{ p: 2 }}>
-                    Empty list
-                  </Typography>
-                )}
-              </List>
-            </Box>
-          </Grid>
-
-          {/* Main content and score history to be captured */}
-          <Grid container item xs={12} sm={9} md={9} lg={9} spacing={1} ref={pdfRef}>
-            <Grid item xs={4} sm={3} md={3} lg={4}>
-              <Box
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "flex-start",
-                  justifyContent: "flex-start",
-                  marginLeft: "30px",
-                }}
-              >
-                <Typography variant="h1" sx={{ fontSize: { xs: 14, sm: 20, md: 20, lg: 30 }, fontWeight: "bold", mt: 2 }}>
-                  {selectedMember ? `${selectedMember.first_name} ${selectedMember.last_name}` : "Loading..."}
-                </Typography>
-                <Typography variant="h4" sx={{ fontSize: { xs: 14, sm: 16, md: 20 }, fontWeight: "bold", marginTop: 1 }}>
-                  Average Score: {averageScore}%
-                </Typography>
-              </Box>
-            </Grid>
-
-            <Grid container item xs={12} sm={12} md={9} lg={9}>
-              <Grid item xs={12} sm={12} md={9} lg={9}>
-                <Box sx={{ display: "flex", width: { xs: "80vw", sm: "55vw", md: "50vw", lg: "650px" } }}>
-                  <MembersPerformanceChart memberData={scores} />
-                </Box>
-              </Grid>
-
-              <Grid item xs={5} sm={5} md={7} lg={4}>
+      <Container>
+        <Grid container spacing={2} sx={{ backgroundColor: "" }}>
+          <Grid item xs={3} sm={3} md={3} lg={3} spacing={1} sx={{ backgroundColor: "" }}>
+            <Card sx={{
+              marginTop: 4,
+              border: "1px solid grey",
+              borderRadius: 1,
+            }}>
+              <Box sx={{ marginTop: 1 }}>
                 <Box
                   sx={{
                     display: "flex",
-                    flexDirection: "column",
-                    alignItems: "flex-start",
-                    justifyContent: "flex-start",
-                    textAlign: "center",
-                    ml: { xs: "5vw", sm: "-10vw", md: "0px", lg: "0px" },
+                    alignItems: "center",
+                    border: "1px solid #ccc",
+                    borderRadius: 1,
+                    mx: 1,
                   }}
                 >
-                  <ScoreHistory memberData={scores} />
+                  <Search sx={{ color: "secondary.main", ml: 1 }} />
+                  <InputBase
+                    placeholder="Search Team Members"
+                    inputProps={{ "aria-label": "search" }}
+                    value={searchInput}
+                    onChange={handleSearchChange}
+                    sx={{ ml: 1, flex: 1 }}
+                  />
                 </Box>
-              </Grid>
-            </Grid>
+              </Box>
+
+              <Box
+                sx={{
+                  width: "min(21vw, 300px)",
+                  flex: 1,
+                  overflowY: "auto",
+                  position: "relative",
+                  justifyContent: "center",
+                }}
+              >
+                <List>
+                  {filteredMembers.length > 0 ? (
+                    filteredMembers.map((member) => (
+                      <MemberButton key={member.id} member={member} onClick={handleMemberClick} />
+                    ))
+                  ) : (
+                    <Typography variant="h5" sx={{ p: 2 }}>
+                      Empty list
+                    </Typography>
+                  )}
+                </List>
+              </Box>
+            </Card>
           </Grid>
 
-          {/* PDF Download Button */}
-          <Grid container item xs={12} alignItems={"center"} justifyContent={"center"}>
-            <Grid item xs={12} sm={6} md={6} lg={6}>
-              <Box sx={{ p: 8, textAlign: "center" }}>
-                <Button variant="contained" color="primary" onClick={generatePDF}>
-                  Download PDF
-                </Button>
-              </Box>
+          {/* Main content and score history to be captured */}
+          <Grid container item xs={7.5}>
+            <Card sx={{
+              backgroundColor: " white",
+              marginLeft: 2, marginTop: 4, paddingLeft: 2,
+              border: "1px solid grey",
+              borderRadius: 1,
+            }}>
+              <Grid container ref={pdfRef}>
+                <Grid container item xs={12} sx={{ backgroundColor: "" }}>
+                  <Grid item xs={4} sm={3} md={3} lg={4}>
+                    <Box
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "flex-start",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <Typography variant="h1" sx={{ fontSize: { xs: 14, sm: 20, md: 20, lg: 26 }, fontWeight: "bold", mt: 2 }}>
+                        {selectedMember ? `${selectedMember.first_name} ${selectedMember.last_name}` : "No Member Selected"}
+                      </Typography>
+                      <Typography variant="h4" sx={{ fontSize: { xs: 14, sm: 16, md: 20 }, fontWeight: "bold", marginTop: 1 }}>
+                        Average Score: {averageScore}%
+                      </Typography>
+                    </Box>
+                  </Grid>
+                  <Grid item xs={12} sm={12} md={9} lg={9}>
+                    <Box sx={{ display: "flex", width: { xs: "80vw", sm: "55vw", md: "50vw", lg: "650px" } }}>
+                      <MembersPerformanceChart memberData={scores} />
+                    </Box>
+                  </Grid>
+
+                  <Grid item xs={5} sm={5} md={7} lg={4}>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "flex-start",
+                        justifyContent: "flex-start",
+                        textAlign: "center",
+                        ml: -3.5,
+                      }}
+                    >
+                      <ScoreHistory memberData={scores} />
+                    </Box>
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Card>
+            {/* PDF Download Button */}
+            <Grid container item xs={12} alignItems="center" justifyContent="center">
+              <Grid item>
+                <Box sx={{ py: 8, textAlign: "center", ml: -6 }}>
+                  <Button variant="contained" color="primary" onClick={generatePDF}>
+                    Download PDF
+                  </Button>
+                </Box>
+              </Grid>
             </Grid>
           </Grid>
 

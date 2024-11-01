@@ -2,7 +2,6 @@ import { Dashboard } from "../../src/components";
 const performance = () => {
   return <div>
     
-    
     <Dashboard></Dashboard>
     
 

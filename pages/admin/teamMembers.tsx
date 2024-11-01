@@ -51,8 +51,12 @@ const teamMembers = ({ members }: TeamMemberProperties) => {
 
       <Container>
         <Grid container spacing={2}>
-          <Grid item xs={12} md={4}>
-            <Card sx={{ pt: 2, pb: 2, justifyContent: "center", marginTop: 4 }}>
+          <Grid item xs={12} md={4} >
+            <Card sx={{
+              pt: 2, pb: 2, justifyContent: "center", marginTop: 4,
+              border: "1px solid grey",
+              borderRadius: 1,
+            }}>
               <Box sx={{
                 display: "flex",
                 justifyContent: "space-between",
@@ -96,7 +100,11 @@ const teamMembers = ({ members }: TeamMemberProperties) => {
           </Grid>
 
           <Grid item xs={12} md={8}>
-            <Card sx={{ py: 4, pl: 4, display: "flex", justifyContent: "center", marginTop: 4 }}>
+            <Card sx={{
+              py: 4, pl: 4, display: "flex", justifyContent: "center", marginTop: 4,
+              border: "1px solid grey",
+              borderRadius: 1,
+            }}>
               {first_name ? (
                 <MemberProfile
                   memberData={{
