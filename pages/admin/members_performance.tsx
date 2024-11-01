@@ -7,33 +7,14 @@ import MemberButton from "../../src/components/performanceDashboard/buttons/memb
 import ScoreHistory from "../../src/components/performanceDashboard/scoreHistory";
 import MainBanner from "../../src/components/adminDashboard/Banner/MainBanner";
 
-//*********************STATIC PAGE****************************/
-const Performance = () => {
+//*********************DYNAMIC PAGE****************************/
+const Performance = ({ initialMembers }) => {
   // State variables
-  const [members, setMembers] = useState([]);
-  const [selectedMember, setSelectedMember] = useState(null);
+  const [members, setMembers] = useState(initialMembers);
+  const [selectedMember, setSelectedMember] = useState(initialMembers[0] || null);
   const [scores, setScores] = useState([]);
   const [averageScore, setAverageScore] = useState(0);
   const [searchInput, setSearchInput] = useState("");
-
-  // Fetch members from API
-  const getMembers = async () => {
-    try {
-      const response = await fetch("/api/member/members", {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch members");
-      }
-
-      const data = await response.json();
-      setMembers(data);
-    } catch (error) {
-      console.error("Error fetching members:", error);
-    }
-  };
 
   // Fetch scores for selected member from API
   const getScores = async (member) => {
@@ -75,16 +56,6 @@ const Performance = () => {
       member.first_name.toLowerCase().includes(searchInput) ||
       member.last_name.toLowerCase().includes(searchInput)
   );
-
-  // Effect to fetch members on component mount
-  useEffect(() => {
-    getMembers();
-  }, []);
-
-  // Effect to set selected member when members array changes
-  useEffect(() => {
-    setSelectedMember(members[0]);
-  }, [members]);
 
   // Effect to fetch scores when selected member changes
   useEffect(() => {
@@ -219,6 +190,25 @@ const Performance = () => {
       </Container>
     </Box>
   );
+};
+
+export const getServerSideProps = async () => {
+  try {
+    const response = await fetch("http://localhost:3000/api/member/members", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch members");
+    }
+
+    const initialMembers = await response.json();
+    return { props: { initialMembers } };
+  } catch (error) {
+    console.error("Error fetching members:", error);
+    return { props: { initialMembers: [] } };
+  }
 };
 
 export default Performance;
