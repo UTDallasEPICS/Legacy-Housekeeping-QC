@@ -1,287 +1,228 @@
-/// The generator block specifies the client generator for Prisma.
-/// In this case, it uses the `prisma-client-js` provider.
 generator client {
   provider = "prisma-client-js"
 }
 
-/// The datasource block specifies the database connection.
-/// It uses MySQL as the provider and the connection URL is fetched from the environment variable `DATABASE_URL`.
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
-/// The Person model represents a person in the system.
-/// It includes fields for first name, last name, country code, state code, phone number, and type.
-/// It also has optional relations to the User and TeamMember models.
 model Person {
+  // Indexes
+  id    Int     @id @default(autoincrement())
   // Fields
-  id           Int        @id @default(autoincrement())
-  first_name   String
+  first_name   String 
   last_name    String
-  country_code String?
+  country_code String? 
   state_code   String?
   phone_number String?
-  type         PersonType
-
+  type  PersonType
   // Relations
-  user       User?
+  user User?
   teamMember TeamMember?
 }
 
-/// The PersonType enum defines the types of persons in the system.
-/// It can be either USER or TEAM_MEMBER.
 enum PersonType {
   USER
   TEAM_MEMBER
 }
 
-/// The User model represents a user in the system.
-/// It includes fields for email and password.
-/// It has a relation to the Person model and a list of inspections.
 model User {
+  // Indexes
+  person_id Int @unique @id
   // Fields
-  person_id Int    @id @unique
-  email     String @unique
-  password  String
-
+  email    String  @unique
+  password String
   // Relations
-  person      Person       @relation(fields: [person_id], references: [id], onDelete: Cascade)
+  person Person @relation(fields: [person_id], references: [id], onDelete: Cascade)
   inspections Inspection[]
 }
 
-/// The TeamMember model represents a team member in the system.
-/// It includes an optional email field.
-/// It has a relation to the Person model and lists of scores and schedules.
 model TeamMember {
+  // Indexes
+  person_id Int @unique @id
   // Fields
-  person_id Int     @id @unique
-  email     String?
-
+  email String?
   // Relations
-  person   Person     @relation(fields: [person_id], references: [id], onDelete: Cascade)
-  scores   Score[]
-  Schedule Schedule[]
+  person Person @relation(fields: [person_id], references: [id], onDelete: Cascade)
+  schedules Schedule[]
+  scores Score[]
 }
 
-/// The Score model represents a score given to a team member.
-/// It includes a field for the amount and a unique inspection ID.
-/// It has a relation to the Inspection model.
 model Score {
+  // Indexes
+  id Int @id @default(autoincrement())
   // Fields
-  id            Int @id @default(autoincrement())
-  amount        Int
-  inspection_id Int @unique
-
+  amount Int
   // Relations
   team_member TeamMember[]
-  inspection  Inspection   @relation(fields: [inspection_id], references: [id])
+  inspection_id Int @unique
+  inspection Inspection @relation(fields: [inspection_id], references: [id])
 }
 
-/// The Schedule model represents a schedule for cleaning.
-/// It includes fields for start time, end time, and clean type.
-/// It has relations to the Room, TeamMember, and Inspection models.
 model Schedule {
+  // Indexes
+  id Int @id @default(autoincrement())
   // Fields
-  id         Int       @id @default(autoincrement())
   start_time DateTime?
   end_time   DateTime?
   clean_type CleanType @default(NORMAL)
-  room_id    Int
-
   // Relations
-  room         Room         @relation(fields: [room_id], references: [id])
+  room_id Int
+  room Room @relation(fields: [room_id], references: [id])
   team_members TeamMember[]
-  inspections  Inspection[]
+  inspections Inspection[]
 }
 
-/// The CleanType enum defines the types of cleaning.
-/// It can be either NORMAL or DEEP.
 enum CleanType {
   NORMAL
   DEEP
 }
 
-/// The Room model represents a room in a building.
-/// It includes fields for name, type, and floor number.
-/// It has relations to the Building, CommonArea, PersonalRoom, Item, and Schedule models.
 model Room {
-  // Fields
-  id           Int      @id @default(autoincrement())
-  name         String
-  type         RoomType
-  building_id  Int
-  floor_number Int
-
-  // Relations
-  common_area   CommonArea?
-  personal_room PersonalRoom?
-  building      Building      @relation(fields: [building_id], references: [id])
-  items         Item[]
-  Schedule      Schedule[]
-
   // Indexes
+  id Int @id @default(autoincrement())
+  // Fields
+  name String
+  type RoomType
+  common_area CommonArea?
+  personal_room PersonalRoom?
+  // Relations
+  building_id Int
+  building Building @relation(fields: [building_id], references: [id])
+  floor_number Int
+  schedule Schedule[]
+  items Item[]
   @@index([building_id, floor_number])
 }
 
-/// The RoomType enum defines the types of rooms.
-/// It can be either COMMON_AREA or PERSONAL_ROOM.
 enum RoomType {
   COMMON_AREA
   PERSONAL_ROOM
 }
 
-/// The CommonArea model represents a common area in a building.
-/// It has a relation to the Room model.
 model CommonArea {
+  // Indexes
+  id Int @id
   // Fields
-  id      Int @id
+  // Relations
   room_id Int @unique
-
-  // Relations
   room Room @relation(fields: [room_id], references: [id])
 }
 
-/// The PersonalRoom model represents a personal room in a building.
-/// It includes a field to indicate if the room is occupied.
-/// It has a relation to the Room model.
 model PersonalRoom {
+  // Indexes
+  id Int @id
   // Fields
-  id          Int     @id
   is_occupied Boolean
-  room_id     Int     @unique
-
   // Relations
+  room_id Int @unique
   room Room @relation(fields: [room_id], references: [id])
 }
 
-/// The Building model represents a building.
-/// It includes fields for name and floor count.
-/// It has a relation to the Room model.
 model Building {
+  // Indexes
+  id Int @id @default(autoincrement())
   // Fields
-  id          Int    @id @default(autoincrement())
-  name        String
+  name String
   floor_count Int
-
   // Relations
   rooms Room[]
 }
 
-/// The Inspection model represents an inspection of a room.
-/// It includes fields for timestamp, room pictures, comment, inspection status, clean status, and extra score.
-/// It has relations to the User, Schedule, Rubric, and Score models.
 model Inspection {
+  // Indexes
+  id Int @id @default(autoincrement())
   // Fields
-  id             Int            @id @default(autoincrement())
-  timestamp      DateTime?
-  room_pics      String?
-  comment        String?
+  timestamp DateTime?
+  room_pics String?
+  comment String?
   inspect_status Inspect_Status
-  clean_status   Clean_Status?
-  extra_score    Int            @default(0)
-  inspector_id   Int
-  schedule_id    Int
-  rubric_id      Int
-
+  clean_status Clean_Status?
+  extra_score Int @default(0)
   // Relations
-  inspector User     @relation(fields: [inspector_id], references: [person_id])
-  schedule  Schedule @relation(fields: [schedule_id], references: [id])
-  rubric    Rubric   @relation(fields: [rubric_id], references: [id])
-  score     Score?
+  inspector_id Int 
+  inspector User @relation(fields: [inspector_id], references: [person_id])
+  schedule_id Int 
+  schedule Schedule @relation(fields: [schedule_id], references: [id])
+  rubric_id Int
+  rubric Rubric @relation(fields: [rubric_id], references: [id])
+  score Score?
 }
 
-/// The Inspect_Status enum defines the status of an inspection.
-/// It can be INSPECTED, NOT_INSPECTED, or UNFINISHED.
 enum Inspect_Status {
   INSPECTED
   NOT_INSPECTED
   UNFINISHED
 }
 
-/// The Clean_Status enum defines the status of cleaning.
-/// It can be CLEANED, NOT_CLEANED, or UNFINISHED.
 enum Clean_Status {
   CLEANED
   NOT_CLEANED
   UNFINISHED
 }
 
-/// The Rubric model represents a rubric used for inspections.
-/// It includes a field for the type of rubric.
-/// It has relations to the QuantitativeRubric, HollisticRubric, and Inspection models.
 model Rubric {
+  // Indexes
+  id Int @id @default(autoincrement())
   // Fields
-  id   Int        @id @default(autoincrement())
   type RubricType
-
-  // Relations
   quantitative_rubric QuantitativeRubric?
-  hollistic_rubric    HollisticRubric?
-  inspection          Inspection[]
+  hollistic_rubric HollisticRubric?
+  // Relations
+  inspection Inspection[]
 }
 
-/// The RubricType enum defines the types of rubrics.
-/// It can be either QUANTITATIVE or HOLLISTIC.
 enum RubricType {
   QUANTITATIVE
   HOLLISTIC
 }
 
-/// The QuantitativeRubric model represents a quantitative rubric.
-/// It has a relation to the Rubric model and a list of items.
 model QuantitativeRubric {
+  // Indexes
+  id Int @id @default(autoincrement())
   // Fields
-  id        Int @id @default(autoincrement())
-  rubric_id Int @unique
-
   // Relations
+  rubric_id Int @unique
   rubric Rubric @relation(fields: [rubric_id], references: [id])
-  items  Item[]
+  items Item[]
 }
 
-/// The HollisticRubric model represents a holistic rubric.
-/// It has a relation to the Rubric model and a list of requirements.
 model HollisticRubric {
+  // Indexes
+  id Int @id @default(autoincrement())
   // Fields
-  id        Int @id @default(autoincrement())
-  rubric_id Int @unique
-
   // Relations
-  rubric       Rubric        @relation(fields: [rubric_id], references: [id])
+  rubric_id Int @unique
+  rubric Rubric @relation(fields: [rubric_id], references: [id])
   requirements Requirement[]
 }
 
-/// The Requirement model represents a requirement in a holistic rubric.
-/// It includes fields for category, description, is_checked, and weight.
-/// It has a relation to the HollisticRubric model.
 model Requirement {
+  // Indexes
+  id Int @id @default(autoincrement())
   // Fields
-  id           Int     @id @default(autoincrement())
-  category     String
-  description  String
-  is_checked   Boolean
-  weight       Int     @default(1)
-  hollistic_id Int
-
+  category String
+  description String
+  is_checked Boolean
+  weight Int @default(1)
   // Relations
+  hollistic_id Int 
   hollistic_rubric HollisticRubric @relation(fields: [hollistic_id], references: [id])
 }
 
-/// The Item model represents an item in a room.
-/// It includes fields for category, name, is_checked, and weight.
-/// It has relations to the Room and QuantitativeRubric models.
-model Item {
-  // Fields
-  id              Int     @id @default(autoincrement())
-  category        String
-  name            String
-  is_checked      Boolean
-  weight          Int     @default(1)
-  room_id         Int
-  quantitative_id Int
 
+model Item {
+  // Indexes
+  id Int @id @default(autoincrement())
+  // Fields
+  category String
+  name String
+  is_checked Boolean
+  weight Int @default(1)
   // Relations
-  room                Room               @relation(fields: [room_id], references: [id])
+  room_id Int
+  room Room @relation(fields: [room_id], references: [id])
+  quantitative_id Int
   quantitative_rubric QuantitativeRubric @relation(fields: [quantitative_id], references: [id])
 }

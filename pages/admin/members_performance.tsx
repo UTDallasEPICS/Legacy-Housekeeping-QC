@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { Box, Container, Grid, Typography, InputBase, List } from "@mui/material";
+import React, { useState, useEffect, useRef } from "react";
+import { Box, Container, Grid, Typography, InputBase, List, Button } from "@mui/material";
 import { Search } from "@mui/icons-material";
 import { Navbar } from "../../src/components";
 import MembersPerformanceChart from "../../src/components/performanceDashboard/charts/members_performanceChart";
 import MemberButton from "../../src/components/performanceDashboard/buttons/memberButton";
 import ScoreHistory from "../../src/components/performanceDashboard/scoreHistory";
-import MainBanner from "../../src/components/adminDashboard/Banner/MainBanner";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
+import { useTheme } from "@mui/material";
 
 //*********************DYNAMIC PAGE****************************/
 const Performance = ({ initialMembers }) => {
@@ -16,7 +18,27 @@ const Performance = ({ initialMembers }) => {
   const [averageScore, setAverageScore] = useState(0);
   const [searchInput, setSearchInput] = useState("");
 
-  // Fetch scores for selected member from API
+  const theme = useTheme();
+  const pdfRef = useRef(null); // Reference for the area to capture
+
+  const getMembers = async () => {
+    try {
+      const response = await fetch("/api/member/members", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch members");
+      }
+
+      const data = await response.json();
+      setMembers(data);
+    } catch (error) {
+      console.error("Error fetching members:", error);
+    }
+  };
+
   const getScores = async (member) => {
     try {
       const response = await fetch("/api/member/getScore", {
@@ -40,31 +62,26 @@ const Performance = ({ initialMembers }) => {
     }
   };
 
-  // Handler for search input changes
   const handleSearchChange = (event) => {
     setSearchInput(event.target.value.toLowerCase());
   };
 
-  // Handler for member click
   const handleMemberClick = (member) => {
     setSelectedMember(member);
   };
 
-  // Filter members based on search input
   const filteredMembers = members.filter(
     (member) =>
       member.first_name.toLowerCase().includes(searchInput) ||
       member.last_name.toLowerCase().includes(searchInput)
   );
 
-  // Effect to fetch scores when selected member changes
   useEffect(() => {
     if (selectedMember) {
       getScores(selectedMember);
     }
   }, [selectedMember]);
 
-  // Effect to calculate average score when scores array changes
   useEffect(() => {
     const memberScores = scores.map((data) => data.amount);
     const averageScore = memberScores.reduce((total, score) => total + score, 0) / memberScores.length;
@@ -72,16 +89,57 @@ const Performance = ({ initialMembers }) => {
     console.log("Scores:", scores);
   }, [scores]);
 
+  // Function to generate PDF
+  const generatePDF = () => {
+    const input = pdfRef.current; // Refers to the area you want to print
+    const logoUrl = 'https://i.postimg.cc/ZRH6ydCT/9489522-logo.png';
+
+    html2canvas(input).then((canvas) => {
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF();
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+      const imgProps = pdf.getImageProperties(imgData);
+      const contentWidth = pdfWidth - 20; // Reduced margins for the content
+      const contentHeight = (imgProps.height * contentWidth) / imgProps.width;
+
+      // Define the company's color for the margins (adjust as per the company’s branding)
+      const marginColor = theme.palette.primary.main; // Example color, replace with the actual color code
+
+      // Add a top margin with the company's color
+      pdf.setFillColor(marginColor);
+      pdf.rect(0, 0, pdfWidth, 20, 'F'); // Top margin height is 20 units
+
+      // Add a bottom margin with the company's color
+      pdf.rect(0, pdfHeight - 20, pdfWidth, 20, 'F'); // Bottom margin height is 20 units
+
+      // Add the logo at the top left
+      const logoWidth = 69; // Adjust size to fit within the layout
+      const logoHeight = 40; // Maintain aspect ratio
+      pdf.addImage(logoUrl, "PNG", 65, 14, logoWidth, logoHeight); // Position logo at the top left corner
+
+      // Center the main content image (captured area) within the PDF
+      const xOffset = (pdfWidth - contentWidth) / 2 + 14; // Center horizontally
+      pdf.addImage(imgData, "PNG", xOffset, 60, contentWidth, contentHeight);
+
+      // Add the footer text at the bottom of the PDF within the colored margin
+      pdf.setFontSize(7);
+      pdf.setTextColor(255, 255, 255); // White text color for contrast against the dark margin
+      const footerText = "© 2024 The Legacy Senior Communities";
+      pdf.text(footerText, 10, pdfHeight - 10);
+
+      pdf.save("member_performance.pdf");
+    });
+
+  };
+
+
   return (
     <Box>
       <Navbar />
-      <MainBanner text="Performance Dashboard" />
       <Container maxWidth="lg">
         <Grid container spacing={1}>
-          {/* Member List */}
           <Grid item xs={3} sm={3} md={3} lg={3}>
-            
-            {/* Search Bar */}
             <Box sx={{ marginTop: 2 }}>
               <Box
                 sx={{
@@ -93,7 +151,7 @@ const Performance = ({ initialMembers }) => {
                   ml: 1,
                 }}
               >
-                <Search sx={{ color: "primary.main", ml: 2 }} />
+                <Search sx={{ color: "secondary.main", ml: 2 }} />
                 <InputBase
                   placeholder="Search Team Members"
                   inputProps={{ "aria-label": "search" }}
@@ -104,7 +162,6 @@ const Performance = ({ initialMembers }) => {
               </Box>
             </Box>
 
-            {/* Member List Buttons */}
             <Box
               sx={{
                 width: "min(21vw, 300px)",
@@ -128,9 +185,8 @@ const Performance = ({ initialMembers }) => {
             </Box>
           </Grid>
 
-          {/* Name, Chart, and Score History */}
-          <Grid container item xs={12} sm={9} md={9} lg={9} spacing={1}>
-            {/* Name and Average Score */}
+          {/* Main content and score history to be captured */}
+          <Grid container item xs={12} sm={9} md={9} lg={9} spacing={1} ref={pdfRef}>
             <Grid item xs={4} sm={3} md={3} lg={4}>
               <Box
                 style={{
@@ -150,17 +206,14 @@ const Performance = ({ initialMembers }) => {
               </Box>
             </Grid>
 
-            {/* Performance Chart and Score History */}
             <Grid container item xs={12} sm={12} md={9} lg={9}>
-              {/* Dynamic Performance Chart */}
               <Grid item xs={12} sm={12} md={9} lg={9}>
                 <Box sx={{ display: "flex", width: { xs: "80vw", sm: "55vw", md: "50vw", lg: "650px" } }}>
                   <MembersPerformanceChart memberData={scores} />
                 </Box>
               </Grid>
-              
+
               <Grid item xs={5} sm={5} md={7} lg={4}>
-                {/* Highest and Lowest Scores Table */}
                 <Box
                   sx={{
                     display: "flex",
@@ -174,6 +227,17 @@ const Performance = ({ initialMembers }) => {
                   <ScoreHistory memberData={scores} />
                 </Box>
               </Grid>
+            </Grid>
+          </Grid>
+
+          {/* PDF Download Button */}
+          <Grid container item xs={12} alignItems={"center"} justifyContent={"center"}>
+            <Grid item xs={12} sm={6} md={6} lg={6}>
+              <Box sx={{ p: 8, textAlign: "center" }}>
+                <Button variant="contained" color="primary" onClick={generatePDF}>
+                  Download PDF
+                </Button>
+              </Box>
             </Grid>
           </Grid>
 

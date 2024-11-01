@@ -71,7 +71,7 @@ const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
     });
 
     // Schedule the room for cleaning
-    const scheduleRes = await fetch("/api/scheduling/scheduleRoom", { 
+    const scheduleRes = await fetch("/api/scheduling/scheduleRoom", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
