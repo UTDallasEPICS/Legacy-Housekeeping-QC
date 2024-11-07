@@ -10,6 +10,8 @@
     "start:migrate": "prisma migrate deploy && next start"
   },
   "dependencies": {
+    "@auth0/auth0-react": "^2.2.4",
+    "@auth0/nextjs-auth0": "^3.5.0",
     "@emotion/cache": "^11.10.5",
     "@emotion/react": "^11.11.1",
     "@emotion/server": "^11.10.0",
