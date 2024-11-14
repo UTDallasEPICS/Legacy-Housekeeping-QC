@@ -14,6 +14,7 @@ import { Loader } from "../src/components";
 import Router from "next/router";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { UserProvider } from "@auth0/nextjs-auth0/client";
 
 //Test for Auth0 login
 
@@ -41,28 +42,30 @@ export default function MyApp(props) {
   });
 
   return (
-    <SessionProvider session={session}>
-      <CacheProvider value={emotionCache}>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <Head>
-            <meta
-              name="viewport"
-              content="initial-scale=1, width=device-width"
-            />
-          </Head>
-          <Provider store={store}>
-            {loading ? (
-              <Loader />
-            ) : (
-              <ThemeProvider theme={theme}>
-                <CssBaseline />
-                <Component {...pageProps} />
-              </ThemeProvider>
-            )}
-          </Provider>
-        </LocalizationProvider>
-      </CacheProvider>
-    </SessionProvider>
+    <UserProvider>
+      <SessionProvider session={session}>
+        <CacheProvider value={emotionCache}>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <Head>
+              <meta
+                name="viewport"
+                content="initial-scale=1, width=device-width"
+              />
+            </Head>
+            <Provider store={store}>
+              {loading ? (
+                <Loader />
+              ) : (
+                <ThemeProvider theme={theme}>
+                  <CssBaseline />
+                  <Component {...pageProps} />
+                </ThemeProvider>
+              )}
+            </Provider>
+          </LocalizationProvider>
+        </CacheProvider>
+      </SessionProvider>
+    </UserProvider>
   );
 }
 

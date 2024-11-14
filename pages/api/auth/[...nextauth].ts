@@ -19,13 +19,18 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
     async session({ session, token }) {
-      session.user.id = token.id;
+      if (session.user && token.id) {
+        session.user.id = token.id;
+      }
       return session;
     },
-  },
-  pages: {
-    signIn: "/auth/signin",
-  },
+    async redirect({ url, baseUrl }) {
+      return url.startsWith(baseUrl) ? url : baseUrl;
+  }
+},
+pages: {
+  signIn: "/auth/signin",
+},
 };
 
 export default NextAuth(authOptions);
