@@ -24,6 +24,8 @@ interface SignInProps {
 }
 
 const SignIn = ({ providers }: SignInProps) => {
+  if (!providers) return <p> HELP </p>;
+
   return (
     <Container>
       <Box
