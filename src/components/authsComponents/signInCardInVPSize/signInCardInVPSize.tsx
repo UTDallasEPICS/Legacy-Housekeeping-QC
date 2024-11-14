@@ -1,4 +1,4 @@
-import {
+/* import {
   Alert,
   Box,
   Button,
@@ -76,6 +76,8 @@ const signInCardInVPSize = () => {
                 </Alert>
               )}
 
+              <a href="/api/auth/login">Login</a>
+
               <OutlinedInput
                 placeholder="Email"
                 required
@@ -121,3 +123,43 @@ const signInCardInVPSize = () => {
 };
 
 export default signInCardInVPSize;
+*/
+
+import { Box, Button, Card, Container, Stack, Typography } from "@mui/material";
+import Link from "next/link";
+import { signIn } from "next-auth/react";
+
+const SignInCardInVPSize = () => {
+  return (
+    <Container>
+      <Box
+        component="form"
+        sx={{
+          textAlign: "center",
+          display: "flex",
+          width: "1",
+          height: "100vh",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Card sx={{ width: { xs: 1, sm: 0.75, md: 0.5 } }}>
+          <Box sx={{ p: 2 }}>
+            <Stack spacing={2}>
+              <Typography variant="h5">Sign In</Typography>
+              <Button
+                variant="contained"
+                onClick={() => signIn("auth0")}
+              >
+                Login with Auth0
+              </Button>
+              <Link href="/auths/signup">Sign up</Link>
+            </Stack>
+          </Box>
+        </Card>
+      </Box>
+    </Container>
+  );
+};
+
+export default SignInCardInVPSize;
