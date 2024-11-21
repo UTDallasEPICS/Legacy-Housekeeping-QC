@@ -69,7 +69,7 @@ export async function getServerSideProps() {
 
 export default SignIn;
 */
-
+/** 
 import { getProviders, signIn } from "next-auth/react";
 import { Box, Button, Card, Container, Stack, Typography } from "@mui/material";
 
@@ -125,3 +125,4 @@ export async function getServerSideProps() {
 }
 
 export default SignIn;
+*/

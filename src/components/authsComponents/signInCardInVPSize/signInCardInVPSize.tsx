@@ -126,23 +126,18 @@ export default signInCardInVPSize;
 */
 
 import { Box, Button, Card, Container, Stack, Typography } from "@mui/material";
-import Link from "next/link";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { useRouter } from "next/router";
-import { signIn } from "next-auth/react";
-import { signOut } from "next-auth/react";
 import { useEffect } from "react";
+import Link from "next/link";
 
 const SignInCardInVPSize = () => {
   const { user, error, isLoading } = useUser();
   const router = useRouter();
 
-  useEffect(() => {
-    if (user) {
-      console.log("User is signed in");
-      router.push("/admin/adminDashboard");
-    }
-  }, [user, router]);
+  const handleLogin = () => {
+    router.push("/api/auth/login");
+  };
 
   return (
     <Container>
@@ -164,29 +159,14 @@ const SignInCardInVPSize = () => {
               <Button
                 variant="contained"
                 onClick={() => {
-                  console.log("Signing in with Auth0");
-                  signIn("auth0");
+                  handleLogin();
                 }}
               >
                 Login with Auth0
               </Button>
-              <Button
-                variant="contained"
-                onClick={() => {
-                  console.log("Current user session:", user);
-                }}
-              >
-                Test User
-              </Button>
-              <Button
-                variant="contained"
-                onClick={() => {
-                  router.push("/admin/adminDashboard");
-                }}
-              >
-                Test Push
-              </Button>
+              router.push("/admin/adminDashboard");
               <Link href="/auths/signup">Sign up</Link>
+              <a href="/api/auth/login">Login</a>
             </Stack>
           </Box>
         </Card>
