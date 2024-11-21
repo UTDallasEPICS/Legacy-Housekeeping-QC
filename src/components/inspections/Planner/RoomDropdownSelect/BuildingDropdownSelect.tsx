@@ -6,6 +6,8 @@ const BuildingDropdownSelect = (props) => {
   const [selectedFloor, setSelectedFloor] = useState(null);
   const [roomOptions, setRoomOptions] = useState([]);
 
+  console.log(props.options);
+
   const floorOptions = props.options.flatMap((option) =>
     Array.from({ length: option.floor_number }, (_, j) => ({
       name: option.building_name,
@@ -46,6 +48,14 @@ const BuildingDropdownSelect = (props) => {
             option.floor === -1 ? "" : "Floor " + option.floor
           }
           groupBy={(option) => option.name}
+          renderGroup={(params) => (
+            <li>
+              <div style={{ color: "#6A172E", fontWeight: "bold" }}>
+                {"Building: " + params.group}
+              </div>
+              {params.children}
+            </li>
+          )}
           isOptionEqualToValue={(option, value) =>
             option.buildingId === value.buildingId &&
             option.floor === value.floor
@@ -56,6 +66,7 @@ const BuildingDropdownSelect = (props) => {
               variant="standard"
               placeholder="Select a floor"
               label="Select a floor"
+              InputLabelProps={{ style: { color: "#6A172E" } }}
             />
           )}
           renderOption={(props, option) => (
