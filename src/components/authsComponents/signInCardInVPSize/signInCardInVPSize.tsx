@@ -164,7 +164,14 @@ const SignInCardInVPSize = () => {
               >
                 Login with Auth0
               </Button>
-              router.push("/admin/adminDashboard");
+              <Button
+                variant="contained"
+                onClick={() => {
+                  router.push("/admin/adminDashboard");
+                }} 
+              >
+                Go to Admin Dashboard
+              </Button>
               <Link href="/auths/signup">Sign up</Link>
               <a href="/api/auth/login">Login</a>
             </Stack>

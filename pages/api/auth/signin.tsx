@@ -69,18 +69,46 @@ export async function getServerSideProps() {
 
 export default SignIn;
 */
-/** 
-import { getProviders, signIn } from "next-auth/react";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 import { Box, Button, Card, Container, Stack, Typography } from "@mui/material";
+import { withPageAuthRequired } from "@auth0/nextjs-auth0";
+import { useUser } from "@auth0/nextjs-auth0/client";
+import { initAuth0 } from '@auth0/nextjs-auth0';
 
-import { ClientSafeProvider } from "next-auth/react";
+const auth0 = initAuth0({
+    domain: process.env.AUTH0_DOMAIN,
+    clientId: process.env.AUTH0_CLIENT_ID,
+    clientSecret: process.env.AUTH0_CLIENT_SECRET,
+    scope: 'openid profile',
+    redirectUri: process.env.REDIRECT_URI,
+    postLogoutRedirectUri: process.env.POST_LOGOUT_REDIRECT_URI,
+    session: {
+        cookieSecret: process.env.SESSION_COOKIE_SECRET,
+        cookieLifetime: 7200,
+        storeIdToken: false,
+        storeAccessToken: false,
+        storeRefreshToken: false
+    }
+});
 
-interface SignInProps {
-  providers: Record<string, ClientSafeProvider>;
+export default async function signin(req, res) {
+    try {
+        await auth0.handleLogin(req, res);
+    } catch (error) {
+        res.status(error.status || 400).end(error.message);
+    }
 }
 
-const SignIn = ({ providers }: SignInProps) => {
-  if (!providers) return <p> HELP </p>;
+const SignIn = () => {
+  const { user, isLoading } = useUser(); 
+  const router = useRouter();
+
+  useEffect(() => {
+    if (user) {
+      router.push("/");
+    }
+  }, [user, router]);
 
   return (
     <Container>
@@ -99,16 +127,9 @@ const SignIn = ({ providers }: SignInProps) => {
           <Box sx={{ p: 2 }}>
             <Stack spacing={2}>
               <Typography variant="h5">Sign In</Typography>
-              {Object.values(providers).map((provider) => (
-                <div key={provider.name}>
-                  <Button
-                    variant="contained"
-                    onClick={() => signIn(provider.id)}
-                  >
-                    Sign in with {provider.name}
-                  </Button>
-                </div>
-              ))}
+              <Button variant="contained" onClick={() => withPageAuthRequired()}>
+                Sign in with Auth0
+              </Button>
             </Stack>
           </Box>
         </Card>
@@ -117,12 +138,4 @@ const SignIn = ({ providers }: SignInProps) => {
   );
 };
 
-export async function getServerSideProps() {
-  const providers = await getProviders();
-  return {
-    props: { providers },
-  };
-}
-
 export default SignIn;
-*/
