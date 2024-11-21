@@ -1,5 +1,6 @@
 import express from 'express'
 import multer from 'multer'
+import crypto from 'crypto'
 
 //import sharp to allow resizing of the image
 import sharp from 'sharp'
@@ -7,6 +8,7 @@ import sharp from 'sharp'
 import { PrismaClient } from '@prisma/client'
 
 import {S3Client, PutObjectCommand} from '@aws-sdk/client-s3'
+
 
 import dotenv from 'dotenv'
 
@@ -48,9 +50,10 @@ app.post('/api/posts', upload.single('image'), async (req, res) => {
    //Resize the image (in the data base)
     const buffer = await sharp(req.file.buffer).resize({height: 1920, width: 1080, fit: "contain"}).toBuffer()
 
+    const imageName = randomImageName()
     const params = {
         Bucket: bucketName, 
-        Key: req.file.originalname,
+        Key: imageName,
         Body: req.file.buffer,
         ContentType: req.file.mimetype,
     } 
@@ -58,12 +61,14 @@ app.post('/api/posts', upload.single('image'), async (req, res) => {
     await s3.send(command)
 
     const post = await prisma.posts.create({
-        caption: req.body.caption, 
-        ImageName:
+        data: {
+            caption: req.body.caption, 
+            ImageName: imageName
+        }
     })
 
 
-    res.send({})
+    res.send(post)
     })
 
 app.delete("/api/posts/:id", async (req, res) => {
