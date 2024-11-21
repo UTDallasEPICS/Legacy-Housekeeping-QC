@@ -14,6 +14,7 @@ import InspectionHeader from "../InspectionHeader";
 import ExtraScoreInput from "../ExtraScoreInput";
 import ImageUpload from "../ImageUpload";
 import { InspectItemProps } from "../ItemChecklist/props";
+import { useState } from "react";
 
 const InspectionMaker = ({ inspectionProps }) => {
   const router = useRouter();
@@ -22,6 +23,8 @@ const InspectionMaker = ({ inspectionProps }) => {
   const items = convertCategoriesToItems(useSelector(getItems));
   const comment = useSelector(getComment);
   const extra_score = useSelector(getExtraScore);
+
+  const [contentUrl, setContentUrl] = useState<string | null>(null);
 
   const handleSubmission = async () => {
     const itemUpdateRes = await fetch("/api/rubric/updateOnRubric", {
@@ -117,6 +120,47 @@ const InspectionMaker = ({ inspectionProps }) => {
             >
               Submit
             </Button>
+          )}
+          {!inspected && (
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={async () => {
+                const fileInput = document.createElement("input");
+                fileInput.type = "file";
+                fileInput.accept = "image/*";
+                fileInput.onchange = async (event) => {
+                  const file = (event.target as HTMLInputElement).files?.[0];
+                  if (file) {
+                    const fileType = file.type;
+                    const response = await fetch(`/api/upload-url?fileType=${fileType}&fileLength=${file.size}`);
+                    const { uploadUrl, contentUrl, key } = await response.json();
+                    await fetch(uploadUrl, {
+                      method: "PUT",
+                      headers: {
+                        "Content-Type": fileType,
+                      },
+                      body: file,
+                    });
+                    console.log("File uploaded successfully:", key);
+                    setContentUrl(contentUrl);
+                  }
+                };
+                fileInput.click();
+              }}
+            >
+              Upload Image
+            </Button>
+          )}
+          {contentUrl && (
+            <div>
+              <img src={contentUrl} alt="Uploaded content" style={{ maxWidth: "100%" }} />
+              <p>
+                <a href={contentUrl} target="_blank" rel="noopener noreferrer">
+                  View Uploaded Image
+                </a>
+              </p>
+            </div>
           )}
         </Stack>
       </Container>

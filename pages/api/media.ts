@@ -1,14 +1,13 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
-import S3 from "aws-sdk/clients/s3";
+import {S3Client, PutObjectCommand} from "@aws-sdk/client-s3";
+import {getSignedUrl} from "@aws-sdk/s3-request-presigner";
 import { randomUUID } from "crypto";
-
-const s3 = new S3({
+import dotenv from "dotenv";
+dotenv.config();
+const s3 = new S3Client({
   apiVersion: "2006-03-01",
-  accessKeyId: process.env.ACCESS_KEY,
-  secretAccessKey: process.env.SECRET_KEY,
   region: process.env.REGION,
-  signatureVersion: "v4",
 });
 
 export default async function handler(
@@ -19,14 +18,16 @@ export default async function handler(
 
   const Key = `${randomUUID()}.${ex}`;
 
-  const s3Params = {
+  const s3Params = new PutObjectCommand({
     Bucket: process.env.BUCKET_NAME,
     Key,
-    Expires: 60,
+    ContentLength: parseInt(req.query.fileLength as string),
     ContentType: `image/${ex}`,
-  };
+  });
 
-  const uploadUrl = await s3.getSignedUrl("putObject", s3Params);
+  const uploadUrl = await getSignedUrl(s3, s3Params, {
+    expiresIn: 3600,
+  });
 
   console.log("uploadUrl", uploadUrl);
 
