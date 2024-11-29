@@ -21,7 +21,7 @@ import {
   Requirement as RequirementDB,
   Score,
 } from "@prisma/client";
-import { BuildingWithRooms } from "../interfaces/room.interface";
+import { BuildingWithRooms, BuildingsWithFloors } from "../interfaces/room.interface";
 
 // Interfaces
 
@@ -60,7 +60,6 @@ export const buildingIncludeRooms = Prisma.validator<Prisma.BuildingInclude>()({
 type BuildingIncludeRooms = Prisma.BuildingGetPayload<{
   include: typeof buildingIncludeRooms;
 }>;
-
 export function toBuildingWithRooms(
   a: BuildingIncludeRooms
 ): BuildingWithRooms {
@@ -70,6 +69,20 @@ export function toBuildingWithRooms(
     rooms: a.rooms,
   };
 }
+
+export type BuildingWithFloors = {
+  id: number;
+  name: string;
+  floor_count: number;
+};
+export function toBuildingWithFloors(a: Prisma.BuildingGetPayload<{}>): BuildingWithFloors {
+  return {
+    id: a.id,
+    name: a.name,
+    floor_count: a.floor_count,
+  };
+}
+
 
 export const inspectionIncludeAll =
   Prisma.validator<Prisma.InspectionInclude>()({
