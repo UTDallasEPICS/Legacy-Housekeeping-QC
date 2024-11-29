@@ -177,11 +177,11 @@ const InspectionPlanner = ({
     }
   );
 
-  const buildingOptions: BuildingOptionProps[] = buildings.map((building) => {
+  const buildingOptions: BuildingOptionProps[] = floors.map((building) => {
     return {
       building_id: building.id,
       building_name: building.name,
-      floor_number: building.rooms.length,
+      floor_number: building.floor_count,
     };
   });
 

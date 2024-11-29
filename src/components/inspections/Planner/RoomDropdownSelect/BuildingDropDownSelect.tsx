@@ -16,7 +16,6 @@ const BuildingDropdownSelect = (props) => {
 
   useEffect(() => {
     console.log("Floor options: ", floorOptions);
-    console.log("Room options: ", roomOptions);
     console.log("Selected Floor:", selectedFloor);
     if (selectedFloor) {
       const filteredRooms = roomOptions.filter(
@@ -24,7 +23,7 @@ const BuildingDropdownSelect = (props) => {
           option.floor_number === selectedFloor.floor &&
           option.building_name === selectedFloor.name
       );
-      setRoomOptions(filteredRooms);
+      console.log("Room options: ", roomOptions);
       console.log(filteredRooms);
       props.handleChange(filteredRooms);
     }
