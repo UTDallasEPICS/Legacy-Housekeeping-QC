@@ -51,7 +51,8 @@ const profileInfo = ({
       </Box>
       <Box sx={{ ml: 1 }}>
         <Link href="/admin/editMember">
-          <Button sx={{ color: "secondary.main" }}>
+          <Button
+           sx={{ color: "secondary.main" }}>
             <Edit />
           </Button>
         </Link>

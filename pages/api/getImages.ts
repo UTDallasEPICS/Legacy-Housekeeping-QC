@@ -1,3 +1,5 @@
+// File: /pages/api/getImages.ts
+
 import { NextApiRequest, NextApiResponse } from 'next';
 import { PrismaClient } from '@prisma/client';
 
@@ -13,32 +15,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           inspection_id: Number(inspection_id)
         }
       });
-      
+      console.log("Fetched images:", images); // Add this line to log the fetched images
       res.status(200).json(images);
     } catch (error) {
-      console.error('Failed to fetch images:', error);
+      console.error("Failed to fetch images:", error); // Add this line to log any errors
       res.status(500).json({ error: 'Failed to fetch images' });
     }
-  } 
-  else if (req.method === 'POST') {
-    try {
-      const { url, inspection_id } = req.body;
-      
-      const image = await prisma.image.create({
-        data: {
-          url,
-          inspection_id: Number(inspection_id)
-        }
-      });
-      
-      res.status(201).json(image);
-    } catch (error) {
-      console.error('Failed to save image:', error);
-      res.status(500).json({ error: 'Failed to save image' });
-    }
-  } 
-  else {
-    res.setHeader('Allow', ['GET', 'POST']);
-    res.status(405).end(`Method ${req.method} Not Allowed`);
+  } else {
+    res.status(405).json({ error: 'Method not allowed' });
   }
 }

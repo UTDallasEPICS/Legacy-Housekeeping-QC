@@ -131,8 +131,7 @@ const form = () => {
         value={phoneNumber}
         onChange={(e) => setPhoneNumber(e)}
         InputLabelProps={{ style: { color: "#6A172E" } }}
-        sx={{ width: "30vh", bgcolor: "white", color: "text.primary" }}
-      />
+        sx={{ width: "30vh", bgcolor: "white", color: "text.primary" }} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}      />
 
       <Button
         className={classes.spaceBtwnCol}
