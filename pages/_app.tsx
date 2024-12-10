@@ -14,6 +14,8 @@ import { Loader } from "../src/components";
 import Router from "next/router";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+// Import the UserProvider from Auth0
+import { UserProvider } from '@auth0/nextjs-auth0/client';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -49,14 +51,17 @@ export default function MyApp(props) {
             />
           </Head>
           <Provider store={store}>
-            {loading ? (
-              <Loader />
-            ) : (
-              <ThemeProvider theme={theme}>
-                <CssBaseline />
-                <Component {...pageProps} />
-              </ThemeProvider>
-            )}
+            {/* Wrap the entire application in the UserProvider */}
+            <UserProvider>
+              {loading ? (
+                <Loader />
+              ) : (
+                <ThemeProvider theme={theme}>
+                  <CssBaseline />
+                  <Component {...pageProps} />
+                </ThemeProvider>
+              )}
+            </UserProvider>
           </Provider>
         </LocalizationProvider>
       </CacheProvider>
