@@ -10,6 +10,7 @@
     "start:migrate": "prisma migrate deploy && next start"
   },
   "dependencies": {
+    "@auth0/nextjs-auth0": "^3.5.0",
     "@emotion/cache": "^11.10.5",
     "@emotion/react": "^11.11.1",
     "@emotion/server": "^11.10.0",
@@ -20,7 +21,7 @@
     "@mui/material": "^5.14.11",
     "@mui/x-charts": "^6.0.0-alpha.12",
     "@mui/x-date-pickers": "^7.1.0",
-    "@prisma/client": "^4.16.2",
+    "@prisma/client": "^6.0.1",
     "@reduxjs/toolkit": "^1.9.3",
     "@types/jspdf": "^2.0.0",
     "@types/node": "18.14.4",
@@ -49,6 +50,6 @@
   "devDependencies": {
     "@types/node": "^20.5.9",
     "@types/react": "18.3.11",
-    "prisma": "^4.12.0"
+    "prisma": "^6.0.1"
   }
 }
