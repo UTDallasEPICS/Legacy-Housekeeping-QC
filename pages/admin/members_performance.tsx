@@ -1,5 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Box, Container, Grid, Typography, InputBase, List, Button, Card } from "@mui/material";
+import {
+  Box,
+  Container,
+  Grid,
+  Typography,
+  InputBase,
+  List,
+  Button,
+  Card,
+} from "@mui/material";
 import { Search } from "@mui/icons-material";
 import { Navbar } from "../../src/components";
 import MembersPerformanceChart from "../../src/components/performanceDashboard/charts/members_performanceChart";
@@ -14,7 +23,9 @@ import MainBanner from "../../src/components/adminDashboard/Banner/MainBanner";
 const Performance = ({ initialMembers }) => {
   // State variables
   const [members, setMembers] = useState(initialMembers);
-  const [selectedMember, setSelectedMember] = useState(initialMembers[0] || null);
+  const [selectedMember, setSelectedMember] = useState(
+    initialMembers[0] || null
+  );
   const [scores, setScores] = useState([]);
   const [averageScore, setAverageScore] = useState(0);
   const [searchInput, setSearchInput] = useState("");
@@ -67,7 +78,9 @@ const Performance = ({ initialMembers }) => {
 
   useEffect(() => {
     const memberScores = scores.map((data) => data.amount);
-    const averageScore = memberScores.reduce((total, score) => total + score, 0) / memberScores.length;
+    const averageScore =
+      memberScores.reduce((total, score) => total + score, 0) /
+      memberScores.length;
     setAverageScore(Math.round(averageScore));
     console.log("Scores:", scores);
   }, [scores]);
@@ -75,7 +88,7 @@ const Performance = ({ initialMembers }) => {
   // Function to generate PDF
   const generatePDF = () => {
     const input = pdfRef.current; // Refers to the area you want to print
-    const logoUrl = 'https://i.postimg.cc/ZRH6ydCT/9489522-logo.png';
+    const logoUrl = "https://i.postimg.cc/ZRH6ydCT/9489522-logo.png";
 
     html2canvas(input).then((canvas) => {
       const imgData = canvas.toDataURL("image/png");
@@ -91,10 +104,10 @@ const Performance = ({ initialMembers }) => {
 
       // Add a top margin with the company's color
       pdf.setFillColor(marginColor);
-      pdf.rect(0, 0, pdfWidth, 20, 'F'); // Top margin height is 20 units
+      pdf.rect(0, 0, pdfWidth, 20, "F"); // Top margin height is 20 units
 
       // Add a bottom margin with the company's color
-      pdf.rect(0, pdfHeight - 20, pdfWidth, 20, 'F'); // Bottom margin height is 20 units
+      pdf.rect(0, pdfHeight - 20, pdfWidth, 20, "F"); // Bottom margin height is 20 units
 
       // Add the logo at the top left
       const logoWidth = 69; // Adjust size to fit within the layout
@@ -103,7 +116,14 @@ const Performance = ({ initialMembers }) => {
 
       // Center the main content image (captured area) within the PDF
       const xOffset = (pdfWidth - contentWidth) / 2 + 16; // Center horizontally
-      pdf.addImage(imgData, "PNG", xOffset, 60, contentWidth-20, contentHeight-15);
+      pdf.addImage(
+        imgData,
+        "PNG",
+        xOffset,
+        60,
+        contentWidth - 20,
+        contentHeight - 15
+      );
 
       // Add the footer text at the bottom of the PDF within the colored margin
       pdf.setFontSize(10);
@@ -113,9 +133,7 @@ const Performance = ({ initialMembers }) => {
 
       pdf.save("member_performance.pdf");
     });
-
   };
-
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
@@ -124,12 +142,22 @@ const Performance = ({ initialMembers }) => {
 
       <Container>
         <Grid container spacing={2} sx={{ backgroundColor: "" }}>
-          <Grid item xs={3} sm={3} md={3} lg={3} spacing={1} sx={{ backgroundColor: "" }}>
-            <Card sx={{
-              marginTop: 4,
-              border: "1px solid grey",
-              borderRadius: 1,
-            }}>
+          <Grid
+            item
+            xs={3}
+            sm={3}
+            md={3}
+            lg={3}
+            spacing={1}
+            sx={{ backgroundColor: "" }}
+          >
+            <Card
+              sx={{
+                marginTop: 4,
+                border: "1px solid grey",
+                borderRadius: 1,
+              }}
+            >
               <Box sx={{ marginTop: 1 }}>
                 <Box
                   sx={{
@@ -163,7 +191,11 @@ const Performance = ({ initialMembers }) => {
                 <List>
                   {filteredMembers.length > 0 ? (
                     filteredMembers.map((member) => (
-                      <MemberButton key={member.id} member={member} onClick={handleMemberClick} />
+                      <MemberButton
+                        key={member.id}
+                        member={member}
+                        onClick={handleMemberClick}
+                      />
                     ))
                   ) : (
                     <Typography variant="h5" sx={{ p: 2 }}>
@@ -177,12 +209,16 @@ const Performance = ({ initialMembers }) => {
 
           {/* Main content and score history to be captured */}
           <Grid container item xs={7.5}>
-            <Card sx={{
-              backgroundColor: " white",
-              marginLeft: 2, marginTop: 4, paddingLeft: 2,
-              border: "1px solid grey",
-              borderRadius: 1,
-            }}>
+            <Card
+              sx={{
+                backgroundColor: " white",
+                marginLeft: 2,
+                marginTop: 4,
+                paddingLeft: 2,
+                border: "1px solid grey",
+                borderRadius: 1,
+              }}
+            >
               <Grid container ref={pdfRef}>
                 <Grid container item xs={12} sx={{ backgroundColor: "" }}>
                   <Grid item xs={4} sm={3} md={3} lg={4}>
@@ -194,16 +230,42 @@ const Performance = ({ initialMembers }) => {
                         justifyContent: "center",
                       }}
                     >
-                      <Typography variant="h1" sx={{ fontSize: { xs: 14, sm: 20, md: 20, lg: 26 }, fontWeight: "bold", mt: 2 }}>
-                        {selectedMember ? `${selectedMember.first_name} ${selectedMember.last_name}` : "No Member Selected"}
+                      <Typography
+                        variant="h1"
+                        sx={{
+                          fontSize: { xs: 14, sm: 20, md: 20, lg: 26 },
+                          fontWeight: "bold",
+                          mt: 2,
+                        }}
+                      >
+                        {selectedMember
+                          ? `${selectedMember.first_name} ${selectedMember.last_name}`
+                          : "No Member Selected"}
                       </Typography>
-                      <Typography variant="h4" sx={{ fontSize: { xs: 14, sm: 16, md: 20 }, fontWeight: "bold", marginTop: 1 }}>
+                      <Typography
+                        variant="h4"
+                        sx={{
+                          fontSize: { xs: 14, sm: 16, md: 20 },
+                          fontWeight: "bold",
+                          marginTop: 1,
+                        }}
+                      >
                         Average Score: {averageScore}%
                       </Typography>
                     </Box>
                   </Grid>
                   <Grid item xs={12} sm={12} md={9} lg={9}>
-                    <Box sx={{ display: "flex", width: { xs: "80vw", sm: "55vw", md: "50vw", lg: "650px" } }}>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        width: {
+                          xs: "80vw",
+                          sm: "55vw",
+                          md: "50vw",
+                          lg: "650px",
+                        },
+                      }}
+                    >
                       <MembersPerformanceChart memberData={scores} />
                     </Box>
                   </Grid>
@@ -226,10 +288,20 @@ const Performance = ({ initialMembers }) => {
               </Grid>
             </Card>
             {/* PDF Download Button */}
-            <Grid container item xs={12} alignItems="center" justifyContent="center">
+            <Grid
+              container
+              item
+              xs={12}
+              alignItems="center"
+              justifyContent="center"
+            >
               <Grid item>
                 <Box sx={{ py: 8, textAlign: "center", ml: -6 }}>
-                  <Button variant="contained" color="primary" onClick={generatePDF}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={generatePDF}
+                  >
                     Download PDF
                   </Button>
                 </Box>
@@ -237,10 +309,22 @@ const Performance = ({ initialMembers }) => {
             </Grid>
           </Grid>
 
-          <Grid container item xs={12} spacing={2} alignItems={"center"} justifyContent={"center"}>
+          <Grid
+            container
+            item
+            xs={12}
+            spacing={2}
+            alignItems={"center"}
+            justifyContent={"center"}
+          >
             <Grid item xs={12} sm={6} md={6} lg={6}>
               <Box sx={{ p: 8 }}>
-                <Typography sx={{ textAlign: "center", fontSize: { xs: 14, sm: 16, nd: 20 } }}>
+                <Typography
+                  sx={{
+                    textAlign: "center",
+                    fontSize: { xs: 14, sm: 16, nd: 20 },
+                  }}
+                >
                   © 2024 The Legacy Senior Communities
                 </Typography>
               </Box>
