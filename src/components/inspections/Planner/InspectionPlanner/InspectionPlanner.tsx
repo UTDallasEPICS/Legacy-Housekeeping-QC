@@ -13,21 +13,13 @@ import { splitInspectionWithStatus } from "../../../../../functions/splitInspect
 import TeamMemberMultiSelect from "../TeamMemberMultiSelect";
 import RoomDropdownSelect from "../RoomDropdownSelect";
 import CleanTypeRadioGroup from "../CleanTypeRadioGroup";
-import {
-  RoomOptionProps,
-  BuildingOptionProps,
-} from "../RoomDropdownSelect/props";
+import { RoomOptionProps } from "../RoomDropdownSelect/props";
 import { TeamMemberOptionProps } from "../TeamMemberMultiSelect/props";
 import { verifyForm } from "./verifyForm";
 import { InspectionPlannerProps } from "./props";
 import { DashboardCardHeading } from "../../..";
-import BuildingDropdownSelect from "../RoomDropdownSelect/BuildingDropDownSelect";
 
-const InspectionPlanner = ({
-  members,
-  buildings,
-  floors,
-}: InspectionPlannerProps) => {
+const InspectionPlanner = ({ members, buildings }: InspectionPlannerProps) => {
   const dispatch = useDispatch();
   const dateFilter = useSelector(getDateFilter);
   const { data: session } = useSession();
@@ -36,44 +28,15 @@ const InspectionPlanner = ({
   const [selectedMembers, setSelectedMembers] = useState<
     TeamMemberOptionProps[]
   >([]);
-  const [roomOptions, setRoomOptions] = useState<RoomOptionProps[]>([]);
-  const [selectedRooms, setSelectedRooms] = useState<RoomOptionProps[]>([]);
   const [selectedRoom, setSelectedRoom] = useState<RoomOptionProps>(null);
   const [selectedCleanType, setSelectedCleanType] = useState<CleanType>(
     CleanType.NORMAL
   );
 
-  //The data of all the rooms, will be modified by the building dropdown select into the selected rooms and passed to the room dropdown select to get sleected room
-  const originOptions: RoomOptionProps[] = buildings.flatMap((building) => {
-    return building.rooms.map((room) => {
-      return {
-        room_id: room.id,
-        room_name: room.name,
-        floor_number: room.floor_number,
-        building_name: building.name,
-      };
-    });
-  });
-
-  //Sets the selected rooms to origin options immediately
-  useEffect(() => {
-    setSelectedRooms(originOptions);
-  }, []);
-
   useEffect(
     () => setErrors([]),
-    [selectedMembers, selectedRoom, selectedCleanType, selectedRooms]
+    [selectedMembers, selectedRoom, selectedCleanType]
   );
-
-  useEffect(() => {
-    setRoomOptions(selectedRooms);
-  }, [selectedRooms, buildings]); // Dependency array
-
-  //Sets the room options back to the original options
-  const onClick = () => {
-    setRoomOptions(originOptions);
-    console.log(floors);
-  };
 
   const handleSubmission = async () => {
     // Verify the form
@@ -176,22 +139,22 @@ const InspectionPlanner = ({
       };
     }
   );
-
-  const buildingOptions: BuildingOptionProps[] = floors.map((building) => {
-    return {
-      building_id: building.id,
-      building_name: building.name,
-      floor_number: building.floor_count,
-    };
+  const roomOptions: RoomOptionProps[] = buildings.flatMap((building) => {
+    return building.rooms.map((room) => {
+      return {
+        room_id: room.id,
+        room_name: room.name,
+        floor_number: room.floor_number,
+        building_name: building.name,
+      };
+    });
   });
 
   return (
     <Card
-      sx={
-        {
-          // Prevents the box from shrinking and growing by the content
-        }
-      }
+      sx={{
+        // Prevents the box from shrinking and growing by the content
+      }}
     >
       <Box>
         <DashboardCardHeading text="Inspection Planner" />
@@ -213,43 +176,32 @@ const InspectionPlanner = ({
           borderBottom: "1px solid #E0E0E0",
           minWidth: "400px",
           maxWidth: "400px",
-
+  
           display: "flex",
           flexDirection: "column",
           gap: 2,
         }}
       >
-        <TeamMemberMultiSelect
-          options={memberOptions}
-          selected={selectedMembers}
-          handleChange={setSelectedMembers}
-        />
+      <TeamMemberMultiSelect
+        options={memberOptions}
+        selected={selectedMembers}
+        handleChange={setSelectedMembers}
+      />
 
-        <BuildingDropdownSelect
-          options={buildingOptions}
-          roomOptions={originOptions}
-          selected={null}
-          handleChange={setSelectedRooms}
-        />
+      <RoomDropdownSelect
+        options={roomOptions}
+        selected={selectedRoom}
+        handleChange={setSelectedRoom}
+      />
 
-        <RoomDropdownSelect
-          options={roomOptions}
-          selected={selectedRoom}
-          handleChange={setSelectedRoom}
-        />
+      <CleanTypeRadioGroup
+        selected={selectedCleanType}
+        handleChange={setSelectedCleanType}
+      />
 
-        <Button variant="outlined" onClick={onClick}>
-          Reset Room Options
-        </Button>
-
-        <CleanTypeRadioGroup
-          selected={selectedCleanType}
-          handleChange={setSelectedCleanType}
-        />
-
-        <Button variant="outlined" onClick={handleSubmission}>
-          CREATE
-        </Button>
+      <Button variant="outlined" onClick={handleSubmission}>
+        CREATE
+      </Button>
       </Box>
     </Card>
   );

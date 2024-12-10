@@ -70,8 +70,8 @@ const RoomDropdownSelect = (props: RoomDropdownSelectProps) => {
               {children}
               <Box sx={{ padding: "1rem", backgroundColor: "lightgray" }}>
                 <Typography textAlign={"center"} fontStyle={"italic"}>
-                  ... {options.length - OPTION_LIMIT} more rooms. Please type to
-                  search
+                  ... {options.length - OPTION_LIMIT} more rooms. Please
+                  type to search
                 </Typography>
               </Box>
             </Paper>
