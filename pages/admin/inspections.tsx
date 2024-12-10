@@ -8,15 +8,8 @@ import {
 import { useDispatch } from "react-redux";
 import { setInspectionsFetchData } from "../../slices/inspectionsFetchSlice";
 import getInspection from "../../functions/getInspection";
-import { getAllBuildingsWithFloors } from "../api/building/floors";
 
-const inspections = ({
-  inspected,
-  notInspected,
-  members,
-  buildings,
-  floors,
-}) => {
+const inspections = ({ inspected, notInspected, members, buildings }) => {
   const dispatch = useDispatch();
   dispatch(
     setInspectionsFetchData({
@@ -53,11 +46,7 @@ const inspections = ({
               //justifyContent: "space-evenly",
             }}
           >
-            <InspectionPlanner
-              members={members}
-              buildings={buildings}
-              floors={floors}
-            />
+            <InspectionPlanner members={members} buildings={buildings} />
             <InspectionDateSelector />
           </Box>
         </Box>
@@ -71,7 +60,7 @@ export async function getServerSideProps() {
 
   const memberRes = await fetch(
     (process.env.NEXTAUTH_URL || "http://localhost:3000") +
-      "/api/member/members",
+    "/api/member/members",
     {
       method: "GET",
       headers: { "Content-Type": "application/json" },
@@ -81,7 +70,7 @@ export async function getServerSideProps() {
 
   const buildingsRes = await fetch(
     (process.env.NEXTAUTH_URL || "http://localhost:3000") +
-      "/api/building/buildingsWithRoom",
+    "/api/building/buildingsWithRoom",
     {
       method: "GET",
       headers: { "Content-Type": "application/json" },
@@ -89,15 +78,12 @@ export async function getServerSideProps() {
   );
   const buildingsData = await buildingsRes.json();
 
-  const floorsData = await getAllBuildingsWithFloors();
-
   return {
     props: {
       inspected: inspected,
       notInspected: notInspected,
       members: memberData,
       buildings: buildingsData,
-      floors: floorsData,
     },
   };
 }
