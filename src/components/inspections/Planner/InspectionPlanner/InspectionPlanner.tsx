@@ -119,10 +119,10 @@ const InspectionPlanner = ({
       }),
     });
     const scheduleData = await scheduleRes.json();
-
     // Add team members to the schedule
     selectedMembers.forEach((member) => {
-      const person_id = member.id;
+      console.log("Selected Member: ", member);
+      const person_id = String(member.id);
       const schedule_id = scheduleData.id;
       fetch("/api/scheduling/addTeamMemberToSchedule", {
         method: "POST",
@@ -145,7 +145,7 @@ const InspectionPlanner = ({
       }),
     });
     const inspectionData = await inspectionRes.json();
-    console.log(inspectionData);
+    console.log("Inspection Data", inspectionData);
 
     // Fetch the modified inspection data
     const inspectionFetchRes = await fetch("/api/roomReport/report", {
@@ -171,7 +171,7 @@ const InspectionPlanner = ({
   const memberOptions: TeamMemberOptionProps[] = members.map(
     (option: TeamMember) => {
       return {
-        id: option.id,
+        id: String(option.id),
         name: option.first_name + " " + option.last_name,
       };
     }

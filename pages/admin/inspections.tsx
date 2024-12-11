@@ -77,7 +77,6 @@ export async function getServerSideProps() {
     }
   );
   const memberData = await memberRes.json();
-
   const buildingsRes = await fetch(
     (process.env.NEXTAUTH_URL || "http://localhost:3000") +
     "/api/building/buildingsWithRoom",
@@ -88,7 +87,7 @@ export async function getServerSideProps() {
   );
   const buildingsData = await buildingsRes.json();
   const floorsData = await getAllBuildingsWithFloors();
-
+  
   return {
     props: {
       inspected: inspected,

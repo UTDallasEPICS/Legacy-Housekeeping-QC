@@ -7,17 +7,38 @@ import { useSession } from "next-auth/react";
 
 const dashboard = () => {
   // GET FIRST NAME TO DISPLAY ****************************
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const [signedInUser, setSignedInUser] = useState("User");
 
   useEffect(() => {
-    setSignedInUser(session?.user?.first_name);
+    console.log(session?.user?.first_name);
+    console.log('Session status:', status);
+    console.log('Session data:', session);
+    if (status === "loading") {
+      console.log('Loading user data...');
+    } else if (session && session.user) {
+      console.log('User data:', session.user);
+      console.log('User first name:', session.user.first_name);
+    } else {
+      console.log('No user data');
+    }
 
+    //Auth0 user data
+    const fullName = session?.user?.name;
+    
+    const toTitleCase = (str: string) => {
+      return str.replace(/\w\S*/g, (txt) => {
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+      });
+    };
+
+    const firstName = fullName?.split(' ')[0] ? toTitleCase(fullName.split('.')[0]) : undefined;
+
+
+    setSignedInUser(session?.user?.first_name || firstName || "User");
     // For debugging only:
     // console.log(signedInUser);
-  }, [session?.user?.first_name]);
-  // ******************************************************
-
+  }, [session, status]);
   return (
     <Container sx={{ textAlign: "center", height: 1 }}>
       <Box sx={{ p: { xs: 4, sm: 8, md: 12 } }}>

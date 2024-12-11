@@ -1,5 +1,5 @@
 export interface TeamMemberOptionProps {
-  id: number;
+  id: string;
   name: string;
 }
 
