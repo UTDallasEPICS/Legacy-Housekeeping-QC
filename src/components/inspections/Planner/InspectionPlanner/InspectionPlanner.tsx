@@ -142,6 +142,7 @@ const InspectionPlanner = ({
         schedule_id: scheduleData.id,
         rubric_id: rubric.id,
         inspector_id: session?.user?.id,
+        inspector_email: session?.user?.email,
       }),
     });
     const inspectionData = await inspectionRes.json();

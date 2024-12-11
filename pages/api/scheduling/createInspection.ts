@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../lib/prisma";
 import { validate as isUuid } from "uuid"; // Add this to validate UUID format
+import bcrypt from "bcrypt";
 
 export default async function handler(
   req: NextApiRequest,
@@ -9,13 +10,13 @@ export default async function handler(
 
   try {
     if (req.method === "POST") {
-      const { schedule_id, rubric_id, inspector_id } = req.body;
+      const { schedule_id, rubric_id, inspector_id, inspector_email } = req.body;
 
       // Normalize the inspector_id
       let normalizedInspectorId;
       if (typeof inspector_id === "string" && inspector_id.includes("|")) {
-        // Auth0 ID: Extract unique part after the pipe
-        normalizedInspectorId = inspector_id.split("|")[1];
+        // Auth0 ID: Extract the UUID from the Auth0 ID
+        normalizedInspectorId = inspector_id;
       } else if (!isNaN(Number(inspector_id))) {
         // NextAuth ID: Convert numeric ID to string
         normalizedInspectorId = String(inspector_id);
@@ -36,8 +37,8 @@ export default async function handler(
         person = await prisma.person.create({
           data: {
             id: normalizedInspectorId,
-            first_name: "Default First Name",  // Add the actual first name if available
-            last_name: "Default Last Name",    // Add the actual last name if available
+            first_name: inspector_email.split('@')[0],  // Add the actual first name if available
+            last_name: "",    // Add the actual last name if available
             type: "USER",                      // Adjust to your `PersonType`
             // Add any other required fields here
           },
@@ -51,12 +52,13 @@ export default async function handler(
 
       if (!user) {
         // Create User if not found
+        const hash = await bcrypt.hash(inspector_id, 12);
+
         user = await prisma.user.create({
           data: {
             person_id: normalizedInspectorId,
-            email: "default@example.com", // Replace with actual email if available
-            password: "hashedPassword",   // Replace with actual hashed password
-            // Add other required fields if necessary
+            email: inspector_email,
+            password: hash,
           },
         });
       }
