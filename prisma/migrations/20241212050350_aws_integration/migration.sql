@@ -160,6 +160,15 @@ CREATE TABLE `Item` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
+CREATE TABLE `Image` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `url` VARCHAR(191) NOT NULL,
+    `inspection_id` INTEGER NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
 CREATE TABLE `_ScoreToTeamMember` (
     `A` INTEGER NOT NULL,
     `B` VARCHAR(191) NOT NULL,
@@ -221,6 +230,9 @@ ALTER TABLE `Item` ADD CONSTRAINT `Item_room_id_fkey` FOREIGN KEY (`room_id`) RE
 
 -- AddForeignKey
 ALTER TABLE `Item` ADD CONSTRAINT `Item_quantitative_id_fkey` FOREIGN KEY (`quantitative_id`) REFERENCES `QuantitativeRubric`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Image` ADD CONSTRAINT `Image_inspection_id_fkey` FOREIGN KEY (`inspection_id`) REFERENCES `Inspection`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `_ScoreToTeamMember` ADD CONSTRAINT `_ScoreToTeamMember_A_fkey` FOREIGN KEY (`A`) REFERENCES `Score`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;

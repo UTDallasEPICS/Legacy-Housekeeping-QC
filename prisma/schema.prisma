@@ -146,6 +146,7 @@ model Inspection {
   rubric_id      Int
   rubric         Rubric         @relation(fields: [rubric_id], references: [id])
   score          Score?
+  images         Image[]        @relation
 }
 
 enum Inspect_Status {
@@ -222,4 +223,11 @@ model Item {
   room                Room               @relation(fields: [room_id], references: [id])
   quantitative_id     Int
   quantitative_rubric QuantitativeRubric @relation(fields: [quantitative_id], references: [id])
+}
+
+model Image {
+  id            Int       @id @default(autoincrement())
+  url           String
+  inspection_id Int
+  inspection    Inspection @relation(fields: [inspection_id], references: [id])
 }
