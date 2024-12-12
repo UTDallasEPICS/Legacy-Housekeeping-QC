@@ -13,9 +13,10 @@ const MainBanner: React.FC<{ text: string }> = ({ text }) => {
                     backgroundColor: "white",
                     display: "flex",
                     flexDirection: "row",
+                    alignItems: "center"
                 }}
             >
-                <Grid item style={{ position: 'sticky', left: '50%', transform: 'translateX(-50%)' }}>
+                <Grid container justifyContent="center">
                     <Typography
                         variant="h3"
                         align="center"

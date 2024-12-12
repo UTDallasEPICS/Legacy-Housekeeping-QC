@@ -1,10 +1,12 @@
 import { Stack, Typography } from "@mui/material";
 import { InspectionHeaderProps } from "./props";
+import BackButton from "../../../globalComponents/backButton";
 
 const InspectionHeader = (props: InspectionHeaderProps) => {
   const { room_name, floor_number, building_name, team_members, inspected } =
     props;
   return (
+
     <Stack spacing="0rem" flexDirection="column">
       <Typography
         variant="h3"

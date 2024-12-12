@@ -19,7 +19,7 @@ const CommentBox = ({ disabled }: { disabled: boolean }) => {
         flexDirection: "column",
       }}
     >
-      <Typography textTransform={"uppercase"} fontWeight="bold">
+      <Typography textTransform={"uppercase"} fontWeight="bold" color="primary">
         Comments:
       </Typography>
       <TextField

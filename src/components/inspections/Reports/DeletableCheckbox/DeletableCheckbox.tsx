@@ -21,7 +21,7 @@ const DeletableCheckbox = (props: DeletableCheckboxProps) => {
         control={
           <Checkbox disabled={disabled} checked={checked} onChange={onChange} />
         }
-        label={<Typography>{name}</Typography>}
+        label={<Typography fontWeight={"light"} color="primary">{name}</Typography>}
       />
     </Box>
   );

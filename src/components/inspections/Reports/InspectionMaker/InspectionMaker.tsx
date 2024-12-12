@@ -1,4 +1,4 @@
-import { Button, Container, Stack, Grid, Typography, IconButton } from "@mui/material";
+import { Button, Container, Stack, Grid, Typography, IconButton, AppBar } from "@mui/material";
 import { useSelector } from "react-redux";
 import { Inspect_Status } from "@prisma/client";
 import { useRouter } from "next/router";
@@ -17,6 +17,7 @@ import { InspectItemProps } from "../ItemChecklist/props";
 import { useState, useEffect } from "react";
 import DeleteIcon from '@mui/icons-material/Delete';
 import SaveIcon from '@mui/icons-material/Save';
+import MainBanner from "../../../adminDashboard/Banner/MainBanner";
 
 const InspectionMaker = ({ inspectionProps }) => {
   const router = useRouter();
@@ -165,84 +166,92 @@ const InspectionMaker = ({ inspectionProps }) => {
       disableGutters
       maxWidth={false}
     >
-      <Container sx={{ justifyContent: "flex-start", margin: 0 }}>
-        <BackButton pageToGoBack={"inspections"} />
-      </Container>
-      <InspectionHeader
-        inspected={inspected}
-        room_name={inspectionProps.room_name}
-        floor_number={inspectionProps.floor_number}
-        building_name={inspectionProps.building_name}
-        team_members={inspectionProps.team_members}
-      />
-
-      <Container
+      <AppBar
+        position="relative"
         sx={{
+          p: 2,
+          backgroundColor: "white",
           display: "flex",
-          flexDirection: { xs: "column", md: "row" },
-          justifyItems: "space-between",
-          gap: "2rem",
         }}
-        maxWidth={false}
       >
-        <ItemChecklist
-          room_id={inspectionProps.room_id}
-          rubric_id={inspectionProps.rubric_id}
-          disabled={inspected}
+        <InspectionHeader
+          inspected={inspected}
+          room_name={inspectionProps.room_name}
+          floor_number={inspectionProps.floor_number}
+          building_name={inspectionProps.building_name}
+          team_members={inspectionProps.team_members}
         />
 
-        <Stack flexDirection="column" flexGrow={1} flexBasis={0} spacing="1rem">
-          <CommentBox disabled={inspected} />
-          <ExtraScoreInput disabled={inspected} />
-          <ImageUpload disabled={inspected} />
-          {!inspected && (
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleSubmission}
-            >
-              Submit
-            </Button>
-          )}
-          {!inspected && (
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleImageUpload}
-            >
-              Upload Images
-            </Button>
-          )}
-          <Grid container spacing={2}>
-            {images.map((image, index) => (
-              <Grid item xs={12} sm={6} md={4} key={index}>
-                <div style={{ position: 'relative' }}>
-                  <a href={image.url} target="_blank" rel="noopener noreferrer">
-                    <img src={image.url} alt={`Uploaded content ${index}`} style={{ maxWidth: "100%" }} />
-                  </a>
-                  {!inspected && (
-                    <>
-                      <IconButton
-                        onClick={() => handleImageDelete(image.id)}
-                        style={{ position: 'absolute', top: 0, right: 0, color: 'white', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
-                      >
-                        <DeleteIcon />
-                      </IconButton>
-                      <a href={image.url} download={`image-${index}.jpg`}>
+        <Container
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "column", md: "row" },
+            justifyItems: "space-between",
+            gap: "2rem",
+          }}
+          maxWidth={false}
+        >
+
+          <ItemChecklist
+            room_id={inspectionProps.room_id}
+            rubric_id={inspectionProps.rubric_id}
+            disabled={inspected}
+          />
+
+          <Stack flexDirection="column" flexGrow={1} flexBasis={0} spacing="1rem">
+            <CommentBox disabled={inspected} />
+            <ExtraScoreInput disabled={inspected} />
+
+            {!inspected && (
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleSubmission}
+              >
+                Submit
+              </Button>
+            )}
+            {!inspected && (
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleImageUpload}
+              >
+                Upload Images
+              </Button>
+            )}
+            <Grid container spacing={2}>
+              {images.map((image, index) => (
+                <Grid item xs={12} sm={6} md={4} key={index}>
+                  <div style={{ position: 'relative' }}>
+                    <a href={image.url} target="_blank" rel="noopener noreferrer">
+                      <img src={image.url} alt={`Uploaded content ${index}`} style={{ maxWidth: "100%" }} />
+                    </a>
+                    {!inspected && (
+                      <>
                         <IconButton
-                          style={{ position: 'absolute', top: 0, right: 40, color: 'white', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
+                          onClick={() => handleImageDelete(image.id)}
+                          style={{ position: 'absolute', top: 0, right: 0, color: 'white', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
                         >
-                          <SaveIcon />
+                          <DeleteIcon />
                         </IconButton>
-                      </a>
-                    </>
-                  )}
-                </div>
-              </Grid>
-            ))}
-          </Grid>
-        </Stack>
-      </Container>
+                        <a href={image.url} download={`image-${index}.jpg`}>
+                          <IconButton
+                            style={{ position: 'absolute', top: 0, right: 40, color: 'white', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
+                          >
+                            <SaveIcon />
+                          </IconButton>
+                        </a>
+                      </>
+                    )}
+                  </div>
+                </Grid>
+              ))}
+            </Grid>
+          </Stack>
+        </Container>
+        <BackButton pageToGoBack={`/admin/inspections/`} />
+      </AppBar>
     </Container>
   );
 };

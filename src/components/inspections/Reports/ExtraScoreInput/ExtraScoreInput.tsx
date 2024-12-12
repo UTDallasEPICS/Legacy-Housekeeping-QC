@@ -21,7 +21,7 @@ const ExtraScoreInput = ({ disabled }: { disabled: boolean }) => {
         display: "flex",
       }}
     >
-      <Typography textTransform="uppercase" fontWeight="bold">
+      <Typography textTransform={"uppercase"} fontWeight="bold" color="primary">
         Extra
       </Typography>
       <TextField

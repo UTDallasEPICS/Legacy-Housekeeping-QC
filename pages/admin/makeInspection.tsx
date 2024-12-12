@@ -1,4 +1,4 @@
-import { CssBaseline } from "@mui/material";
+import { AppBar, CssBaseline, Grid, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { getInspectionSelectionProps } from "../../slices/inspectionSelectionSlice";
 import {
@@ -9,11 +9,13 @@ import {
   setRoomPics,
 } from "../../slices/InspectionMakerSlice";
 import { useEffect, useState } from "react";
-import { InspectionMaker, Loader, Navbar } from "../../src/components";
+import { BackButton, InspectionMaker, Loader, Navbar } from "../../src/components";
 import {
   InspectItemProps,
   toInspectItemProps,
 } from "../../src/components/inspections/Reports/ItemChecklist/props";
+import MainBanner from "../../src/components/adminDashboard/Banner/MainBanner";
+import { montserrat } from "../../src/theme";
 
 const makeInspection = () => {
   const dispatch = useDispatch();

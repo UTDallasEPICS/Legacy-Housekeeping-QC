@@ -25,14 +25,14 @@ const CategoryHeader = (props: CategoryHeaderProps) => {
           />
         }
         label={
-          <Typography textTransform="uppercase" fontWeight="bold">
+          <Typography textTransform="uppercase" fontWeight="bold" color="primary">
             {category}
           </Typography>
         }
         labelPlacement="start"
         sx={{ ml: 0 }}
       />
-      <Typography fontWeight={"light"}>Check acceptable items</Typography>
+      <Typography fontWeight={"light"} color="primary">Check acceptable items</Typography>
     </Box>
   );
 };
