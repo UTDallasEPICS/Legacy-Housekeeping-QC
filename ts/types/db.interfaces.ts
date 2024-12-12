@@ -70,7 +70,18 @@ export function toBuildingWithRooms(
     rooms: a.rooms,
   };
 }
-
+export type BuildingWithFloors = {
+  id: number;
+  name: string;
+  floor_count: number;
+};
+export function toBuildingWithFloors(a: Prisma.BuildingGetPayload<{}>): BuildingWithFloors {
+  return {
+    id: a.id,
+    name: a.name,
+    floor_count: a.floor_count,
+  };
+}
 export const inspectionIncludeAll =
   Prisma.validator<Prisma.InspectionInclude>()({
     rubric: {

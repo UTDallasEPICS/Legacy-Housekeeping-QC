@@ -1,3 +1,4 @@
+
 import {
   Alert,
   Box,
@@ -31,13 +32,13 @@ const signInCardInVPSize = () => {
 
   const handleSubmit = async () => {
     let route: string;
-    route = "/admin/adminDashboard";
+    route = "/admin/adminDashboard";  // This is your target page after successful login
 
     const result = await signIn("credentials", {
       email,
       password,
       redirect: true,
-      callbackUrl: `${route}`,
+      callbackUrl: callbackUrl || route,  // Use the callback URL if it exists
     });
   };
 
@@ -65,15 +66,11 @@ const signInCardInVPSize = () => {
                 <Alert severity="error">
                   {error === "CredentialsSignin"
                     ? "Invalid email or password"
-                    : "An error occurred. Please try again. Error code: " +
-                      error +
-                      "."}
+                    : "An error occurred. Please try again. Error code: " + error + "."}
                 </Alert>
               )}
               {callbackUrl && !error && (
-                <Alert severity="info">
-                  You must be signed in to access this page.
-                </Alert>
+                <Alert severity="info">You must be signed in to access this page.</Alert>
               )}
 
               <OutlinedInput
@@ -103,12 +100,17 @@ const signInCardInVPSize = () => {
                 }
               />
 
-              <Button
-                variant="contained"
-                endIcon={<ArrowForward />}
-                onClick={() => handleSubmit()}
-              >
+              <Button variant="contained" endIcon={<ArrowForward />} onClick={handleSubmit}>
                 Sign in
+              </Button>
+
+              {/* Auth0 Login Button */}
+              <Button
+                variant="outlined"
+                fullWidth
+                onClick={() => signIn("auth0", { callbackUrl: "/admin/adminDashboard" })}
+              >
+                Login with Auth0
               </Button>
 
               <Link href="/auths/signup">Sign up</Link>

@@ -1,6 +1,6 @@
 -- CreateTable
 CREATE TABLE `Person` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `id` VARCHAR(191) NOT NULL,
     `first_name` VARCHAR(191) NOT NULL,
     `last_name` VARCHAR(191) NOT NULL,
     `country_code` VARCHAR(191) NULL,
@@ -13,7 +13,7 @@ CREATE TABLE `Person` (
 
 -- CreateTable
 CREATE TABLE `User` (
-    `person_id` INTEGER NOT NULL,
+    `person_id` VARCHAR(191) NOT NULL,
     `email` VARCHAR(191) NOT NULL,
     `password` VARCHAR(191) NOT NULL,
 
@@ -24,7 +24,7 @@ CREATE TABLE `User` (
 
 -- CreateTable
 CREATE TABLE `TeamMember` (
-    `person_id` INTEGER NOT NULL,
+    `person_id` VARCHAR(191) NOT NULL,
     `email` VARCHAR(191) NULL,
 
     UNIQUE INDEX `TeamMember_person_id_key`(`person_id`),
@@ -101,7 +101,7 @@ CREATE TABLE `Inspection` (
     `inspect_status` ENUM('INSPECTED', 'NOT_INSPECTED', 'UNFINISHED') NOT NULL,
     `clean_status` ENUM('CLEANED', 'NOT_CLEANED', 'UNFINISHED') NULL,
     `extra_score` INTEGER NOT NULL DEFAULT 0,
-    `inspector_id` INTEGER NOT NULL,
+    `inspector_id` VARCHAR(191) NOT NULL,
     `schedule_id` INTEGER NOT NULL,
     `rubric_id` INTEGER NOT NULL,
 
@@ -160,9 +160,18 @@ CREATE TABLE `Item` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
+CREATE TABLE `Image` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `url` VARCHAR(191) NOT NULL,
+    `inspection_id` INTEGER NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
 CREATE TABLE `_ScoreToTeamMember` (
     `A` INTEGER NOT NULL,
-    `B` INTEGER NOT NULL,
+    `B` VARCHAR(191) NOT NULL,
 
     UNIQUE INDEX `_ScoreToTeamMember_AB_unique`(`A`, `B`),
     INDEX `_ScoreToTeamMember_B_index`(`B`)
@@ -171,7 +180,7 @@ CREATE TABLE `_ScoreToTeamMember` (
 -- CreateTable
 CREATE TABLE `_ScheduleToTeamMember` (
     `A` INTEGER NOT NULL,
-    `B` INTEGER NOT NULL,
+    `B` VARCHAR(191) NOT NULL,
 
     UNIQUE INDEX `_ScheduleToTeamMember_AB_unique`(`A`, `B`),
     INDEX `_ScheduleToTeamMember_B_index`(`B`)
@@ -221,6 +230,9 @@ ALTER TABLE `Item` ADD CONSTRAINT `Item_room_id_fkey` FOREIGN KEY (`room_id`) RE
 
 -- AddForeignKey
 ALTER TABLE `Item` ADD CONSTRAINT `Item_quantitative_id_fkey` FOREIGN KEY (`quantitative_id`) REFERENCES `QuantitativeRubric`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Image` ADD CONSTRAINT `Image_inspection_id_fkey` FOREIGN KEY (`inspection_id`) REFERENCES `Inspection`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `_ScoreToTeamMember` ADD CONSTRAINT `_ScoreToTeamMember_A_fkey` FOREIGN KEY (`A`) REFERENCES `Score`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
