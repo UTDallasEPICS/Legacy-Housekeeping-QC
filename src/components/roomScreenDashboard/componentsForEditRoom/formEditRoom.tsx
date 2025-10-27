@@ -297,4 +297,3 @@ const formEditRoom = () => {
 };
 
 export default formEditRoom;
-<Link href="/admin/roomPages/roomView" passHref></Link>;
