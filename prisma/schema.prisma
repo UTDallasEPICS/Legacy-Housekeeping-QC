@@ -187,6 +187,7 @@ model QuantitativeRubric {
   items     Item[]
 }
 
+// TODO: Need to be HolisticRubric instead of HollisticRubric.
 model HollisticRubric {
   // Indexes
   id           Int           @id @default(autoincrement())
@@ -197,6 +198,8 @@ model HollisticRubric {
   requirements Requirement[]
 }
 
+// TODO: The is_checked Boolean need to be an score Int since the requirement are in a scale from 1 - 5.
+// There also need to be comment for each requirement to explain why the score is given.
 model Requirement {
   // Indexes
   id               Int             @id @default(autoincrement())
