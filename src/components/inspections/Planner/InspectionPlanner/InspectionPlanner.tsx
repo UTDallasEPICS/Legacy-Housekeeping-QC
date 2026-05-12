@@ -88,7 +88,7 @@ const InspectionPlanner = ({
     }
 
     // Create a rubric for the inspection - default to Quantitative
-    const rubricRes = await fetch("/api/rubric/add", {
+    const rubricRes = await fetch("/api/rubric", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ rubric_type: "Quantitative" }),

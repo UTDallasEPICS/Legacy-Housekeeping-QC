@@ -53,7 +53,7 @@ const makeInspection = () => {
 };
 
 async function getItemsInRubric(rubric_id: number): Promise<ItemCategoryProps> {
-  const res = await fetch("/api/rubric/items/" + rubric_id);
+  const res = await fetch(`/api/rubric/${rubric_id}/items`);
   const items = await res.json();
   return splitItemsToCategories(
     items.map((item, index) => toInspectItemProps(item, index))

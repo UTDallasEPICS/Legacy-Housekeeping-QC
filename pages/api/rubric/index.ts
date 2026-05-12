@@ -10,20 +10,20 @@ export default async function handler(
     if (req.method === "POST") {
       const { rubric_type } = req.body;
 
-      const rubricType = rubric_type.toUpperCase() as RubricType;
+      const rubricType = (rubric_type || "").toUpperCase() as RubricType;
       const rubric = await prisma.rubric.create({
         data: { type: rubricType },
       });
 
       if (rubricType == RubricType.QUANTITATIVE) {
-        const addedQuantitativeRubric = await prisma.quantitativeRubric.create({
+        await prisma.quantitativeRubric.create({
           data: {
             id: rubric.id,
             rubric_id: rubric.id,
           },
         });
       } else if (rubricType == RubricType.HOLLISTIC) {
-        const addedHollisticRubric = await prisma.hollisticRubric.create({
+        await prisma.hollisticRubric.create({
           data: {
             id: rubric.id,
             rubric_id: rubric.id,
@@ -31,10 +31,20 @@ export default async function handler(
         });
       }
 
-      res.status(200).json(rubric);
+      res.status(201).json(rubric);
+      return;
     }
+
+    if (req.method === "GET") {
+      const rubrics = await prisma.rubric.findMany();
+      res.status(200).json(rubrics);
+      return;
+    }
+
+    res.setHeader("Allow", ["GET", "POST"]);
+    res.status(405).end(`Method ${req.method} Not Allowed`);
   } catch (error) {
-    console.log(error);
-    res.status(500).json(error + " :Error creating room report");
+    console.error(error);
+    res.status(500).json(error + " :Error processing rubric request");
   }
 }

@@ -49,14 +49,13 @@ const InspectionMaker = ({ inspectionProps }) => {
   }, [inspectionProps.id]);
 
   const handleSubmission = async () => {
-    const itemUpdateRes = await fetch("/api/rubric/updateOnRubric", {
-      method: "POST",
+    const itemUpdateRes = await fetch(`/api/rubric/${inspectionProps.rubric_id}/items`, {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         items: items,
-        rubric_id: inspectionProps.rubric_id,
         room_id: inspectionProps.room_id,
       }),
     });

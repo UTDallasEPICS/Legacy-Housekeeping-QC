@@ -10,10 +10,12 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
+    const { id } = req.query;
+    const rubricId = Number(id);
+
     if (req.method === "GET") {
-      const { id } = req.query;
       const rubric = await prisma.rubric.findUnique({
-        where: { id: Number(id) },
+        where: { id: rubricId },
         include: {
           quantitative_rubric: {
             include: { items: true },
@@ -24,6 +26,11 @@ export default async function handler(
         },
       });
 
+      if (!rubric) {
+        res.status(404).json({ error: "Rubric not found" });
+        return;
+      }
+
       res
         .status(200)
         .json(
@@ -31,7 +38,17 @@ export default async function handler(
             ? toQuantitativeRubric(rubric)
             : toHollisticRubric(rubric)
         );
+      return;
     }
+
+    if (req.method === "DELETE") {
+      await prisma.rubric.delete({ where: { id: rubricId } });
+      res.status(204).end();
+      return;
+    }
+
+    res.setHeader("Allow", ["GET", "DELETE"]);
+    res.status(405).end(`Method ${req.method} Not Allowed`);
   } catch (error) {
     res.status(500).json(error + ": Error retrieving rubric");
   }
