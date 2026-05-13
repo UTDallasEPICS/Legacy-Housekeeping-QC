@@ -197,16 +197,14 @@ model HollisticRubric {
   rubric       Rubric        @relation(fields: [rubric_id], references: [id])
   requirements Requirement[]
 }
-
-// TODO: The is_checked Boolean need to be an score Int since the requirement are in a scale from 1 - 5.
-// There also need to be comment for each requirement to explain why the score is given.
 model Requirement {
   // Indexes
   id               Int             @id @default(autoincrement())
   // Fields
   category         String
   description      String
-  is_checked       Boolean
+  score            Int
+  comment          String?
   weight           Int             @default(1)
   // Relations
   hollistic_id     Int
